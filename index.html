@@ -341,6 +341,24 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
       <div class="section-head">Sound Settings</div>
       <div class="setting-row"><div><div class="setting-label">Sound Effects</div></div><div class="toggle on" id="tog-sound" onclick="toggleSetting('sound',this)"></div></div>
       <div class="setting-row"><div><div class="setting-label">Speech Voice</div></div><div class="toggle on" id="tog-speech" onclick="toggleSetting('speech',this)"></div></div>
+
+      <div class="section-head">Premium Access</div>
+      <div id="premium-status-box" style="background:#f8f7ff;border-radius:14px;padding:14px;margin-bottom:10px;text-align:center;">
+        <div id="premium-status-text" style="font-size:.9rem;font-weight:700;color:#4a3487;"></div>
+        <div id="premium-status-sub" style="font-size:.78rem;color:#888;margin-top:3px;"></div>
+      </div>
+      <div id="code-input-area">
+        <div class="setting-row">
+          <div><div class="setting-label">Premium Code</div><div class="setting-sub">Enter code to unlock</div></div>
+          <input class="setting-input" id="set-code" type="text" placeholder="KL-XXXX" maxlength="20" style="text-transform:uppercase;">
+        </div>
+        <button onclick="activatePremiumCode()" style="width:100%;background:linear-gradient(135deg,#f1c40f,#e67e22);border:none;color:white;padding:13px;border-radius:14px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:8px;">🔓 Activate Code</button>
+        <div id="code-error" style="color:#e74c3c;font-size:.82rem;margin-top:6px;text-align:center;min-height:18px;"></div>
+      </div>
+      <div id="revoke-area" style="display:none;">
+        <button onclick="revokePremium()" style="width:100%;background:#f5f5f5;border:2px solid #e74c3c;color:#e74c3c;padding:11px;border-radius:14px;font-size:.9rem;font-weight:700;cursor:pointer;margin-top:8px;">🔒 Deactivate Premium</button>
+      </div>
+
       <button class="save-btn" onclick="saveSettings()">💾 Save Settings</button>
       <div class="reset-link" onclick="resetProgress()">Reset all progress data</div>
     </div>
@@ -491,7 +509,7 @@ const gameData={
 };
 
 // ═══ STATE — localStorage save/load ═══════
-const DEFAULT_ST={childName:'Ayub',pin:'1234',dailyGoal:15,totalStars:0,totalAnswers:0,correctAnswers:0,levelsDone:0,sessionStart:null,todayMinutes:0,starsPerDay:[0,0,0,0,0,0,0],sound:true,speech:true};
+const DEFAULT_ST={childName:'Ayub',pin:'1234',dailyGoal:15,totalStars:0,totalAnswers:0,correctAnswers:0,levelsDone:0,sessionStart:null,todayMinutes:0,starsPerDay:[0,0,0,0,0,0,0],sound:true,speech:true,isPremium:false,premiumCode:''};
 const DEFAULT_COMPLETED={abc:0,numbers:0,coloring:0,arabic:0,math:0};
 
 function loadState(){
@@ -521,6 +539,70 @@ const ST = _st;
 const completed = _comp;
 let curMode='abc',curIdx=0,mistakes=0,correctAns='',curSpeech='',curSpeechLang='en-US',streak=0;
 
+// Valid premium codes — adigu bedeli kartaa
+const VALID_CODES = [
+  'KIDPRO2024','ARABIC2024','PREMIUM99','MATH2024',
+  'KL-X7K2-M9P4','KL-A3B8-C5D1','KL-P2Q7-R4S6',
+  'KL-M5N1-K8L3','KL-T9U2-V6W4','KL-E1F5-G7H2',
+];
+
+function isPremiumUnlocked(){
+  return ST.isPremium && VALID_CODES.includes(ST.premiumCode.toUpperCase());
+}
+
+function activatePremiumCode(){
+  const code = document.getElementById('set-code').value.trim().toUpperCase();
+  const errEl = document.getElementById('code-error');
+  if(!code){ errEl.textContent='⚠️ Please enter a code'; return; }
+  if(VALID_CODES.includes(code)){
+    ST.isPremium = true;
+    ST.premiumCode = code;
+    saveState();
+    updatePremiumUI();
+    sfxLevelUp();
+    showToast('🎉 Premium Unlocked! Enjoy Arabic & Math!');
+    errEl.textContent='';
+    document.getElementById('set-code').value='';
+    // Refresh home to show unlocked cards
+    refreshHome();
+  } else {
+    errEl.textContent='❌ Invalid code. Please check and try again.';
+    sfxWrong();
+  }
+}
+
+function revokePremium(){
+  if(!confirm('Deactivate Premium? Arabic & Math will be locked again.')) return;
+  ST.isPremium = false;
+  ST.premiumCode = '';
+  saveState();
+  updatePremiumUI();
+  refreshHome();
+  showToast('Premium deactivated');
+}
+
+function updatePremiumUI(){
+  const statusText = document.getElementById('premium-status-text');
+  const statusSub  = document.getElementById('premium-status-sub');
+  const codeArea   = document.getElementById('code-input-area');
+  const revokeArea = document.getElementById('revoke-area');
+  const box        = document.getElementById('premium-status-box');
+
+  if(isPremiumUnlocked()){
+    box.style.background = 'linear-gradient(135deg,#f1c40f22,#e67e2222)';
+    statusText.textContent = '⭐ Premium Active!';
+    statusSub.textContent  = 'Arabic & Math are unlocked ✅';
+    codeArea.style.display = 'none';
+    revokeArea.style.display = 'block';
+  } else {
+    box.style.background = '#f8f7ff';
+    statusText.textContent = '🔒 Free Version';
+    statusSub.textContent  = 'Enter a code to unlock Premium';
+    codeArea.style.display = 'block';
+    revokeArea.style.display = 'none';
+  }
+}
+
 // Premium URL
 const PREMIUM_URL='https://ayuubgaafaa.github.io/KidLearnPro/premium.html';
 
@@ -538,6 +620,34 @@ function refreshHome(){
     const el=document.getElementById(m+'-progress');
     if(el) el.textContent=`${completed[m]}/${gameData[m].length} levels`;
   });
+
+  // Show/hide premium cards based on unlock status
+  const premium = isPremiumUnlocked();
+  const arabicCard = document.getElementById('card-arabic');
+  const mathCard   = document.getElementById('card-math');
+
+  if(premium){
+    arabicCard.onclick = ()=>startGame('arabic');
+    arabicCard.querySelector('p').textContent = `${completed.arabic}/${gameData.arabic.length} levels`;
+    arabicCard.classList.remove('premium-card');
+    arabicCard.querySelector('.lock-badge').style.display='none';
+
+    mathCard.onclick = ()=>startGame('math');
+    mathCard.querySelector('p').textContent = `${completed.math}/${gameData.math.length} levels`;
+    mathCard.classList.remove('premium-card');
+    mathCard.querySelector('.lock-badge').style.display='none';
+  } else {
+    arabicCard.onclick = showPremiumPopup;
+    arabicCard.querySelector('p').textContent = '28 levels 🔒';
+    arabicCard.classList.add('premium-card');
+    arabicCard.querySelector('.lock-badge').style.display='';
+
+    mathCard.onclick = showPremiumPopup;
+    mathCard.querySelector('p').textContent = '50 levels 🔒';
+    mathCard.classList.add('premium-card');
+    mathCard.querySelector('.lock-badge').style.display='';
+  }
+
   const freeLevels=gameData.abc.length+gameData.numbers.length+gameData.coloring.length;
   const freeDone=completed.abc+completed.numbers+completed.coloring;
   document.getElementById('main-progress').style.width=(freeDone/freeLevels*100)+'%';
@@ -655,6 +765,7 @@ function renderDash(){
   document.getElementById('set-goal').value=ST.dailyGoal;
   document.getElementById('tog-sound').classList.toggle('on',ST.sound);
   document.getElementById('tog-speech').classList.toggle('on',ST.speech);
+  updatePremiumUI();
   renderChart(); renderSubj(); renderBadges();
 }
 function renderChart(){
@@ -702,7 +813,8 @@ function resetProgress(){
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.opacity='1';clearTimeout(window._tt);window._tt=setTimeout(()=>t.style.opacity='0',2500);}
 
 refreshHome();
+updatePremiumUI();
 if('speechSynthesis' in window){window.speechSynthesis.getVoices();window.speechSynthesis.onvoiceschanged=()=>window.speechSynthesis.getVoices();}
 </script>
 </body>
-</html>
+  </html>
