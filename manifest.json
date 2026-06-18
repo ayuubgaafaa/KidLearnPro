@@ -1,0 +1,28 @@
+{
+  "name": "KidLearn Pro",
+  "short_name": "KidLearn",
+  "description": "Fun learning app for kids — ABC, Numbers, Arabic & Math!",
+  "start_url": "/KidLearnPro/",
+  "display": "standalone",
+  "background_color": "#4a3487",
+  "theme_color": "#6c72e6",
+  "orientation": "portrait",
+  "scope": "/KidLearnPro/",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "kids"],
+  "screenshots": []
+}
