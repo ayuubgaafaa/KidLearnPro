@@ -1,7 +1,7 @@
 {
   "name": "KidLearn Pro",
   "short_name": "KidLearn",
-  "description": "Fun learning app for kids — ABC, Numbers, Arabic & Math!",
+  "description": "Fun learning app for kids — ABC, Numbers, Arabic &amp; Math!",
   "id": "com.kidlearnpro.app",
   "start_url": "/KidLearnPro/index.html",
   "display": "standalone",
@@ -24,7 +24,10 @@
       "purpose": "maskable"
     }
   ],
-  "categories": ["education", "kids"],
+  "categories": [
+    "education",
+    "kids"
+  ],
   "iarc_rating_id": "e84b072d-71b3-4d3e-86ae-31a8ce4e53b7",
   "screenshots": [
     {
