@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KidLearn Pro — Upgrade to Premium</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',sans-serif;}
+body{background:linear-gradient(160deg,#6c72e6,#4a3487);min-height:100vh;padding:20px;}
+.wrap{max-width:420px;margin:0 auto;}
+
+/* Header */
+.header{text-align:center;color:white;padding:30px 0 20px;}
+.header .logo{font-size:50px;}
+.header h1{font-size:2rem;font-weight:800;}
+.header p{opacity:.85;margin-top:6px;}
+
+/* Compare cards */
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;}
+.plan{background:white;border-radius:20px;padding:18px 14px;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.15);}
+.plan.premium{background:linear-gradient(135deg,#f1c40f,#e67e22);color:white;}
+.plan h3{font-size:1rem;font-weight:800;margin-bottom:4px;}
+.plan .price{font-size:1.6rem;font-weight:800;margin:8px 0;}
+.plan .price span{font-size:.8rem;font-weight:400;}
+.plan ul{list-style:none;text-align:left;margin-top:10px;}
+.plan ul li{font-size:.82rem;padding:3px 0;}
+.plan.free ul li{color:#888;}
+.plan.premium ul li{color:white;}
+
+/* Features */
+.features{background:white;border-radius:24px;padding:22px;margin-bottom:20px;box-shadow:0 4px 14px rgba(0,0,0,.15);}
+.features h2{font-size:1.1rem;font-weight:800;color:#4a3487;margin-bottom:14px;text-align:center;}
+.feat-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f0f0f0;}
+.feat-row:last-child{border-bottom:none;}
+.feat-icon{font-size:1.8rem;width:42px;text-align:center;flex-shrink:0;}
+.feat-info h4{font-size:.9rem;font-weight:700;color:#333;}
+.feat-info p{font-size:.78rem;color:#888;margin-top:2px;}
+.feat-badge{margin-left:auto;background:#6c72e6;color:white;font-size:.7rem;font-weight:700;padding:3px 8px;border-radius:20px;flex-shrink:0;}
+.feat-badge.free{background:#2ecc71;}
+
+/* PayPal section */
+.paypal-box{background:white;border-radius:24px;padding:24px;margin-bottom:20px;box-shadow:0 4px 14px rgba(0,0,0,.15);text-align:center;}
+.paypal-box h2{font-size:1.2rem;font-weight:800;color:#4a3487;margin-bottom:6px;}
+.paypal-box p{font-size:.85rem;color:#888;margin-bottom:18px;}
+.price-tag{font-size:2.2rem;font-weight:800;color:#4a3487;margin-bottom:4px;}
+.price-tag span{font-size:1rem;color:#888;}
+.price-note{font-size:.78rem;color:#aaa;margin-bottom:18px;}
+#paypal-container-4EDMYUWG7VZXC{min-height:50px;}
+
+/* Guarantee */
+.guarantee{background:rgba(255,255,255,.15);border-radius:16px;padding:14px;text-align:center;color:white;margin-bottom:20px;}
+.guarantee p{font-size:.85rem;opacity:.9;}
+
+/* Testimonials */
+.reviews{background:white;border-radius:24px;padding:20px;margin-bottom:20px;box-shadow:0 4px 14px rgba(0,0,0,.15);}
+.reviews h2{font-size:1rem;font-weight:800;color:#4a3487;margin-bottom:14px;text-align:center;}
+.review{background:#f8f7ff;border-radius:14px;padding:12px;margin-bottom:10px;}
+.review:last-child{margin-bottom:0;}
+.review .stars{color:#f1c40f;font-size:.9rem;}
+.review p{font-size:.82rem;color:#555;margin-top:4px;}
+.review .author{font-size:.75rem;color:#aaa;margin-top:4px;font-weight:600;}
+
+/* FAQ */
+.faq{background:white;border-radius:24px;padding:20px;margin-bottom:20px;box-shadow:0 4px 14px rgba(0,0,0,.15);}
+.faq h2{font-size:1rem;font-weight:800;color:#4a3487;margin-bottom:14px;text-align:center;}
+.faq-item{border-bottom:1px solid #f0f0f0;padding:10px 0;}
+.faq-item:last-child{border-bottom:none;}
+.faq-item h4{font-size:.85rem;font-weight:700;color:#333;}
+.faq-item p{font-size:.78rem;color:#888;margin-top:4px;}
+
+/* Back button */
+.back-btn{width:100%;background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);color:white;padding:12px;border-radius:14px;font-size:.95rem;font-weight:600;cursor:pointer;margin-bottom:30px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">⭐</div>
+    <h1>KidLearn Pro</h1>
+    <p>Unlock the full learning experience!</p>
+  </div>
+
+  <!-- Plans comparison -->
+  <div class="plans">
+    <div class="plan free">
+      <h3>FREE</h3>
+      <div class="price">$0 <span>/forever</span></div>
+      <ul>
+        <li>✅ ABC English</li>
+        <li>✅ Numbers 1-10</li>
+        <li>❌ Arabic</li>
+        <li>❌ More Fun</li>
+        <li>❌ Math</li>
+        <li>❌ Somali</li>
+        <li>❌ Science</li>
+      </ul>
+    </div>
+    <div class="plan premium">
+      <h3>⭐ PREMIUM</h3>
+      <div class="price">$1.99 <span>/month</span></div>
+      <ul>
+        <li>✅ ABC English</li>
+        <li>✅ Numbers 1-10</li>
+        <li>✅ Arabic عربي</li>
+        <li>✅ More Fun</li>
+        <li>✅ Math ➕➖</li>
+        <li>✅ Somali 🇸🇴</li>
+        <li>✅ Science 🔬</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Features -->
+  <div class="features">
+    <h2>🎯 What's Included</h2>
+    <div class="feat-row">
+      <div class="feat-icon">🔤</div>
+      <div class="feat-info"><h4>ABC English</h4><p>26 letters with pictures & voice</p></div>
+      <div class="feat-badge free">FREE</div>
+    </div>
+    <div class="feat-row">
+      <div class="feat-icon">🔢</div>
+      <div class="feat-info"><h4>Numbers 1-10</h4><p>Count with fun emoji</p></div>
+      <div class="feat-badge free">FREE</div>
+    </div>
+    <div class="feat-row">
+      <div class="feat-icon">🌙</div>
+      <div class="feat-info"><h4>Arabic Letters</h4><p>28 letters with Arabic voice</p></div>
+      <div class="feat-badge">PREMIUM</div>
+    </div>
+    <div class="feat-row">
+      <div class="feat-icon">🎨</div>
+      <div class="feat-info"><h4>More Fun</h4><p>Animal sounds, colors & drawing</p></div>
+      <div class="feat-badge">PREMIUM</div>
+    </div>
+    <div class="feat-row">
+      <div class="feat-icon">➕</div>
+      <div class="feat-info"><h4>Math</h4><p>Addition & subtraction games</p></div>
+      <div class="feat-badge">PREMIUM</div>
+    </div>
+    <div class="feat-row">
+      <div class="feat-icon">🇸🇴</div>
+      <div class="feat-info"><h4>Somali Language</h4><p>Learn Somali words & phrases</p></div>
+      <div class="feat-badge">PREMIUM</div>
+    </div>
+    <div class="feat-row">
+      <div class="feat-icon">📊</div>
+      <div class="feat-info"><h4>Parent Dashboard</h4><p>Track progress & set goals</p></div>
+      <div class="feat-badge">PREMIUM</div>
+    </div>
+    <div class="feat-row">
+      <div class="feat-icon">🔊</div>
+      <div class="feat-info"><h4>Voice Pronunciation</h4><p>English & Arabic voice</p></div>
+      <div class="feat-badge">PREMIUM</div>
+    </div>
+  </div>
+
+  <!-- PayPal Payment -->
+  <div class="paypal-box">
+    <h2>🚀 Upgrade to Premium</h2>
+    <p>Give your child the best start in learning!</p>
+    <div class="price-tag">$1.99 <span>/month</span></div>
+    <div class="price-note">Cancel anytime • Secure payment by PayPal</div>
+    <div id="paypal-container-4EDMYUWG7VZXC"></div>
+  </div>
+
+  <!-- Guarantee -->
+  <div class="guarantee">
+    <p>🛡️ <strong>7-Day Money Back Guarantee</strong><br>Not happy? Get a full refund within 7 days — no questions asked!</p>
+  </div>
+
+  <!-- Reviews -->
+  <div class="reviews">
+    <h2>❤️ Parents Love KidLearn</h2>
+    <div class="review">
+      <div class="stars">⭐⭐⭐⭐⭐</div>
+      <p>"My 4-year-old learned all Arabic letters in 2 weeks! Amazing app!"</p>
+      <div class="author">— Fatima A., Dubai</div>
+    </div>
+    <div class="review">
+      <div class="stars">⭐⭐⭐⭐⭐</div>
+      <p>"Best kids learning app I've found. My son asks to use it every day!"</p>
+      <div class="author">— Mohamed K., Nairobi</div>
+    </div>
+    <div class="review">
+      <div class="stars">⭐⭐⭐⭐⭐</div>
+      <p>"The voice pronunciation is perfect. My daughter loves the star rewards!"</p>
+      <div class="author">— Hodan M., London</div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="faq">
+    <h2>❓ Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h4>How do I get Premium after paying?</h4>
+      <p>You will receive an unlock code by email within 24 hours of payment.</p>
+    </div>
+    <div class="faq-item">
+      <h4>Can I cancel anytime?</h4>
+      <p>Yes! Cancel your subscription anytime from your PayPal account.</p>
+    </div>
+    <div class="faq-item">
+      <h4>Is it safe for kids?</h4>
+      <p>100% safe! No ads, no social media, no inappropriate content.</p>
+    </div>
+    <div class="faq-item">
+      <h4>How many devices can I use?</h4>
+      <p>One Premium code works on up to 3 devices.</p>
+    </div>
+    <div class="faq-item">
+      <h4>What payment methods are accepted?</h4>
+      <p>PayPal, Credit Card, Debit Card — all major cards accepted.</p>
+    </div>
+  </div>
+
+  <button class="back-btn" onclick="window.history.back()">← Back to App</button>
+
+</div>
+
+<script>
+  // Load PayPal SDK first, then render button
+  const script = document.createElement('script');
+  script.src = "https://www.paypal.com/sdk/js?client-id=BAAvJIj-v4noPV472i0J3Dg8NldSdo0WQdzvf-iykrymTNGExXBhTWMXg7eKyYzhVNo0mddfBiYx8rxZUk&components=hosted-buttons&disable-funding=venmo&currency=USD";
+  script.onload = function() {
+    paypal.HostedButtons({
+      hostedButtonId: "4EDMYUWG7VZXC",
+    }).render("#paypal-container-4EDMYUWG7VZXC");
+  };
+  script.onerror = function() {
+    document.getElementById('paypal-container-4EDMYUWG7VZXC').innerHTML =
+      '<a href="https://www.paypal.com" target="_blank" style="display:block;background:#0070ba;color:white;text-align:center;padding:14px;border-radius:10px;font-weight:700;text-decoration:none;font-size:1rem;">💳 Pay with PayPal — $1.99/month</a>';
+  };
+  document.body.appendChild(script);
+</script>
+</body>
+                                                      </html>
