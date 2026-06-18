@@ -445,22 +445,11 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
 </div>
 <div id="toast"></div>
 
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-<script>
-// ═══ FIREBASE COMPAT ════════════════════
-const firebaseConfig = {
-  apiKey: "AIzaSyDXmAT5fdeFokrKe3r7rerL0GGLziAYkd0",
-  authDomain: "durable-sound-463120.firebaseapp.com",
-  projectId: "durable-sound-463120",
-  storageBucket: "durable-sound-463120-v8.firebasestorage.app",
-  messagingSenderId: "204320277724",
-  appId: "1:204320277724:web:237b5a30c0f99db2af6019"
-};
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.firestore();
+<script type="module">
+// ═══ FIREBASE ════════════════════════════
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc, collection, query, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDXmAT5fdeFokrKe3r7rerL0GGLziAYkd0",
@@ -516,7 +505,7 @@ const PREMIUM_URL='https://ayuubgaafaa.github.io/KidLearnPro/premium.html';
 async function saveToCloud(){
   if(!currentUser||isGuest)return;
   try{
-    await db.collection('users').doc(currentUser.uid).set({
+    await setDoc(doc(db,'users',currentUser.uid),{
       childName:ST.childName,
       totalStars:ST.totalStars,
       totalAnswers:ST.totalAnswers,
@@ -538,8 +527,8 @@ async function saveToCloud(){
 async function loadFromCloud(){
   if(!currentUser||isGuest)return;
   try{
-    const snap=await db.collection('users').doc(currentUser.uid).get();
-    if(snap.exists){
+    const snap=await getDoc(doc(db,'users',currentUser.uid));
+    if(snap.exists()){
       const d=snap.data();
       if(d.childName)ST.childName=d.childName;
       if(d.totalStars)ST.totalStars=d.totalStars;
@@ -563,11 +552,13 @@ async function loadLeaderboard(){
   const list=document.getElementById('lb-list');
   list.innerHTML='<p style="text-align:center;color:#aaa;padding:20px;">Loading...</p>';
   try{
-    const snap=await db.collection('users').orderBy('totalStars','desc').limit(10).get();
+    const q=query(collection(db,'users'),orderBy('totalStars','desc'),limit(10));
+    const snap=await getDocs(q);
     if(snap.empty){list.innerHTML='<p style="text-align:center;color:#aaa;padding:20px;">No players yet!</p>';return;}
     const medals=['🥇','🥈','🥉'];
     const rankColors=['gold','silver','bronze'];
-    let html='';let rank=1;
+    let html='';
+    let rank=1;
     snap.forEach(d=>{
       const data=d.data();
       const isMe=currentUser&&d.id===currentUser.uid;
@@ -585,7 +576,7 @@ async function loadLeaderboard(){
       rank++;
     });
     list.innerHTML=html;
-  }catch(e){list.innerHTML='<p style="text-align:center;color:#aaa;padding:20px;">Could not load</p>';}
+  }catch(e){list.innerHTML='<p style="text-align:center;color:#aaa;padding:20px;">Could not load leaderboard</p>';}
 }
 
 // ═══ AUTH ══════════════════════════════════
@@ -1033,4 +1024,4 @@ function showToast(msg){const t=document.getElementById('toast');t.textContent=m
 if('speechSynthesis' in window){window.speechSynthesis.getVoices();window.speechSynthesis.onvoiceschanged=()=>window.speechSynthesis.getVoices();}
 </script>
 </body>
-                        </html>
+  </html>
