@@ -196,11 +196,7 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
     </div>
     <!-- Login -->
     <div id="login-form">
-      <button class="auth-btn" style="background:white;color:#333;border:2px solid #e0e0e0;margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:10px;" onclick="doGoogleSignIn()">
-        <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.1 8 3l6-6C34.5 5.1 29.5 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21 21-9.4 21-21c0-1.4-.1-2.8-.4-4.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.5 16 18.9 13 24 13c3.1 0 5.8 1.1 8 3l6-6C34.5 5.1 29.5 3 24 3 16.1 3 9.1 7.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 45c5.4 0 10.3-2.1 13.9-5.4l-6.4-5.4C29.5 36.1 26.9 37 24 37c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9 41.3 16 45 24 45z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.2 4.3-4 5.8l6.4 5.4C40.8 36.3 45 30.7 45 24c0-1.4-.1-2.8-.4-3.5z"/></svg>
-        Continue with Google
-      </button>
-      <div style="text-align:center;color:#bbb;font-size:.8rem;margin-bottom:14px;">— or use email —</div>
+      <div style="text-align:center;color:#bbb;font-size:.8rem;margin-bottom:14px;">Use email to sign in</div>
       <div class="input-group">
         <label>Email</label>
         <input type="email" id="login-email" placeholder="parent@email.com">
@@ -217,11 +213,7 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
     </div>
     <!-- Register -->
     <div id="register-form" style="display:none;">
-      <button class="auth-btn" style="background:white;color:#333;border:2px solid #e0e0e0;margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:10px;" onclick="doGoogleSignIn()">
-        <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.1 8 3l6-6C34.5 5.1 29.5 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21 21-9.4 21-21c0-1.4-.1-2.8-.4-4.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.5 16 18.9 13 24 13c3.1 0 5.8 1.1 8 3l6-6C34.5 5.1 29.5 3 24 3 16.1 3 9.1 7.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 45c5.4 0 10.3-2.1 13.9-5.4l-6.4-5.4C29.5 36.1 26.9 37 24 37c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9 41.3 16 45 24 45z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.2 4.3-4 5.8l6.4 5.4C40.8 36.3 45 30.7 45 24c0-1.4-.1-2.8-.4-3.5z"/></svg>
-        Sign up with Google
-      </button>
-      <div style="text-align:center;color:#bbb;font-size:.8rem;margin-bottom:14px;">— or use email —</div>
+      <div style="text-align:center;color:#bbb;font-size:.8rem;margin-bottom:14px;">Create your account</div>
       <div class="input-group">
         <label>Parent Email</label>
         <input type="email" id="reg-email" placeholder="parent@email.com">
@@ -680,19 +672,6 @@ window.doForgotPassword=async()=>{
   }
 };
 
-window.doGoogleSignIn=async()=>{
-  if (isAuthInProgress) return;
-  const err=document.getElementById('auth-error');
-  try{
-    isAuthInProgress = true;
-    const provider=new firebase.auth.GoogleAuthProvider();
-    await auth.signInWithPopup(provider);
-  }catch(e){
-    err.textContent='Google sign-in failed: '+e.message;
-    isAuthInProgress = false;
-  }
-};
-
 window.continueAsGuest=()=>{
   isGuest=true;
   ST.childName='Guest';
@@ -892,7 +871,6 @@ function startGame(m){
 window.startGame=startGame;
 
 function loadLevel(){
-  // Clear any pending timers
   if(levelTimer){
     clearTimeout(levelTimer);
     levelTimer = null;
@@ -908,7 +886,6 @@ function loadLevel(){
   if(coloringArea) coloringArea.style.display = 'none';
   if(listenHint) listenHint.style.display = 'block';
   
-  // Check if we've completed all levels
   if(curIdx >= data.length){
     sfxLevelUp();
     showToast('🎉 Section complete!');
@@ -967,16 +944,13 @@ function speakQuestion(){
 window.speakQuestion = speakQuestion;
 
 async function checkAnswer(btn){
-  // Prevent multiple clicks while processing
   if(isAnswering) return;
   if(btn.disabled) return;
   
-  // Disable all buttons immediately
   const allBtns = document.querySelectorAll('.opt-btn');
   allBtns.forEach(b => b.disabled = true);
   
   if(btn.textContent === correctAns){
-    // CORRECT ANSWER
     isAnswering = true;
     btn.classList.add('correct');
     ST.correctAnswers++;
@@ -988,7 +962,6 @@ async function checkAnswer(btn){
     ST.levelsDone++;
     ST.starsPerDay[6] = (ST.starsPerDay[6] || 0) + stars;
     
-    // Update completed levels
     completed[curMode] = Math.min(completed[curMode] + 1, gameData[curMode].length);
     
     sfxCorrect();
@@ -1007,14 +980,12 @@ async function checkAnswer(btn){
     refreshHome();
     await saveToCloud();
     
-    // Move to next level after delay
     levelTimer = setTimeout(function() {
       curIdx++;
       loadLevel();
     }, 1800);
     
   } else {
-    // WRONG ANSWER
     btn.classList.add('wrong');
     mistakes++;
     ST.totalAnswers++;
@@ -1023,7 +994,6 @@ async function checkAnswer(btn){
       sayText('Try again!', 'en-US', 0.9);
     }, 100);
     
-    // Re-enable buttons after delay (except the wrong one)
     setTimeout(function() {
       const btns = document.querySelectorAll('.opt-btn');
       btns.forEach(b => {
@@ -1037,7 +1007,6 @@ async function checkAnswer(btn){
 }
 
 function exitGame(){
-  // Clear any pending timers
   if(levelTimer){
     clearTimeout(levelTimer);
     levelTimer = null;
@@ -1205,4 +1174,4 @@ function showToast(msg){const t=document.getElementById('toast');if(!t)return;t.
 if('speechSynthesis' in window){window.speechSynthesis.getVoices();window.speechSynthesis.onvoiceschanged=()=>window.speechSynthesis.getVoices();}
 </script>
 </body>
-  </html>
+          </html>
