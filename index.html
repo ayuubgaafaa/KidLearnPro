@@ -6,7 +6,7 @@
 <title>KidLearn Pro</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',sans-serif;user-select:none;}
-body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh;display:flex;justify-content:center;align-items:center;color:white;padding:16px;}
+body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh;display:flex;justify-content:center;align-items:center;color:white;padding:16px;padding-bottom:80px;}
 .app{width:100%;max-width:420px;}
 .screen{display:none;}
 .screen.active{display:block;}
@@ -61,6 +61,7 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
 .btn-row{display:flex;gap:10px;margin-bottom:10px;}
 .nav-btn{flex:1;background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.25);color:white;padding:11px 6px;border-radius:14px;font-size:.82rem;font-weight:600;cursor:pointer;text-align:center;}
 .upgrade-btn{width:100%;background:linear-gradient(135deg,#f1c40f,#e67e22);border:none;color:white;padding:13px;border-radius:14px;font-size:.95rem;font-weight:800;cursor:pointer;margin-bottom:10px;box-shadow:0 4px 14px rgba(241,196,15,.4);}
+.watch-ad-btn{width:100%;background:linear-gradient(135deg,#00b894,#00a3d0);border:none;color:white;padding:13px;border-radius:14px;font-size:.95rem;font-weight:800;cursor:pointer;margin-bottom:10px;box-shadow:0 4px 14px rgba(0,184,148,.4);}
 
 /* LEADERBOARD */
 .lb-wrap{background:white;color:#333;border-radius:28px;padding:24px 20px;box-shadow:0 12px 30px rgba(0,0,0,.22);}
@@ -171,7 +172,10 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
 .popup-pay-btn{width:100%;background:linear-gradient(135deg,#f1c40f,#e67e22);border:none;color:white;padding:15px;border-radius:14px;font-size:1rem;font-weight:800;cursor:pointer;margin-bottom:10px;}
 .popup-close{width:100%;background:#f5f5f5;border:none;color:#888;padding:12px;border-radius:14px;font-size:.9rem;cursor:pointer;font-weight:600;}
 
-#toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#333;color:white;padding:10px 20px;border-radius:30px;font-size:.9rem;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999;}
+/* AD BANNER */
+.ad-banner-container{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,0.1);z-index:50;display:flex;justify-content:center;align-items:center;min-height:60px;}
+
+#toast{position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:#333;color:white;padding:10px 20px;border-radius:30px;font-size:.9rem;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999;}
 .loading{text-align:center;padding:40px;color:white;}
 .loading .spinner{font-size:3rem;animation:spin 1s linear infinite;}
 @keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
@@ -191,8 +195,8 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
     <h1>KidLearn Pro</h1>
     <p>Learn ABC, Numbers, Arabic & Math!</p>
     <div class="auth-tabs">
-      <button class="auth-tab active" onclick="switchAuthTab('login',this)">Login</button>
-      <button class="auth-tab" onclick="switchAuthTab('register',this)">Register</button>
+      <button class="auth-tab active" id="login-tab" onclick="switchAuthTab('login')">Login</button>
+      <button class="auth-tab" id="register-tab" onclick="switchAuthTab('register')">Register</button>
     </div>
     <!-- Login -->
     <div id="login-form">
@@ -251,6 +255,7 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
     </div>
   </div>
 
+  <button class="watch-ad-btn" onclick="showRewardedAd()">🎬 Watch Ad for +5 Stars</button>
   <button class="upgrade-btn" id="upgrade-btn" onclick="showPremiumPopup()">⭐ Upgrade to Premium — $1.99/month</button>
 
   <div class="cards-grid">
@@ -447,21 +452,21 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
   </div>
 </div>
 
+<!-- AD BANNER -->
+<div class="ad-banner-container" id="ad-banner">
+  <div id="ad-container" style="width:320px;height:50px;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;border-radius:8px;color:rgba(255,255,255,0.5);font-size:12px;">
+    📢 Loading Ad...
+  </div>
+</div>
+
 </div>
 <div id="toast"></div>
 
-<script>
-window.addEventListener('error', function(e){
-  console.error('GLOBAL ERROR:', e.message, 'at', e.filename+':'+e.lineno);
-  const t=document.getElementById('toast');
-  if(t){t.textContent='⚠️ '+e.message;t.style.opacity='1';t.style.background='#e74c3c';}
-});
-</script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 <script>
-// ═══ FIREBASE COMPAT ════════════════════
+// ═══ FIREBASE ═══════════════════════════════════════
 const firebaseConfig = {
   apiKey: "AIzaSyDXmAT5fdeFokrKe3r7rerL0GGLziAYkd0",
   authDomain: "durable-sound-463120.firebaseapp.com",
@@ -474,38 +479,154 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-// Show auth screen immediately
+// ═══ SHOW AUTH SCREEN IMMEDIATELY ═════════════════
+// Hide loading and show auth screen right away
 document.getElementById('boot-loading').style.display = 'none';
 document.getElementById('auth-screen').classList.add('active');
 
-// ═══ AUDIO ═══════════════════════════════
+// ═══ ADMOB FUNCTIONS ════════════════════════════════
+let isAdShowing = false;
+
+function showBannerAd() {
+  const container = document.getElementById('ad-container');
+  if (container) {
+    container.innerHTML = '📢 Ad Placeholder - Banner Ad';
+    container.style.background = 'rgba(255,255,255,0.2)';
+    container.style.color = 'rgba(255,255,255,0.8)';
+    container.style.fontSize = '14px';
+  }
+}
+
+function showInterstitialAd(callback) {
+  if (isAdShowing) return;
+  isAdShowing = true;
+  
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;color:white;padding:20px;';
+  overlay.innerHTML = `
+    <div style="font-size:48px;margin-bottom:20px;">📺</div>
+    <h2 style="color:white;margin-bottom:10px;">Ad</h2>
+    <p style="color:#aaa;text-align:center;margin-bottom:20px;">Watch a short ad to continue</p>
+    <button id="close-ad-btn" style="background:#6c72e6;color:white;border:none;padding:15px 40px;border-radius:14px;font-size:1rem;font-weight:700;cursor:pointer;">✕ Close</button>
+    <p style="color:#666;font-size:12px;margin-top:10px;">(Simulated ad for web testing)</p>
+  `;
+  document.body.appendChild(overlay);
+  
+  document.getElementById('close-ad-btn').addEventListener('click', function() {
+    overlay.remove();
+    isAdShowing = false;
+    if (callback) callback(true);
+  });
+  
+  setTimeout(function() {
+    if (overlay.parentNode) {
+      overlay.remove();
+      isAdShowing = false;
+      if (callback) callback(true);
+    }
+  }, 3000);
+}
+
+function showRewardedAd(callback) {
+  if (isAdShowing) return;
+  isAdShowing = true;
+  
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;color:white;padding:20px;';
+  overlay.innerHTML = `
+    <div style="font-size:48px;margin-bottom:20px;">🎬</div>
+    <h2 style="color:white;margin-bottom:10px;">Watch Ad for Stars!</h2>
+    <p style="color:#f1c40f;font-size:24px;font-weight:bold;margin-bottom:20px;">+5 ⭐</p>
+    <button id="reward-ad-btn" style="background:#00b894;color:white;border:none;padding:15px 40px;border-radius:14px;font-size:1rem;font-weight:700;cursor:pointer;">🎯 Watch & Earn</button>
+    <p style="color:#666;font-size:12px;margin-top:10px;">(Simulated rewarded ad for web testing)</p>
+  `;
+  document.body.appendChild(overlay);
+  
+  document.getElementById('reward-ad-btn').addEventListener('click', function() {
+    overlay.remove();
+    isAdShowing = false;
+    if (callback) callback(true);
+  });
+  
+  setTimeout(function() {
+    if (overlay.parentNode) {
+      overlay.remove();
+      isAdShowing = false;
+      if (callback) callback(true);
+    }
+  }, 2000);
+}
+
+function showInterstitial(callback) {
+  showInterstitialAd(callback);
+}
+
+// ═══ GLOBAL FUNCTIONS ═══════════════════════════════
+window.switchAuthTab = function(tab) {
+  document.querySelectorAll('.auth-tab').forEach(function(b) { b.classList.remove('active'); });
+  if (tab === 'login') {
+    document.getElementById('login-tab').classList.add('active');
+    document.getElementById('login-form').style.display = 'block';
+    document.getElementById('register-form').style.display = 'none';
+  } else {
+    document.getElementById('register-tab').classList.add('active');
+    document.getElementById('login-form').style.display = 'none';
+    document.getElementById('register-form').style.display = 'block';
+  }
+  document.getElementById('auth-error').textContent = '';
+};
+
+window.showRewardedAd = function() {
+  if (isAdShowing) {
+    showToast('⏳ Please wait for the current ad to finish');
+    return;
+  }
+  
+  showRewardedAd(function(success) {
+    if (success) {
+      ST.totalStars += 5;
+      ST.levelsDone += 1;
+      refreshHome();
+      saveToCloudSilent();
+      sfxStar();
+      showToast('🎉 You earned 5 stars! ⭐⭐⭐⭐⭐');
+    } else {
+      showToast('😅 Ad didn\'t complete. Try again!');
+    }
+  });
+};
+
+// ═══ AUDIO ══════════════════════════════════════════
 let audioCtx=null;
 function getACtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();return audioCtx;}
 function tone(f,t,d,v,dl=0){try{const c=getACtx(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type=t;o.frequency.setValueAtTime(f,c.currentTime+dl);g.gain.setValueAtTime(v,c.currentTime+dl);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+dl+d);o.start(c.currentTime+dl);o.stop(c.currentTime+dl+d);}catch(e){}}
-function sfxCorrect(){if(!ST.sound)return;[523,659,784,1047].forEach((f,i)=>tone(f,'sine',.15,.4,i*.12));}
+function sfxCorrect(){if(!ST.sound)return;[523,659,784,1047].forEach(function(f,i){tone(f,'sine',.15,.4,i*.12);});}
 function sfxWrong(){if(!ST.sound)return;tone(200,'sawtooth',.2,.3,0);tone(150,'sawtooth',.2,.3,.18);}
-function sfxStar(){if(!ST.sound)return;[800,1000,1200,1500,1200,1000,800].forEach((f,i)=>tone(f,'sine',.1,.25,i*.06));}
+function sfxStar(){if(!ST.sound)return;[800,1000,1200,1500,1200,1000,800].forEach(function(f,i){tone(f,'sine',.1,.25,i*.06);});}
 function sfxClick(){if(!ST.sound)return;tone(440,'sine',.07,.2);}
-function sfxLevelUp(){if(!ST.sound)return;[262,330,392,523,659,784,1047].forEach((f,i)=>tone(f,'triangle',.18,.35,i*.08));}
-document.addEventListener('touchstart',()=>{try{getACtx();}catch(e){}},{once:true});
-document.addEventListener('click',()=>{try{getACtx();}catch(e){}},{once:true});
+function sfxLevelUp(){if(!ST.sound)return;[262,330,392,523,659,784,1047].forEach(function(f,i){tone(f,'triangle',.18,.35,i*.08);});}
+document.addEventListener('touchstart',function(){try{getACtx();}catch(e){}},{once:true});
+document.addEventListener('click',function(){try{getACtx();}catch(e){}},{once:true});
 
-// ═══ SPEECH ═══════════════════════════════
-function sayText(text,lang='en-US',rate=0.72,onEnd){
+// ═══ SPEECH ═════════════════════════════════════════
+function sayText(text,lang,rate,onEnd){
   if(!ST.speech||!('speechSynthesis' in window))return;
   window.speechSynthesis.cancel();
-  setTimeout(()=>{
+  setTimeout(function(){
     const u=new SpeechSynthesisUtterance(text);
-    u.lang=lang;u.rate=rate;u.pitch=1.1;u.volume=1.0;
+    u.lang=lang||'en-US';
+    u.rate=rate||0.72;
+    u.pitch=1.1;
+    u.volume=1.0;
     const voices=window.speechSynthesis.getVoices();
-    const v=voices.find(x=>x.lang===lang)||voices.find(x=>x.lang.startsWith(lang.split('-')[0]))||null;
+    const v=voices.find(function(x){return x.lang===u.lang;})||voices.find(function(x){return x.lang.startsWith(u.lang.split('-')[0]);})||null;
     if(v)u.voice=v;
     if(onEnd)u.onend=onEnd;
     window.speechSynthesis.speak(u);
   },200);
 }
 
-// ═══ STATE ════════════════════════════════
+// ═══ STATE ═══════════════════════════════════════════
 let currentUser = null;
 let isGuest = false;
 let isAuthInProgress = false;
@@ -517,7 +638,7 @@ const completed={abc:0,numbers:0,coloring:0,arabic:0,math:0};
 const VALID_CODES=['KIDPRO2024','ARABIC2024','PREMIUM99','MATH2024','KL-X7K2-M9P4','KL-A3B8-C5D1','KL-P2Q7-R4S6','KL-M5N1-K8L3','KL-T9U2-V6W4','KL-E1F5-G7H2'];
 const PREMIUM_URL='https://ayuubgaafaa.github.io/KidLearnPro/premium.html';
 
-// ═══ FIREBASE SAVE/LOAD ═══════════════════
+// ═══ FIREBASE SAVE/LOAD ═════════════════════════════
 async function saveToCloud(){
   const user = auth.currentUser;
   if(!user||isGuest)return;
@@ -544,8 +665,7 @@ async function saveToCloud(){
 }
 
 async function saveToCloudSilent(){
-  // Non-blocking save - fire and forget
-  setTimeout(async () => {
+  setTimeout(async function() {
     try {
       const user = auth.currentUser;
       if(!user||isGuest)return;
@@ -595,7 +715,7 @@ async function loadFromCloud(){
   }catch(e){console.log('Load error:',e.code,e.message);}
 }
 
-// ═══ LEADERBOARD ══════════════════════════
+// ═══ LEADERBOARD ═══════════════════════════════════
 async function loadLeaderboard(){
   const list=document.getElementById('lb-list');
   list.innerHTML='<p style="text-align:center;color:#aaa;padding:20px;">Loading...</p>';
@@ -605,7 +725,7 @@ async function loadLeaderboard(){
     const medals=['🥇','🥈','🥉'];
     const rankColors=['gold','silver','bronze'];
     let html='';let rank=1;
-    snap.forEach(d=>{
+    snap.forEach(function(d){
       const data=d.data();
       const isMe=currentUser&&d.id===currentUser.uid;
       const medal=rank<=3?medals[rank-1]:rank;
@@ -625,7 +745,7 @@ async function loadLeaderboard(){
   }catch(e){list.innerHTML='<p style="text-align:center;color:#aaa;padding:20px;">Could not load</p>';}
 }
 
-// ═══ AUTH ══════════════════════════════════
+// ═══ AUTH FUNCTIONS ═════════════════════════════════
 function setAuthLoading(show, type) {
   if (type === 'login') {
     const btn = document.getElementById('login-btn');
@@ -640,19 +760,11 @@ function setAuthLoading(show, type) {
   }
 }
 
-window.switchAuthTab=(tab,el)=>{
-  document.querySelectorAll('.auth-tab').forEach(b=>b.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('login-form').style.display=tab==='login'?'block':'none';
-  document.getElementById('register-form').style.display=tab==='register'?'block':'none';
-  document.getElementById('auth-error').textContent='';
-};
-
-window.doLogin=async()=>{
+window.doLogin = async function() {
   if (isAuthInProgress) return;
-  const email=document.getElementById('login-email').value.trim();
-  const pass=document.getElementById('login-pass').value;
-  const err=document.getElementById('auth-error');
+  const email = document.getElementById('login-email').value.trim();
+  const pass = document.getElementById('login-pass').value;
+  const err = document.getElementById('auth-error');
   if(!email||!pass){err.textContent='Please fill all fields';return;}
   try{
     isAuthInProgress = true;
@@ -666,19 +778,19 @@ window.doLogin=async()=>{
   }
 };
 
-window.doRegister=async()=>{
+window.doRegister = async function() {
   if (isAuthInProgress) return;
-  const email=document.getElementById('reg-email').value.trim();
-  const pass=document.getElementById('reg-pass').value;
-  const child=document.getElementById('reg-child').value.trim()||'Kid';
-  const err=document.getElementById('auth-error');
+  const email = document.getElementById('reg-email').value.trim();
+  const pass = document.getElementById('reg-pass').value;
+  const child = document.getElementById('reg-child').value.trim()||'Kid';
+  const err = document.getElementById('auth-error');
   if(!email||!pass){err.textContent='Please fill all fields';return;}
   if(pass.length<6){err.textContent='Password must be at least 6 characters';return;}
   try{
     isAuthInProgress = true;
     setAuthLoading(true, 'register');
     err.textContent='';
-    const cred=await auth.createUserWithEmailAndPassword(email,pass);
+    const cred = await auth.createUserWithEmailAndPassword(email,pass);
     ST.childName=child;
     await saveToCloud();
   }catch(e){
@@ -688,9 +800,9 @@ window.doRegister=async()=>{
   }
 };
 
-window.doForgotPassword=async()=>{
-  const email=document.getElementById('login-email').value.trim();
-  const err=document.getElementById('auth-error');
+window.doForgotPassword = async function() {
+  const email = document.getElementById('login-email').value.trim();
+  const err = document.getElementById('auth-error');
   if(!email){err.textContent='Please enter your email address';return;}
   try{
     err.textContent='Sending reset email...';
@@ -702,7 +814,7 @@ window.doForgotPassword=async()=>{
   }
 };
 
-window.continueAsGuest=()=>{
+window.continueAsGuest = function() {
   isGuest=true;
   ST.childName='Guest';
   document.getElementById('boot-loading').style.display='none';
@@ -710,13 +822,13 @@ window.continueAsGuest=()=>{
   refreshHome();
 };
 
-window.doLogout=async()=>{
+window.doLogout = async function() {
   if(isGuest){isGuest=false;showScreen('auth-screen');return;}
   await auth.signOut();
 };
 
-// Auth state listener - show home screen immediately on login
-auth.onAuthStateChanged(async(user)=>{
+// Auth state listener
+auth.onAuthStateChanged(async function(user) {
   if(user){
     currentUser=user;
     isGuest=false;
@@ -731,14 +843,17 @@ auth.onAuthStateChanged(async(user)=>{
     setAuthLoading(false, 'register');
   } else if(!isGuest){
     currentUser=null;
-    showScreen('auth-screen');
+    // Don't change screen if already showing auth
+    if (!document.getElementById('auth-screen').classList.contains('active')) {
+      showScreen('auth-screen');
+    }
     isAuthInProgress = false;
     setAuthLoading(false, 'login');
     setAuthLoading(false, 'register');
   }
 });
 
-// ═══ GAME DATA ════════════════════════════
+// ═══ GAME DATA ══════════════════════════════════════
 const gameData={
   abc:[
     {q:"A",word:"Apple",    speech:"A.  Apple",     options:["🍎","🍌","🐱","🐕"],a:"🍎"},
@@ -827,78 +942,84 @@ const gameData={
     {q:"و",word:"وردة", speech:"وَاو.  وَرْدَة",  speechLang:"ar-SA",options:["🌹","🌻","🌲","🌱"],a:"🌹"},
     {q:"ي",word:"يد",   speech:"يَاء.  يَد",     speechLang:"ar-SA",options:["👋","👀","👃","👂"],a:"👋"},
   ],
-  math:(()=>{
-    const levels=[];
-    for(let i=1;i<=25;i++){
-      const a=Math.floor(Math.random()*10)+1,b=Math.floor(Math.random()*10)+1,ans=a+b;
-      const wrong=[ans+1,ans-1,ans+2,ans-2].filter(x=>x>0&&x!==ans);
-      const opts=[ans,wrong[0],wrong[1],wrong[2]].sort(()=>Math.random()-.5);
-      levels.push({q:`${a} + ${b}`,word:`${a} plus ${b}`,speech:`What is ${a} plus ${b}?`,options:opts.map(String),a:String(ans),textOpts:true});
+  math:(function(){
+    var levels=[];
+    for(var i=1;i<=25;i++){
+      var a=Math.floor(Math.random()*10)+1,b=Math.floor(Math.random()*10)+1,ans=a+b;
+      var wrong=[ans+1,ans-1,ans+2,ans-2].filter(function(x){return x>0&&x!==ans;});
+      var opts=[ans,wrong[0],wrong[1],wrong[2]].sort(function(){return Math.random()-.5;});
+      levels.push({q:a+' + '+b,word:a+' plus '+b,speech:'What is '+a+' plus '+b+'?',options:opts.map(String),a:String(ans),textOpts:true});
     }
-    for(let i=1;i<=25;i++){
-      const a=Math.floor(Math.random()*15)+5,b=Math.floor(Math.random()*(a-1))+1,ans=a-b;
-      const wrong=[ans+1,ans-1,ans+2,ans-2].filter(x=>x>=0&&x!==ans);
-      const opts=[ans,wrong[0],wrong[1],wrong[2]].sort(()=>Math.random()-.5);
-      levels.push({q:`${a} - ${b}`,word:`${a} minus ${b}`,speech:`What is ${a} minus ${b}?`,options:opts.map(String),a:String(ans),textOpts:true});
+    for(var i=1;i<=25;i++){
+      var a=Math.floor(Math.random()*15)+5,b=Math.floor(Math.random()*(a-1))+1,ans=a-b;
+      var wrong=[ans+1,ans-1,ans+2,ans-2].filter(function(x){return x>=0&&x!==ans;});
+      var opts=[ans,wrong[0],wrong[1],wrong[2]].sort(function(){return Math.random()-.5;});
+      levels.push({q:a+' - '+b,word:a+' minus '+b,speech:'What is '+a+' minus '+b+'?',options:opts.map(String),a:String(ans),textOpts:true});
     }
     return levels;
   })(),
 };
 
-// ═══ GAME RUNTIME ════════════════════════
-let curMode='abc',curIdx=0,mistakes=0,correctAns='',curSpeech='',curSpeechLang='en-US',streak=0;
+// ═══ GAME RUNTIME ═════════════════════════════════
+var curMode='abc',curIdx=0,mistakes=0,correctAns='',curSpeech='',curSpeechLang='en-US',streak=0;
 
 function isPremiumUnlocked(){return ST.isPremium&&VALID_CODES.includes(ST.premiumCode.toUpperCase());}
 
-window.showPremiumPopup=()=>document.getElementById('premium-popup').classList.add('show');
-window.closePremiumPopup=()=>document.getElementById('premium-popup').classList.remove('show');
-window.goToPremium=()=>window.open(PREMIUM_URL,'_blank');
+window.showPremiumPopup = function() {
+  document.getElementById('premium-popup').classList.add('show');
+};
 
-function showScreen(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  const el = document.getElementById(id);
+window.closePremiumPopup = function() {
+  document.getElementById('premium-popup').classList.remove('show');
+};
+
+window.goToPremium = function() {
+  window.open(PREMIUM_URL,'_blank');
+};
+
+window.showScreen = function(id) {
+  document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
+  var el = document.getElementById(id);
   if(el) el.classList.add('active');
-}
-window.showScreen=showScreen;
+};
 
 function refreshHome(){
-  const nameEl = document.getElementById('child-name-display');
-  if(nameEl) nameEl.textContent=`Hello, ${ST.childName}! 👋`;
-  const starEl = document.getElementById('star-count');
-  if(starEl) starEl.textContent=`⭐ ${ST.totalStars} stars collected`;
-  ['abc','numbers','coloring'].forEach(m=>{
-    const el=document.getElementById(m+'-progress');
-    if(el)el.textContent=`${completed[m]}/${gameData[m].length} levels`;
+  var nameEl = document.getElementById('child-name-display');
+  if(nameEl) nameEl.textContent='Hello, '+ST.childName+'! 👋';
+  var starEl = document.getElementById('star-count');
+  if(starEl) starEl.textContent='⭐ '+ST.totalStars+' stars collected';
+  ['abc','numbers','coloring'].forEach(function(m){
+    var el=document.getElementById(m+'-progress');
+    if(el)el.textContent=completed[m]+'/'+gameData[m].length+' levels';
   });
-  const premium=isPremiumUnlocked();
-  const upgradeBtn=document.getElementById('upgrade-btn');
+  var premium=isPremiumUnlocked();
+  var upgradeBtn=document.getElementById('upgrade-btn');
   if(upgradeBtn)upgradeBtn.style.display=premium?'none':'block';
 
-  const arabicCard=document.getElementById('card-arabic');
-  const mathCard=document.getElementById('card-math');
+  var arabicCard=document.getElementById('card-arabic');
+  var mathCard=document.getElementById('card-math');
   if(premium){
-    if(arabicCard){arabicCard.onclick=()=>startGame('arabic');arabicCard.querySelector('p').textContent=`${completed.arabic}/${gameData.arabic.length} levels`;arabicCard.classList.remove('premium-card');const badge=arabicCard.querySelector('.lock-badge');if(badge)badge.style.display='none';}
-    if(mathCard){mathCard.onclick=()=>startGame('math');mathCard.querySelector('p').textContent=`${completed.math}/${gameData.math.length} levels`;mathCard.classList.remove('premium-card');const badge=mathCard.querySelector('.lock-badge');if(badge)badge.style.display='none';}
+    if(arabicCard){arabicCard.onclick=function(){startGame('arabic');};arabicCard.querySelector('p').textContent=completed.arabic+'/'+gameData.arabic.length+' levels';arabicCard.classList.remove('premium-card');var badge=arabicCard.querySelector('.lock-badge');if(badge)badge.style.display='none';}
+    if(mathCard){mathCard.onclick=function(){startGame('math');};mathCard.querySelector('p').textContent=completed.math+'/'+gameData.math.length+' levels';mathCard.classList.remove('premium-card');var badge=mathCard.querySelector('.lock-badge');if(badge)badge.style.display='none';}
   } else {
-    if(arabicCard){arabicCard.onclick=showPremiumPopup;arabicCard.querySelector('p').textContent='28 levels 🔒';arabicCard.classList.add('premium-card');const badge=arabicCard.querySelector('.lock-badge');if(badge)badge.style.display='';}
-    if(mathCard){mathCard.onclick=showPremiumPopup;mathCard.querySelector('p').textContent='50 levels 🔒';mathCard.classList.add('premium-card');const badge=mathCard.querySelector('.lock-badge');if(badge)badge.style.display='';}
+    if(arabicCard){arabicCard.onclick=window.showPremiumPopup;arabicCard.querySelector('p').textContent='28 levels 🔒';arabicCard.classList.add('premium-card');var badge=arabicCard.querySelector('.lock-badge');if(badge)badge.style.display='';}
+    if(mathCard){mathCard.onclick=window.showPremiumPopup;mathCard.querySelector('p').textContent='50 levels 🔒';mathCard.classList.add('premium-card');var badge=mathCard.querySelector('.lock-badge');if(badge)badge.style.display='';}
   }
-  const tot=gameData.abc.length+gameData.numbers.length+gameData.coloring.length;
-  const don=completed.abc+completed.numbers+completed.coloring;
-  const progressEl=document.getElementById('main-progress');
+  var tot=gameData.abc.length+gameData.numbers.length+gameData.coloring.length;
+  var don=completed.abc+completed.numbers+completed.coloring;
+  var progressEl=document.getElementById('main-progress');
   if(progressEl) progressEl.style.width=(don/tot*100)+'%';
 }
 
-function startGame(m){
-  if(!['abc','numbers','coloring'].includes(m)&&!isPremiumUnlocked()){showPremiumPopup();return;}
+window.startGame = function(m) {
+  if(!['abc','numbers','coloring'].includes(m)&&!isPremiumUnlocked()){window.showPremiumPopup();return;}
   sfxClick();curMode=m;curIdx=0;streak=0;isAnswering=false;ST.sessionStart=Date.now();
-  const titles={abc:'ABC English',numbers:'Numbers 123',coloring:'More Fun',arabic:'Arabic عربي',math:'Math ➕➖'};
-  const titleEl=document.getElementById('game-title');
+  var titles={abc:'ABC English',numbers:'Numbers 123',coloring:'More Fun',arabic:'Arabic عربي',math:'Math ➕➖'};
+  var titleEl=document.getElementById('game-title');
   if(titleEl) titleEl.textContent=titles[m];
-  showScreen('game-screen');
+  window.showScreen('game-screen');
   loadLevel();
-}
-window.startGame=startGame;
+};
 
 function loadLevel(){
   if(levelTimer){
@@ -907,10 +1028,10 @@ function loadLevel(){
   }
   isAnswering = false;
   
-  const data = gameData[curMode];
-  const quizOpts = document.getElementById('quiz-options');
-  const coloringArea = document.getElementById('coloring-area');
-  const listenHint = document.getElementById('listen-hint');
+  var data = gameData[curMode];
+  var quizOpts = document.getElementById('quiz-options');
+  var coloringArea = document.getElementById('coloring-area');
+  var listenHint = document.getElementById('listen-hint');
   
   if(quizOpts) quizOpts.style.display = 'grid';
   if(coloringArea) coloringArea.style.display = 'none';
@@ -919,40 +1040,44 @@ function loadLevel(){
   if(curIdx >= data.length){
     sfxLevelUp();
     showToast('🎉 Section complete!');
-    setTimeout(exitGame, 2000);
+    setTimeout(function() {
+      showInterstitial(function() {
+        window.exitGame();
+      });
+    }, 1500);
     return;
   }
   
   mistakes = 0;
-  const q = data[curIdx];
+  var q = data[curIdx];
   correctAns = q.a;
   curSpeech = q.speech;
   curSpeechLang = q.speechLang || 'en-US';
   
-  const levelLbl = document.getElementById('level-lbl');
-  if(levelLbl) levelLbl.textContent = `Level ${curIdx+1} of ${data.length}`;
+  var levelLbl = document.getElementById('level-lbl');
+  if(levelLbl) levelLbl.textContent = 'Level '+(curIdx+1)+' of '+data.length;
   
-  const questionEl = document.getElementById('question');
+  var questionEl = document.getElementById('question');
   if(questionEl) questionEl.textContent = q.q;
   
-  const wordLabel = document.getElementById('word-label');
+  var wordLabel = document.getElementById('word-label');
   if(wordLabel) wordLabel.textContent = q.word || '';
   
-  const bar = document.getElementById('streak-bar');
+  var bar = document.getElementById('streak-bar');
   if(bar){
     bar.innerHTML = '';
-    for(let i=0; i<Math.min(streak, 10); i++){
-      const d = document.createElement('div');
+    for(var i=0; i<Math.min(streak, 10); i++){
+      var d = document.createElement('div');
       d.className = 'streak-dot hit';
       bar.appendChild(d);
     }
   }
   
-  const grid = document.getElementById('quiz-options');
+  var grid = document.getElementById('quiz-options');
   if(grid){
     grid.innerHTML = '';
-    q.options.forEach(opt => {
-      const b = document.createElement('button');
+    q.options.forEach(function(opt) {
+      var b = document.createElement('button');
       b.className = 'opt-btn' + (q.textOpts ? ' text-opt' : '');
       b.textContent = opt;
       b.onclick = function() { checkAnswer(this); };
@@ -965,20 +1090,21 @@ function loadLevel(){
 
 function speakQuestion(){
   if(!ST.speech) return;
-  const qBox = document.getElementById('question');
+  var qBox = document.getElementById('question');
   if(qBox) qBox.classList.add('speaking');
   sayText(curSpeech, curSpeechLang, 0.72, function(){
     if(qBox) qBox.classList.remove('speaking');
   });
 }
+
 window.speakQuestion = speakQuestion;
 
 async function checkAnswer(btn){
   if(isAnswering) return;
   if(btn.disabled) return;
   
-  const allBtns = document.querySelectorAll('.opt-btn');
-  allBtns.forEach(b => b.disabled = true);
+  var allBtns = document.querySelectorAll('.opt-btn');
+  allBtns.forEach(function(b) { b.disabled = true; });
   
   if(btn.textContent === correctAns){
     isAnswering = true;
@@ -987,7 +1113,7 @@ async function checkAnswer(btn){
     streak++;
     ST.totalAnswers++;
     
-    const stars = mistakes === 0 ? 3 : (mistakes === 1 ? 2 : 1);
+    var stars = mistakes === 0 ? 3 : (mistakes === 1 ? 2 : 1);
     ST.totalStars += stars;
     ST.levelsDone++;
     ST.starsPerDay[6] = (ST.starsPerDay[6] || 0) + stars;
@@ -997,26 +1123,32 @@ async function checkAnswer(btn){
     sfxCorrect();
     if(stars === 3) setTimeout(sfxStar, 500);
     
-    const msg = stars === 3 ? '⭐⭐⭐ Perfect!' : (stars === 2 ? '⭐⭐ Great job!' : '⭐ Good try!');
+    var msg = stars === 3 ? '⭐⭐⭐ Perfect!' : (stars === 2 ? '⭐⭐ Great job!' : '⭐ Good try!');
     showToast(msg);
     
     if(ST.speech){
-      const q = gameData[curMode][curIdx];
+      var q = gameData[curMode][curIdx];
       setTimeout(function() {
         sayText(stars === 3 ? 'Excellent! '+q.word+'!' : 'Great job!', 'en-US', 0.85);
       }, 300);
     }
     
     refreshHome();
-    
-    // Save to cloud in the background - don't wait for it
     saveToCloudSilent();
     
-    // Move to next level after delay - ALWAYS happens regardless of save
-    levelTimer = setTimeout(function() {
-      curIdx++;
-      loadLevel();
-    }, 1800);
+    if (ST.correctAnswers % 3 === 0 && !isGuest) {
+      levelTimer = setTimeout(function() {
+        showInterstitial(function() {
+          curIdx++;
+          loadLevel();
+        });
+      }, 800);
+    } else {
+      levelTimer = setTimeout(function() {
+        curIdx++;
+        loadLevel();
+      }, 1800);
+    }
     
   } else {
     btn.classList.add('wrong');
@@ -1028,8 +1160,8 @@ async function checkAnswer(btn){
     }, 100);
     
     setTimeout(function() {
-      const btns = document.querySelectorAll('.opt-btn');
-      btns.forEach(b => {
+      var btns = document.querySelectorAll('.opt-btn');
+      btns.forEach(function(b) {
         if(!b.classList.contains('correct') && !b.classList.contains('wrong')){
           b.disabled = false;
         }
@@ -1039,7 +1171,7 @@ async function checkAnswer(btn){
   }
 }
 
-function exitGame(){
+window.exitGame = function() {
   if(levelTimer){
     clearTimeout(levelTimer);
     levelTimer = null;
@@ -1053,41 +1185,40 @@ function exitGame(){
   if(window.speechSynthesis) window.speechSynthesis.cancel();
   saveToCloudSilent();
   refreshHome();
-  showScreen('home-screen');
-}
-window.exitGame = exitGame;
+  window.showScreen('home-screen');
+};
 
-// ═══ CANVAS ══════════════════════════════
-const cvs=document.getElementById('paint-canvas');
-const cx2=cvs?cvs.getContext('2d'):null;
-let painting=false,pColor='#111',bSize=6,tool='pen';
-function gPos(e){const r=cvs.getBoundingClientRect(),sx=cvs.width/r.width,sy=cvs.height/r.height,px=e.touches?e.touches[0].clientX:e.clientX,py=e.touches?e.touches[0].clientY:e.clientY;return{x:(px-r.left)*sx,y:(py-r.top)*sy};}
-function sDraw(e){painting=true;cx2.beginPath();const p=gPos(e);cx2.moveTo(p.x,p.y);doDraw(e);}
+// ═══ CANVAS ═════════════════════════════════════════
+var cvs=document.getElementById('paint-canvas');
+var cx2=cvs?cvs.getContext('2d'):null;
+var painting=false,pColor='#111',bSize=6,tool='pen';
+function gPos(e){var r=cvs.getBoundingClientRect(),sx=cvs.width/r.width,sy=cvs.height/r.height,px=e.touches?e.touches[0].clientX:e.clientX,py=e.touches?e.touches[0].clientY:e.clientY;return{x:(px-r.left)*sx,y:(py-r.top)*sy};}
+function sDraw(e){painting=true;cx2.beginPath();var p=gPos(e);cx2.moveTo(p.x,p.y);doDraw(e);}
 function eDraw(){painting=false;cx2.beginPath();}
-function doDraw(e){if(!painting)return;e.preventDefault();cx2.lineWidth=tool==='eraser'?bSize*3:bSize;cx2.lineCap='round';cx2.strokeStyle=tool==='eraser'?'#fff':pColor;const p=gPos(e);cx2.lineTo(p.x,p.y);cx2.stroke();cx2.moveTo(p.x,p.y);}
+function doDraw(e){if(!painting)return;e.preventDefault();cx2.lineWidth=tool==='eraser'?bSize*3:bSize;cx2.lineCap='round';cx2.strokeStyle=tool==='eraser'?'#fff':pColor;var p=gPos(e);cx2.lineTo(p.x,p.y);cx2.stroke();cx2.moveTo(p.x,p.y);}
 if(cvs){cvs.addEventListener('mousedown',sDraw);cvs.addEventListener('mouseup',eDraw);cvs.addEventListener('mousemove',doDraw);cvs.addEventListener('touchstart',sDraw,{passive:false});cvs.addEventListener('touchend',eDraw);cvs.addEventListener('touchmove',doDraw,{passive:false});}
-window.setPaintColor=(c,el)=>{pColor=c;document.querySelectorAll('.color-circle').forEach(x=>x.classList.remove('active'));el.classList.add('active');};
-window.setTool=(t,el)=>{tool=t;document.querySelectorAll('.tool-btn').forEach(x=>x.classList.remove('active-tool'));el.classList.add('active-tool');};
-window.setBrush=(s,el)=>{bSize=s;document.querySelectorAll('.brush-sz').forEach(x=>x.classList.remove('active-sz'));el.classList.add('active-sz');};
-window.clearCanvas=()=>{cx2.fillStyle='white';cx2.fillRect(0,0,cvs.width,cvs.height);};
-window.saveDrawing=()=>{const l=document.createElement('a');l.download='drawing.png';l.href=cvs.toDataURL();l.click();showToast('🎨 Saved!');};
+window.setPaintColor=function(c,el){pColor=c;document.querySelectorAll('.color-circle').forEach(function(x){x.classList.remove('active');});el.classList.add('active');};
+window.setTool=function(t,el){tool=t;document.querySelectorAll('.tool-btn').forEach(function(x){x.classList.remove('active-tool');});el.classList.add('active-tool');};
+window.setBrush=function(s,el){bSize=s;document.querySelectorAll('.brush-sz').forEach(function(x){x.classList.remove('active-sz');});el.classList.add('active-sz');};
+window.clearCanvas=function(){cx2.fillStyle='white';cx2.fillRect(0,0,cvs.width,cvs.height);};
+window.saveDrawing=function(){var l=document.createElement('a');l.download='drawing.png';l.href=cvs.toDataURL();l.click();showToast('🎨 Saved!');};
 
-// ═══ PIN ═════════════════════════════════
-let pinE='';
-window.openPin=()=>{sfxClick();pinE='';updPin();document.getElementById('pin-error').textContent='';showScreen('pin-screen');};
-window.pinKey=(d)=>{if(pinE.length>=4)return;sfxClick();pinE+=d;updPin();if(pinE.length===4)setTimeout(chkPin,200);};
-window.pinBackspace=()=>{pinE=pinE.slice(0,-1);updPin();};
-window.pinClear=()=>{pinE='';updPin();};
-function updPin(){for(let i=0;i<4;i++){const el=document.getElementById('pd'+i);if(el)el.classList.toggle('filled',i<pinE.length);}}
-function chkPin(){if(pinE===ST.pin){showScreen('dash-screen');renderDash();}else{sfxWrong();document.getElementById('pin-error').textContent='❌ Wrong PIN';pinE='';updPin();}}
+// ═══ PIN ═══════════════════════════════════════════
+var pinE='';
+window.openPin=function(){sfxClick();pinE='';updPin();document.getElementById('pin-error').textContent='';window.showScreen('pin-screen');};
+window.pinKey=function(d){if(pinE.length>=4)return;sfxClick();pinE+=d;updPin();if(pinE.length===4)setTimeout(chkPin,200);};
+window.pinBackspace=function(){pinE=pinE.slice(0,-1);updPin();};
+window.pinClear=function(){pinE='';updPin();};
+function updPin(){for(var i=0;i<4;i++){var el=document.getElementById('pd'+i);if(el)el.classList.toggle('filled',i<pinE.length);}}
+function chkPin(){if(pinE===ST.pin){window.showScreen('dash-screen');renderDash();}else{sfxWrong();document.getElementById('pin-error').textContent='❌ Wrong PIN';pinE='';updPin();}}
 
-// ═══ PREMIUM ═════════════════════════════
+// ═══ PREMIUM ══════════════════════════════════════
 function updatePremiumUI(){
-  const statusText=document.getElementById('premium-status-text');
-  const statusSub=document.getElementById('premium-status-sub');
-  const codeArea=document.getElementById('code-input-area');
-  const revokeArea=document.getElementById('revoke-area');
-  const box=document.getElementById('premium-status-box');
+  var statusText=document.getElementById('premium-status-text');
+  var statusSub=document.getElementById('premium-status-sub');
+  var codeArea=document.getElementById('code-input-area');
+  var revokeArea=document.getElementById('revoke-area');
+  var box=document.getElementById('premium-status-box');
   if(isPremiumUnlocked()){
     if(box)box.style.background='linear-gradient(135deg,#f1c40f22,#e67e2222)';
     if(statusText)statusText.textContent='⭐ Premium Active!';
@@ -1104,9 +1235,9 @@ function updatePremiumUI(){
 }
 window.updatePremiumUI=updatePremiumUI;
 
-window.activatePremiumCode=async()=>{
-  const code=document.getElementById('set-code').value.trim().toUpperCase();
-  const errEl=document.getElementById('code-error');
+window.activatePremiumCode=async function(){
+  var code=document.getElementById('set-code').value.trim().toUpperCase();
+  var errEl=document.getElementById('code-error');
   if(!code){errEl.textContent='⚠️ Please enter a code';return;}
   if(VALID_CODES.includes(code)){
     ST.isPremium=true;ST.premiumCode=code;
@@ -1118,93 +1249,105 @@ window.activatePremiumCode=async()=>{
   } else {errEl.textContent='❌ Invalid code';sfxWrong();}
 };
 
-window.revokePremium=async()=>{
+window.revokePremium=async function(){
   if(!confirm('Deactivate Premium?'))return;
   ST.isPremium=false;ST.premiumCode='';
   await saveToCloud();updatePremiumUI();refreshHome();showToast('Premium deactivated');
 };
 
-// ═══ DASHBOARD ════════════════════════════
+// ═══ DASHBOARD ════════════════════════════════════
 function renderDash(){
   document.getElementById('d-stars').textContent=ST.totalStars;
   document.getElementById('d-levels').textContent=ST.levelsDone;
   document.getElementById('d-time').textContent=ST.todayMinutes+'m';
-  const acc=ST.totalAnswers>0?Math.round(ST.correctAnswers/ST.totalAnswers*100):0;
+  var acc=ST.totalAnswers>0?Math.round(ST.correctAnswers/ST.totalAnswers*100):0;
   document.getElementById('d-accuracy').textContent=acc+'%';
   document.getElementById('set-name').value=ST.childName;
   document.getElementById('set-goal').value=ST.dailyGoal;
-  const togSound=document.getElementById('tog-sound');
-  const togSpeech=document.getElementById('tog-speech');
+  var togSound=document.getElementById('tog-sound');
+  var togSpeech=document.getElementById('tog-speech');
   if(togSound)togSound.classList.toggle('on',ST.sound);
   if(togSpeech)togSpeech.classList.toggle('on',ST.speech);
   updatePremiumUI();renderSubj();renderBadges();
 }
 
 function renderSubj(){
-  const icons={abc:'🔤',numbers:'🔢',coloring:'🎨',arabic:'🌙',math:'➕'};
-  const labels={abc:'ABC English',numbers:'Numbers',coloring:'More Fun',arabic:'Arabic عربي',math:'Math'};
-  const list=document.getElementById('subject-progress-list');
+  var icons={abc:'🔤',numbers:'🔢',coloring:'🎨',arabic:'🌙',math:'➕'};
+  var labels={abc:'ABC English',numbers:'Numbers',coloring:'More Fun',arabic:'Arabic عربي',math:'Math'};
+  var list=document.getElementById('subject-progress-list');
   if(!list)return;
   list.innerHTML='';
-  ['abc','numbers','coloring','arabic','math'].forEach(m=>{
-    const tot=gameData[m].length,don=completed[m],pct=Math.round(don/tot*100);
-    const badge=(m==='arabic'||m==='math')?'<span style="font-size:.7rem;background:#f1c40f;color:white;padding:2px 6px;border-radius:10px;margin-left:6px;">PREMIUM</span>':'';
+  ['abc','numbers','coloring','arabic','math'].forEach(function(m){
+    var tot=gameData[m].length,don=completed[m],pct=Math.round(don/tot*100);
+    var badge=(m==='arabic'||m==='math')?'<span style="font-size:.7rem;background:#f1c40f;color:white;padding:2px 6px;border-radius:10px;margin-left:6px;">PREMIUM</span>':'';
     list.innerHTML+=`<div class="subject-row"><div class="subject-icon">${icons[m]}</div><div class="subject-info"><div class="subject-name">${labels[m]}${badge}</div><div class="subject-meta">${don}/${tot} levels · ${pct}%</div><div class="mini-bar-wrap"><div class="mini-bar" style="width:${pct}%"></div></div></div></div>`;
   });
 }
 
-const BDG=[
-  {icon:'🌟',name:'First Star',desc:'Earn 1 star',fn:()=>ST.totalStars>=1},
-  {icon:'🔥',name:'On Fire',desc:'Earn 10 stars',fn:()=>ST.totalStars>=10},
-  {icon:'💫',name:'Star Collector',desc:'Earn 50 stars',fn:()=>ST.totalStars>=50},
-  {icon:'🔤',name:'ABC Master',desc:'Complete ABC',fn:()=>completed.abc>=gameData.abc.length},
-  {icon:'🔢',name:'Number Ninja',desc:'Complete Numbers',fn:()=>completed.numbers>=gameData.numbers.length},
-  {icon:'🎨',name:'Fun Master',desc:'Complete More Fun',fn:()=>completed.coloring>=gameData.coloring.length},
-  {icon:'🌙',name:'Arabic Star',desc:'Complete Arabic',fn:()=>completed.arabic>=gameData.arabic.length},
-  {icon:'➕',name:'Math Wizard',desc:'Complete Math',fn:()=>completed.math>=gameData.math.length},
-  {icon:'⚡',name:'Streak King',desc:'5 correct in a row',fn:()=>streak>=5},
+var BDG=[
+  {icon:'🌟',name:'First Star',desc:'Earn 1 star',fn:function(){return ST.totalStars>=1;}},
+  {icon:'🔥',name:'On Fire',desc:'Earn 10 stars',fn:function(){return ST.totalStars>=10;}},
+  {icon:'💫',name:'Star Collector',desc:'Earn 50 stars',fn:function(){return ST.totalStars>=50;}},
+  {icon:'🔤',name:'ABC Master',desc:'Complete ABC',fn:function(){return completed.abc>=gameData.abc.length;}},
+  {icon:'🔢',name:'Number Ninja',desc:'Complete Numbers',fn:function(){return completed.numbers>=gameData.numbers.length;}},
+  {icon:'🎨',name:'Fun Master',desc:'Complete More Fun',fn:function(){return completed.coloring>=gameData.coloring.length;}},
+  {icon:'🌙',name:'Arabic Star',desc:'Complete Arabic',fn:function(){return completed.arabic>=gameData.arabic.length;}},
+  {icon:'➕',name:'Math Wizard',desc:'Complete Math',fn:function(){return completed.math>=gameData.math.length;}},
+  {icon:'⚡',name:'Streak King',desc:'5 correct in a row',fn:function(){return streak>=5;}},
 ];
 
 function renderBadges(){
-  const g=document.getElementById('badges-grid');
+  var g=document.getElementById('badges-grid');
   if(!g)return;
   g.innerHTML='';
-  BDG.forEach(b=>{
-    const e=b.fn();
+  BDG.forEach(function(b){
+    var e=b.fn();
     g.innerHTML+=`<div style="background:#f8f7ff;border-radius:14px;padding:12px 8px;text-align:center;opacity:${e?1:.4}"><div style="font-size:1.8rem;">${b.icon}</div><div style="font-size:.72rem;font-weight:700;color:#555;margin-top:4px;">${b.name}</div><div style="font-size:.65rem;color:#aaa;">${b.desc}</div></div>`;
   });
 }
 
-window.switchTab=(tab,el)=>{
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+window.switchTab=function(tab,el){
+  document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});
   el.classList.add('active');
-  ['overview','badges','settings'].forEach(t=>{
-    const el2=document.getElementById('tab-'+t);
+  ['overview','badges','settings'].forEach(function(t){
+    var el2=document.getElementById('tab-'+t);
     if(el2)el2.style.display=t===tab?'block':'none';
   });
   if(tab==='badges')renderBadges();
 };
 
-window.toggleSetting=(k,el)=>{ST[k]=!ST[k];el.classList.toggle('on',ST[k]);};
+window.toggleSetting=function(k,el){ST[k]=!ST[k];el.classList.toggle('on',ST[k]);};
 
-window.saveSettings=async()=>{
-  const n=document.getElementById('set-name').value.trim();if(n)ST.childName=n;
-  const g=parseInt(document.getElementById('set-goal').value);if(!isNaN(g)&&g>0)ST.dailyGoal=g;
-  const p=document.getElementById('set-pin').value.trim();if(p.length===4&&/^\d+$/.test(p)){ST.pin=p;document.getElementById('set-pin').value='';}
+window.saveSettings=async function(){
+  var n=document.getElementById('set-name').value.trim();if(n)ST.childName=n;
+  var g=parseInt(document.getElementById('set-goal').value);if(!isNaN(g)&&g>0)ST.dailyGoal=g;
+  var p=document.getElementById('set-pin').value.trim();if(p.length===4&&/^\d+$/.test(p)){ST.pin=p;document.getElementById('set-pin').value='';}
   await saveToCloud();refreshHome();sfxCorrect();showToast('✅ Settings saved!');
 };
 
-window.resetProgress=async()=>{
+window.resetProgress=async function(){
   if(!confirm('Reset all progress?'))return;
   ST.totalStars=ST.totalAnswers=ST.correctAnswers=ST.levelsDone=ST.todayMinutes=0;
   ST.starsPerDay=[0,0,0,0,0,0,0];
-  Object.keys(completed).forEach(k=>completed[k]=0);
+  Object.keys(completed).forEach(function(k){completed[k]=0;});
   streak=0;await saveToCloud();refreshHome();renderDash();showToast('🔄 Progress reset');
 };
 
-function showToast(msg){const t=document.getElementById('toast');if(!t)return;t.textContent=msg;t.style.opacity='1';clearTimeout(window._tt);window._tt=setTimeout(()=>t.style.opacity='0',2500);}
+function showToast(msg){var t=document.getElementById('toast');if(!t)return;t.textContent=msg;t.style.opacity='1';clearTimeout(window._tt);window._tt=setTimeout(function(){t.style.opacity='0';},2500);}
 
-if('speechSynthesis' in window){window.speechSynthesis.getVoices();window.speechSynthesis.onvoiceschanged=()=>window.speechSynthesis.getVoices();}
+// ═══ INIT ═══════════════════════════════════════════
+// Show banner ad
+setTimeout(showBannerAd, 1000);
+
+// Get speech synthesis voices
+if('speechSynthesis' in window){
+  window.speechSynthesis.getVoices();
+  window.speechSynthesis.onvoiceschanged = function() {
+    window.speechSynthesis.getVoices();
+  };
+}
+
+console.log('KidLearn Pro loaded successfully!');
 </script>
 </body>
-  </html>
+    </html>
