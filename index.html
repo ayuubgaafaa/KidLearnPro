@@ -44,7 +44,7 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
 .user-info .stars{font-size:.9rem;opacity:.9;}
 .progress-bar-wrap{background:rgba(255,255,255,.2);border-radius:8px;height:8px;margin-top:6px;overflow:hidden;}
 .progress-bar{background:#f1c40f;height:100%;border-radius:8px;width:0%;transition:width .5s;}
-.user-buttons{display:flex;gap:8px;margin-top:6px;}
+.user-buttons{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap;}
 .user-buttons button{background:rgba(255,255,255,.2);border:none;color:white;padding:6px 12px;border-radius:8px;font-size:.75rem;cursor:pointer;transition:background .2s;}
 .user-buttons button:active{transform:scale(.95);}
 .sync-btn{background:rgba(0,184,148,0.4) !important;border:1px solid rgba(0,184,148,0.6) !important;}
@@ -81,6 +81,8 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
 .lb-name{font-size:.9rem;font-weight:700;color:#333;}
 .lb-stars{font-size:.78rem;color:#888;}
 .lb-score{font-size:1.1rem;font-weight:800;color:#4a3487;}
+.lb-empty{text-align:center;color:#aaa;padding:40px 20px;font-size:.95rem;}
+.lb-empty span{font-size:2rem;display:block;margin-bottom:10px;}
 
 /* GAME */
 .game-wrap{background:white;color:#333;border-radius:28px;padding:26px 22px;box-shadow:0 12px 30px rgba(0,0,0,.22);}
@@ -663,7 +665,6 @@ window.forceSync = function() {
     if (snap.exists()) {
       const d = snap.val();
       
-      // Update all data from cloud
       if (d.childName !== undefined) ST.childName = d.childName;
       if (d.totalStars !== undefined) ST.totalStars = d.totalStars;
       if (d.totalAnswers !== undefined) ST.totalAnswers = d.totalAnswers;
@@ -684,7 +685,6 @@ window.forceSync = function() {
       refreshHome();
       updatePremiumUI();
       
-      // If dashboard is open, refresh it
       if (document.getElementById('dash-screen').classList.contains('active')) {
         renderDash();
       }
@@ -715,8 +715,6 @@ function setupRealtimeListener(userId) {
   dbRef.on('value', function(snap) {
     if (snap.exists()) {
       const d = snap.val();
-      
-      // Check if cloud data is newer
       const cloudUpdated = d.updatedAt || 0;
       const localData = localStorage.getItem('kidlearn_data');
       let localUpdated = 0;
@@ -1646,14 +1644,15 @@ function showToast(msg){
   window._tt = setTimeout(function(){ t.style.opacity = '0'; }, 2500);
 }
 
-// ═══ LEADERBOARD ═══════════════════════════════════
+// ═══ LEADERBOARD - SHOWS ALL USERS ═══════════════════
 function loadLeaderboard(){
   var list = document.getElementById('lb-list');
-  list.innerHTML = '<p style="text-align:center;color:#aaa;padding:20px;">Loading...</p>';
+  list.innerHTML = '<div class="lb-empty"><span>🏆</span>Loading leaderboard...</div>';
   
-  db.ref('users').orderByChild('totalStars').limitToLast(10).once('value').then(function(snap) {
+  // Get ALL users from the database
+  db.ref('users').once('value').then(function(snap) {
     if (!snap.exists()) {
-      list.innerHTML = '<p style="text-align:center;color:#aaa;padding:20px;">No players yet!</p>';
+      list.innerHTML = '<div class="lb-empty"><span>👀</span>No players yet!<br><span style="font-size:.8rem;color:#aaa;">Be the first to earn stars!</span></div>';
       return;
     }
     
@@ -1661,36 +1660,52 @@ function loadLeaderboard(){
     snap.forEach(function(child) {
       var data = child.val();
       data.uid = child.key;
-      users.push(data);
+      // Only include users with at least 1 star
+      if (data.totalStars > 0 || data.totalStars === 0) {
+        users.push(data);
+      }
     });
     
+    // Sort by totalStars descending
     users.sort(function(a, b) {
       return (b.totalStars || 0) - (a.totalStars || 0);
     });
     
-    var medals = ['🥇','🥈','🥉'];
-    var rankColors = ['gold','silver','bronze'];
-    var html = '';
-    var rank = 1;
+    // Get top 50 users
+    var topUsers = users.slice(0, 50);
     
-    users.forEach(function(data) {
+    var medals = ['🥇', '🥈', '🥉'];
+    var rankColors = ['gold', 'silver', 'bronze'];
+    var html = '';
+    
+    topUsers.forEach(function(data, index) {
+      var rank = index + 1;
       var isMe = currentUser && data.uid === currentUser.uid;
       var medal = rank <= 3 ? medals[rank-1] : rank;
       var rankColor = rank <= 3 ? rankColors[rank-1] : '';
-      html += `<div class="lb-item ${isMe?'me':''}">
+      var stars = data.totalStars || 0;
+      var childName = data.childName || 'Kid';
+      var levelsDone = data.levelsDone || 0;
+      
+      html += `<div class="lb-item ${isMe ? 'me' : ''}">
         <div class="lb-rank ${rankColor}">${medal}</div>
-        <div class="lb-avatar">👦</div>
+        <div class="lb-avatar">${isMe ? '🌟' : '👦'}</div>
         <div class="lb-info">
-          <div class="lb-name">${data.childName || 'Kid'}${isMe ? ' (You)' : ''}</div>
-          <div class="lb-stars">${data.levelsDone || 0} levels done</div>
+          <div class="lb-name">${childName}${isMe ? ' ⭐ (You)' : ''}</div>
+          <div class="lb-stars">${levelsDone} levels done</div>
         </div>
-        <div class="lb-score">⭐${data.totalStars || 0}</div>
+        <div class="lb-score">⭐${stars}</div>
       </div>`;
-      rank++;
     });
-    list.innerHTML = html;
-  }).catch(function() {
-    list.innerHTML = '<p style="text-align:center;color:#aaa;padding:20px;">Could not load</p>';
+    
+    if (topUsers.length === 0) {
+      list.innerHTML = '<div class="lb-empty"><span>👀</span>No players yet!<br><span style="font-size:.8rem;color:#aaa;">Be the first to earn stars!</span></div>';
+    } else {
+      list.innerHTML = html;
+    }
+  }).catch(function(err) {
+    console.log('❌ Leaderboard error:', err);
+    list.innerHTML = '<div class="lb-empty"><span>⚠️</span>Could not load leaderboard<br><span style="font-size:.8rem;color:#aaa;">Please check your internet connection</span></div>';
   });
 }
 
@@ -1706,6 +1721,7 @@ if('speechSynthesis' in window){
 
 console.log('🚀 KidLearn Pro loaded!');
 console.log('💡 Tap "Sync Now" to sync data from cloud');
+console.log('💡 Tap "Leaderboard" to see all players');
 console.log('🔑 Current PIN:', ST.pin);
 console.log('⭐ Total Stars:', ST.totalStars);
 </script>
