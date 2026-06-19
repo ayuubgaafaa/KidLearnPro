@@ -29,6 +29,8 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
 .auth-btn{width:100%;background:linear-gradient(135deg,#6c72e6,#4a3487);color:white;border:none;padding:14px;border-radius:14px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:4px;}
 .auth-error{color:#e74c3c;font-size:.82rem;text-align:center;margin-top:8px;min-height:18px;}
 .guest-btn{width:100%;background:#f5f5f5;border:2px solid #ddd;color:#888;padding:12px;border-radius:14px;font-size:.9rem;font-weight:600;cursor:pointer;margin-top:10px;}
+.google-btn{width:100%;background:white;color:#333;border:2px solid #e0e0e0;padding:13px;border-radius:14px;font-size:.95rem;font-weight:600;cursor:pointer;margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:10px;}
+.or-divider{text-align:center;color:#bbb;font-size:.8rem;margin-bottom:14px;}
 
 /* HOME */
 .home-header{text-align:center;padding:10px 0 4px;}
@@ -169,15 +171,11 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
 .popup-close{width:100%;background:#f5f5f5;border:none;color:#888;padding:12px;border-radius:14px;font-size:.9rem;cursor:pointer;font-weight:600;}
 
 #toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#333;color:white;padding:10px 20px;border-radius:30px;font-size:.9rem;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999;}
-.loading{text-align:center;padding:40px;color:white;}
-.loading .spinner{font-size:3rem;animation:spin 1s linear infinite;}
-@keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
 </style>
 </head>
 <body>
 <div class="app">
 
-<!-- AUTH -->
 <div id="auth-screen" class="screen active">
   <div class="auth-wrap">
     <div class="auth-logo">⭐</div>
@@ -187,13 +185,13 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
       <button class="auth-tab active" onclick="switchAuthTab('login',this)">Login</button>
       <button class="auth-tab" onclick="switchAuthTab('register',this)">Register</button>
     </div>
-    <!-- Login -->
+
     <div id="login-form">
-      <button class="auth-btn" style="background:white;color:#333;border:2px solid #e0e0e0;margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:10px;" onclick="doGoogleSignIn()">
+      <button class="google-btn" onclick="doGoogleSignIn()">
         <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.1 8 3l6-6C34.5 5.1 29.5 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21 21-9.4 21-21c0-1.4-.1-2.8-.4-4.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.5 16 18.9 13 24 13c3.1 0 5.8 1.1 8 3l6-6C34.5 5.1 29.5 3 24 3 16.1 3 9.1 7.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 45c5.4 0 10.3-2.1 13.9-5.4l-6.4-5.4C29.5 36.1 26.9 37 24 37c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9 41.3 16 45 24 45z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.2 4.3-4 5.8l6.4 5.4C40.8 36.3 45 30.7 45 24c0-1.4-.1-2.8-.4-3.5z"/></svg>
         Continue with Google
       </button>
-      <div style="text-align:center;color:#bbb;font-size:.8rem;margin-bottom:14px;">— or use email —</div>
+      <div class="or-divider">— or use email —</div>
       <div class="input-group">
         <label>Email</label>
         <input type="email" id="login-email" placeholder="parent@email.com">
@@ -204,13 +202,13 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
       </div>
       <button class="auth-btn" onclick="doLogin()">🔐 Login</button>
     </div>
-    <!-- Register -->
+
     <div id="register-form" style="display:none;">
-      <button class="auth-btn" style="background:white;color:#333;border:2px solid #e0e0e0;margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:10px;" onclick="doGoogleSignIn()">
+      <button class="google-btn" onclick="doGoogleSignIn()">
         <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.1 8 3l6-6C34.5 5.1 29.5 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21 21-9.4 21-21c0-1.4-.1-2.8-.4-4.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.5 16 18.9 13 24 13c3.1 0 5.8 1.1 8 3l6-6C34.5 5.1 29.5 3 24 3 16.1 3 9.1 7.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 45c5.4 0 10.3-2.1 13.9-5.4l-6.4-5.4C29.5 36.1 26.9 37 24 37c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9 41.3 16 45 24 45z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.2 4.3-4 5.8l6.4 5.4C40.8 36.3 45 30.7 45 24c0-1.4-.1-2.8-.4-3.5z"/></svg>
         Sign up with Google
       </button>
-      <div style="text-align:center;color:#bbb;font-size:.8rem;margin-bottom:14px;">— or use email —</div>
+      <div class="or-divider">— or use email —</div>
       <div class="input-group">
         <label>Parent Email</label>
         <input type="email" id="reg-email" placeholder="parent@email.com">
@@ -225,12 +223,12 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
       </div>
       <button class="auth-btn" onclick="doRegister()">🚀 Create Account</button>
     </div>
+
     <div class="auth-error" id="auth-error"></div>
     <button class="guest-btn" onclick="continueAsGuest()">👤 Continue as Guest</button>
   </div>
 </div>
 
-<!-- HOME -->
 <div id="home-screen" class="screen">
   <div class="home-header">
     <div class="logo">⭐</div>
@@ -275,7 +273,6 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
   </div>
 </div>
 
-<!-- LEADERBOARD -->
 <div id="leaderboard-screen" class="screen">
   <div class="lb-wrap">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
@@ -286,7 +283,6 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
   </div>
 </div>
 
-<!-- GAME -->
 <div id="game-screen" class="screen">
   <div class="game-wrap">
     <div class="game-header">
@@ -329,7 +325,6 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
   </div>
 </div>
 
-<!-- PIN -->
 <div id="pin-screen" class="screen">
   <div class="pin-wrap">
     <h2>🔒 Parent Access</h2>
@@ -358,7 +353,6 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
   </div>
 </div>
 
-<!-- DASHBOARD -->
 <div id="dash-screen" class="screen">
   <div class="dash-wrap">
     <div class="dash-header">
@@ -424,7 +418,6 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
   </div>
 </div>
 
-<!-- PREMIUM POPUP -->
 <div class="popup-overlay" id="premium-popup">
   <div class="popup">
     <div class="popup-icon">⭐</div>
@@ -443,140 +436,163 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
   </div>
 </div>
 
-</div>
-<div id="toast"></div>
+</div><div id="toast"></div>
 
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+
 <script>
-// ═══ FIREBASE COMPAT ════════════════════
+// ═══════════════════════════════════════════════════
+//  FIREBASE INIT
+// ═══════════════════════════════════════════════════
 const firebaseConfig = {
-  apiKey: "AIzaSyDXmAT5fdeFokrKe3r7rerL0GGLziAYkd0",
-  authDomain: "durable-sound-463120.firebaseapp.com",
-  projectId: "durable-sound-463120",
-  storageBucket: "durable-sound-463120-v8.firebasestorage.app",
+  apiKey:            "AIzaSyDXmAT5fdeFokrKe3r7rerL0GGLziAYkd0",
+  authDomain:        "durable-sound-463120-v8.firebaseapp.com",
+  projectId:         "durable-sound-463120-v8",
+  storageBucket:     "durable-sound-463120-v8.appspot.com",
   messagingSenderId: "204320277724",
-  appId: "1:204320277724:web:237b5a30c0f99db2af6019"
+  appId:             "1:204320277724:web:237b5a30c0f99db2af6019"
 };
+
+// Initialise Firebase with single config instantiation
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
-const db = firebase.firestore();
+const db   = firebase.firestore();
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDXmAT5fdeFokrKe3r7rerL0GGLziAYkd0",
-  authDomain: "durable-sound-463120.firebaseapp.com",
-  projectId: "durable-sound-463120",
-  storageBucket: "durable-sound-463120-v8.firebasestorage.app",
-  messagingSenderId: "204320277724",
-  appId: "1:204320277724:web:237b5a30c0f99db2af6019",
-  measurementId: "G-4REP27S4XW"
+// ═══════════════════════════════════════════════════
+//  AUDIO
+// ═══════════════════════════════════════════════════
+let audioCtx = null;
+function getACtx() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  return audioCtx;
+}
+function tone(f, t, d, v, dl = 0) {
+  try {
+    const c = getACtx(), o = c.createOscillator(), g = c.createGain();
+    o.connect(g); g.connect(c.destination);
+    o.type = t; o.frequency.setValueAtTime(f, c.currentTime + dl);
+    g.gain.setValueAtTime(v, c.currentTime + dl);
+    g.gain.exponentialRampToValueAtTime(.001, c.currentTime + dl + d);
+    o.start(c.currentTime + dl); o.stop(c.currentTime + dl + d);
+  } catch(e) {}
+}
+function sfxCorrect() { if (!ST.sound) return; [523,659,784,1047].forEach((f,i) => tone(f,'sine',.15,.4,i*.12)); }
+function sfxWrong()   { if (!ST.sound) return; tone(200,'sawtooth',.2,.3,0); tone(150,'sawtooth',.2,.3,.18); }
+function sfxStar()    { if (!ST.sound) return; [800,1000,1200,1500,1200,1000,800].forEach((f,i) => tone(f,'sine',.1,.25,i*.06)); }
+function sfxClick()   { if (!ST.sound) return; tone(440,'sine',.07,.2); }
+function sfxLevelUp() { if (!ST.sound) return; [262,330,392,523,659,784,1047].forEach((f,i) => tone(f,'triangle',.18,.35,i*.08)); }
+document.addEventListener('touchstart', () => { try { getACtx(); } catch(e) {} }, { once: true });
+document.addEventListener('click',      () => { try { getACtx(); } catch(e) {} }, { once: true });
+
+// ═══════════════════════════════════════════════════
+//  SPEECH
+// ═══════════════════════════════════════════════════
+function sayText(text, lang = 'en-US', rate = 0.72, onEnd) {
+  if (!ST.speech || !('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  setTimeout(() => {
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = lang; u.rate = rate; u.pitch = 1.1; u.volume = 1.0;
+    const voices = window.speechSynthesis.getVoices();
+    const v = voices.find(x => x.lang === lang) || voices.find(x => x.lang.startsWith(lang.split('-')[0])) || null;
+    if (v) u.voice = v;
+    if (onEnd) u.onend = onEnd;
+    window.speechSynthesis.speak(u);
+  }, 200);
+}
+
+// ═══════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════
+let currentUser = null;
+let isGuest     = false;
+
+const ST = {
+  childName: 'Kid', pin: '1234', dailyGoal: 15,
+  totalStars: 0, totalAnswers: 0, correctAnswers: 0,
+  levelsDone: 0, sessionStart: null, todayMinutes: 0,
+  starsPerDay: [0,0,0,0,0,0,0],
+  sound: true, speech: true, isPremium: false, premiumCode: ''
 };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+const completed = { abc: 0, numbers: 0, coloring: 0, arabic: 0, math: 0 };
 
-// ═══ AUDIO ═══════════════════════════════
-let audioCtx=null;
-function getACtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();return audioCtx;}
-function tone(f,t,d,v,dl=0){try{const c=getACtx(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type=t;o.frequency.setValueAtTime(f,c.currentTime+dl);g.gain.setValueAtTime(v,c.currentTime+dl);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+dl+d);o.start(c.currentTime+dl);o.stop(c.currentTime+dl+d);}catch(e){}}
-function sfxCorrect(){if(!ST.sound)return;[523,659,784,1047].forEach((f,i)=>tone(f,'sine',.15,.4,i*.12));}
-function sfxWrong(){if(!ST.sound)return;tone(200,'sawtooth',.2,.3,0);tone(150,'sawtooth',.2,.3,.18);}
-function sfxStar(){if(!ST.sound)return;[800,1000,1200,1500,1200,1000,800].forEach((f,i)=>tone(f,'sine',.1,.25,i*.06));}
-function sfxClick(){if(!ST.sound)return;tone(440,'sine',.07,.2);}
-function sfxLevelUp(){if(!ST.sound)return;[262,330,392,523,659,784,1047].forEach((f,i)=>tone(f,'triangle',.18,.35,i*.08));}
-document.addEventListener('touchstart',()=>{try{getACtx();}catch(e){}},{once:true});
-document.addEventListener('click',()=>{try{getACtx();}catch(e){}},{once:true});
+const VALID_CODES = [
+  'KIDPRO2024','ARABIC2024','PREMIUM99','MATH2024',
+  'KL-X7K2-M9P4','KL-A3B8-C5D1','KL-P2Q7-R4S6',
+  'KL-M5N1-K8L3','KL-T9U2-V6W4','KL-E1F5-G7H2'
+];
+const PREMIUM_URL = 'https://ayuubgaafaa.github.io/KidLearnPro/premium.html';
 
-// ═══ SPEECH ═══════════════════════════════
-function sayText(text,lang='en-US',rate=0.72,onEnd){
-  if(!ST.speech||!('speechSynthesis' in window))return;
-  window.speechSynthesis.cancel();
-  setTimeout(()=>{
-    const u=new SpeechSynthesisUtterance(text);
-    u.lang=lang;u.rate=rate;u.pitch=1.1;u.volume=1.0;
-    const voices=window.speechSynthesis.getVoices();
-    const v=voices.find(x=>x.lang===lang)||voices.find(x=>x.lang.startsWith(lang.split('-')[0]))||null;
-    if(v)u.voice=v;
-    if(onEnd)u.onend=onEnd;
-    window.speechSynthesis.speak(u);
-  },200);
+// ═══════════════════════════════════════════════════
+//  FIRESTORE SAVE / LOAD
+// ═══════════════════════════════════════════════════
+async function saveToCloud() {
+  if (!currentUser || isGuest) return;
+  try {
+    await db.collection('users').doc(currentUser.uid).set({
+      childName:      ST.childName,
+      totalStars:     ST.totalStars,
+      totalAnswers:   ST.totalAnswers,
+      correctAnswers: ST.correctAnswers,
+      levelsDone:     ST.levelsDone,
+      todayMinutes:   ST.todayMinutes,
+      isPremium:      ST.isPremium,
+      premiumCode:    ST.premiumCode,
+      pin:            ST.pin,
+      dailyGoal:      ST.dailyGoal,
+      sound:          ST.sound,
+      speech:         ST.speech,
+      completed:      { ...completed },
+      updatedAt:      new Date().toISOString()
+    }, { merge: true });
+  } catch(e) { console.log('Save error:', e.code, e.message); }
 }
 
-// ═══ STATE ════════════════════════════════
-let currentUser = null;
-let isGuest = false;
-const ST={childName:'Kid',pin:'1234',dailyGoal:15,totalStars:0,totalAnswers:0,correctAnswers:0,levelsDone:0,sessionStart:null,todayMinutes:0,starsPerDay:[0,0,0,0,0,0,0],sound:true,speech:true,isPremium:false,premiumCode:''};
-const completed={abc:0,numbers:0,coloring:0,arabic:0,math:0};
-
-const VALID_CODES=['KIDPRO2024','ARABIC2024','PREMIUM99','MATH2024','KL-X7K2-M9P4','KL-A3B8-C5D1','KL-P2Q7-R4S6','KL-M5N1-K8L3','KL-T9U2-V6W4','KL-E1F5-G7H2'];
-const PREMIUM_URL='https://ayuubgaafaa.github.io/KidLearnPro/premium.html';
-
-// ═══ FIREBASE SAVE/LOAD ═══════════════════
-async function saveToCloud(){
-  const user = auth.currentUser;
-  if(!user||isGuest)return;
-  try{
-    await db.collection('users').doc(user.uid).set({
-      childName:ST.childName,
-      totalStars:ST.totalStars,
-      totalAnswers:ST.totalAnswers,
-      correctAnswers:ST.correctAnswers,
-      levelsDone:ST.levelsDone,
-      todayMinutes:ST.todayMinutes,
-      isPremium:ST.isPremium,
-      premiumCode:ST.premiumCode,
-      pin:ST.pin,
-      dailyGoal:ST.dailyGoal,
-      sound:ST.sound,
-      speech:ST.speech,
-      completed:{...completed},
-      updatedAt:new Date().toISOString()
-    },{merge:true});
-  }catch(e){console.log('Save error:',e.code,e.message);}
-}
-
-async function loadFromCloud(){
-  const user = auth.currentUser;
-  if(!user||isGuest)return;
-  try{
-    const snap=await db.collection('users').doc(user.uid).get();
-    if(snap.exists){
-      const d=snap.data();
-      if(d.childName)ST.childName=d.childName;
-      if(d.totalStars)ST.totalStars=d.totalStars;
-      if(d.totalAnswers)ST.totalAnswers=d.totalAnswers;
-      if(d.correctAnswers)ST.correctAnswers=d.correctAnswers;
-      if(d.levelsDone)ST.levelsDone=d.levelsDone;
-      if(d.todayMinutes)ST.todayMinutes=d.todayMinutes;
-      if(d.isPremium)ST.isPremium=d.isPremium;
-      if(d.premiumCode)ST.premiumCode=d.premiumCode;
-      if(d.pin)ST.pin=d.pin;
-      if(d.dailyGoal)ST.dailyGoal=d.dailyGoal;
-      if(typeof d.sound==='boolean')ST.sound=d.sound;
-      if(typeof d.speech==='boolean')ST.speech=d.speech;
-      if(d.completed)Object.assign(completed,d.completed);
+async function loadFromCloud() {
+  if (!currentUser || isGuest) return;
+  try {
+    const snap = await db.collection('users').doc(currentUser.uid).get();
+    if (snap.exists) {
+      const d = snap.data();
+      if (d.childName)               ST.childName      = d.childName;
+      if (d.totalStars)              ST.totalStars     = d.totalStars;
+      if (d.totalAnswers)            ST.totalAnswers   = d.totalAnswers;
+      if (d.correctAnswers)          ST.correctAnswers = d.correctAnswers;
+      if (d.levelsDone)              ST.levelsDone     = d.levelsDone;
+      if (d.todayMinutes)            ST.todayMinutes   = d.todayMinutes;
+      if (d.isPremium)               ST.isPremium      = d.isPremium;
+      if (d.premiumCode)             ST.premiumCode    = d.premiumCode;
+      if (d.pin)                     ST.pin            = d.pin;
+      if (d.dailyGoal)               ST.dailyGoal      = d.dailyGoal;
+      if (typeof d.sound   === 'boolean') ST.sound   = d.sound;
+      if (typeof d.speech  === 'boolean') ST.speech  = d.speech;
+      if (d.completed) Object.assign(completed, d.completed);
     }
-  }catch(e){console.log('Load error:',e.code,e.message);}
+  } catch(e) { console.log('Load error:', e.code, e.message); }
 }
 
-// ═══ LEADERBOARD ══════════════════════════
-async function loadLeaderboard(){
-  const list=document.getElementById('lb-list');
-  list.innerHTML='<p style="text-align:center;color:#aaa;padding:20px;">Loading...</p>';
-  try{
-    const snap=await db.collection('users').orderBy('totalStars','desc').limit(10).get();
-    if(snap.empty){list.innerHTML='<p style="text-align:center;color:#aaa;padding:20px;">No players yet!</p>';return;}
-    const medals=['🥇','🥈','🥉'];
-    const rankColors=['gold','silver','bronze'];
-    let html='';let rank=1;
-    snap.forEach(d=>{
-      const data=d.data();
-      const isMe=currentUser&&d.id===currentUser.uid;
-      const medal=rank<=3?medals[rank-1]:rank;
-      const rankColor=rank<=3?rankColors[rank-1]:'';
-      html+=`<div class="lb-item ${isMe?'me':''}">
+// ═══════════════════════════════════════════════════
+//  LEADERBOARD
+// ═══════════════════════════════════════════════════
+async function loadLeaderboard() {
+  const list = document.getElementById('lb-list');
+  list.innerHTML = '<p style="text-align:center;color:#aaa;padding:20px;">Loading...</p>';
+  try {
+    const snap = await db.collection('users').orderBy('totalStars','desc').limit(10).get();
+    if (snap.empty) { list.innerHTML = '<p style="text-align:center;color:#aaa;padding:20px;">No players yet!</p>'; return; }
+    const medals = ['🥇','🥈','🥉'];
+    const rankColors = ['gold','silver','bronze'];
+    let html = '', rank = 1;
+    snap.forEach(d => {
+      const data = d.data();
+      const isMe = currentUser && d.id === currentUser.uid;
+      const medal = rank <= 3 ? medals[rank-1] : rank;
+      const rankColor = rank <= 3 ? rankColors[rank-1] : '';
+      html += `<div class="lb-item ${isMe?'me':''}">
         <div class="lb-rank ${rankColor}">${medal}</div>
         <div class="lb-avatar">👦</div>
         <div class="lb-info">
@@ -587,90 +603,84 @@ async function loadLeaderboard(){
       </div>`;
       rank++;
     });
-    list.innerHTML=html;
-  }catch(e){list.innerHTML='<p style="text-align:center;color:#aaa;padding:20px;">Could not load</p>';}
+    list.innerHTML = html;
+  } catch(e) { list.innerHTML = '<p style="text-align:center;color:#aaa;padding:20px;">Could not load. Check Firestore rules.</p>'; }
 }
 
-// ═══ AUTH ══════════════════════════════════
-window.switchAuthTab=(tab,el)=>{
-  document.querySelectorAll('.auth-tab').forEach(b=>b.classList.remove('active'));
+// ═══════════════════════════════════════════════════
+//  AUTH  —  Compat Syntax Only
+// ═══════════════════════════════════════════════════
+function switchAuthTab(tab, el) {
+  document.querySelectorAll('.auth-tab').forEach(b => b.classList.remove('active'));
   el.classList.add('active');
-  document.getElementById('login-form').style.display=tab==='login'?'block':'none';
-  document.getElementById('register-form').style.display=tab==='register'?'block':'none';
-  document.getElementById('auth-error').textContent='';
-};
+  document.getElementById('login-form').style.display    = tab === 'login'    ? 'block' : 'none';
+  document.getElementById('register-form').style.display = tab === 'register' ? 'block' : 'none';
+  document.getElementById('auth-error').textContent = '';
+}
+window.switchAuthTab = switchAuthTab;
 
-window.doLogin=async()=>{
-  const email=document.getElementById('login-email').value.trim();
-  const pass=document.getElementById('login-pass').value;
-  const err=document.getElementById('auth-error');
-  if(!email||!pass){err.textContent='Please fill all fields';return;}
-  try{
-    err.textContent='Logging in...';
-    await signInWithEmailAndPassword(auth,email,pass);
-  }catch(e){
-    err.textContent=e.code==='auth/invalid-credential'?'Wrong email or password':e.message;
+async function doLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const pass  = document.getElementById('login-pass').value;
+  const err   = document.getElementById('auth-error');
+  if (!email || !pass) { err.textContent = 'Please fill all fields'; return; }
+  try {
+    err.textContent = 'Logging in…';
+    await auth.signInWithEmailAndPassword(email, pass);
+  } catch(e) {
+    err.textContent = (e.code === 'auth/invalid-credential' || e.code === 'auth/wrong-password' || e.code === 'auth/user-not-found')
+      ? 'Wrong email or password' : e.message;
   }
-};
+}
+window.doLogin = doLogin;
 
-window.doRegister=async()=>{
-  const email=document.getElementById('reg-email').value.trim();
-  const pass=document.getElementById('reg-pass').value;
-  const child=document.getElementById('reg-child').value.trim()||'Kid';
-  const err=document.getElementById('auth-error');
-  if(!email||!pass){err.textContent='Please fill all fields';return;}
-  if(pass.length<6){err.textContent='Password must be at least 6 characters';return;}
-  try{
-    err.textContent='Creating account...';
-    const cred=await createUserWithEmailAndPassword(auth,email,pass);
-    ST.childName=child;
+async function doRegister() {
+  const email = document.getElementById('reg-email').value.trim();
+  const pass  = document.getElementById('reg-pass').value;
+  const child = document.getElementById('reg-child').value.trim() || 'Kid';
+  const err   = document.getElementById('auth-error');
+  if (!email || !pass) { err.textContent = 'Please fill all fields'; return; }
+  if (pass.length < 6) { err.textContent = 'Password must be at least 6 characters'; return; }
+  try {
+    err.textContent = 'Creating account…';
+    await auth.createUserWithEmailAndPassword(email, pass);
+    ST.childName = child;
     await saveToCloud();
-  }catch(e){
-    err.textContent=e.code==='auth/email-already-in-use'?'Email already registered':e.message;
+  } catch(e) {
+    err.textContent = e.code === 'auth/email-already-in-use' ? 'Email already registered' : e.message;
   }
-};
+}
+window.doRegister = doRegister;
 
-window.continueAsGuest=()=>{
-  isGuest=true;
-  ST.childName='Guest';
-  showScreen('home-screen');
-  refreshHome();
-};
-
-window.doLogout=async()=>{
-  if(isGuest){isGuest=false;showScreen('auth-screen');return;}
-  await signOut(auth);
-};
-
-// Hide loading after 3s if firebase slow
-setTimeout(()=>{
-  const ls=document.getElementById('loading-screen');
-  if(ls&&ls.classList.contains('active')){
-    ls.classList.remove('active');
-    showScreen('auth-screen');
+async function doGoogleSignIn() {
+  const provider = new firebase.auth.GoogleAuthProvider();
+  try {
+    document.getElementById('auth-error').textContent = 'Opening Google sign-in…';
+    await auth.signInWithPopup(provider);
+  } catch(e) {
+    document.getElementById('auth-error').textContent =
+      e.code === 'auth/popup-closed-by-user' ? 'Sign-in cancelled.' : e.message;
   }
-},3000);
+}
+window.doGoogleSignIn = doGoogleSignIn;
 
-// Auth state listener
-onAuthStateChanged(auth,async(user)=>{
-  const ls=document.getElementById('loading-screen');
-  if(ls) ls.classList.remove('active');
-  if(user){
-    currentUser=user;
-    isGuest=false;
-    await loadFromCloud();
-    showScreen('home-screen');
-    refreshHome();
-    updatePremiumUI();
-  } else if(!isGuest){
-    currentUser=null;
-    showScreen('auth-screen');
-  }
-});
+function continueAsGuest() {
+  isGuest = true; ST.childName = 'Guest';
+  showScreen('home-screen'); refreshHome();
+}
+window.continueAsGuest = continueAsGuest;
 
-// ═══ GAME DATA ════════════════════════════
-const gameData={
-  abc:[
+async function doLogout() {
+  if (isGuest) { isGuest = false; showScreen('auth-screen'); return; }
+  await auth.signOut();
+}
+window.doLogout = doLogout;
+
+// ═══════════════════════════════════════════════════
+//  GAME DATA
+// ═══════════════════════════════════════════════════
+const gameData = {
+  abc: [
     {q:"A",word:"Apple",    speech:"A.  Apple",     options:["🍎","🍌","🐱","🐕"],a:"🍎"},
     {q:"B",word:"Banana",   speech:"B.  Banana",    options:["🚗","🍌","🥚","🦊"],a:"🍌"},
     {q:"C",word:"Cat",      speech:"C.  Cat",       options:["🍇","🦆","🐱","🦁"],a:"🐱"},
@@ -698,19 +708,19 @@ const gameData={
     {q:"Y",word:"Yak",      speech:"Y.  Yak",       options:["🐂","🐄","🐐","🐑"],a:"🐂"},
     {q:"Z",word:"Zebra",    speech:"Z.  Zebra",     options:["🦓","🐎","🐴","🦌"],a:"🦓"},
   ],
-  numbers:[
-    {q:"1",word:"One",  speech:"One.  One apple",           options:["🍎","🍌🍌","🐱🐱🐱","🍕🍕🍕🍕"],a:"🍎"},
-    {q:"2",word:"Two",  speech:"Two.  Two bananas",         options:["🍇","🍌🍌","🥚","🦊"],a:"🍌🍌"},
-    {q:"3",word:"Three",speech:"Three.  Three cats",        options:["🍇","🦆","🐱🐱🐱","🦁"],a:"🐱🐱🐱"},
-    {q:"4",word:"Four", speech:"Four.  Four dogs",          options:["🐕🐕🐕🐕","🐘","🐸","🐐"],a:"🐕🐕🐕🐕"},
-    {q:"5",word:"Five", speech:"Five.  Five fish",          options:["🐟🐟🐟🐟🐟","🐤","🦊","🐝"],a:"🐟🐟🐟🐟🐟"},
-    {q:"6",word:"Six",  speech:"Six.  Six birds",           options:["🍎","🐦🐦🐦🐦🐦🐦","🍇","🍌"],a:"🐦🐦🐦🐦🐦🐦"},
-    {q:"7",word:"Seven",speech:"Seven.  Seven frogs",       options:["🐸🐸🐸🐸🐸🐸🐸","🦁","🐢","🐘"],a:"🐸🐸🐸🐸🐸🐸🐸"},
-    {q:"8",word:"Eight",speech:"Eight.  Eight butterflies", options:["🦋🦋🦋🦋🦋🦋🦋🦋","🐝","🐛","🐞"],a:"🦋🦋🦋🦋🦋🦋🦋🦋"},
-    {q:"9",word:"Nine", speech:"Nine.  Nine stars",         options:["⭐","🌙","☁️","⭐⭐⭐⭐⭐⭐⭐⭐⭐"],a:"⭐⭐⭐⭐⭐⭐⭐⭐⭐"},
-    {q:"10",word:"Ten", speech:"Ten.  Ten balloons",        options:["🎈🎈🎈🎈🎈🎈🎈🎈🎈🎈","🚗","🧸","⚽"],a:"🎈🎈🎈🎈🎈🎈🎈🎈🎈🎈"},
+  numbers: [
+    {q:"1",word:"One",  speech:"One.  One apple",            options:["🍎","🍌🍌","🐱🐱🐱","🍕🍕🍕🍕"],a:"🍎"},
+    {q:"2",word:"Two",  speech:"Two.  Two bananas",          options:["🍇","🍌🍌","🥚","🦊"],a:"🍌🍌"},
+    {q:"3",word:"Three",speech:"Three.  Three cats",         options:["🍇","🦆","🐱🐱🐱","🦁"],a:"🐱🐱🐱"},
+    {q:"4",word:"Four", speech:"Four.  Four dogs",           options:["🐕🐕🐕🐕","🐘","🐸","🐐"],a:"🐕🐕🐕🐕"},
+    {q:"5",word:"Five", speech:"Five.  Five fish",           options:["🐟🐟🐟🐟🐟","🐤","🦊","🐝"],a:"🐟🐟🐟🐟🐟"},
+    {q:"6",word:"Six",  speech:"Six.  Six birds",            options:["🍎","🐦🐦🐦🐦🐦🐦","🍇","🍌"],a:"🐦🐦🐦🐦🐦🐦"},
+    {q:"7",word:"Seven",speech:"Seven.  Seven frogs",        options:["🐸🐸🐸🐸🐸🐸🐸","🦁","🐢","🐘"],a:"🐸🐸🐸🐸🐸🐸🐸"},
+    {q:"8",word:"Eight",speech:"Eight.  Eight butterflies",  options:["🦋🦋🦋🦋🦋🦋🦋🦋","🐝","🐛","🐞"],a:"🦋🦋🦋🦋🦋🦋🦋🦋"},
+    {q:"9",word:"Nine", speech:"Nine.  Nine stars",          options:["⭐","🌙","☁️","⭐⭐⭐⭐⭐⭐⭐⭐⭐"],a:"⭐⭐⭐⭐⭐⭐⭐⭐⭐"},
+    {q:"10",word:"Ten", speech:"Ten.  Ten balloons",         options:["🎈🎈🎈🎈🎈🎈🎈🎈🎈🎈","🚗","🧸","⚽"],a:"🎈🎈🎈🎈🎈🎈🎈🎈🎈🎈"},
   ],
-  coloring:[
+  coloring: [
     {q:"🦁",word:"Lion",   speech:"What sound does the Lion make?",   options:["Roar","Meow","Bark","Cluck"],a:"Roar",  textOpts:true},
     {q:"🐱",word:"Cat",    speech:"What sound does the Cat make?",    options:["Oink","Meow","Moo","Quack"], a:"Meow",  textOpts:true},
     {q:"🐕",word:"Dog",    speech:"What sound does the Dog make?",    options:["Neigh","Roar","Bark","Bleat"],a:"Bark", textOpts:true},
@@ -723,317 +733,403 @@ const gameData={
     {q:"🐝",word:"Bee",    speech:"What sound does the Bee make?",    options:["Chirp","Buzz","Roar","Hiss"],a:"Buzz",  textOpts:true},
     {q:"🔴",word:"Red",    speech:"What color is this?",options:["Blue","Red","Green","Yellow"],  a:"Red",   textOpts:true},
     {q:"🔵",word:"Blue",   speech:"What color is this?",options:["Red","Green","Blue","Black"],   a:"Blue",  textOpts:true},
-    {q:"🟢",word:"Green",  speech:"What color is this?",options:["Yellow","White","Green","Red"],  a:"Green", textOpts:true},
+    {q:"🟢",word:"Green",  speech:"What color is this?",options:["Yellow","White","Green","Red"], a:"Green", textOpts:true},
     {q:"🟡",word:"Yellow", speech:"What color is this?",options:["Blue","Yellow","Pink","Orange"],a:"Yellow",textOpts:true},
     {q:"⚫",word:"Black",  speech:"What color is this?",options:["Black","White","Brown","Purple"],a:"Black", textOpts:true},
   ],
-  arabic:[
+  arabic: [
     {q:"أ",word:"أسد",  speech:"أَلِف.  أَسَد",   speechLang:"ar-SA",options:["🦁","🦆","🍎","🐪"],a:"🦁"},
     {q:"ب",word:"بطة",  speech:"بَاء.  بَطَّة",   speechLang:"ar-SA",options:["📆","🦆","🍇","🐱"],a:"🦆"},
     {q:"ت",word:"تفاحة",speech:"تَاء.  تُفَّاحَة",speechLang:"ar-SA",options:["🍎","🍌","🥕","🥒"],a:"🍎"},
     {q:"ث",word:"ثعلب", speech:"ثَاء.  ثَعْلَب",  speechLang:"ar-SA",options:["🦊","🐰","🐺","🦁"],a:"🦊"},
-    {q:"ج",word:"جمل",  speech:"جِيم.  جَمَل",   speechLang:"ar-SA",options:["🐴","🐪","🐮","🐷"],a:"🐪"},
-    {q:"ح",word:"حصان", speech:"حَاء.  حِصَان",  speechLang:"ar-SA",options:["🐴","🐐","🐑","🐂"],a:"🐴"},
-    {q:"خ",word:"خروف", speech:"خَاء.  خَرُوف",  speechLang:"ar-SA",options:["🐑","🐺","🦊","🐻"],a:"🐑"},
-    {q:"د",word:"دب",   speech:"دَال.  دُبّ",    speechLang:"ar-SA",options:["🐻","🦁","🐯","🐱"],a:"🐻"},
-    {q:"ذ",word:"ذئب",  speech:"ذَال.  ذِئْب",   speechLang:"ar-SA",options:["🐺","🦊","🐕","🐱"],a:"🐺"},
-    {q:"ر",word:"رمان", speech:"رَاء.  رُمَّان",  speechLang:"ar-SA",options:["🍉","🍇","🍌","🍎"],a:"🍇"},
-    {q:"ز",word:"زرافة",speech:"زَاي.  زَرَافَة", speechLang:"ar-SA",options:["🦒","🐘","🐪","🐎"],a:"🦒"},
-    {q:"س",word:"سمكة", speech:"سِين.  سَمَكَة",  speechLang:"ar-SA",options:["🐟","🦀","🐙","🐋"],a:"🐟"},
-    {q:"ش",word:"شمس",  speech:"شِين.  شَمْس",   speechLang:"ar-SA",options:["☀️","🌙","☁️","⭐"],a:"☀️"},
-    {q:"ص",word:"صقر",  speech:"صَاد.  صَقْر",   speechLang:"ar-SA",options:["🦅","🦉","🕊️","🦆"],a:"🦅"},
-    {q:"ض",word:"ضفدع", speech:"ضَاد.  ضُفْدَع",  speechLang:"ar-SA",options:["🐸","🐢","🐍","🦎"],a:"🐸"},
-    {q:"ط",word:"طائرة",speech:"طَاء.  طَائِرَة", speechLang:"ar-SA",options:["🚀","🚗","✈️","🚢"],a:"✈️"},
-    {q:"ظ",word:"ظرف",  speech:"ظَاء.  ظَرْف",   speechLang:"ar-SA",options:["✉️","📦","📜","📝"],a:"✉️"},
-    {q:"ع",word:"عنب",  speech:"عَيْن.  عِنَب",  speechLang:"ar-SA",options:["🍇","🍒","🍓","🍉"],a:"🍇"},
-    {q:"غ",word:"غزال", speech:"غَيْن.  غَزَال",  speechLang:"ar-SA",options:["🦌","🐐","🐑","🐴"],a:"🦌"},
-    {q:"ف",word:"فيل",  speech:"فَاء.  فِيل",    speechLang:"ar-SA",options:["🐘","🦒","🦏","🦛"],a:"🐘"},
-    {q:"ق",word:"قرد",  speech:"قَاف.  قِرْد",   speechLang:"ar-SA",options:["🐒","🦍","🦧","🐱"],a:"🐒"},
-    {q:"ك",word:"كتاب", speech:"كَاف.  كِتَاب",  speechLang:"ar-SA",options:["📚","✏️","🎨","🎒"],a:"📚"},
-    {q:"ل",word:"ليمون",speech:"لَام.  لَيْمُون", speechLang:"ar-SA",options:["🍋","🍏","🍐","🍊"],a:"🍋"},
-    {q:"م",word:"موز",  speech:"مِيم.  مَوْز",   speechLang:"ar-SA",options:["🍌","🍍","🥭","🥝"],a:"🍌"},
-    {q:"ن",word:"نمر",  speech:"نُون.  نَمِر",   speechLang:"ar-SA",options:["🐯","🦁","🐆","🐱"],a:"🐯"},
-    {q:"هـ",word:"هلال",speech:"هَاء.  هِلَال",  speechLang:"ar-SA",options:["🌙","☀️","⭐","🌍"],a:"🌙"},
-    {q:"و",word:"وردة", speech:"وَاو.  وَرْدَة",  speechLang:"ar-SA",options:["🌹","🌻","🌲","🌱"],a:"🌹"},
-    {q:"ي",word:"يد",   speech:"يَاء.  يَد",     speechLang:"ar-SA",options:["👋","👀","👃","👂"],a:"👋"},
+    {q:"ج",word:"جمل",  speech:"جِيم.  جَمَل",    speechLang:"ar-SA",options:["🐴","🐪","🐮","🐷"],a:"🐪"},
+    {q:"ح",word:"حصان", speech:"حَاء.  حِصَان",   speechLang:"ar-SA",options:["🐴","🐐","🐑","🐂"],a:"🐴"},
+    {q:"خ",word:"خروف", speech:"خَاء.  خَرُوف",   speechLang:"ar-SA",options:["🐑","🐺","🦊","🐻"],a:"🐑"},
+    {q:"د",word:"دب",   speech:"دَال.  دُبّ",     speechLang:"ar-SA",options:["🐻","🦁","🐯","🐱"],a:"🐻"},
+    {q:"ذ",word:"ذئب",  speech:"ذَال.  ذِئْب",    speechLang:"ar-SA",options:["🐺","🦊","🐕","🐱"],a:"🐺"},
+    {q:"ر",word:"رمان", speech:"رَاء.  رُمَّان",   speechLang:"ar-SA",options:["🍉","🍇","🍌","🍎"],a:"🍇"},
+    {q:"ز",word:"زرافة",speech:"زَاي.  زَرَافَة",  speechLang:"ar-SA",options:["🦒","🐘","🐪","🐎"],a:"🦒"},
+    {q:"س",word:"سمكة", speech:"سِين.  سَمَكَة",   speechLang:"ar-SA",options:["🐟","🦀","🐙","🐋"],a:"🐟"},
+    {q:"ش",word:"شمس",  speech:"شِين.  شَمْس",    speechLang:"ar-SA",options:["☀️","🌙","☁️","⭐"],a:"☀️"},
+    {q:"ص",word:"صقر",  speech:"صَاد.  صَقْر",    speechLang:"ar-SA",options:["🦅","🦉","🕊️","🦆"],a:"🦅"},
+    {q:"ض",word:"ضفدع", speech:"ضَاد.  ضُفْدَع",   speechLang:"ar-SA",options:["🐸","🐢","🐍","🦎"],a:"🐸"},
+    {q:"ط",word:"طائرة",speech:"طَاء.  طَائِرَة",  speechLang:"ar-SA",options:["🚀","🚗","✈️","🚢"],a:"✈️"},
+    {q:"ظ",word:"ظرف",  speech:"ظَاء.  ظَرْف",    speechLang:"ar-SA",options:["✉️","📦","📜","📝"],a:"✉️"},
+    {q:"ع",word:"عنب",  speech:"عَيْن.  عِنَب",   speechLang:"ar-SA",options:["🍇","🍒","🍓","🍉"],a:"🍇"},
+    {q:"غ",word:"غزال", speech:"غَيْن.  غَزَال",   speechLang:"ar-SA",options:["🦌","🐐","🐑","🐴"],a:"🦌"},
+    {q:"ف",word:"فيل",  speech:"فَاء.  فِيل",     speechLang:"ar-SA",options:["🐘","🦒","🦏","🦛"],a:"🐘"},
+    {q:"ق",word:"قرد",  speech:"قَاف.  قِرْد",    speechLang:"ar-SA",options:["🐒","🦍","🦧","🐱"],a:"🐒"},
+    {q:"ك",word:"كتاب", speech:"كَاف.  كِتَاب",   speechLang:"ar-SA",options:["📚","✏️","🎨","🎒"],a:"📚"},
+    {q:"ل",word:"ليمون",speech:"لَام.  لَيْمُون",  speechLang:"ar-SA",options:["🍋","🍏","🍐","🍊"],a:"🍋"},
+    {q:"م",word:"موز",  speech:"مِيم.  مَوْز",    speechLang:"ar-SA",options:["🍌","🍍","🥭","🥝"],a:"🍌"},
+    {q:"ن",word:"نمر",  speech:"نُون.  نَمِر",    speechLang:"ar-SA",options:["🐯","🦁","🐆","🐱"],a:"🐯"},
+    {q:"هـ",word:"هلال",speech:"هَاء.  هِلَال",   speechLang:"ar-SA",options:["🌙","☀️","⭐","🌍"],a:"🌙"},
+    {q:"و",word:"وردة", speech:"وَاو.  وَرْدَة",   speechLang:"ar-SA",options:["🌹","🌻","🌲","🌱"],a:"🌹"},
+    {q:"ي",word:"يد",   speech:"يَاء.  يَد",      speechLang:"ar-SA",options:["👋","👀","👃","👂"],a:"👋"},
   ],
-  math:(()=>{
-    const levels=[];
-    for(let i=1;i<=25;i++){
-      const a=Math.floor(Math.random()*10)+1,b=Math.floor(Math.random()*10)+1,ans=a+b;
-      const wrong=[ans+1,ans-1,ans+2,ans-2].filter(x=>x>0&&x!==ans);
-      const opts=[ans,wrong[0],wrong[1],wrong[2]].sort(()=>Math.random()-.5);
+  math: (() => {
+    const levels = [];
+    for (let i = 0; i < 25; i++) {
+      const a = Math.floor(Math.random()*10)+1, b = Math.floor(Math.random()*10)+1, ans = a+b;
+      const wrong = [ans+1,ans-1,ans+2,ans-2].filter(x => x>0 && x!==ans);
+      const opts  = [ans, wrong[0], wrong[1], wrong[2]].sort(() => Math.random()-.5);
       levels.push({q:`${a} + ${b}`,word:`${a} plus ${b}`,speech:`What is ${a} plus ${b}?`,options:opts.map(String),a:String(ans),textOpts:true});
     }
-    for(let i=1;i<=25;i++){
-      const a=Math.floor(Math.random()*15)+5,b=Math.floor(Math.random()*(a-1))+1,ans=a-b;
-      const wrong=[ans+1,ans-1,ans+2,ans-2].filter(x=>x>=0&&x!==ans);
-      const opts=[ans,wrong[0],wrong[1],wrong[2]].sort(()=>Math.random()-.5);
+    for (let i = 0; i < 25; i++) {
+      const a = Math.floor(Math.random()*15)+5, b = Math.floor(Math.random()*(a-1))+1, ans = a-b;
+      const wrong = [ans+1,ans-1,ans+2,ans-2].filter(x => x>=0 && x!==ans);
+      const opts  = [ans, wrong[0], wrong[1], wrong[2]].sort(() => Math.random()-.5);
       levels.push({q:`${a} - ${b}`,word:`${a} minus ${b}`,speech:`What is ${a} minus ${b}?`,options:opts.map(String),a:String(ans),textOpts:true});
     }
     return levels;
-  })(),
+  })()
 };
 
-// ═══ GAME RUNTIME ════════════════════════
-let curMode='abc',curIdx=0,mistakes=0,correctAns='',curSpeech='',curSpeechLang='en-US',streak=0;
+// ═══════════════════════════════════════════════════
+//  GAME RUNTIME
+// ═══════════════════════════════════════════════════
+let curMode = 'abc', curIdx = 0, mistakes = 0, correctAns = '',
+    curSpeech = '', curSpeechLang = 'en-US', streak = 0;
 
-function isPremiumUnlocked(){return ST.isPremium&&VALID_CODES.includes(ST.premiumCode.toUpperCase());}
+function isPremiumUnlocked() {
+  return ST.isPremium && VALID_CODES.includes(ST.premiumCode.toUpperCase());
+}
 
-window.showPremiumPopup=()=>document.getElementById('premium-popup').classList.add('show');
-window.closePremiumPopup=()=>document.getElementById('premium-popup').classList.remove('show');
-window.goToPremium=()=>window.open(PREMIUM_URL,'_blank');
+function showPremiumPopup()  { document.getElementById('premium-popup').classList.add('show'); }
+function closePremiumPopup() { document.getElementById('premium-popup').classList.remove('show'); }
+function goToPremium()       { window.open(PREMIUM_URL, '_blank'); }
+window.showPremiumPopup  = showPremiumPopup;
+window.closePremiumPopup = closePremiumPopup;
+window.goToPremium       = goToPremium;
 
-function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
-window.showScreen=showScreen;
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+window.showScreen = showScreen;
 
-function refreshHome(){
-  document.getElementById('child-name-display').textContent=`Hello, ${ST.childName}! 👋`;
-  document.getElementById('star-count').textContent=`⭐ ${ST.totalStars} stars collected`;
-  ['abc','numbers','coloring'].forEach(m=>{
-    const el=document.getElementById(m+'-progress');
-    if(el)el.textContent=`${completed[m]}/${gameData[m].length} levels`;
+function refreshHome() {
+  document.getElementById('child-name-display').textContent = `Hello, ${ST.childName}! 👋`;
+  document.getElementById('star-count').textContent = `⭐ ${ST.totalStars} stars collected`;
+  ['abc','numbers','coloring'].forEach(m => {
+    const el = document.getElementById(m+'-progress');
+    if (el) el.textContent = `${completed[m]}/${gameData[m].length} levels`;
   });
-  const premium=isPremiumUnlocked();
-  const upgradeBtn=document.getElementById('upgrade-btn');
-  if(upgradeBtn)upgradeBtn.style.display=premium?'none':'block';
 
-  const arabicCard=document.getElementById('card-arabic');
-  const mathCard=document.getElementById('card-math');
-  if(premium){
-    arabicCard.onclick=()=>startGame('arabic');
-    arabicCard.querySelector('p').textContent=`${completed.arabic}/${gameData.arabic.length} levels`;
+  const premium = isPremiumUnlocked();
+  const upgradeBtn = document.getElementById('upgrade-btn');
+  if (upgradeBtn) upgradeBtn.style.display = premium ? 'none' : 'block';
+
+  const arabicCard = document.getElementById('card-arabic');
+  const mathCard   = document.getElementById('card-math');
+  if (premium) {
+    arabicCard.onclick = () => startGame('arabic');
+    arabicCard.querySelector('p').textContent = `${completed.arabic}/${gameData.arabic.length} levels`;
     arabicCard.classList.remove('premium-card');
-    arabicCard.querySelector('.lock-badge').style.display='none';
-    mathCard.onclick=()=>startGame('math');
-    mathCard.querySelector('p').textContent=`${completed.math}/${gameData.math.length} levels`;
+    arabicCard.querySelector('.lock-badge').style.display = 'none';
+    mathCard.onclick = () => startGame('math');
+    mathCard.querySelector('p').textContent = `${completed.math}/${gameData.math.length} levels`;
     mathCard.classList.remove('premium-card');
-    mathCard.querySelector('.lock-badge').style.display='none';
+    mathCard.querySelector('.lock-badge').style.display = 'none';
   } else {
-    arabicCard.onclick=showPremiumPopup;
-    arabicCard.querySelector('p').textContent='28 levels 🔒';
+    arabicCard.onclick = showPremiumPopup;
+    arabicCard.querySelector('p').textContent = '28 levels 🔒';
     arabicCard.classList.add('premium-card');
-    arabicCard.querySelector('.lock-badge').style.display='';
-    mathCard.onclick=showPremiumPopup;
-    mathCard.querySelector('p').textContent='50 levels 🔒';
+    arabicCard.querySelector('.lock-badge').style.display = '';
+    mathCard.onclick = showPremiumPopup;
+    mathCard.querySelector('p').textContent = '50 levels 🔒';
     mathCard.classList.add('premium-card');
-    mathCard.querySelector('.lock-badge').style.display='';
+    mathCard.querySelector('.lock-badge').style.display = '';
   }
-  const tot=gameData.abc.length+gameData.numbers.length+gameData.coloring.length;
-  const don=completed.abc+completed.numbers+completed.coloring;
-  document.getElementById('main-progress').style.width=(don/tot*100)+'%';
+
+  const tot = gameData.abc.length + gameData.numbers.length + gameData.coloring.length;
+  const don = completed.abc + completed.numbers + completed.coloring;
+  document.getElementById('main-progress').style.width = (don / tot * 100) + '%';
 }
 
-function startGame(m){
-  if(!['abc','numbers','coloring'].includes(m)&&!isPremiumUnlocked()){showPremiumPopup();return;}
-  sfxClick();curMode=m;curIdx=0;streak=0;ST.sessionStart=Date.now();
-  const titles={abc:'ABC English',numbers:'Numbers 123',coloring:'More Fun',arabic:'Arabic عربي',math:'Math ➕➖'};
-  document.getElementById('game-title').textContent=titles[m];
-  showScreen('game-screen');loadLevel();
+function startGame(m) {
+  if (!['abc','numbers','coloring'].includes(m) && !isPremiumUnlocked()) { showPremiumPopup(); return; }
+  sfxClick(); curMode = m; curIdx = 0; streak = 0; ST.sessionStart = Date.now();
+  const titles = { abc:'ABC English', numbers:'Numbers 123', coloring:'More Fun', arabic:'Arabic عربي', math:'Math ➕➖' };
+  document.getElementById('game-title').textContent = titles[m];
+  showScreen('game-screen'); loadLevel();
 }
-window.startGame=startGame;
+window.startGame = startGame;
 
-function loadLevel(){
-  const data=gameData[curMode];
-  document.getElementById('quiz-options').style.display='grid';
-  document.getElementById('coloring-area').style.display='none';
-  document.getElementById('listen-hint').style.display='block';
-  if(curIdx>=data.length){sfxLevelUp();showToast('🎉 Section complete!');setTimeout(exitGame,2000);return;}
-  mistakes=0;
-  const q=data[curIdx];
-  correctAns=q.a;curSpeech=q.speech;curSpeechLang=q.speechLang||'en-US';
-  document.getElementById('level-lbl').textContent=`Level ${curIdx+1} of ${data.length}`;
-  document.getElementById('question').textContent=q.q;
-  document.getElementById('word-label').textContent=q.word||'';
-  const bar=document.getElementById('streak-bar');
-  bar.innerHTML='';
-  for(let i=0;i<Math.min(streak,10);i++){const d=document.createElement('div');d.className='streak-dot hit';bar.appendChild(d);}
-  const grid=document.getElementById('quiz-options');
-  grid.innerHTML='';
-  q.options.forEach(opt=>{
-    const b=document.createElement('button');
-    b.className='opt-btn'+(q.textOpts?' text-opt':'');
-    b.textContent=opt;b.onclick=()=>checkAnswer(b);
+function loadLevel() {
+  const data = gameData[curMode];
+  document.getElementById('quiz-options').style.display  = 'grid';
+  document.getElementById('coloring-area').style.display = 'none';
+  document.getElementById('listen-hint').style.display   = 'block';
+  if (curIdx >= data.length) { sfxLevelUp(); showToast('🎉 Section complete!'); setTimeout(exitGame, 2000); return; }
+  mistakes = 0;
+  const q = data[curIdx];
+  correctAns = q.a; curSpeech = q.speech; curSpeechLang = q.speechLang || 'en-US';
+  document.getElementById('level-lbl').textContent  = `Level ${curIdx+1} of ${data.length}`;
+  document.getElementById('question').textContent   = q.q;
+  document.getElementById('word-label').textContent = q.word || '';
+
+  const bar = document.getElementById('streak-bar');
+  bar.innerHTML = '';
+  for (let i = 0; i < Math.min(streak, 10); i++) {
+    const d = document.createElement('div'); d.className = 'streak-dot hit'; bar.appendChild(d);
+  }
+
+  const grid = document.getElementById('quiz-options');
+  grid.innerHTML = '';
+  q.options.forEach(opt => {
+    const b = document.createElement('button');
+    b.className = 'opt-btn' + (q.textOpts ? ' text-opt' : '');
+    b.textContent = opt; b.onclick = () => checkAnswer(b);
     grid.appendChild(b);
   });
-  if(ST.speech)setTimeout(speakQuestion,400);
+  if (ST.speech) setTimeout(speakQuestion, 400);
 }
 
-function speakQuestion(){
-  if(!ST.speech)return;
-  const qBox=document.getElementById('question');
+function speakQuestion() {
+  if (!ST.speech) return;
+  const qBox = document.getElementById('question');
   qBox.classList.add('speaking');
-  sayText(curSpeech,curSpeechLang,0.72,()=>qBox.classList.remove('speaking'));
+  sayText(curSpeech, curSpeechLang, 0.72, () => qBox.classList.remove('speaking'));
 }
-window.speakQuestion=speakQuestion;
+window.speakQuestion = speakQuestion;
 
-async function checkAnswer(btn){
+async function checkAnswer(btn) {
   ST.totalAnswers++;
-  if(btn.textContent===correctAns){
+  if (btn.textContent === correctAns) {
     btn.classList.add('correct');
-    ST.correctAnswers++;streak++;
-    const stars=mistakes===0?3:mistakes===1?2:1;
-    ST.totalStars+=stars;
-    completed[curMode]=Math.min(completed[curMode]+1,gameData[curMode].length);
-    ST.levelsDone++;ST.starsPerDay[6]=(ST.starsPerDay[6]||0)+stars;
-    sfxCorrect();if(stars===3)setTimeout(sfxStar,500);
-    showToast(stars===3?'⭐⭐⭐ Perfect!':stars===2?'⭐⭐ Great job!':'⭐ Good try!');
-    if(ST.speech){const q=gameData[curMode][curIdx];setTimeout(()=>sayText(stars===3?'Excellent! '+q.word+'!':'Great job!','en-US',.85),300);}
-    curIdx++;refreshHome();
+    ST.correctAnswers++; streak++;
+    const stars = mistakes === 0 ? 3 : mistakes === 1 ? 2 : 1;
+    ST.totalStars += stars;
+    completed[curMode] = Math.min(completed[curMode]+1, gameData[curMode].length);
+    ST.levelsDone++;
+    ST.starsPerDay[6] = (ST.starsPerDay[6] || 0) + stars;
+    sfxCorrect(); if (stars === 3) setTimeout(sfxStar, 500);
+    showToast(stars === 3 ? '⭐⭐⭐ Perfect!' : stars === 2 ? '⭐⭐ Great job!' : '⭐ Good try!');
+    if (ST.speech) {
+      const q = gameData[curMode][curIdx];
+      setTimeout(() => sayText(stars === 3 ? 'Excellent! '+q.word+'!' : 'Great job!', 'en-US', .85), 300);
+    }
+    curIdx++; refreshHome();
     await saveToCloud();
-    setTimeout(loadLevel,1700);
+    setTimeout(loadLevel, 1700);
   } else {
-    btn.classList.add('wrong');btn.disabled=true;mistakes++;
+    btn.classList.add('wrong'); btn.disabled = true; mistakes++;
     sfxWrong();
-    if(ST.speech)setTimeout(()=>sayText('Try again!','en-US',.9),100);
+    if (ST.speech) setTimeout(() => sayText('Try again!','en-US',.9), 100);
   }
 }
 
-function exitGame(){
-  if(ST.sessionStart){ST.todayMinutes+=Math.round((Date.now()-ST.sessionStart)/60000);ST.sessionStart=null;}
-  window.speechSynthesis&&window.speechSynthesis.cancel();
-  saveToCloud();refreshHome();showScreen('home-screen');
+function exitGame() {
+  if (ST.sessionStart) { ST.todayMinutes += Math.round((Date.now()-ST.sessionStart)/60000); ST.sessionStart = null; }
+  window.speechSynthesis && window.speechSynthesis.cancel();
+  saveToCloud(); refreshHome(); showScreen('home-screen');
 }
-window.exitGame=exitGame;
+window.exitGame = exitGame;
 
-// ═══ CANVAS ══════════════════════════════
-const cvs=document.getElementById('paint-canvas');
-const cx2=cvs.getContext('2d');
-let painting=false,pColor='#111',bSize=6,tool='pen';
-function gPos(e){const r=cvs.getBoundingClientRect(),sx=cvs.width/r.width,sy=cvs.height/r.height,px=e.touches?e.touches[0].clientX:e.clientX,py=e.touches?e.touches[0].clientY:e.clientY;return{x:(px-r.left)*sx,y:(py-r.top)*sy};}
-function sDraw(e){painting=true;cx2.beginPath();const p=gPos(e);cx2.moveTo(p.x,p.y);doDraw(e);}
-function eDraw(){painting=false;cx2.beginPath();}
-function doDraw(e){if(!painting)return;e.preventDefault();cx2.lineWidth=tool==='eraser'?bSize*3:bSize;cx2.lineCap='round';cx2.strokeStyle=tool==='eraser'?'#fff':pColor;const p=gPos(e);cx2.lineTo(p.x,p.y);cx2.stroke();cx2.moveTo(p.x,p.y);}
-cvs.addEventListener('mousedown',sDraw);cvs.addEventListener('mouseup',eDraw);cvs.addEventListener('mousemove',doDraw);
-cvs.addEventListener('touchstart',sDraw,{passive:false});cvs.addEventListener('touchend',eDraw);cvs.addEventListener('touchmove',doDraw,{passive:false});
-window.setPaintColor=(c,el)=>{pColor=c;document.querySelectorAll('.color-circle').forEach(x=>x.classList.remove('active'));el.classList.add('active');};
-window.setTool=(t,el)=>{tool=t;document.querySelectorAll('.tool-btn').forEach(x=>x.classList.remove('active-tool'));el.classList.add('active-tool');};
-window.setBrush=(s,el)=>{bSize=s;document.querySelectorAll('.brush-sz').forEach(x=>x.classList.remove('active-sz'));el.classList.add('active-sz');};
-window.clearCanvas=()=>{cx2.fillStyle='white';cx2.fillRect(0,0,cvs.width,cvs.height);};
-window.saveDrawing=()=>{const l=document.createElement('a');l.download='drawing.png';l.href=cvs.toDataURL();l.click();showToast('🎨 Saved!');};
+// ═══════════════════════════════════════════════════
+//  CANVAS (paint)
+// ═══════════════════════════════════════════════════
+const cvs  = document.getElementById('paint-canvas');
+const cx2  = cvs.getContext('2d');
+let painting = false, pColor = '#111', bSize = 6, tool = 'pen';
 
-// ═══ PIN ═════════════════════════════════
-let pinE='';
-window.openPin=()=>{sfxClick();pinE='';updPin();document.getElementById('pin-error').textContent='';showScreen('pin-screen');};
-window.pinKey=(d)=>{if(pinE.length>=4)return;sfxClick();pinE+=d;updPin();if(pinE.length===4)setTimeout(chkPin,200);};
-window.pinBackspace=()=>{pinE=pinE.slice(0,-1);updPin();};
-window.pinClear=()=>{pinE='';updPin();};
-function updPin(){for(let i=0;i<4;i++)document.getElementById('pd'+i).classList.toggle('filled',i<pinE.length);}
-function chkPin(){if(pinE===ST.pin){showScreen('dash-screen');renderDash();}else{sfxWrong();document.getElementById('pin-error').textContent='❌ Wrong PIN';pinE='';updPin();}}
+function gPos(e) {
+  const r = cvs.getBoundingClientRect(), sx = cvs.width/r.width, sy = cvs.height/r.height;
+  const px = e.touches ? e.touches[0].clientX : e.clientX;
+  const py = e.touches ? e.touches[0].clientY : e.clientY;
+  return { x:(px-r.left)*sx, y:(py-r.top)*sy };
+}
+function sDraw(e)  { painting=true; cx2.beginPath(); const p=gPos(e); cx2.moveTo(p.x,p.y); doDraw(e); }
+function eDraw()   { painting=false; cx2.beginPath(); }
+function doDraw(e) {
+  if (!painting) return; e.preventDefault();
+  cx2.lineWidth   = tool==='eraser' ? bSize*3 : bSize;
+  cx2.lineCap     = 'round';
+  cx2.strokeStyle = tool==='eraser' ? '#fff' : pColor;
+  const p = gPos(e); cx2.lineTo(p.x,p.y); cx2.stroke(); cx2.moveTo(p.x,p.y);
+}
+cvs.addEventListener('mousedown', sDraw);
+cvs.addEventListener('mouseup',   eDraw);
+cvs.addEventListener('mousemove', doDraw);
+cvs.addEventListener('touchstart', sDraw,   {passive:false});
+cvs.addEventListener('touchend',   eDraw);
+cvs.addEventListener('touchmove',  doDraw,  {passive:false});
 
-// ═══ PREMIUM ═════════════════════════════
-function updatePremiumUI(){
-  const statusText=document.getElementById('premium-status-text');
-  const statusSub=document.getElementById('premium-status-sub');
-  const codeArea=document.getElementById('code-input-area');
-  const revokeArea=document.getElementById('revoke-area');
-  const box=document.getElementById('premium-status-box');
-  if(isPremiumUnlocked()){
-    box.style.background='linear-gradient(135deg,#f1c40f22,#e67e2222)';
-    statusText.textContent='⭐ Premium Active!';
-    statusSub.textContent='Arabic & Math are unlocked ✅';
-    codeArea.style.display='none';revokeArea.style.display='block';
+window.setPaintColor = (c,el) => { pColor=c; document.querySelectorAll('.color-circle').forEach(x=>x.classList.remove('active')); el.classList.add('active'); };
+window.setTool       = (t,el) => { tool=t;   document.querySelectorAll('.tool-btn').forEach(x=>x.classList.remove('active-tool')); el.classList.add('active-tool'); };
+window.setBrush      = (s,el) => { bSize=s;  document.querySelectorAll('.brush-sz').forEach(x=>x.classList.remove('active-sz')); el.classList.add('active-sz'); };
+window.clearCanvas   = ()      => { cx2.fillStyle='white'; cx2.fillRect(0,0,cvs.width,cvs.height); };
+window.saveDrawing   = ()      => { const l=document.createElement('a'); l.download='drawing.png'; l.href=cvs.toDataURL(); l.click(); showToast('🎨 Saved!'); };
+
+// ═══════════════════════════════════════════════════
+//  PIN
+// ═══════════════════════════════════════════════════
+let pinE = '';
+function openPin()  { sfxClick(); pinE=''; updPin(); document.getElementById('pin-error').textContent=''; showScreen('pin-screen'); }
+function pinKey(d)  { if (pinE.length>=4) return; sfxClick(); pinE+=d; updPin(); if (pinE.length===4) setTimeout(chkPin,200); }
+function pinBackspace() { pinE=pinE.slice(0,-1); updPin(); }
+function pinClear() { pinE=''; updPin(); }
+function updPin()   { for (let i=0;i<4;i++) document.getElementById('pd'+i).classList.toggle('filled',i<pinE.length); }
+function chkPin()   { if (pinE===ST.pin) { showScreen('dash-screen'); renderDash(); } else { sfxWrong(); document.getElementById('pin-error').textContent='❌ Wrong PIN'; pinE=''; updPin(); } }
+window.openPin=openPin; window.pinKey=pinKey; window.pinBackspace=pinBackspace; window.pinClear=pinClear;
+
+// ═══════════════════════════════════════════════════
+//  PREMIUM
+// ═══════════════════════════════════════════════════
+function updatePremiumUI() {
+  const statusText = document.getElementById('premium-status-text');
+  const statusSub  = document.getElementById('premium-status-sub');
+  const codeArea   = document.getElementById('code-input-area');
+  const revokeArea = document.getElementById('revoke-area');
+  const box        = document.getElementById('premium-status-box');
+  if (isPremiumUnlocked()) {
+    box.style.background = 'linear-gradient(135deg,#f1c40f22,#e67e2222)';
+    statusText.textContent = '⭐ Premium Active!';
+    statusSub.textContent  = 'Arabic & Math are unlocked ✅';
+    codeArea.style.display   = 'none';
+    revokeArea.style.display = 'block';
   } else {
-    box.style.background='#f8f7ff';
-    statusText.textContent='🔒 Free Version';
-    statusSub.textContent='Enter a code to unlock Premium';
-    codeArea.style.display='block';revokeArea.style.display='none';
+    box.style.background = '#f8f7ff';
+    statusText.textContent = '🔒 Free Version';
+    statusSub.textContent  = 'Enter a code to unlock Premium';
+    codeArea.style.display   = 'block';
+    revokeArea.style.display = 'none';
   }
 }
-window.updatePremiumUI=updatePremiumUI;
+window.updatePremiumUI = updatePremiumUI;
 
-window.activatePremiumCode=async()=>{
-  const code=document.getElementById('set-code').value.trim().toUpperCase();
-  const errEl=document.getElementById('code-error');
-  if(!code){errEl.textContent='⚠️ Please enter a code';return;}
-  if(VALID_CODES.includes(code)){
-    ST.isPremium=true;ST.premiumCode=code;
+async function activatePremiumCode() {
+  const code  = document.getElementById('set-code').value.trim().toUpperCase();
+  const errEl = document.getElementById('code-error');
+  if (!code) { errEl.textContent = '⚠️ Please enter a code'; return; }
+  if (VALID_CODES.includes(code)) {
+    ST.isPremium = true; ST.premiumCode = code;
     await saveToCloud();
-    updatePremiumUI();sfxLevelUp();
+    updatePremiumUI(); sfxLevelUp();
     showToast('🎉 Premium Unlocked!');
-    errEl.textContent='';document.getElementById('set-code').value='';
+    errEl.textContent = ''; document.getElementById('set-code').value = '';
     refreshHome();
-  } else {errEl.textContent='❌ Invalid code';sfxWrong();}
-};
+  } else { errEl.textContent = '❌ Invalid code'; sfxWrong(); }
+}
+window.activatePremiumCode = activatePremiumCode;
 
-window.revokePremium=async()=>{
-  if(!confirm('Deactivate Premium?'))return;
-  ST.isPremium=false;ST.premiumCode='';
-  await saveToCloud();updatePremiumUI();refreshHome();showToast('Premium deactivated');
-};
+async function revokePremium() {
+  if (!confirm('Deactivate Premium?')) return;
+  ST.isPremium = false; ST.premiumCode = '';
+  await saveToCloud(); updatePremiumUI(); refreshHome(); showToast('Premium deactivated');
+}
+window.revokePremium = revokePremium;
 
-// ═══ DASHBOARD ════════════════════════════
-function renderDash(){
-  document.getElementById('d-stars').textContent=ST.totalStars;
-  document.getElementById('d-levels').textContent=ST.levelsDone;
-  document.getElementById('d-time').textContent=ST.todayMinutes+'m';
-  const acc=ST.totalAnswers>0?Math.round(ST.correctAnswers/ST.totalAnswers*100):0;
-  document.getElementById('d-accuracy').textContent=acc+'%';
-  document.getElementById('set-name').value=ST.childName;
-  document.getElementById('set-goal').value=ST.dailyGoal;
-  document.getElementById('tog-sound').classList.toggle('on',ST.sound);
-  document.getElementById('tog-speech').classList.toggle('on',ST.speech);
-  updatePremiumUI();renderSubj();renderBadges();
+// ═══════════════════════════════════════════════════
+//  DASHBOARD
+// ═══════════════════════════════════════════════════
+function renderDash() {
+  document.getElementById('d-stars').textContent    = ST.totalStars;
+  document.getElementById('d-levels').textContent   = ST.levelsDone;
+  document.getElementById('d-time').textContent     = ST.todayMinutes + 'm';
+  const acc = ST.totalAnswers > 0 ? Math.round(ST.correctAnswers / ST.totalAnswers * 100) : 0;
+  document.getElementById('d-accuracy').textContent = acc + '%';
+  document.getElementById('set-name').value  = ST.childName;
+  document.getElementById('set-goal').value  = ST.dailyGoal;
+  document.getElementById('tog-sound').classList.toggle('on',  ST.sound);
+  document.getElementById('tog-speech').classList.toggle('on', ST.speech);
+  updatePremiumUI(); renderSubj(); renderBadges();
 }
 
-function renderSubj(){
-  const icons={abc:'🔤',numbers:'🔢',coloring:'🎨',arabic:'🌙',math:'➕'};
-  const labels={abc:'ABC English',numbers:'Numbers',coloring:'More Fun',arabic:'Arabic عربي',math:'Math'};
-  const list=document.getElementById('subject-progress-list');list.innerHTML='';
-  ['abc','numbers','coloring','arabic','math'].forEach(m=>{
-    const tot=gameData[m].length,don=completed[m],pct=Math.round(don/tot*100);
-    const badge=(m==='arabic'||m==='math')?'<span style="font-size:.7rem;background:#f1c40f;color:white;padding:2px 6px;border-radius:10px;margin-left:6px;">PREMIUM</span>':'';
-    list.innerHTML+=`<div class="subject-row"><div class="subject-icon">${icons[m]}</div><div class="subject-info"><div class="subject-name">${labels[m]}${badge}</div><div class="subject-meta">${don}/${tot} levels · ${pct}%</div><div class="mini-bar-wrap"><div class="mini-bar" style="width:${pct}%"></div></div></div></div>`;
+function renderSubj() {
+  const icons  = { abc:'🔤', numbers:'🔢', coloring:'🎨', arabic:'🌙', math:'➕' };
+  const labels = { abc:'ABC English', numbers:'Numbers', coloring:'More Fun', arabic:'Arabic عربي', math:'Math' };
+  const list = document.getElementById('subject-progress-list'); list.innerHTML = '';
+  ['abc','numbers','coloring','arabic','math'].forEach(m => {
+    const tot = gameData[m].length, don = completed[m], pct = Math.round(don/tot*100);
+    const badge = (m==='arabic'||m==='math') ? '<span style="font-size:.7rem;background:#f1c40f;color:white;padding:2px 6px;border-radius:10px;margin-left:6px;">PREMIUM</span>' : '';
+    list.innerHTML += `<div class="subject-row"><div class="subject-icon">${icons[m]}</div><div class="subject-info"><div class="subject-name">${labels[m]}${badge}</div><div class="subject-meta">${don}/${tot} levels · ${pct}%</div><div class="mini-bar-wrap"><div class="mini-bar" style="width:${pct}%"></div></div></div></div>`;
   });
 }
 
-const BDG=[
-  {icon:'🌟',name:'First Star',desc:'Earn 1 star',fn:()=>ST.totalStars>=1},
-  {icon:'🔥',name:'On Fire',desc:'Earn 10 stars',fn:()=>ST.totalStars>=10},
-  {icon:'💫',name:'Star Collector',desc:'Earn 50 stars',fn:()=>ST.totalStars>=50},
-  {icon:'🔤',name:'ABC Master',desc:'Complete ABC',fn:()=>completed.abc>=gameData.abc.length},
-  {icon:'🔢',name:'Number Ninja',desc:'Complete Numbers',fn:()=>completed.numbers>=gameData.numbers.length},
-  {icon:'🎨',name:'Fun Master',desc:'Complete More Fun',fn:()=>completed.coloring>=gameData.coloring.length},
-  {icon:'🌙',name:'Arabic Star',desc:'Complete Arabic',fn:()=>completed.arabic>=gameData.arabic.length},
-  {icon:'➕',name:'Math Wizard',desc:'Complete Math',fn:()=>completed.math>=gameData.math.length},
-  {icon:'⚡',name:'Streak King',desc:'5 correct in a row',fn:()=>streak>=5},
+const BDG = [
+  {icon:'🌟',name:'First Star',    desc:'Earn 1 star',        fn:()=>ST.totalStars>=1},
+  {icon:'🔥',name:'On Fire',       desc:'Earn 10 stars',      fn:()=>ST.totalStars>=10},
+  {icon:'💫',name:'Star Collector',desc:'Earn 50 stars',      fn:()=>ST.totalStars>=50},
+  {icon:'🔤',name:'ABC Master',    desc:'Complete ABC',       fn:()=>completed.abc>=gameData.abc.length},
+  {icon:'🔢',name:'Number Ninja',  desc:'Complete Numbers',   fn:()=>completed.numbers>=gameData.numbers.length},
+  {icon:'🎨',name:'Fun Master',    desc:'Complete More Fun',  fn:()=>completed.coloring>=gameData.coloring.length},
+  {icon:'🌙',name:'Arabic Star',   desc:'Complete Arabic',    fn:()=>completed.arabic>=gameData.arabic.length},
+  {icon:'➕',name:'Math Wizard',   desc:'Complete Math',      fn:()=>completed.math>=gameData.math.length},
+  {icon:'⚡',name:'Streak King',   desc:'5 correct in a row', fn:()=>streak>=5},
 ];
 
-function renderBadges(){
-  const g=document.getElementById('badges-grid');g.innerHTML='';
-  BDG.forEach(b=>{
-    const e=b.fn();
-    g.innerHTML+=`<div style="background:#f8f7ff;border-radius:14px;padding:12px 8px;text-align:center;opacity:${e?1:.4}"><div style="font-size:1.8rem;">${b.icon}</div><div style="font-size:.72rem;font-weight:700;color:#555;margin-top:4px;">${b.name}</div><div style="font-size:.65rem;color:#aaa;">${b.desc}</div></div>`;
+function renderBadges() {
+  const g = document.getElementById('badges-grid'); g.innerHTML = '';
+  BDG.forEach(b => {
+    const e = b.fn();
+    g.innerHTML += `<div style="background:#f8f7ff;border-radius:14px;padding:12px 8px;text-align:center;opacity:${e?1:.4}"><div style="font-size:1.8rem;">${b.icon}</div><div style="font-size:.72rem;font-weight:700;color:#555;margin-top:4px;">${b.name}</div><div style="font-size:.65rem;color:#aaa;">${b.desc}</div></div>`;
   });
 }
 
-window.switchTab=(tab,el)=>{
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+function switchTab(tab, el) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   el.classList.add('active');
-  ['overview','badges','settings'].forEach(t=>document.getElementById('tab-'+t).style.display=t===tab?'block':'none');
-  if(tab==='badges')renderBadges();
-};
+  ['overview','badges','settings'].forEach(t => document.getElementById('tab-'+t).style.display = t===tab ? 'block' : 'none');
+  if (tab === 'badges') renderBadges();
+}
+window.switchTab = switchTab;
 
-window.toggleSetting=(k,el)=>{ST[k]=!ST[k];el.classList.toggle('on',ST[k]);};
+function toggleSetting(k, el) { ST[k] = !ST[k]; el.classList.toggle('on', ST[k]); }
+window.toggleSetting = toggleSetting;
 
-window.saveSettings=async()=>{
-  const n=document.getElementById('set-name').value.trim();if(n)ST.childName=n;
-  const g=parseInt(document.getElementById('set-goal').value);if(!isNaN(g)&&g>0)ST.dailyGoal=g;
-  const p=document.getElementById('set-pin').value.trim();if(p.length===4&&/^\d+$/.test(p)){ST.pin=p;document.getElementById('set-pin').value='';}
-  await saveToCloud();refreshHome();sfxCorrect();showToast('✅ Settings saved!');
-};
+async function saveSettings() {
+  const n = document.getElementById('set-name').value.trim(); if (n) ST.childName = n;
+  const g = parseInt(document.getElementById('set-goal').value); if (!isNaN(g) && g>0) ST.dailyGoal = g;
+  const p = document.getElementById('set-pin').value.trim();
+  if (p.length===4 && /^\d+$/.test(p)) { ST.pin=p; document.getElementById('set-pin').value=''; }
+  await saveToCloud(); refreshHome(); sfxCorrect(); showToast('✅ Settings saved!');
+}
+window.saveSettings = saveSettings;
 
-window.resetProgress=async()=>{
-  if(!confirm('Reset all progress?'))return;
-  ST.totalStars=ST.totalAnswers=ST.correctAnswers=ST.levelsDone=ST.todayMinutes=0;
-  ST.starsPerDay=[0,0,0,0,0,0,0];
-  Object.keys(completed).forEach(k=>completed[k]=0);
-  streak=0;await saveToCloud();refreshHome();renderDash();showToast('🔄 Progress reset');
-};
+async function resetProgress() {
+  if (!confirm('Reset all progress?')) return;
+  ST.totalStars = ST.totalAnswers = ST.correctAnswers = ST.levelsDone = ST.todayMinutes = 0;
+  ST.starsPerDay = [0,0,0,0,0,0,0];
+  Object.keys(completed).forEach(k => completed[k] = 0);
+  streak = 0; await saveToCloud(); refreshHome(); renderDash(); showToast('🔄 Progress reset');
+}
+window.resetProgress = resetProgress;
 
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.opacity='1';clearTimeout(window._tt);window._tt=setTimeout(()=>t.style.opacity='0',2500);}
+// ═══════════════════════════════════════════════════
+//  TOAST
+// ═══════════════════════════════════════════════════
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.style.opacity = '1';
+  clearTimeout(window._tt);
+  window._tt = setTimeout(() => t.style.opacity = '0', 2500);
+}
 
-if('speechSynthesis' in window){window.speechSynthesis.getVoices();window.speechSynthesis.onvoiceschanged=()=>window.speechSynthesis.getVoices();}
+// Preload voices
+if ('speechSynthesis' in window) {
+  window.speechSynthesis.getVoices();
+  window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+}
+
+// ═══════════════════════════════════════════════════
+//  AUTH STATE LISTENER
+// ═══════════════════════════════════════════════════
+auth.onAuthStateChanged(async user => {
+  if (user) {
+    currentUser = user;
+    isGuest     = false;
+    await loadFromCloud();
+    showScreen('home-screen');
+    refreshHome();
+    updatePremiumUI();
+  } else if (!isGuest) {
+    currentUser = null;
+    showScreen('auth-screen');
+  }
+});
 </script>
 </body>
-  </html>
+</html>
+
