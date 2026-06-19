@@ -54,6 +54,7 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
 .fun-c{background:#e67e22;color:white;}
 .arb-c{background:#f39c12;color:white;}
 .math-c{background:#9b59b6;color:white;}
+.lock-badge{position:absolute;top:10px;right:10px;background:linear-gradient(135deg,#f1c40f,#e67e22);color:white;font-size:.7rem;font-weight:800;padding:3px 8px;border-radius:20px;}
 .card.premium-card::after{content:'';position:absolute;inset:0;border-radius:22px;border:2px solid #f1c40f;}
 .btn-row{display:flex;gap:10px;margin-bottom:10px;}
 .nav-btn{flex:1;background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.25);color:white;padding:11px 6px;border-radius:14px;font-size:.82rem;font-weight:600;cursor:pointer;text-align:center;}
@@ -263,9 +264,11 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
       <div class="card-icon fun-c">🎨</div><h3>More Fun</h3><p id="coloring-progress">15 levels</p>
     </div>
     <div class="card premium-card" id="card-arabic" onclick="showPremiumPopup()">
+      <div class="lock-badge">⭐ PREMIUM</div>
       <div class="card-icon arb-c">🌙</div><h3>Arabic عربي</h3><p id="arabic-progress">28 levels 🔒</p>
     </div>
     <div class="card premium-card" id="card-math" onclick="showPremiumPopup()" style="grid-column:span 2;">
+      <div class="lock-badge">⭐ PREMIUM</div>
       <div class="card-icon math-c">➕➖</div><h3>Math — Addition & Subtraction</h3><p id="math-progress">50 levels 🔒</p>
     </div>
   </div>
@@ -465,13 +468,25 @@ const firebaseConfig = {
   projectId: "durable-sound-463120",
   storageBucket: "durable-sound-463120-v8.firebasestorage.app",
   messagingSenderId: "204320277724",
+  appId: "1:204320277724:web:237b5a30c0f99db2af6019"
+};
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDXmAT5fdeFokrKe3r7rerL0GGLziAYkd0",
+  authDomain: "durable-sound-463120.firebaseapp.com",
+  projectId: "durable-sound-463120",
+  storageBucket: "durable-sound-463120-v8.firebasestorage.app",
+  messagingSenderId: "204320277724",
   appId: "1:204320277724:web:237b5a30c0f99db2af6019",
   measurementId: "G-4REP27S4XW"
 };
 
-const app = firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.firestore();
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
 // ═══ AUDIO ═══════════════════════════════
 let audioCtx=null;
@@ -603,7 +618,7 @@ window.doLogin=async()=>{
   if(!email||!pass){err.textContent='Please fill all fields';return;}
   try{
     err.textContent='Logging in...';
-    await auth.signInWithEmailAndPassword(email,pass);
+    await signInWithEmailAndPassword(auth,email,pass);
   }catch(e){
     err.textContent=e.code==='auth/invalid-credential'?'Wrong email or password':e.message;
   }
@@ -618,7 +633,7 @@ window.doRegister=async()=>{
   if(pass.length<6){err.textContent='Password must be at least 6 characters';return;}
   try{
     err.textContent='Creating account...';
-    const cred=await auth.createUserWithEmailAndPassword(email,pass);
+    const cred=await createUserWithEmailAndPassword(auth,email,pass);
     ST.childName=child;
     await saveToCloud();
   }catch(e){
@@ -635,21 +650,22 @@ window.continueAsGuest=()=>{
 
 window.doLogout=async()=>{
   if(isGuest){isGuest=false;showScreen('auth-screen');return;}
-  await auth.signOut();
+  await signOut(auth);
 };
 
 // Hide loading after 3s if firebase slow
 setTimeout(()=>{
-  const ls=document.getElementById('boot-loading');
-  if(ls && ls.style.display!=='none'){
+  const ls=document.getElementById('loading-screen');
+  if(ls&&ls.classList.contains('active')){
+    ls.classList.remove('active');
     showScreen('auth-screen');
   }
 },3000);
 
 // Auth state listener
-auth.onAuthStateChanged(async(user)=>{
-  const ls=document.getElementById('boot-loading');
-  if(ls) ls.style.display='none';
+onAuthStateChanged(auth,async(user)=>{
+  const ls=document.getElementById('loading-screen');
+  if(ls) ls.classList.remove('active');
   if(user){
     currentUser=user;
     isGuest=false;
@@ -752,7 +768,7 @@ const gameData={
     {q:"و",word:"وردة", speech:"وَاو.  وَرْدَة",  speechLang:"ar-SA",options:["🌹","🌻","🌲","🌱"],a:"🌹"},
     {q:"ي",word:"يد",   speech:"يَاء.  يَد",     speechLang:"ar-SA",options:["👋","👀","👃","👂"],a:"👋"},
   ],
-  math:(()=> {
+  math:(()=>{
     const levels=[];
     for(let i=1;i<=25;i++){
       const a=Math.floor(Math.random()*10)+1,b=Math.floor(Math.random()*10)+1,ans=a+b;
@@ -799,16 +815,20 @@ function refreshHome(){
     arabicCard.onclick=()=>startGame('arabic');
     arabicCard.querySelector('p').textContent=`${completed.arabic}/${gameData.arabic.length} levels`;
     arabicCard.classList.remove('premium-card');
+    arabicCard.querySelector('.lock-badge').style.display='none';
     mathCard.onclick=()=>startGame('math');
     mathCard.querySelector('p').textContent=`${completed.math}/${gameData.math.length} levels`;
     mathCard.classList.remove('premium-card');
+    mathCard.querySelector('.lock-badge').style.display='none';
   } else {
     arabicCard.onclick=showPremiumPopup;
     arabicCard.querySelector('p').textContent='28 levels 🔒';
     arabicCard.classList.add('premium-card');
+    arabicCard.querySelector('.lock-badge').style.display='';
     mathCard.onclick=showPremiumPopup;
     mathCard.querySelector('p').textContent='50 levels 🔒';
     mathCard.classList.add('premium-card');
+    mathCard.querySelector('.lock-badge').style.display='';
   }
   const tot=gameData.abc.length+gameData.numbers.length+gameData.coloring.length;
   const don=completed.abc+completed.numbers+completed.coloring;
@@ -1027,5 +1047,4 @@ function showToast(msg){const t=document.getElementById('toast');t.textContent=m
 if('speechSynthesis' in window){window.speechSynthesis.getVoices();window.speechSynthesis.onvoiceschanged=()=>window.speechSynthesis.getVoices();}
 </script>
 </body>
-</html>
-
+  </html>
