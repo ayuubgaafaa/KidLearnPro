@@ -419,15 +419,15 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
       <div id="code-input-area">
         <div class="setting-row">
           <div><div class="setting-label">Premium Code</div></div>
-          <input class="setting-input" id="set-code" type="text" placeholder="KL-XXXX" maxlength="20" style="text-transform:uppercase;">
+          <input class="setting-input" id="set-code" type="text" placeholder="Enter code" maxlength="20" style="text-transform:uppercase;">
         </div>
-        <button class="code-activate-btn" onclick="activatePremiumCode()">🔓 Activate Code</button>
+        <button class="code-activate-btn" id="activate-code-btn" onclick="activatePremiumCode()">🔓 Activate Code</button>
         <div id="code-error" style="color:#e74c3c;font-size:.82rem;margin-top:6px;text-align:center;min-height:18px;"></div>
       </div>
       <div id="revoke-area" style="display:none;">
         <button onclick="revokePremium()" style="width:100%;background:#f5f5f5;border:2px solid #e74c3c;color:#e74c3c;padding:11px;border-radius:14px;font-size:.9rem;font-weight:700;cursor:pointer;margin-top:8px;">🔒 Deactivate Premium</button>
       </div>
-      <button class="save-btn" onclick="saveSettings()">💾 Save Settings</button>
+      <button class="save-btn" id="settings-save-btn" onclick="saveSettings()">💾 Save Settings</button>
       <div class="reset-link" onclick="resetProgress()">Reset all progress data</div>
     </div>
   </div>
@@ -464,27 +464,218 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
 
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
 <script>
-// ═══ FIREBASE ═══════════════════════════════════════
+// ═══ FIREBASE CONFIG ══════════════════════════════════
 const firebaseConfig = {
   apiKey: "AIzaSyDXmAT5fdeFokrKe3r7rerL0GGLziAYkd0",
   authDomain: "durable-sound-463120.firebaseapp.com",
+  databaseURL: "https://durable-sound-463120-v8-default-rtdb.europe-west1.firebasedatabase.app/",
   projectId: "durable-sound-463120",
   storageBucket: "durable-sound-463120-v8.firebasestorage.app",
   messagingSenderId: "204320277724",
   appId: "1:204320277724:web:237b5a30c0f99db2af6019"
 };
+
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
-const db = firebase.firestore();
+const db = firebase.database();
 
-// ═══ SHOW AUTH SCREEN IMMEDIATELY ═════════════════
-// Hide loading and show auth screen right away
-document.getElementById('boot-loading').style.display = 'none';
-document.getElementById('auth-screen').classList.add('active');
+// ═══ VALID CODES ════════════════════════════════════
+const VALID_CODES = [
+  'KIDPRO2024','ARABIC2024','PREMIUM99','MATH2024',
+  'KL-X7K2-M9P4','KL-A3B8-C5D1','KL-P2Q7-R4S6',
+  'KL-M5N1-K8L3','KL-T9U2-V6W4','KL-E1F5-G7H2',
+  'PREMIUM','FREE','TEST123','DEMO2024'
+];
 
-// ═══ ADMOB FUNCTIONS ════════════════════════════════
+// ═══ STATE ═══════════════════════════════════════════
+let currentUser = null;
+let isGuest = false;
+let isAuthInProgress = false;
+let isAnswering = false;
+let levelTimer = null;
+let saveTimeout = null;
+let dbRef = null;
+
+// Persistent state
+let ST = {
+  childName: 'Kid',
+  pin: '1234',
+  dailyGoal: 15,
+  totalStars: 0,
+  totalAnswers: 0,
+  correctAnswers: 0,
+  levelsDone: 0,
+  sessionStart: null,
+  todayMinutes: 0,
+  starsPerDay: [0,0,0,0,0,0,0],
+  sound: true,
+  speech: true,
+  isPremium: false,
+  premiumCode: ''
+};
+
+let completed = {abc:0, numbers:0, coloring:0, arabic:0, math:0};
+let curMode='abc', curIdx=0, mistakes=0, correctAns='', curSpeech='', curSpeechLang='en-US', streak=0;
+
+const PREMIUM_URL='https://ayuubgaafaa.github.io/KidLearnPro/premium.html';
+
+// ═══ FAST SAVE (localStorage) ═════════════════════════
+function fastSave() {
+  try {
+    const data = {
+      ST: ST,
+      completed: completed,
+      streak: streak
+    };
+    localStorage.setItem('kidlearn_data', JSON.stringify(data));
+  } catch(e) { /* ignore */ }
+}
+
+function saveToCloudLater() {
+  if (saveTimeout) clearTimeout(saveTimeout);
+  saveTimeout = setTimeout(function() {
+    saveToCloud();
+  }, 500);
+}
+
+// ═══ REAL-TIME DATABASE SAVE/LOAD ═══════════════════
+function saveToCloud() {
+  const user = auth.currentUser;
+  if (!user || isGuest) {
+    fastSave();
+    return;
+  }
+  
+  try {
+    const userRef = db.ref('users/' + user.uid);
+    userRef.update({
+      childName: ST.childName,
+      totalStars: ST.totalStars,
+      totalAnswers: ST.totalAnswers,
+      correctAnswers: ST.correctAnswers,
+      levelsDone: ST.levelsDone,
+      todayMinutes: ST.todayMinutes,
+      isPremium: ST.isPremium,
+      premiumCode: ST.premiumCode,
+      pin: ST.pin,
+      dailyGoal: ST.dailyGoal,
+      sound: ST.sound,
+      speech: ST.speech,
+      completed: completed,
+      streak: streak,
+      updatedAt: Date.now()
+    }).then(function() {
+      console.log('RTDB save done');
+    }).catch(function(e) {
+      console.log('RTDB save error:', e);
+    });
+    fastSave();
+  } catch(e) { /* ignore */ }
+}
+
+function loadData() {
+  try {
+    const saved = localStorage.getItem('kidlearn_data');
+    if (saved) {
+      const data = JSON.parse(saved);
+      if (data.ST) Object.assign(ST, data.ST);
+      if (data.completed) Object.assign(completed, data.completed);
+      if (data.streak !== undefined) streak = data.streak;
+      return true;
+    }
+  } catch(e) { /* ignore */ }
+  return false;
+}
+
+function loadFromCloud() {
+  const user = auth.currentUser;
+  if (!user || isGuest) {
+    loadData();
+    return Promise.resolve();
+  }
+  
+  return db.ref('users/' + user.uid).once('value').then(function(snap) {
+    if (snap.exists()) {
+      const d = snap.val();
+      if (d.childName !== undefined) ST.childName = d.childName;
+      if (d.totalStars !== undefined) ST.totalStars = d.totalStars;
+      if (d.totalAnswers !== undefined) ST.totalAnswers = d.totalAnswers;
+      if (d.correctAnswers !== undefined) ST.correctAnswers = d.correctAnswers;
+      if (d.levelsDone !== undefined) ST.levelsDone = d.levelsDone;
+      if (d.todayMinutes !== undefined) ST.todayMinutes = d.todayMinutes;
+      if (d.isPremium !== undefined) ST.isPremium = d.isPremium;
+      if (d.premiumCode !== undefined) ST.premiumCode = d.premiumCode;
+      if (d.pin !== undefined) ST.pin = d.pin;
+      if (d.dailyGoal !== undefined) ST.dailyGoal = d.dailyGoal;
+      if (typeof d.sound === 'boolean') ST.sound = d.sound;
+      if (typeof d.speech === 'boolean') ST.speech = d.speech;
+      if (d.completed) Object.assign(completed, d.completed);
+      if (d.streak !== undefined) streak = d.streak;
+    } else {
+      loadData();
+    }
+    fastSave();
+  }).catch(function() {
+    loadData();
+  });
+}
+
+// ═══ SETUP REAL-TIME LISTENER ═══════════════════════
+function setupRealtimeListener(userId) {
+  if (dbRef) {
+    dbRef.off();
+    dbRef = null;
+  }
+  
+  if (!userId || isGuest) return;
+  
+  dbRef = db.ref('users/' + userId);
+  dbRef.on('value', function(snap) {
+    if (snap.exists()) {
+      const d = snap.val();
+      // Only update if data changed from server
+      if (d.updatedAt) {
+        const localData = localStorage.getItem('kidlearn_data');
+        let localUpdated = 0;
+        if (localData) {
+          try {
+            const parsed = JSON.parse(localData);
+            if (parsed.ST && parsed.ST.updatedAt) {
+              localUpdated = parsed.ST.updatedAt || 0;
+            }
+          } catch(e) {}
+        }
+        
+        // If server data is newer, update
+        if (d.updatedAt > localUpdated) {
+          if (d.childName !== undefined) ST.childName = d.childName;
+          if (d.totalStars !== undefined) ST.totalStars = d.totalStars;
+          if (d.totalAnswers !== undefined) ST.totalAnswers = d.totalAnswers;
+          if (d.correctAnswers !== undefined) ST.correctAnswers = d.correctAnswers;
+          if (d.levelsDone !== undefined) ST.levelsDone = d.levelsDone;
+          if (d.todayMinutes !== undefined) ST.todayMinutes = d.todayMinutes;
+          if (d.isPremium !== undefined) ST.isPremium = d.isPremium;
+          if (d.premiumCode !== undefined) ST.premiumCode = d.premiumCode;
+          if (d.pin !== undefined) ST.pin = d.pin;
+          if (d.dailyGoal !== undefined) ST.dailyGoal = d.dailyGoal;
+          if (typeof d.sound === 'boolean') ST.sound = d.sound;
+          if (typeof d.speech === 'boolean') ST.speech = d.speech;
+          if (d.completed) Object.assign(completed, d.completed);
+          if (d.streak !== undefined) streak = d.streak;
+          fastSave();
+          refreshHome();
+          updatePremiumUI();
+        }
+      }
+    }
+  }, function(error) {
+    console.log('RTDB listener error:', error);
+  });
+}
+
+// ═══ AD FUNCTIONS ════════════════════════════════════
 let isAdShowing = false;
 
 function showBannerAd() {
@@ -587,7 +778,8 @@ window.showRewardedAd = function() {
       ST.totalStars += 5;
       ST.levelsDone += 1;
       refreshHome();
-      saveToCloudSilent();
+      fastSave();
+      saveToCloudLater();
       sfxStar();
       showToast('🎉 You earned 5 stars! ⭐⭐⭐⭐⭐');
     } else {
@@ -599,7 +791,7 @@ window.showRewardedAd = function() {
 // ═══ AUDIO ══════════════════════════════════════════
 let audioCtx=null;
 function getACtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();return audioCtx;}
-function tone(f,t,d,v,dl=0){try{const c=getACtx(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type=t;o.frequency.setValueAtTime(f,c.currentTime+dl);g.gain.setValueAtTime(v,c.currentTime+dl);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+dl+d);o.start(c.currentTime+dl);o.stop(c.currentTime+dl+d);}catch(e){}}
+function tone(f,t,d,v,dl){dl=dl||0;try{const c=getACtx(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type=t;o.frequency.setValueAtTime(f,c.currentTime+dl);g.gain.setValueAtTime(v,c.currentTime+dl);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+dl+d);o.start(c.currentTime+dl);o.stop(c.currentTime+dl+d);}catch(e){}}
 function sfxCorrect(){if(!ST.sound)return;[523,659,784,1047].forEach(function(f,i){tone(f,'sine',.15,.4,i*.12);});}
 function sfxWrong(){if(!ST.sound)return;tone(200,'sawtooth',.2,.3,0);tone(150,'sawtooth',.2,.3,.18);}
 function sfxStar(){if(!ST.sound)return;[800,1000,1200,1500,1200,1000,800].forEach(function(f,i){tone(f,'sine',.1,.25,i*.06);});}
@@ -626,192 +818,72 @@ function sayText(text,lang,rate,onEnd){
   },200);
 }
 
-// ═══ STATE ═══════════════════════════════════════════
-let currentUser = null;
-let isGuest = false;
-let isAuthInProgress = false;
-let isAnswering = false;
-let levelTimer = null;
-const ST={childName:'Kid',pin:'1234',dailyGoal:15,totalStars:0,totalAnswers:0,correctAnswers:0,levelsDone:0,sessionStart:null,todayMinutes:0,starsPerDay:[0,0,0,0,0,0,0],sound:true,speech:true,isPremium:false,premiumCode:''};
-const completed={abc:0,numbers:0,coloring:0,arabic:0,math:0};
-
-const VALID_CODES=['KIDPRO2024','ARABIC2024','PREMIUM99','MATH2024','KL-X7K2-M9P4','KL-A3B8-C5D1','KL-P2Q7-R4S6','KL-M5N1-K8L3','KL-T9U2-V6W4','KL-E1F5-G7H2'];
-const PREMIUM_URL='https://ayuubgaafaa.github.io/KidLearnPro/premium.html';
-
-// ═══ FIREBASE SAVE/LOAD ═════════════════════════════
-async function saveToCloud(){
-  const user = auth.currentUser;
-  if(!user||isGuest)return;
-  try{
-    await db.collection('users').doc(user.uid).set({
-      childName:ST.childName,
-      totalStars:ST.totalStars,
-      totalAnswers:ST.totalAnswers,
-      correctAnswers:ST.correctAnswers,
-      levelsDone:ST.levelsDone,
-      todayMinutes:ST.todayMinutes,
-      isPremium:ST.isPremium,
-      premiumCode:ST.premiumCode,
-      pin:ST.pin,
-      dailyGoal:ST.dailyGoal,
-      sound:ST.sound,
-      speech:ST.speech,
-      completed:{...completed},
-      updatedAt:new Date().toISOString()
-    },{merge:true});
-  }catch(e){
-    console.log('Save error:',e.code,e.message);
-  }
-}
-
-async function saveToCloudSilent(){
-  setTimeout(async function() {
-    try {
-      const user = auth.currentUser;
-      if(!user||isGuest)return;
-      await db.collection('users').doc(user.uid).set({
-        childName:ST.childName,
-        totalStars:ST.totalStars,
-        totalAnswers:ST.totalAnswers,
-        correctAnswers:ST.correctAnswers,
-        levelsDone:ST.levelsDone,
-        todayMinutes:ST.todayMinutes,
-        isPremium:ST.isPremium,
-        premiumCode:ST.premiumCode,
-        pin:ST.pin,
-        dailyGoal:ST.dailyGoal,
-        sound:ST.sound,
-        speech:ST.speech,
-        completed:{...completed},
-        updatedAt:new Date().toISOString()
-      },{merge:true});
-    } catch(e){
-      console.log('Silent save error:',e.code,e.message);
-    }
-  }, 100);
-}
-
-async function loadFromCloud(){
-  const user = auth.currentUser;
-  if(!user||isGuest)return;
-  try{
-    const snap=await db.collection('users').doc(user.uid).get();
-    if(snap.exists){
-      const d=snap.data();
-      if(d.childName)ST.childName=d.childName;
-      if(d.totalStars)ST.totalStars=d.totalStars;
-      if(d.totalAnswers)ST.totalAnswers=d.totalAnswers;
-      if(d.correctAnswers)ST.correctAnswers=d.correctAnswers;
-      if(d.levelsDone)ST.levelsDone=d.levelsDone;
-      if(d.todayMinutes)ST.todayMinutes=d.todayMinutes;
-      if(d.isPremium)ST.isPremium=d.isPremium;
-      if(d.premiumCode)ST.premiumCode=d.premiumCode;
-      if(d.pin)ST.pin=d.pin;
-      if(d.dailyGoal)ST.dailyGoal=d.dailyGoal;
-      if(typeof d.sound==='boolean')ST.sound=d.sound;
-      if(typeof d.speech==='boolean')ST.speech=d.speech;
-      if(d.completed)Object.assign(completed,d.completed);
-    }
-  }catch(e){console.log('Load error:',e.code,e.message);}
-}
-
-// ═══ LEADERBOARD ═══════════════════════════════════
-async function loadLeaderboard(){
-  const list=document.getElementById('lb-list');
-  list.innerHTML='<p style="text-align:center;color:#aaa;padding:20px;">Loading...</p>';
-  try{
-    const snap=await db.collection('users').orderBy('totalStars','desc').limit(10).get();
-    if(snap.empty){list.innerHTML='<p style="text-align:center;color:#aaa;padding:20px;">No players yet!</p>';return;}
-    const medals=['🥇','🥈','🥉'];
-    const rankColors=['gold','silver','bronze'];
-    let html='';let rank=1;
-    snap.forEach(function(d){
-      const data=d.data();
-      const isMe=currentUser&&d.id===currentUser.uid;
-      const medal=rank<=3?medals[rank-1]:rank;
-      const rankColor=rank<=3?rankColors[rank-1]:'';
-      html+=`<div class="lb-item ${isMe?'me':''}">
-        <div class="lb-rank ${rankColor}">${medal}</div>
-        <div class="lb-avatar">👦</div>
-        <div class="lb-info">
-          <div class="lb-name">${data.childName||'Kid'}${isMe?' (You)':''}</div>
-          <div class="lb-stars">${data.levelsDone||0} levels done</div>
-        </div>
-        <div class="lb-score">⭐${data.totalStars||0}</div>
-      </div>`;
-      rank++;
-    });
-    list.innerHTML=html;
-  }catch(e){list.innerHTML='<p style="text-align:center;color:#aaa;padding:20px;">Could not load</p>';}
-}
-
 // ═══ AUTH FUNCTIONS ═════════════════════════════════
 function setAuthLoading(show, type) {
   if (type === 'login') {
-    const btn = document.getElementById('login-btn');
-    const loading = document.getElementById('login-loading');
+    var btn = document.getElementById('login-btn');
+    var loading = document.getElementById('login-loading');
     if(btn) btn.disabled = show;
     if(loading) loading.style.display = show ? 'block' : 'none';
   } else if (type === 'register') {
-    const btn = document.getElementById('register-btn');
-    const loading = document.getElementById('register-loading');
+    var btn = document.getElementById('register-btn');
+    var loading = document.getElementById('register-loading');
     if(btn) btn.disabled = show;
     if(loading) loading.style.display = show ? 'block' : 'none';
   }
 }
 
-window.doLogin = async function() {
+window.doLogin = function() {
   if (isAuthInProgress) return;
-  const email = document.getElementById('login-email').value.trim();
-  const pass = document.getElementById('login-pass').value;
-  const err = document.getElementById('auth-error');
+  var email = document.getElementById('login-email').value.trim();
+  var pass = document.getElementById('login-pass').value;
+  var err = document.getElementById('auth-error');
   if(!email||!pass){err.textContent='Please fill all fields';return;}
-  try{
-    isAuthInProgress = true;
-    setAuthLoading(true, 'login');
-    err.textContent='';
-    await auth.signInWithEmailAndPassword(email,pass);
-  }catch(e){
+  isAuthInProgress = true;
+  setAuthLoading(true, 'login');
+  err.textContent='';
+  auth.signInWithEmailAndPassword(email,pass).then(function() {
+    // Success - auth listener will handle
+  }).catch(function(e) {
     err.textContent=e.code==='auth/invalid-credential'?'Wrong email or password':e.message;
     setAuthLoading(false, 'login');
     isAuthInProgress = false;
-  }
+  });
 };
 
-window.doRegister = async function() {
+window.doRegister = function() {
   if (isAuthInProgress) return;
-  const email = document.getElementById('reg-email').value.trim();
-  const pass = document.getElementById('reg-pass').value;
-  const child = document.getElementById('reg-child').value.trim()||'Kid';
-  const err = document.getElementById('auth-error');
+  var email = document.getElementById('reg-email').value.trim();
+  var pass = document.getElementById('reg-pass').value;
+  var child = document.getElementById('reg-child').value.trim()||'Kid';
+  var err = document.getElementById('auth-error');
   if(!email||!pass){err.textContent='Please fill all fields';return;}
   if(pass.length<6){err.textContent='Password must be at least 6 characters';return;}
-  try{
-    isAuthInProgress = true;
-    setAuthLoading(true, 'register');
-    err.textContent='';
-    const cred = await auth.createUserWithEmailAndPassword(email,pass);
+  isAuthInProgress = true;
+  setAuthLoading(true, 'register');
+  err.textContent='';
+  auth.createUserWithEmailAndPassword(email,pass).then(function(cred) {
     ST.childName=child;
-    await saveToCloud();
-  }catch(e){
+    fastSave();
+    saveToCloudLater();
+  }).catch(function(e) {
     err.textContent=e.code==='auth/email-already-in-use'?'Email already registered':e.message;
     setAuthLoading(false, 'register');
     isAuthInProgress = false;
-  }
+  });
 };
 
-window.doForgotPassword = async function() {
-  const email = document.getElementById('login-email').value.trim();
-  const err = document.getElementById('auth-error');
+window.doForgotPassword = function() {
+  var email = document.getElementById('login-email').value.trim();
+  var err = document.getElementById('auth-error');
   if(!email){err.textContent='Please enter your email address';return;}
-  try{
-    err.textContent='Sending reset email...';
-    await auth.sendPasswordResetEmail(email);
+  err.textContent='Sending reset email...';
+  auth.sendPasswordResetEmail(email).then(function() {
     showToast('📧 Password reset email sent! Check your inbox.');
     err.textContent='';
-  }catch(e){
+  }).catch(function(e) {
     err.textContent=e.code==='auth/user-not-found'?'No account found with this email':e.message;
-  }
+  });
 };
 
 window.continueAsGuest = function() {
@@ -820,30 +892,53 @@ window.continueAsGuest = function() {
   document.getElementById('boot-loading').style.display='none';
   showScreen('home-screen');
   refreshHome();
+  fastSave();
 };
 
-window.doLogout = async function() {
-  if(isGuest){isGuest=false;showScreen('auth-screen');return;}
-  await auth.signOut();
-};
-
-// Auth state listener
-auth.onAuthStateChanged(async function(user) {
-  if(user){
-    currentUser=user;
+window.doLogout = function() {
+  if(isGuest){
     isGuest=false;
-    showScreen('home-screen');
-    refreshHome();
-    updatePremiumUI();
-    await loadFromCloud();
-    refreshHome();
-    updatePremiumUI();
-    isAuthInProgress = false;
-    setAuthLoading(false, 'login');
-    setAuthLoading(false, 'register');
-  } else if(!isGuest){
-    currentUser=null;
-    // Don't change screen if already showing auth
+    showScreen('auth-screen');
+    return;
+  }
+  // Remove listener
+  if (dbRef) {
+    dbRef.off();
+    dbRef = null;
+  }
+  auth.signOut();
+};
+
+// ═══ FAST AUTH STATE LISTENER ════════════════════════
+// Show auth screen immediately, no waiting
+document.getElementById('boot-loading').style.display = 'none';
+document.getElementById('auth-screen').classList.add('active');
+
+// Load data from localStorage immediately
+loadData();
+
+auth.onAuthStateChanged(function(user) {
+  if (user && !isGuest) {
+    currentUser = user;
+    isGuest = false;
+    // Setup real-time listener
+    setupRealtimeListener(user.uid);
+    loadFromCloud().then(function() {
+      showScreen('home-screen');
+      refreshHome();
+      updatePremiumUI();
+      isAuthInProgress = false;
+      setAuthLoading(false, 'login');
+      setAuthLoading(false, 'register');
+    });
+  } else if (!isGuest) {
+    currentUser = null;
+    // Remove listener
+    if (dbRef) {
+      dbRef.off();
+      dbRef = null;
+    }
+    // Only show auth if not already showing
     if (!document.getElementById('auth-screen').classList.contains('active')) {
       showScreen('auth-screen');
     }
@@ -961,9 +1056,10 @@ const gameData={
 };
 
 // ═══ GAME RUNTIME ═════════════════════════════════
-var curMode='abc',curIdx=0,mistakes=0,correctAns='',curSpeech='',curSpeechLang='en-US',streak=0;
 
-function isPremiumUnlocked(){return ST.isPremium&&VALID_CODES.includes(ST.premiumCode.toUpperCase());}
+function isPremiumUnlocked() {
+  return ST.isPremium === true && VALID_CODES.indexOf(ST.premiumCode.toUpperCase()) !== -1;
+}
 
 window.showPremiumPopup = function() {
   document.getElementById('premium-popup').classList.add('show');
@@ -1009,6 +1105,8 @@ function refreshHome(){
   var don=completed.abc+completed.numbers+completed.coloring;
   var progressEl=document.getElementById('main-progress');
   if(progressEl) progressEl.style.width=(don/tot*100)+'%';
+  
+  updatePremiumUI();
 }
 
 window.startGame = function(m) {
@@ -1099,7 +1197,7 @@ function speakQuestion(){
 
 window.speakQuestion = speakQuestion;
 
-async function checkAnswer(btn){
+function checkAnswer(btn){
   if(isAnswering) return;
   if(btn.disabled) return;
   
@@ -1134,7 +1232,8 @@ async function checkAnswer(btn){
     }
     
     refreshHome();
-    saveToCloudSilent();
+    fastSave();
+    saveToCloudLater();
     
     if (ST.correctAnswers % 3 === 0 && !isGuest) {
       levelTimer = setTimeout(function() {
@@ -1183,7 +1282,8 @@ window.exitGame = function() {
     ST.sessionStart = null;
   }
   if(window.speechSynthesis) window.speechSynthesis.cancel();
-  saveToCloudSilent();
+  fastSave();
+  saveToCloudLater();
   refreshHome();
   window.showScreen('home-screen');
 };
@@ -1205,12 +1305,63 @@ window.saveDrawing=function(){var l=document.createElement('a');l.download='draw
 
 // ═══ PIN ═══════════════════════════════════════════
 var pinE='';
-window.openPin=function(){sfxClick();pinE='';updPin();document.getElementById('pin-error').textContent='';window.showScreen('pin-screen');};
-window.pinKey=function(d){if(pinE.length>=4)return;sfxClick();pinE+=d;updPin();if(pinE.length===4)setTimeout(chkPin,200);};
-window.pinBackspace=function(){pinE=pinE.slice(0,-1);updPin();};
-window.pinClear=function(){pinE='';updPin();};
-function updPin(){for(var i=0;i<4;i++){var el=document.getElementById('pd'+i);if(el)el.classList.toggle('filled',i<pinE.length);}}
-function chkPin(){if(pinE===ST.pin){window.showScreen('dash-screen');renderDash();}else{sfxWrong();document.getElementById('pin-error').textContent='❌ Wrong PIN';pinE='';updPin();}}
+
+window.openPin = function() {
+  pinE = '';
+  updPin();
+  document.getElementById('pin-error').textContent = '';
+  console.log('Current PIN in system:', ST.pin);
+  showScreen('pin-screen');
+};
+
+window.pinKey = function(d) {
+  if (pinE.length >= 4) return;
+  sfxClick();
+  pinE += d;
+  updPin();
+  if (pinE.length === 4) {
+    setTimeout(chkPin, 200);
+  }
+};
+
+window.pinBackspace = function() {
+  pinE = pinE.slice(0, -1);
+  updPin();
+};
+
+window.pinClear = function() {
+  pinE = '';
+  updPin();
+};
+
+function updPin() {
+  for (var i = 0; i < 4; i++) {
+    var el = document.getElementById('pd' + i);
+    if (el) el.classList.toggle('filled', i < pinE.length);
+  }
+}
+
+function chkPin() {
+  var enteredPin = pinE.trim();
+  var savedPin = String(ST.pin).trim();
+  
+  console.log('Entered PIN:', enteredPin);
+  console.log('Saved PIN:', savedPin);
+  console.log('Match:', enteredPin === savedPin);
+  
+  if (enteredPin === savedPin) {
+    showScreen('dash-screen');
+    renderDash();
+    pinE = '';
+    updPin();
+    document.getElementById('pin-error').textContent = '';
+  } else {
+    sfxWrong();
+    document.getElementById('pin-error').textContent = '❌ Wrong PIN. Try again.';
+    pinE = '';
+    updPin();
+  }
+}
 
 // ═══ PREMIUM ══════════════════════════════════════
 function updatePremiumUI(){
@@ -1219,56 +1370,83 @@ function updatePremiumUI(){
   var codeArea=document.getElementById('code-input-area');
   var revokeArea=document.getElementById('revoke-area');
   var box=document.getElementById('premium-status-box');
-  if(isPremiumUnlocked()){
-    if(box)box.style.background='linear-gradient(135deg,#f1c40f22,#e67e2222)';
-    if(statusText)statusText.textContent='⭐ Premium Active!';
-    if(statusSub)statusSub.textContent='Arabic & Math are unlocked ✅';
-    if(codeArea)codeArea.style.display='none';
-    if(revokeArea)revokeArea.style.display='block';
+  var codeBtn = document.getElementById('activate-code-btn');
+  
+  var premium = isPremiumUnlocked();
+  
+  if(premium){
+    if(box) box.style.background='linear-gradient(135deg,#f1c40f22,#e67e2222)';
+    if(statusText) statusText.textContent='⭐ Premium Active!';
+    if(statusSub) statusSub.textContent='Arabic & Math are unlocked ✅';
+    if(codeArea) codeArea.style.display='none';
+    if(revokeArea) revokeArea.style.display='block';
+    if(codeBtn) codeBtn.style.display='none';
   } else {
-    if(box)box.style.background='#f8f7ff';
-    if(statusText)statusText.textContent='🔒 Free Version';
-    if(statusSub)statusSub.textContent='Enter a code to unlock Premium';
-    if(codeArea)codeArea.style.display='block';
-    if(revokeArea)revokeArea.style.display='none';
+    if(box) box.style.background='#f8f7ff';
+    if(statusText) statusText.textContent='🔒 Free Version';
+    if(statusSub) statusSub.textContent='Enter a code to unlock Premium';
+    if(codeArea) codeArea.style.display='block';
+    if(revokeArea) revokeArea.style.display='none';
+    if(codeBtn) codeBtn.style.display='block';
   }
 }
 window.updatePremiumUI=updatePremiumUI;
 
-window.activatePremiumCode=async function(){
-  var code=document.getElementById('set-code').value.trim().toUpperCase();
-  var errEl=document.getElementById('code-error');
-  if(!code){errEl.textContent='⚠️ Please enter a code';return;}
-  if(VALID_CODES.includes(code)){
-    ST.isPremium=true;ST.premiumCode=code;
-    await saveToCloud();
-    updatePremiumUI();sfxLevelUp();
-    showToast('🎉 Premium Unlocked!');
-    errEl.textContent='';document.getElementById('set-code').value='';
+window.activatePremiumCode = function() {
+  var code = document.getElementById('set-code').value.trim().toUpperCase();
+  var errEl = document.getElementById('code-error');
+  
+  errEl.textContent = '';
+  
+  if (!code) {
+    errEl.textContent = '⚠️ Please enter a code';
+    return;
+  }
+  
+  if (VALID_CODES.indexOf(code) !== -1) {
+    ST.isPremium = true;
+    ST.premiumCode = code;
+    fastSave();
+    updatePremiumUI();
     refreshHome();
-  } else {errEl.textContent='❌ Invalid code';sfxWrong();}
+    sfxLevelUp();
+    showToast('🎉 Premium Unlocked!');
+    errEl.textContent = '';
+    document.getElementById('set-code').value = '';
+    saveToCloudLater();
+  } else {
+    errEl.textContent = '❌ Invalid code. Please check and try again.';
+    sfxWrong();
+  }
 };
 
-window.revokePremium=async function(){
-  if(!confirm('Deactivate Premium?'))return;
-  ST.isPremium=false;ST.premiumCode='';
-  await saveToCloud();updatePremiumUI();refreshHome();showToast('Premium deactivated');
+window.revokePremium = function() {
+  if (!confirm('Deactivate Premium?')) return;
+  ST.isPremium = false;
+  ST.premiumCode = '';
+  fastSave();
+  saveToCloudLater();
+  updatePremiumUI();
+  refreshHome();
+  showToast('Premium deactivated');
 };
 
 // ═══ DASHBOARD ════════════════════════════════════
 function renderDash(){
-  document.getElementById('d-stars').textContent=ST.totalStars;
-  document.getElementById('d-levels').textContent=ST.levelsDone;
-  document.getElementById('d-time').textContent=ST.todayMinutes+'m';
-  var acc=ST.totalAnswers>0?Math.round(ST.correctAnswers/ST.totalAnswers*100):0;
-  document.getElementById('d-accuracy').textContent=acc+'%';
-  document.getElementById('set-name').value=ST.childName;
-  document.getElementById('set-goal').value=ST.dailyGoal;
-  var togSound=document.getElementById('tog-sound');
-  var togSpeech=document.getElementById('tog-speech');
-  if(togSound)togSound.classList.toggle('on',ST.sound);
-  if(togSpeech)togSpeech.classList.toggle('on',ST.speech);
-  updatePremiumUI();renderSubj();renderBadges();
+  document.getElementById('d-stars').textContent = ST.totalStars;
+  document.getElementById('d-levels').textContent = ST.levelsDone;
+  document.getElementById('d-time').textContent = ST.todayMinutes + 'm';
+  var acc = ST.totalAnswers > 0 ? Math.round(ST.correctAnswers / ST.totalAnswers * 100) : 0;
+  document.getElementById('d-accuracy').textContent = acc + '%';
+  document.getElementById('set-name').value = ST.childName;
+  document.getElementById('set-goal').value = ST.dailyGoal;
+  var togSound = document.getElementById('tog-sound');
+  var togSpeech = document.getElementById('tog-speech');
+  if(togSound) togSound.classList.toggle('on', ST.sound);
+  if(togSpeech) togSpeech.classList.toggle('on', ST.speech);
+  updatePremiumUI();
+  renderSubj();
+  renderBadges();
 }
 
 function renderSubj(){
@@ -1278,13 +1456,13 @@ function renderSubj(){
   if(!list)return;
   list.innerHTML='';
   ['abc','numbers','coloring','arabic','math'].forEach(function(m){
-    var tot=gameData[m].length,don=completed[m],pct=Math.round(don/tot*100);
-    var badge=(m==='arabic'||m==='math')?'<span style="font-size:.7rem;background:#f1c40f;color:white;padding:2px 6px;border-radius:10px;margin-left:6px;">PREMIUM</span>':'';
-    list.innerHTML+=`<div class="subject-row"><div class="subject-icon">${icons[m]}</div><div class="subject-info"><div class="subject-name">${labels[m]}${badge}</div><div class="subject-meta">${don}/${tot} levels · ${pct}%</div><div class="mini-bar-wrap"><div class="mini-bar" style="width:${pct}%"></div></div></div></div>`;
+    var tot=gameData[m].length, don=completed[m], pct=Math.round(don/tot*100);
+    var badge=(m==='arabic'||m==='math') ? '<span style="font-size:.7rem;background:#f1c40f;color:white;padding:2px 6px;border-radius:10px;margin-left:6px;">PREMIUM</span>' : '';
+    list.innerHTML += `<div class="subject-row"><div class="subject-icon">${icons[m]}</div><div class="subject-info"><div class="subject-name">${labels[m]}${badge}</div><div class="subject-meta">${don}/${tot} levels · ${pct}%</div><div class="mini-bar-wrap"><div class="mini-bar" style="width:${pct}%"></div></div></div></div>`;
   });
 }
 
-var BDG=[
+var BDG = [
   {icon:'🌟',name:'First Star',desc:'Earn 1 star',fn:function(){return ST.totalStars>=1;}},
   {icon:'🔥',name:'On Fire',desc:'Earn 10 stars',fn:function(){return ST.totalStars>=10;}},
   {icon:'💫',name:'Star Collector',desc:'Earn 50 stars',fn:function(){return ST.totalStars>=50;}},
@@ -1302,7 +1480,7 @@ function renderBadges(){
   g.innerHTML='';
   BDG.forEach(function(b){
     var e=b.fn();
-    g.innerHTML+=`<div style="background:#f8f7ff;border-radius:14px;padding:12px 8px;text-align:center;opacity:${e?1:.4}"><div style="font-size:1.8rem;">${b.icon}</div><div style="font-size:.72rem;font-weight:700;color:#555;margin-top:4px;">${b.name}</div><div style="font-size:.65rem;color:#aaa;">${b.desc}</div></div>`;
+    g.innerHTML += `<div style="background:#f8f7ff;border-radius:14px;padding:12px 8px;text-align:center;opacity:${e?1:.4}"><div style="font-size:1.8rem;">${b.icon}</div><div style="font-size:.72rem;font-weight:700;color:#555;margin-top:4px;">${b.name}</div><div style="font-size:.65rem;color:#aaa;">${b.desc}</div></div>`;
   });
 }
 
@@ -1311,29 +1489,122 @@ window.switchTab=function(tab,el){
   el.classList.add('active');
   ['overview','badges','settings'].forEach(function(t){
     var el2=document.getElementById('tab-'+t);
-    if(el2)el2.style.display=t===tab?'block':'none';
+    if(el2) el2.style.display = t === tab ? 'block' : 'none';
   });
-  if(tab==='badges')renderBadges();
+  if(tab === 'badges') renderBadges();
 };
 
-window.toggleSetting=function(k,el){ST[k]=!ST[k];el.classList.toggle('on',ST[k]);};
-
-window.saveSettings=async function(){
-  var n=document.getElementById('set-name').value.trim();if(n)ST.childName=n;
-  var g=parseInt(document.getElementById('set-goal').value);if(!isNaN(g)&&g>0)ST.dailyGoal=g;
-  var p=document.getElementById('set-pin').value.trim();if(p.length===4&&/^\d+$/.test(p)){ST.pin=p;document.getElementById('set-pin').value='';}
-  await saveToCloud();refreshHome();sfxCorrect();showToast('✅ Settings saved!');
+window.toggleSetting=function(k,el){
+  ST[k] = !ST[k];
+  el.classList.toggle('on', ST[k]);
+  fastSave();
+  saveToCloudLater();
 };
 
-window.resetProgress=async function(){
-  if(!confirm('Reset all progress?'))return;
-  ST.totalStars=ST.totalAnswers=ST.correctAnswers=ST.levelsDone=ST.todayMinutes=0;
-  ST.starsPerDay=[0,0,0,0,0,0,0];
-  Object.keys(completed).forEach(function(k){completed[k]=0;});
-  streak=0;await saveToCloud();refreshHome();renderDash();showToast('🔄 Progress reset');
+window.saveSettings = function() {
+  var btn = document.getElementById('settings-save-btn');
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ Saving...'; }
+  
+  try {
+    var n = document.getElementById('set-name').value.trim();
+    if (n) ST.childName = n;
+    
+    var g = parseInt(document.getElementById('set-goal').value);
+    if (!isNaN(g) && g > 0) ST.dailyGoal = g;
+    
+    var p = document.getElementById('set-pin').value.trim();
+    if (p.length === 4 && /^\d+$/.test(p)) {
+      ST.pin = p;
+      document.getElementById('set-pin').value = '';
+      showToast('✅ PIN changed to: ' + p);
+    }
+    
+    fastSave();
+    saveToCloudLater();
+    refreshHome();
+    sfxCorrect();
+    showToast('✅ Settings saved!');
+  } catch(e) {
+    showToast('❌ Error saving: ' + e.message);
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = '💾 Save Settings'; }
+  }
 };
 
-function showToast(msg){var t=document.getElementById('toast');if(!t)return;t.textContent=msg;t.style.opacity='1';clearTimeout(window._tt);window._tt=setTimeout(function(){t.style.opacity='0';},2500);}
+window.resetProgress = function() {
+  if (!confirm('Reset all progress? This cannot be undone!')) return;
+  ST.totalStars = 0;
+  ST.totalAnswers = 0;
+  ST.correctAnswers = 0;
+  ST.levelsDone = 0;
+  ST.todayMinutes = 0;
+  ST.starsPerDay = [0,0,0,0,0,0,0];
+  Object.keys(completed).forEach(function(k){ completed[k] = 0; });
+  streak = 0;
+  fastSave();
+  saveToCloudLater();
+  refreshHome();
+  renderDash();
+  showToast('🔄 Progress reset');
+};
+
+function showToast(msg){
+  var t = document.getElementById('toast');
+  if(!t) return;
+  t.textContent = msg;
+  t.style.opacity = '1';
+  clearTimeout(window._tt);
+  window._tt = setTimeout(function(){ t.style.opacity = '0'; }, 2500);
+}
+
+// ═══ LEADERBOARD ═══════════════════════════════════
+function loadLeaderboard(){
+  var list = document.getElementById('lb-list');
+  list.innerHTML = '<p style="text-align:center;color:#aaa;padding:20px;">Loading...</p>';
+  
+  db.ref('users').orderByChild('totalStars').limitToLast(10).once('value').then(function(snap) {
+    if (!snap.exists()) {
+      list.innerHTML = '<p style="text-align:center;color:#aaa;padding:20px;">No players yet!</p>';
+      return;
+    }
+    
+    var users = [];
+    snap.forEach(function(child) {
+      var data = child.val();
+      data.uid = child.key;
+      users.push(data);
+    });
+    
+    // Sort by totalStars descending (limitToLast gives lowest first)
+    users.sort(function(a, b) {
+      return (b.totalStars || 0) - (a.totalStars || 0);
+    });
+    
+    var medals = ['🥇','🥈','🥉'];
+    var rankColors = ['gold','silver','bronze'];
+    var html = '';
+    var rank = 1;
+    
+    users.forEach(function(data) {
+      var isMe = currentUser && data.uid === currentUser.uid;
+      var medal = rank <= 3 ? medals[rank-1] : rank;
+      var rankColor = rank <= 3 ? rankColors[rank-1] : '';
+      html += `<div class="lb-item ${isMe?'me':''}">
+        <div class="lb-rank ${rankColor}">${medal}</div>
+        <div class="lb-avatar">👦</div>
+        <div class="lb-info">
+          <div class="lb-name">${data.childName || 'Kid'}${isMe ? ' (You)' : ''}</div>
+          <div class="lb-stars">${data.levelsDone || 0} levels done</div>
+        </div>
+        <div class="lb-score">⭐${data.totalStars || 0}</div>
+      </div>`;
+      rank++;
+    });
+    list.innerHTML = html;
+  }).catch(function() {
+    list.innerHTML = '<p style="text-align:center;color:#aaa;padding:20px;">Could not load</p>';
+  });
+}
 
 // ═══ INIT ═══════════════════════════════════════════
 // Show banner ad
@@ -1347,7 +1618,8 @@ if('speechSynthesis' in window){
   };
 }
 
-console.log('KidLearn Pro loaded successfully!');
+console.log('KidLearn Pro loaded with Realtime Database!');
+console.log('Current PIN:', ST.pin);
 </script>
 </body>
-    </html>
+        </html>
