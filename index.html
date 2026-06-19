@@ -177,17 +177,8 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
 <body>
 <div class="app">
 
-<!-- LOADING -->
-<div id="loading-screen" class="screen active">
-  <div class="loading">
-    <div class="spinner">⭐</div>
-    <p style="margin-top:16px;font-size:1.1rem;font-weight:700;">KidLearn Pro</p>
-    <p style="opacity:.7;margin-top:6px;">Loading...</p>
-  </div>
-</div>
-
 <!-- AUTH -->
-<div id="auth-screen" class="screen">
+<div id="auth-screen" class="screen active">
   <div class="auth-wrap">
     <div class="auth-logo">⭐</div>
     <h1>KidLearn Pro</h1>
@@ -524,9 +515,10 @@ const PREMIUM_URL='https://ayuubgaafaa.github.io/KidLearnPro/premium.html';
 
 // ═══ FIREBASE SAVE/LOAD ═══════════════════
 async function saveToCloud(){
-  if(!currentUser||isGuest)return;
+  const user = auth.currentUser;
+  if(!user||isGuest)return;
   try{
-    await db.collection('users').doc(currentUser.uid).set({
+    await db.collection('users').doc(user.uid).set({
       childName:ST.childName,
       totalStars:ST.totalStars,
       totalAnswers:ST.totalAnswers,
@@ -542,13 +534,14 @@ async function saveToCloud(){
       completed:{...completed},
       updatedAt:new Date().toISOString()
     },{merge:true});
-  }catch(e){console.log('Save error:',e);}
+  }catch(e){console.log('Save error:',e.code,e.message);}
 }
 
 async function loadFromCloud(){
-  if(!currentUser||isGuest)return;
+  const user = auth.currentUser;
+  if(!user||isGuest)return;
   try{
-    const snap=await db.collection('users').doc(currentUser.uid).get();
+    const snap=await db.collection('users').doc(user.uid).get();
     if(snap.exists){
       const d=snap.data();
       if(d.childName)ST.childName=d.childName;
@@ -565,7 +558,7 @@ async function loadFromCloud(){
       if(typeof d.speech==='boolean')ST.speech=d.speech;
       if(d.completed)Object.assign(completed,d.completed);
     }
-  }catch(e){console.log('Load error:',e);}
+  }catch(e){console.log('Load error:',e.code,e.message);}
 }
 
 // ═══ LEADERBOARD ══════════════════════════
@@ -1043,4 +1036,4 @@ function showToast(msg){const t=document.getElementById('toast');t.textContent=m
 if('speechSynthesis' in window){window.speechSynthesis.getVoices();window.speechSynthesis.onvoiceschanged=()=>window.speechSynthesis.getVoices();}
 </script>
 </body>
-        </html>
+  </html>
