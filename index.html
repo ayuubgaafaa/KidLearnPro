@@ -96,6 +96,7 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
 .opt-btn.correct{background:#d5f5e3;border-color:#2ecc71;}
 .opt-btn.wrong{background:#fde8e8;border-color:#e74c3c;}
 .opt-btn.text-opt{font-size:1.1rem;font-weight:700;color:#333;}
+.opt-btn:disabled{opacity:.6;cursor:not-allowed;}
 
 /* CANVAS */
 #paint-canvas{background:white;border:3px solid #ddd;border-radius:14px;display:block;margin:0 auto;touch-action:none;max-width:100%;}
@@ -516,6 +517,8 @@ function sayText(text,lang='en-US',rate=0.72,onEnd){
 let currentUser = null;
 let isGuest = false;
 let isAuthInProgress = false;
+let isAnswering = false;
+let levelTimer = null;
 const ST={childName:'Kid',pin:'1234',dailyGoal:15,totalStars:0,totalAnswers:0,correctAnswers:0,levelsDone:0,sessionStart:null,todayMinutes:0,starsPerDay:[0,0,0,0,0,0,0],sound:true,speech:true,isPremium:false,premiumCode:''};
 const completed={abc:0,numbers:0,coloring:0,arabic:0,math:0};
 
@@ -708,11 +711,9 @@ auth.onAuthStateChanged(async(user)=>{
   if(user){
     currentUser=user;
     isGuest=false;
-    // Show home immediately
     showScreen('home-screen');
     refreshHome();
     updatePremiumUI();
-    // Load data in background
     await loadFromCloud();
     refreshHome();
     updatePremiumUI();
@@ -881,75 +882,178 @@ function refreshHome(){
 
 function startGame(m){
   if(!['abc','numbers','coloring'].includes(m)&&!isPremiumUnlocked()){showPremiumPopup();return;}
-  sfxClick();curMode=m;curIdx=0;streak=0;ST.sessionStart=Date.now();
+  sfxClick();curMode=m;curIdx=0;streak=0;isAnswering=false;ST.sessionStart=Date.now();
   const titles={abc:'ABC English',numbers:'Numbers 123',coloring:'More Fun',arabic:'Arabic عربي',math:'Math ➕➖'};
   const titleEl=document.getElementById('game-title');
   if(titleEl) titleEl.textContent=titles[m];
-  showScreen('game-screen');loadLevel();
+  showScreen('game-screen');
+  loadLevel();
 }
 window.startGame=startGame;
 
 function loadLevel(){
-  const data=gameData[curMode];
-  const quizOpts=document.getElementById('quiz-options');
-  const coloringArea=document.getElementById('coloring-area');
-  const listenHint=document.getElementById('listen-hint');
-  if(quizOpts) quizOpts.style.display='grid';
-  if(coloringArea) coloringArea.style.display='none';
-  if(listenHint) listenHint.style.display='block';
-  if(curIdx>=data.length){sfxLevelUp();showToast('🎉 Section complete!');setTimeout(exitGame,2000);return;}
-  mistakes=0;
-  const q=data[curIdx];
-  correctAns=q.a;curSpeech=q.speech;curSpeechLang=q.speechLang||'en-US';
-  const levelLbl=document.getElementById('level-lbl');
-  if(levelLbl) levelLbl.textContent=`Level ${curIdx+1} of ${data.length}`;
-  const questionEl=document.getElementById('question');
-  if(questionEl) questionEl.textContent=q.q;
-  const wordLabel=document.getElementById('word-label');
-  if(wordLabel) wordLabel.textContent=q.word||'';
-  const bar=document.getElementById('streak-bar');
-  if(bar){bar.innerHTML='';for(let i=0;i<Math.min(streak,10);i++){const d=document.createElement('div');d.className='streak-dot hit';bar.appendChild(d);}}
-  const grid=document.getElementById('quiz-options');
-  if(grid){grid.innerHTML='';q.options.forEach(opt=>{const b=document.createElement('button');b.className='opt-btn'+(q.textOpts?' text-opt':'');b.textContent=opt;b.onclick=()=>checkAnswer(b);grid.appendChild(b);});}
-  if(ST.speech)setTimeout(speakQuestion,400);
+  // Clear any pending timers
+  if(levelTimer){
+    clearTimeout(levelTimer);
+    levelTimer = null;
+  }
+  isAnswering = false;
+  
+  const data = gameData[curMode];
+  const quizOpts = document.getElementById('quiz-options');
+  const coloringArea = document.getElementById('coloring-area');
+  const listenHint = document.getElementById('listen-hint');
+  
+  if(quizOpts) quizOpts.style.display = 'grid';
+  if(coloringArea) coloringArea.style.display = 'none';
+  if(listenHint) listenHint.style.display = 'block';
+  
+  // Check if we've completed all levels
+  if(curIdx >= data.length){
+    sfxLevelUp();
+    showToast('🎉 Section complete!');
+    setTimeout(exitGame, 2000);
+    return;
+  }
+  
+  mistakes = 0;
+  const q = data[curIdx];
+  correctAns = q.a;
+  curSpeech = q.speech;
+  curSpeechLang = q.speechLang || 'en-US';
+  
+  const levelLbl = document.getElementById('level-lbl');
+  if(levelLbl) levelLbl.textContent = `Level ${curIdx+1} of ${data.length}`;
+  
+  const questionEl = document.getElementById('question');
+  if(questionEl) questionEl.textContent = q.q;
+  
+  const wordLabel = document.getElementById('word-label');
+  if(wordLabel) wordLabel.textContent = q.word || '';
+  
+  const bar = document.getElementById('streak-bar');
+  if(bar){
+    bar.innerHTML = '';
+    for(let i=0; i<Math.min(streak, 10); i++){
+      const d = document.createElement('div');
+      d.className = 'streak-dot hit';
+      bar.appendChild(d);
+    }
+  }
+  
+  const grid = document.getElementById('quiz-options');
+  if(grid){
+    grid.innerHTML = '';
+    q.options.forEach(opt => {
+      const b = document.createElement('button');
+      b.className = 'opt-btn' + (q.textOpts ? ' text-opt' : '');
+      b.textContent = opt;
+      b.onclick = function() { checkAnswer(this); };
+      grid.appendChild(b);
+    });
+  }
+  
+  if(ST.speech) setTimeout(speakQuestion, 400);
 }
 
 function speakQuestion(){
-  if(!ST.speech)return;
-  const qBox=document.getElementById('question');
+  if(!ST.speech) return;
+  const qBox = document.getElementById('question');
   if(qBox) qBox.classList.add('speaking');
-  sayText(curSpeech,curSpeechLang,0.72,()=>{if(qBox) qBox.classList.remove('speaking');});
+  sayText(curSpeech, curSpeechLang, 0.72, function(){
+    if(qBox) qBox.classList.remove('speaking');
+  });
 }
-window.speakQuestion=speakQuestion;
+window.speakQuestion = speakQuestion;
 
 async function checkAnswer(btn){
-  ST.totalAnswers++;
-  if(btn.textContent===correctAns){
+  // Prevent multiple clicks while processing
+  if(isAnswering) return;
+  if(btn.disabled) return;
+  
+  // Disable all buttons immediately
+  const allBtns = document.querySelectorAll('.opt-btn');
+  allBtns.forEach(b => b.disabled = true);
+  
+  if(btn.textContent === correctAns){
+    // CORRECT ANSWER
+    isAnswering = true;
     btn.classList.add('correct');
-    ST.correctAnswers++;streak++;
-    const stars=mistakes===0?3:mistakes===1?2:1;
-    ST.totalStars+=stars;
-    completed[curMode]=Math.min(completed[curMode]+1,gameData[curMode].length);
-    ST.levelsDone++;ST.starsPerDay[6]=(ST.starsPerDay[6]||0)+stars;
-    sfxCorrect();if(stars===3)setTimeout(sfxStar,500);
-    showToast(stars===3?'⭐⭐⭐ Perfect!':stars===2?'⭐⭐ Great job!':'⭐ Good try!');
-    if(ST.speech){const q=gameData[curMode][curIdx];setTimeout(()=>sayText(stars===3?'Excellent! '+q.word+'!':'Great job!','en-US',.85),300);}
-    curIdx++;refreshHome();
+    ST.correctAnswers++;
+    streak++;
+    ST.totalAnswers++;
+    
+    const stars = mistakes === 0 ? 3 : (mistakes === 1 ? 2 : 1);
+    ST.totalStars += stars;
+    ST.levelsDone++;
+    ST.starsPerDay[6] = (ST.starsPerDay[6] || 0) + stars;
+    
+    // Update completed levels
+    completed[curMode] = Math.min(completed[curMode] + 1, gameData[curMode].length);
+    
+    sfxCorrect();
+    if(stars === 3) setTimeout(sfxStar, 500);
+    
+    const msg = stars === 3 ? '⭐⭐⭐ Perfect!' : (stars === 2 ? '⭐⭐ Great job!' : '⭐ Good try!');
+    showToast(msg);
+    
+    if(ST.speech){
+      const q = gameData[curMode][curIdx];
+      setTimeout(function() {
+        sayText(stars === 3 ? 'Excellent! '+q.word+'!' : 'Great job!', 'en-US', 0.85);
+      }, 300);
+    }
+    
+    refreshHome();
     await saveToCloud();
-    setTimeout(loadLevel,1700);
+    
+    // Move to next level after delay
+    levelTimer = setTimeout(function() {
+      curIdx++;
+      loadLevel();
+    }, 1800);
+    
   } else {
-    btn.classList.add('wrong');btn.disabled=true;mistakes++;
+    // WRONG ANSWER
+    btn.classList.add('wrong');
+    mistakes++;
+    ST.totalAnswers++;
     sfxWrong();
-    if(ST.speech)setTimeout(()=>sayText('Try again!','en-US',.9),100);
+    if(ST.speech) setTimeout(function() {
+      sayText('Try again!', 'en-US', 0.9);
+    }, 100);
+    
+    // Re-enable buttons after delay (except the wrong one)
+    setTimeout(function() {
+      const btns = document.querySelectorAll('.opt-btn');
+      btns.forEach(b => {
+        if(!b.classList.contains('correct') && !b.classList.contains('wrong')){
+          b.disabled = false;
+        }
+      });
+      isAnswering = false;
+    }, 600);
   }
 }
 
 function exitGame(){
-  if(ST.sessionStart){ST.todayMinutes+=Math.round((Date.now()-ST.sessionStart)/60000);ST.sessionStart=null;}
-  if(window.speechSynthesis)window.speechSynthesis.cancel();
-  saveToCloud();refreshHome();showScreen('home-screen');
+  // Clear any pending timers
+  if(levelTimer){
+    clearTimeout(levelTimer);
+    levelTimer = null;
+  }
+  isAnswering = false;
+  
+  if(ST.sessionStart){
+    ST.todayMinutes += Math.round((Date.now() - ST.sessionStart) / 60000);
+    ST.sessionStart = null;
+  }
+  if(window.speechSynthesis) window.speechSynthesis.cancel();
+  saveToCloud();
+  refreshHome();
+  showScreen('home-screen');
 }
-window.exitGame=exitGame;
+window.exitGame = exitGame;
 
 // ═══ CANVAS ══════════════════════════════
 const cvs=document.getElementById('paint-canvas');
@@ -1101,4 +1205,4 @@ function showToast(msg){const t=document.getElementById('toast');if(!t)return;t.
 if('speechSynthesis' in window){window.speechSynthesis.getVoices();window.speechSynthesis.onvoiceschanged=()=>window.speechSynthesis.getVoices();}
 </script>
 </body>
-      </html>
+  </html>
