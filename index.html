@@ -44,7 +44,11 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
 .user-info .stars{font-size:.9rem;opacity:.9;}
 .progress-bar-wrap{background:rgba(255,255,255,.2);border-radius:8px;height:8px;margin-top:6px;overflow:hidden;}
 .progress-bar{background:#f1c40f;height:100%;border-radius:8px;width:0%;transition:width .5s;}
-.logout-btn{background:rgba(255,255,255,.2);border:none;color:white;padding:6px 10px;border-radius:8px;font-size:.75rem;cursor:pointer;margin-top:4px;}
+.user-buttons{display:flex;gap:8px;margin-top:6px;}
+.user-buttons button{background:rgba(255,255,255,.2);border:none;color:white;padding:6px 12px;border-radius:8px;font-size:.75rem;cursor:pointer;transition:background .2s;}
+.user-buttons button:active{transform:scale(.95);}
+.sync-btn{background:rgba(0,184,148,0.4) !important;border:1px solid rgba(0,184,148,0.6) !important;}
+.sync-btn:active{background:rgba(0,184,148,0.7) !important;}
 .cards-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
 .card{background:white;color:#333;border-radius:22px;padding:18px 14px;display:flex;flex-direction:column;align-items:center;cursor:pointer;transition:transform .15s,box-shadow .15s;box-shadow:0 4px 12px rgba(0,0,0,.15);position:relative;}
 .card:active{transform:scale(.95);}
@@ -251,7 +255,10 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
       <h2 id="child-name-display">Hello! 👋</h2>
       <div class="stars" id="star-count">⭐ 0 stars collected</div>
       <div class="progress-bar-wrap"><div id="main-progress" class="progress-bar"></div></div>
-      <button class="logout-btn" onclick="doLogout()">🚪 Logout</button>
+      <div class="user-buttons">
+        <button onclick="doLogout()">🚪 Logout</button>
+        <button class="sync-btn" onclick="forceSync()">🔄 Sync Now</button>
+      </div>
     </div>
   </div>
 
@@ -497,6 +504,7 @@ let isAnswering = false;
 let levelTimer = null;
 let saveTimeout = null;
 let dbRef = null;
+let isCloudDataLoaded = false;
 
 // Persistent state
 let ST = {
@@ -521,27 +529,20 @@ let curMode='abc', curIdx=0, mistakes=0, correctAns='', curSpeech='', curSpeechL
 
 const PREMIUM_URL='https://ayuubgaafaa.github.io/KidLearnPro/premium.html';
 
-// ═══ FAST SAVE (localStorage) ═════════════════════════
+// ═══ FAST SAVE (localStorage - fallback only) ════════
 function fastSave() {
   try {
     const data = {
       ST: ST,
       completed: completed,
-      streak: streak
+      streak: streak,
+      _cloudSynced: isCloudDataLoaded
     };
     localStorage.setItem('kidlearn_data', JSON.stringify(data));
   } catch(e) { /* ignore */ }
 }
 
-function saveToCloudLater() {
-  if (saveTimeout) clearTimeout(saveTimeout);
-  saveTimeout = setTimeout(function() {
-    saveToCloud();
-  }, 500);
-}
-
-// ═══ REAL-TIME DATABASE SAVE/LOAD ═══════════════════
-function saveToCloud() {
+function saveToCloudNow() {
   const user = auth.currentUser;
   if (!user || isGuest) {
     fastSave();
@@ -567,23 +568,39 @@ function saveToCloud() {
       streak: streak,
       updatedAt: Date.now()
     }).then(function() {
-      console.log('RTDB save done');
+      console.log('✅ Cloud save successful');
+      isCloudDataLoaded = true;
+      fastSave();
     }).catch(function(e) {
-      console.log('RTDB save error:', e);
+      console.log('❌ Cloud save error:', e);
+      fastSave();
     });
+  } catch(e) { 
+    console.log('❌ Save error:', e);
     fastSave();
-  } catch(e) { /* ignore */ }
+  }
 }
 
-function loadData() {
+function saveToCloudLater() {
+  if (saveTimeout) clearTimeout(saveTimeout);
+  saveTimeout = setTimeout(function() {
+    saveToCloudNow();
+  }, 300);
+}
+
+// ═══ LOAD DATA - PRIORITIZES CLOUD ══════════════════
+function loadLocalData() {
   try {
     const saved = localStorage.getItem('kidlearn_data');
     if (saved) {
       const data = JSON.parse(saved);
-      if (data.ST) Object.assign(ST, data.ST);
-      if (data.completed) Object.assign(completed, data.completed);
-      if (data.streak !== undefined) streak = data.streak;
-      return true;
+      if (!isCloudDataLoaded) {
+        if (data.ST) Object.assign(ST, data.ST);
+        if (data.completed) Object.assign(completed, data.completed);
+        if (data.streak !== undefined) streak = data.streak;
+        console.log('📱 Loaded local data');
+        return true;
+      }
     }
   } catch(e) { /* ignore */ }
   return false;
@@ -592,13 +609,17 @@ function loadData() {
 function loadFromCloud() {
   const user = auth.currentUser;
   if (!user || isGuest) {
-    loadData();
+    loadLocalData();
     return Promise.resolve();
   }
+  
+  console.log('☁️ Loading cloud data for:', user.uid);
   
   return db.ref('users/' + user.uid).once('value').then(function(snap) {
     if (snap.exists()) {
       const d = snap.val();
+      console.log('☁️ Cloud data found');
+      
       if (d.childName !== undefined) ST.childName = d.childName;
       if (d.totalStars !== undefined) ST.totalStars = d.totalStars;
       if (d.totalAnswers !== undefined) ST.totalAnswers = d.totalAnswers;
@@ -613,14 +634,71 @@ function loadFromCloud() {
       if (typeof d.speech === 'boolean') ST.speech = d.speech;
       if (d.completed) Object.assign(completed, d.completed);
       if (d.streak !== undefined) streak = d.streak;
+      
+      isCloudDataLoaded = true;
+      fastSave();
+      console.log('✅ Cloud data loaded successfully');
     } else {
-      loadData();
+      console.log('📭 No cloud data found, using local');
+      loadLocalData();
+      saveToCloudNow();
     }
-    fastSave();
-  }).catch(function() {
-    loadData();
+  }).catch(function(err) {
+    console.log('❌ Cloud load error:', err);
+    loadLocalData();
   });
 }
+
+// ═══ FORCE SYNC FROM CLOUD ══════════════════════════
+window.forceSync = function() {
+  const user = auth.currentUser;
+  if (!user) {
+    showToast('❌ Please login first');
+    return;
+  }
+  
+  showToast('🔄 Syncing from cloud...');
+  
+  db.ref('users/' + user.uid).once('value').then(function(snap) {
+    if (snap.exists()) {
+      const d = snap.val();
+      
+      // Update all data from cloud
+      if (d.childName !== undefined) ST.childName = d.childName;
+      if (d.totalStars !== undefined) ST.totalStars = d.totalStars;
+      if (d.totalAnswers !== undefined) ST.totalAnswers = d.totalAnswers;
+      if (d.correctAnswers !== undefined) ST.correctAnswers = d.correctAnswers;
+      if (d.levelsDone !== undefined) ST.levelsDone = d.levelsDone;
+      if (d.todayMinutes !== undefined) ST.todayMinutes = d.todayMinutes;
+      if (d.isPremium !== undefined) ST.isPremium = d.isPremium;
+      if (d.premiumCode !== undefined) ST.premiumCode = d.premiumCode;
+      if (d.pin !== undefined) ST.pin = d.pin;
+      if (d.dailyGoal !== undefined) ST.dailyGoal = d.dailyGoal;
+      if (typeof d.sound === 'boolean') ST.sound = d.sound;
+      if (typeof d.speech === 'boolean') ST.speech = d.speech;
+      if (d.completed) Object.assign(completed, d.completed);
+      if (d.streak !== undefined) streak = d.streak;
+      
+      isCloudDataLoaded = true;
+      fastSave();
+      refreshHome();
+      updatePremiumUI();
+      
+      // If dashboard is open, refresh it
+      if (document.getElementById('dash-screen').classList.contains('active')) {
+        renderDash();
+      }
+      
+      showToast('✅ Synced! Stars: ' + ST.totalStars);
+      console.log('✅ Sync complete. Stars:', ST.totalStars);
+    } else {
+      showToast('📭 No cloud data found');
+    }
+  }).catch(function(err) {
+    showToast('❌ Sync error: ' + err.message);
+    console.log('❌ Sync error:', err);
+  });
+};
 
 // ═══ SETUP REAL-TIME LISTENER ═══════════════════════
 function setupRealtimeListener(userId) {
@@ -631,47 +709,58 @@ function setupRealtimeListener(userId) {
   
   if (!userId || isGuest) return;
   
+  console.log('🔊 Setting up real-time listener for:', userId);
+  
   dbRef = db.ref('users/' + userId);
   dbRef.on('value', function(snap) {
     if (snap.exists()) {
       const d = snap.val();
-      // Only update if data changed from server
-      if (d.updatedAt) {
-        const localData = localStorage.getItem('kidlearn_data');
-        let localUpdated = 0;
-        if (localData) {
-          try {
-            const parsed = JSON.parse(localData);
-            if (parsed.ST && parsed.ST.updatedAt) {
-              localUpdated = parsed.ST.updatedAt || 0;
-            }
-          } catch(e) {}
+      
+      // Check if cloud data is newer
+      const cloudUpdated = d.updatedAt || 0;
+      const localData = localStorage.getItem('kidlearn_data');
+      let localUpdated = 0;
+      if (localData) {
+        try {
+          const parsed = JSON.parse(localData);
+          if (parsed.ST && parsed.ST._updatedAt) {
+            localUpdated = parsed.ST._updatedAt || 0;
+          }
+        } catch(e) {}
+      }
+      
+      if (cloudUpdated > localUpdated || !isCloudDataLoaded) {
+        console.log('🔄 Syncing cloud changes...');
+        
+        if (d.childName !== undefined) ST.childName = d.childName;
+        if (d.totalStars !== undefined) ST.totalStars = d.totalStars;
+        if (d.totalAnswers !== undefined) ST.totalAnswers = d.totalAnswers;
+        if (d.correctAnswers !== undefined) ST.correctAnswers = d.correctAnswers;
+        if (d.levelsDone !== undefined) ST.levelsDone = d.levelsDone;
+        if (d.todayMinutes !== undefined) ST.todayMinutes = d.todayMinutes;
+        if (d.isPremium !== undefined) ST.isPremium = d.isPremium;
+        if (d.premiumCode !== undefined) ST.premiumCode = d.premiumCode;
+        if (d.pin !== undefined) ST.pin = d.pin;
+        if (d.dailyGoal !== undefined) ST.dailyGoal = d.dailyGoal;
+        if (typeof d.sound === 'boolean') ST.sound = d.sound;
+        if (typeof d.speech === 'boolean') ST.speech = d.speech;
+        if (d.completed) Object.assign(completed, d.completed);
+        if (d.streak !== undefined) streak = d.streak;
+        
+        isCloudDataLoaded = true;
+        fastSave();
+        refreshHome();
+        updatePremiumUI();
+        
+        if (document.getElementById('dash-screen').classList.contains('active')) {
+          renderDash();
         }
         
-        // If server data is newer, update
-        if (d.updatedAt > localUpdated) {
-          if (d.childName !== undefined) ST.childName = d.childName;
-          if (d.totalStars !== undefined) ST.totalStars = d.totalStars;
-          if (d.totalAnswers !== undefined) ST.totalAnswers = d.totalAnswers;
-          if (d.correctAnswers !== undefined) ST.correctAnswers = d.correctAnswers;
-          if (d.levelsDone !== undefined) ST.levelsDone = d.levelsDone;
-          if (d.todayMinutes !== undefined) ST.todayMinutes = d.todayMinutes;
-          if (d.isPremium !== undefined) ST.isPremium = d.isPremium;
-          if (d.premiumCode !== undefined) ST.premiumCode = d.premiumCode;
-          if (d.pin !== undefined) ST.pin = d.pin;
-          if (d.dailyGoal !== undefined) ST.dailyGoal = d.dailyGoal;
-          if (typeof d.sound === 'boolean') ST.sound = d.sound;
-          if (typeof d.speech === 'boolean') ST.speech = d.speech;
-          if (d.completed) Object.assign(completed, d.completed);
-          if (d.streak !== undefined) streak = d.streak;
-          fastSave();
-          refreshHome();
-          updatePremiumUI();
-        }
+        console.log('✅ Real-time sync complete');
       }
     }
   }, function(error) {
-    console.log('RTDB listener error:', error);
+    console.log('❌ RTDB listener error:', error);
   });
 }
 
@@ -779,7 +868,7 @@ window.showRewardedAd = function() {
       ST.levelsDone += 1;
       refreshHome();
       fastSave();
-      saveToCloudLater();
+      saveToCloudNow();
       sfxStar();
       showToast('🎉 You earned 5 stars! ⭐⭐⭐⭐⭐');
     } else {
@@ -865,7 +954,7 @@ window.doRegister = function() {
   auth.createUserWithEmailAndPassword(email,pass).then(function(cred) {
     ST.childName=child;
     fastSave();
-    saveToCloudLater();
+    saveToCloudNow();
   }).catch(function(e) {
     err.textContent=e.code==='auth/email-already-in-use'?'Email already registered':e.message;
     setAuthLoading(false, 'register');
@@ -901,28 +990,29 @@ window.doLogout = function() {
     showScreen('auth-screen');
     return;
   }
-  // Remove listener
   if (dbRef) {
     dbRef.off();
     dbRef = null;
   }
+  isCloudDataLoaded = false;
   auth.signOut();
 };
 
 // ═══ FAST AUTH STATE LISTENER ════════════════════════
-// Show auth screen immediately, no waiting
 document.getElementById('boot-loading').style.display = 'none';
 document.getElementById('auth-screen').classList.add('active');
 
-// Load data from localStorage immediately
-loadData();
+// Load local data initially
+loadLocalData();
 
 auth.onAuthStateChanged(function(user) {
   if (user && !isGuest) {
     currentUser = user;
     isGuest = false;
-    // Setup real-time listener
+    console.log('👤 User logged in:', user.email);
+    
     setupRealtimeListener(user.uid);
+    
     loadFromCloud().then(function() {
       showScreen('home-screen');
       refreshHome();
@@ -930,15 +1020,14 @@ auth.onAuthStateChanged(function(user) {
       isAuthInProgress = false;
       setAuthLoading(false, 'login');
       setAuthLoading(false, 'register');
+      console.log('✅ App ready with cloud data');
     });
   } else if (!isGuest) {
     currentUser = null;
-    // Remove listener
     if (dbRef) {
       dbRef.off();
       dbRef = null;
     }
-    // Only show auth if not already showing
     if (!document.getElementById('auth-screen').classList.contains('active')) {
       showScreen('auth-screen');
     }
@@ -1233,7 +1322,7 @@ function checkAnswer(btn){
     
     refreshHome();
     fastSave();
-    saveToCloudLater();
+    saveToCloudNow();
     
     if (ST.correctAnswers % 3 === 0 && !isGuest) {
       levelTimer = setTimeout(function() {
@@ -1283,7 +1372,7 @@ window.exitGame = function() {
   }
   if(window.speechSynthesis) window.speechSynthesis.cancel();
   fastSave();
-  saveToCloudLater();
+  saveToCloudNow();
   refreshHome();
   window.showScreen('home-screen');
 };
@@ -1413,7 +1502,7 @@ window.activatePremiumCode = function() {
     showToast('🎉 Premium Unlocked!');
     errEl.textContent = '';
     document.getElementById('set-code').value = '';
-    saveToCloudLater();
+    saveToCloudNow();
   } else {
     errEl.textContent = '❌ Invalid code. Please check and try again.';
     sfxWrong();
@@ -1425,7 +1514,7 @@ window.revokePremium = function() {
   ST.isPremium = false;
   ST.premiumCode = '';
   fastSave();
-  saveToCloudLater();
+  saveToCloudNow();
   updatePremiumUI();
   refreshHome();
   showToast('Premium deactivated');
@@ -1498,7 +1587,7 @@ window.toggleSetting=function(k,el){
   ST[k] = !ST[k];
   el.classList.toggle('on', ST[k]);
   fastSave();
-  saveToCloudLater();
+  saveToCloudNow();
 };
 
 window.saveSettings = function() {
@@ -1520,7 +1609,7 @@ window.saveSettings = function() {
     }
     
     fastSave();
-    saveToCloudLater();
+    saveToCloudNow();
     refreshHome();
     sfxCorrect();
     showToast('✅ Settings saved!');
@@ -1542,7 +1631,7 @@ window.resetProgress = function() {
   Object.keys(completed).forEach(function(k){ completed[k] = 0; });
   streak = 0;
   fastSave();
-  saveToCloudLater();
+  saveToCloudNow();
   refreshHome();
   renderDash();
   showToast('🔄 Progress reset');
@@ -1575,7 +1664,6 @@ function loadLeaderboard(){
       users.push(data);
     });
     
-    // Sort by totalStars descending (limitToLast gives lowest first)
     users.sort(function(a, b) {
       return (b.totalStars || 0) - (a.totalStars || 0);
     });
@@ -1607,10 +1695,8 @@ function loadLeaderboard(){
 }
 
 // ═══ INIT ═══════════════════════════════════════════
-// Show banner ad
 setTimeout(showBannerAd, 1000);
 
-// Get speech synthesis voices
 if('speechSynthesis' in window){
   window.speechSynthesis.getVoices();
   window.speechSynthesis.onvoiceschanged = function() {
@@ -1618,8 +1704,10 @@ if('speechSynthesis' in window){
   };
 }
 
-console.log('KidLearn Pro loaded with Realtime Database!');
-console.log('Current PIN:', ST.pin);
+console.log('🚀 KidLearn Pro loaded!');
+console.log('💡 Tap "Sync Now" to sync data from cloud');
+console.log('🔑 Current PIN:', ST.pin);
+console.log('⭐ Total Stars:', ST.totalStars);
 </script>
 </body>
-        </html>
+  </html>
