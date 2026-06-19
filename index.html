@@ -538,7 +538,37 @@ async function saveToCloud(){
       completed:{...completed},
       updatedAt:new Date().toISOString()
     },{merge:true});
-  }catch(e){console.log('Save error:',e.code,e.message);}
+  }catch(e){
+    console.log('Save error:',e.code,e.message);
+  }
+}
+
+async function saveToCloudSilent(){
+  // Non-blocking save - fire and forget
+  setTimeout(async () => {
+    try {
+      const user = auth.currentUser;
+      if(!user||isGuest)return;
+      await db.collection('users').doc(user.uid).set({
+        childName:ST.childName,
+        totalStars:ST.totalStars,
+        totalAnswers:ST.totalAnswers,
+        correctAnswers:ST.correctAnswers,
+        levelsDone:ST.levelsDone,
+        todayMinutes:ST.todayMinutes,
+        isPremium:ST.isPremium,
+        premiumCode:ST.premiumCode,
+        pin:ST.pin,
+        dailyGoal:ST.dailyGoal,
+        sound:ST.sound,
+        speech:ST.speech,
+        completed:{...completed},
+        updatedAt:new Date().toISOString()
+      },{merge:true});
+    } catch(e){
+      console.log('Silent save error:',e.code,e.message);
+    }
+  }, 100);
 }
 
 async function loadFromCloud(){
@@ -978,8 +1008,11 @@ async function checkAnswer(btn){
     }
     
     refreshHome();
-    await saveToCloud();
     
+    // Save to cloud in the background - don't wait for it
+    saveToCloudSilent();
+    
+    // Move to next level after delay - ALWAYS happens regardless of save
     levelTimer = setTimeout(function() {
       curIdx++;
       loadLevel();
@@ -1018,7 +1051,7 @@ function exitGame(){
     ST.sessionStart = null;
   }
   if(window.speechSynthesis) window.speechSynthesis.cancel();
-  saveToCloud();
+  saveToCloudSilent();
   refreshHome();
   showScreen('home-screen');
 }
@@ -1174,4 +1207,4 @@ function showToast(msg){const t=document.getElementById('toast');if(!t)return;t.
 if('speechSynthesis' in window){window.speechSynthesis.getVoices();window.speechSynthesis.onvoiceschanged=()=>window.speechSynthesis.getVoices();}
 </script>
 </body>
-          </html>
+  </html>
