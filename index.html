@@ -10,8 +10,6 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
 .app{width:100%;max-width:420px;}
 .screen{display:none;}
 .screen.active{display:block;}
-
-/* AUTH */
 .auth-wrap{background:white;color:#333;border-radius:28px;padding:30px 24px;box-shadow:0 12px 30px rgba(0,0,0,.22);}
 .auth-logo{text-align:center;font-size:50px;margin-bottom:8px;}
 .auth-wrap h1{text-align:center;font-size:1.8rem;font-weight:800;color:#4a3487;margin-bottom:4px;}
@@ -31,8 +29,6 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
 .auth-error{color:#e74c3c;font-size:.82rem;text-align:center;margin-top:8px;min-height:18px;}
 .guest-btn{width:100%;background:#f5f5f5;border:2px solid #ddd;color:#888;padding:12px;border-radius:14px;font-size:.9rem;font-weight:600;cursor:pointer;margin-top:10px;}
 .auth-loading{display:none;text-align:center;padding:8px;color:#6c72e6;font-weight:600;font-size:.85rem;}
-
-/* HOME */
 .home-header{text-align:center;padding:10px 0 4px;}
 .home-header .logo{font-size:44px;}
 .home-header h1{font-size:2.2rem;font-weight:800;letter-spacing:-1px;}
@@ -81,8 +77,6 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
 .nav-btn{flex:1;background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.25);color:white;padding:11px 6px;border-radius:14px;font-size:.82rem;font-weight:600;cursor:pointer;text-align:center;}
 .upgrade-btn{width:100%;background:linear-gradient(135deg,#f1c40f,#e67e22);border:none;color:white;padding:13px;border-radius:14px;font-size:.95rem;font-weight:800;cursor:pointer;margin-bottom:10px;box-shadow:0 4px 14px rgba(241,196,15,.4);}
 .watch-ad-btn{width:100%;background:linear-gradient(135deg,#00b894,#00a3d0);border:none;color:white;padding:13px;border-radius:14px;font-size:.95rem;font-weight:800;cursor:pointer;margin-bottom:10px;box-shadow:0 4px 14px rgba(0,184,148,.4);}
-
-/* LEADERBOARD */
 .lb-wrap{background:white;color:#333;border-radius:28px;padding:24px 20px;box-shadow:0 12px 30px rgba(0,0,0,.22);}
 .lb-wrap h2{font-size:1.4rem;font-weight:800;color:#4a3487;margin-bottom:16px;text-align:center;}
 .lb-item{display:flex;align-items:center;gap:12px;padding:12px;border-radius:14px;margin-bottom:8px;background:#f8f7ff;}
@@ -98,46 +92,36 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
 .lb-score{font-size:1.1rem;font-weight:800;color:#4a3487;}
 .lb-empty{text-align:center;color:#aaa;padding:40px 20px;font-size:.95rem;}
 .lb-empty span{font-size:2rem;display:block;margin-bottom:10px;}
-
-/* GAME CONTAINERS */
 .game-wrap{background:white;color:#333;border-radius:28px;padding:20px 18px;box-shadow:0 12px 30px rgba(0,0,0,.22);}
 .game-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
 .game-title{font-size:1.3rem;font-weight:800;color:#4a3487;}
 .back-btn{background:#e74c3c;color:white;border:none;padding:6px 14px;border-radius:10px;cursor:pointer;font-weight:700;font-size:.8rem;}
-
-/* BINGO */
 .bingo-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0;max-width:350px;margin:10px auto;}
 .bingo-cell{background:#f5f5f5;border-radius:12px;padding:15px 8px;text-align:center;font-size:1.3rem;font-weight:700;cursor:pointer;transition:all .3s;border:3px solid #ddd;color:#333;}
 .bingo-cell.marked{background:#2ecc71;border-color:#27ae60;color:white;transform:scale(.95);}
 .bingo-cell.wrong{background:#e74c3c;border-color:#c0392b;color:white;animation:shake .3s;}
 @keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-10px);}75%{transform:translateX(10px);}}
 .bingo-cell:active:not(.marked){transform:scale(.9);}
-
-/* OTHER GAME STYLES */
 .memory-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0;max-width:350px;margin:10px auto;}
 .mem-card{aspect-ratio:1;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:2rem;cursor:pointer;transition:all .3s;box-shadow:0 4px 15px rgba(0,0,0,.1);}
 .mem-card.flipped{background:#fff;transform:rotateY(180deg);}
 .mem-card.matched{background:#2ecc71;transform:scale(.95);cursor:default;opacity:.7;}
 .mem-card:hover:not(.flipped):not(.matched){transform:scale(1.05);}
-
 .scrambled-word{text-align:center;font-size:2.5rem;font-weight:800;color:#4a3487;letter-spacing:6px;padding:15px;background:#f5f5f5;border-radius:15px;margin:10px 0;}
 .scramble-input{display:flex;gap:10px;margin:10px 0;max-width:350px;margin:10px auto;}
 .scramble-input input{flex:1;padding:12px;border:2px solid #ddd;border-radius:12px;font-size:1rem;outline:none;}
 .scramble-input button{padding:12px 20px;border:none;border-radius:12px;background:#6c72e6;color:white;font-weight:700;cursor:pointer;}
-
 .color-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:3px;margin:10px 0;max-width:350px;margin:10px auto;}
 .color-cell{aspect-ratio:1;border-radius:4px;cursor:pointer;background:#f0f0f0;border:1px solid #ddd;font-size:.6rem;display:flex;align-items:center;justify-content:center;color:#999;font-weight:700;}
 .color-cell.colored{border-color:transparent;}
 .color-palette{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:8px 0;}
 .color-pick{width:30px;height:30px;border-radius:50%;border:3px solid transparent;cursor:pointer;transition:all .3s;}
 .color-pick.active{border-color:#333;transform:scale(1.15);}
-
 .typing-display{background:#f5f5f5;padding:20px;border-radius:15px;text-align:center;font-size:1.2rem;line-height:2rem;margin:10px 0;color:#333;max-width:350px;margin:10px auto;}
 .typing-display .typed{color:#2ecc71;}
 .typing-display .current{color:#f1c40f;text-decoration:underline;font-weight:700;}
 .typing-display .remaining{color:#999;}
 .typing-input{width:100%;padding:12px;border:2px solid #ddd;border-radius:12px;font-size:1rem;text-align:center;outline:none;max-width:350px;display:block;margin:10px auto;}
-
 .geo-question{background:#f5f5f5;padding:20px;border-radius:15px;text-align:center;font-size:1.1rem;font-weight:600;color:#333;margin:10px 0;min-height:60px;}
 .geo-options{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;max-width:350px;margin:10px auto;}
 .geo-opt{padding:12px;border:none;border-radius:12px;font-weight:600;background:#f0f0f0;cursor:pointer;transition:all .3s;}
@@ -145,7 +129,6 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
 .geo-opt.correct{background:#2ecc71;color:white;}
 .geo-opt.wrong{background:#e74c3c;color:white;}
 .geo-opt:disabled{opacity:.5;cursor:not-allowed;}
-
 .wsearch-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:3px;margin:10px 0;max-width:350px;margin:10px auto;}
 .wsearch-cell{aspect-ratio:1;background:#f0f0f0;border-radius:4px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem;cursor:pointer;transition:all .2s;color:#333;}
 .wsearch-cell.found{background:#2ecc71;color:white;}
@@ -153,23 +136,19 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
 .wsearch-words{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:10px 0;}
 .wsearch-tag{padding:4px 12px;border-radius:15px;background:#f0f0f0;font-size:.8rem;font-weight:600;color:#333;}
 .wsearch-tag.found{background:#2ecc71;color:white;text-decoration:line-through;}
-
 .animal-display{background:#f5f5f5;border-radius:15px;padding:20px;text-align:center;font-size:4rem;margin:10px 0;cursor:pointer;min-height:120px;display:flex;align-items:center;justify-content:center;}
 .sound-btn{width:100%;max-width:350px;display:block;margin:10px auto;padding:12px;border:none;border-radius:12px;background:#3498db;color:white;font-weight:700;cursor:pointer;}
-
 .story-text{background:#f5f5f5;padding:20px;border-radius:15px;color:#333;font-size:1rem;line-height:1.8;margin:10px 0;min-height:100px;}
 .story-words{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:10px 0;}
 .story-word{padding:8px 16px;border-radius:12px;background:#f0f0f0;cursor:pointer;font-weight:600;transition:all .3s;border:2px solid transparent;color:#333;}
 .story-word:hover{transform:scale(1.05);}
 .story-word.selected{border-color:#6c72e6;background:#e8e6ff;}
-
 .phonics-display{text-align:center;font-size:6rem;padding:15px;background:#f5f5f5;border-radius:15px;margin:10px 0;cursor:pointer;color:#4a3487;max-width:350px;margin:10px auto;}
 .phonics-sound{text-align:center;font-size:1.2rem;color:#888;margin-bottom:10px;}
 .phonics-words{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:10px 0;}
 .phonics-word{padding:8px 16px;border-radius:12px;background:#f0f0f0;font-weight:600;color:#333;}
 .phonics-nav{display:flex;gap:10px;justify-content:center;margin:10px 0;}
 .phonics-nav button{padding:10px 20px;border:none;border-radius:12px;background:#6c72e6;color:white;font-weight:700;cursor:pointer;}
-
 .multiply-question{text-align:center;font-size:2.5rem;font-weight:800;color:#4a3487;padding:20px;background:#f5f5f5;border-radius:15px;margin:10px 0;max-width:350px;margin:10px auto;}
 .multiply-options{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin:10px 0;max-width:350px;margin:10px auto;}
 .multiply-opt{padding:12px;border:none;border-radius:12px;font-weight:700;font-size:1.2rem;background:#f0f0f0;cursor:pointer;transition:all .3s;color:#333;}
@@ -180,7 +159,6 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
 .multiply-tables{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:10px 0;}
 .multiply-table{padding:6px 14px;border-radius:10px;background:#f0f0f0;cursor:pointer;font-weight:600;transition:all .3s;color:#333;}
 .multiply-table.active{background:#6c72e6;color:white;}
-
 .vocab-card{background:#f5f5f5;border-radius:15px;padding:20px;text-align:center;margin:10px 0;}
 .vocab-word{font-size:2rem;font-weight:800;color:#4a3487;}
 .vocab-meaning{font-size:1.1rem;color:#555;margin:8px 0;}
@@ -191,7 +169,6 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
 .vocab-opt.correct{background:#2ecc71;color:white;}
 .vocab-opt.wrong{background:#e74c3c;color:white;}
 .vocab-opt:disabled{opacity:.5;cursor:not-allowed;}
-
 .music-piano{display:flex;gap:3px;justify-content:center;margin:10px 0;flex-wrap:wrap;max-width:350px;margin:10px auto;}
 .music-key{width:40px;height:140px;border-radius:8px;background:linear-gradient(180deg,#fff,#ddd);border:2px solid #999;cursor:pointer;transition:all .1s;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px;font-size:.6rem;font-weight:700;color:#666;}
 .music-key:active{transform:scale(.95);background:#f1c40f;}
@@ -200,7 +177,6 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
 .music-instruments{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:10px 0;}
 .music-inst{padding:8px 16px;border:none;border-radius:10px;font-weight:700;background:#f0f0f0;cursor:pointer;transition:all .3s;color:#333;}
 .music-inst.active{background:#6c72e6;color:white;}
-
 .animate-canvas{border-radius:12px;display:block;margin:0 auto;width:100%;max-width:300px;background:#fff;border:2px solid #ddd;touch-action:none;}
 .animate-tools{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:10px 0;}
 .animate-tool{padding:8px 16px;border:none;border-radius:10px;font-weight:700;background:#f0f0f0;cursor:pointer;transition:all .3s;color:#333;}
@@ -208,7 +184,6 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
 .animate-frames{display:flex;gap:6px;overflow-x:auto;padding:8px 0;margin:10px 0;justify-content:center;}
 .animate-frame{width:40px;height:40px;border:2px solid #ddd;border-radius:8px;background:#f5f5f5;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#999;}
 .animate-frame.active{border-color:#6c72e6;background:#e8e6ff;}
-
 .game-stats{display:flex;justify-content:space-between;padding:8px 0;border-top:2px solid #eee;margin-top:10px;font-weight:600;color:#555;font-size:.85rem;}
 .game-footer{text-align:center;font-size:.85rem;color:#888;margin-top:10px;min-height:25px;}
 .game-btn{width:100%;max-width:350px;display:block;margin:10px auto;padding:12px;border:none;border-radius:12px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#6c72e6,#4a3487);color:white;transition:all .3s;}
@@ -229,8 +204,6 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
 .streak-dot{width:10px;height:10px;border-radius:50%;background:#ddd;}
 .streak-dot.hit{background:#f1c40f;}
 .level-lbl{font-size:.9rem;color:#888;margin-bottom:8px;font-weight:600;text-align:center;}
-
-/* PIN */
 .pin-wrap{background:white;color:#333;border-radius:28px;padding:30px 24px;text-align:center;box-shadow:0 12px 30px rgba(0,0,0,.22);}
 .pin-wrap h2{font-size:1.5rem;font-weight:800;color:#4a3487;margin-bottom:6px;}
 .pin-wrap p{color:#888;font-size:.9rem;margin-bottom:20px;}
@@ -242,8 +215,6 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
 .pin-key:active{background:#e0e0e0;}
 .pin-back{background:#e74c3c;color:white;border:none;border-radius:14px;padding:16px;font-size:1.2rem;cursor:pointer;}
 .pin-error{color:#e74c3c;font-size:.85rem;margin-top:8px;min-height:18px;}
-
-/* DASHBOARD */
 .dash-wrap{background:white;color:#333;border-radius:28px;padding:24px 20px;box-shadow:0 12px 30px rgba(0,0,0,.22);}
 .dash-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;}
 .dash-header h2{font-size:1.4rem;font-weight:800;color:#4a3487;}
@@ -275,8 +246,6 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
 .section-head{font-size:.8rem;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.5px;margin:14px 0 8px;}
 .premium-status-box{background:#f8f7ff;border-radius:14px;padding:14px;margin-bottom:10px;text-align:center;}
 .code-activate-btn{width:100%;background:linear-gradient(135deg,#f1c40f,#e67e22);border:none;color:white;padding:13px;border-radius:14px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:8px;}
-
-/* POPUP */
 .popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:100;display:none;align-items:center;justify-content:center;padding:20px;}
 .popup-overlay.show{display:flex;}
 .popup{background:white;border-radius:28px;padding:28px 22px;width:100%;max-width:380px;text-align:center;}
@@ -289,10 +258,7 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
 .popup-price span{font-size:.9rem;color:#aaa;font-weight:400;}
 .popup-pay-btn{width:100%;background:linear-gradient(135deg,#f1c40f,#e67e22);border:none;color:white;padding:15px;border-radius:14px;font-size:1rem;font-weight:800;cursor:pointer;margin-bottom:10px;}
 .popup-close{width:100%;background:#f5f5f5;border:none;color:#888;padding:12px;border-radius:14px;font-size:.9rem;cursor:pointer;font-weight:600;}
-
-/* AD BANNER */
 .ad-banner-container{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,0.1);z-index:50;display:flex;justify-content:center;align-items:center;min-height:60px;}
-
 #toast{position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:#333;color:white;padding:10px 20px;border-radius:30px;font-size:.9rem;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999;}
 </style>
 </head>
@@ -313,38 +279,21 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
       <button class="auth-tab active" id="login-tab" onclick="switchAuthTab('login')">Login</button>
       <button class="auth-tab" id="register-tab" onclick="switchAuthTab('register')">Register</button>
     </div>
-    <!-- Login -->
     <div id="login-form">
       <div style="text-align:center;color:#bbb;font-size:.8rem;margin-bottom:14px;">Use email to sign in</div>
-      <div class="input-group">
-        <label>Email</label>
-        <input type="email" id="login-email" placeholder="parent@email.com">
-      </div>
-      <div class="input-group">
-        <label>Password</label>
-        <input type="password" id="login-pass" placeholder="••••••••">
-      </div>
+      <div class="input-group"><label>Email</label><input type="email" id="login-email" placeholder="parent@email.com"></div>
+      <div class="input-group"><label>Password</label><input type="password" id="login-pass" placeholder="••••••••"></div>
       <button class="auth-btn" id="login-btn" onclick="doLogin()">🔐 Login</button>
       <div id="login-loading" class="auth-loading">⏳ Logging in...</div>
       <div style="text-align:center;margin-top:12px;">
         <span style="color:#6c72e6;cursor:pointer;font-size:.85rem;font-weight:600;" onclick="doForgotPassword()">Forgot Password?</span>
       </div>
     </div>
-    <!-- Register -->
     <div id="register-form" style="display:none;">
       <div style="text-align:center;color:#bbb;font-size:.8rem;margin-bottom:14px;">Create your account</div>
-      <div class="input-group">
-        <label>Parent Email</label>
-        <input type="email" id="reg-email" placeholder="parent@email.com">
-      </div>
-      <div class="input-group">
-        <label>Password</label>
-        <input type="password" id="reg-pass" placeholder="Min 6 characters">
-      </div>
-      <div class="child-name-input">
-        <label>👦 Child's Name</label>
-        <input type="text" id="reg-child" placeholder="e.g. Ayub" maxlength="12">
-      </div>
+      <div class="input-group"><label>Parent Email</label><input type="email" id="reg-email" placeholder="parent@email.com"></div>
+      <div class="input-group"><label>Password</label><input type="password" id="reg-pass" placeholder="Min 6 characters"></div>
+      <div class="child-name-input"><label>👦 Child's Name</label><input type="text" id="reg-child" placeholder="e.g. Ayub" maxlength="12"></div>
       <button class="auth-btn" id="register-btn" onclick="doRegister()">🚀 Create Account</button>
       <div id="register-loading" class="auth-loading">⏳ Creating account...</div>
     </div>
@@ -355,11 +304,7 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
 
 <!-- HOME -->
 <div id="home-screen" class="screen">
-  <div class="home-header">
-    <div class="logo">⭐</div>
-    <h1>KidLearn</h1>
-    <p>Learn & Play!</p>
-  </div>
+  <div class="home-header"><div class="logo">⭐</div><h1>KidLearn</h1><p>Learn & Play!</p></div>
   <div class="user-card">
     <div class="user-avatar">👦</div>
     <div class="user-info">
@@ -372,75 +317,30 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
       </div>
     </div>
   </div>
-
   <button class="watch-ad-btn" onclick="showRewardedAd()">🎬 Watch Ad for +5 Stars</button>
   <button class="upgrade-btn" id="upgrade-btn" onclick="showPremiumPopup()">⭐ Upgrade to Premium — $1.99/month</button>
-
   <div class="cards-grid">
-    <div class="card" id="card-abc" onclick="startGame('abc')">
-      <div class="card-icon abc-c">abc</div><h3>ABC English</h3><p id="abc-progress">26 levels</p>
-    </div>
-    <div class="card" id="card-numbers" onclick="startGame('numbers')">
-      <div class="card-icon num-c">1 2 3</div><h3>Numbers</h3><p id="numbers-progress">10 levels</p>
-    </div>
-    <div class="card" id="card-coloring" onclick="startGame('coloring')">
-      <div class="card-icon fun-c">🎨</div><h3>More Fun</h3><p id="coloring-progress">15 levels</p>
-    </div>
-    <div class="card" id="card-flags" onclick="startGame('flags')">
-      <div class="card-icon flags-c">🌍</div><h3>Flag Quiz</h3><p id="flags-progress">195 flags</p>
-    </div>
-    <div class="card" id="card-memory" onclick="startGame('memory')">
-      <div class="card-icon memory-c">🧠</div><h3>Memory Match</h3><p>8 pairs</p>
-    </div>
-    <div class="card" id="card-bingo" onclick="startGame('bingo')">
-      <div class="card-icon bingo-c">🔢</div><h3>Math Bingo</h3><p>4x4 grid</p>
-    </div>
-    <div class="card" id="card-scramble" onclick="startGame('scramble')">
-      <div class="card-icon scramble-c">🔤</div><h3>Word Scramble</h3><p>12 words</p>
-    </div>
-    <div class="card" id="card-color" onclick="startGame('color')">
-      <div class="card-icon color-c">🎨</div><h3>Color by Number</h3><p>8 colors</p>
-    </div>
-    <div class="card" id="card-typing" onclick="startGame('typing')">
-      <div class="card-icon typing-c">⌨️</div><h3>Typing Tutor</h3><p>Speed & accuracy</p>
-    </div>
-    <div class="card" id="card-geo" onclick="startGame('geo')">
-      <div class="card-icon geo-c">🌍</div><h3>Geography Quiz</h3><p>12 questions</p>
-    </div>
-    <div class="card" id="card-search" onclick="startGame('search')">
-      <div class="card-icon search-c">🔍</div><h3>Word Search</h3><p>6 words</p>
-    </div>
-    <div class="card" id="card-animal" onclick="startGame('animal')">
-      <div class="card-icon animal-c">🐄</div><h3>Animal Sounds</h3><p>10 animals</p>
-    </div>
-    <div class="card" id="card-story" onclick="startGame('story')">
-      <div class="card-icon story-c">📖</div><h3>Story Builder</h3><p>Create stories</p>
-    </div>
-    <div class="card" id="card-phonics" onclick="startGame('phonics')">
-      <div class="card-icon phonics-c">🔤</div><h3>Phonics</h3><p>26 letters</p>
-    </div>
-    <div class="card" id="card-multiply" onclick="startGame('multiply')">
-      <div class="card-icon multiply-c">✖️</div><h3>Times Tables</h3><p>2-12 tables</p>
-    </div>
-    <div class="card" id="card-vocab" onclick="startGame('vocab')">
-      <div class="card-icon vocab-c">📝</div><h3>Vocabulary</h3><p>12 words</p>
-    </div>
-    <div class="card" id="card-music" onclick="startGame('music')">
-      <div class="card-icon music-c">🎵</div><h3>Music Maker</h3><p>Play piano</p>
-    </div>
-    <div class="card" id="card-animate" onclick="startGame('animate')">
-      <div class="card-icon animate-c">🎬</div><h3>Animation Studio</h3><p>Draw & animate</p>
-    </div>
-    <div class="card premium-card" id="card-arabic" onclick="showPremiumPopup()">
-      <div class="lock-badge">⭐ PREMIUM</div>
-      <div class="card-icon arb-c">🌙</div><h3>Arabic عربي</h3><p id="arabic-progress">28 levels 🔒</p>
-    </div>
-    <div class="card premium-card" id="card-math" onclick="showPremiumPopup()" style="grid-column:span 2;">
-      <div class="lock-badge">⭐ PREMIUM</div>
-      <div class="card-icon math-c">➕➖</div><h3>Math — Addition & Subtraction</h3><p id="math-progress">50 levels 🔒</p>
-    </div>
+    <div class="card" id="card-abc" onclick="startGame('abc')"><div class="card-icon abc-c">abc</div><h3>ABC English</h3><p id="abc-progress">26 levels</p></div>
+    <div class="card" id="card-numbers" onclick="startGame('numbers')"><div class="card-icon num-c">1 2 3</div><h3>Numbers</h3><p id="numbers-progress">10 levels</p></div>
+    <div class="card" id="card-coloring" onclick="startGame('coloring')"><div class="card-icon fun-c">🎨</div><h3>More Fun</h3><p id="coloring-progress">15 levels</p></div>
+    <div class="card" id="card-flags" onclick="startGame('flags')"><div class="card-icon flags-c">🌍</div><h3>Flag Quiz</h3><p id="flags-progress">195 flags</p></div>
+    <div class="card" id="card-memory" onclick="startGame('memory')"><div class="card-icon memory-c">🧠</div><h3>Memory Match</h3><p>8 pairs</p></div>
+    <div class="card" id="card-bingo" onclick="startGame('bingo')"><div class="card-icon bingo-c">🔢</div><h3>Math Bingo</h3><p>4x4 grid</p></div>
+    <div class="card" id="card-scramble" onclick="startGame('scramble')"><div class="card-icon scramble-c">🔤</div><h3>Word Scramble</h3><p>12 words</p></div>
+    <div class="card" id="card-color" onclick="startGame('color')"><div class="card-icon color-c">🎨</div><h3>Color by Number</h3><p>8 colors</p></div>
+    <div class="card" id="card-typing" onclick="startGame('typing')"><div class="card-icon typing-c">⌨️</div><h3>Typing Tutor</h3><p>Speed & accuracy</p></div>
+    <div class="card" id="card-geo" onclick="startGame('geo')"><div class="card-icon geo-c">🌍</div><h3>Geography Quiz</h3><p>12 questions</p></div>
+    <div class="card" id="card-search" onclick="startGame('search')"><div class="card-icon search-c">🔍</div><h3>Word Search</h3><p>6 words</p></div>
+    <div class="card" id="card-animal" onclick="startGame('animal')"><div class="card-icon animal-c">🐄</div><h3>Animal Sounds</h3><p>10 animals</p></div>
+    <div class="card" id="card-story" onclick="startGame('story')"><div class="card-icon story-c">📖</div><h3>Story Builder</h3><p>Create stories</p></div>
+    <div class="card" id="card-phonics" onclick="startGame('phonics')"><div class="card-icon phonics-c">🔤</div><h3>Phonics</h3><p>26 letters</p></div>
+    <div class="card" id="card-multiply" onclick="startGame('multiply')"><div class="card-icon multiply-c">✖️</div><h3>Times Tables</h3><p>2-12 tables</p></div>
+    <div class="card" id="card-vocab" onclick="startGame('vocab')"><div class="card-icon vocab-c">📝</div><h3>Vocabulary</h3><p>12 words</p></div>
+    <div class="card" id="card-music" onclick="startGame('music')"><div class="card-icon music-c">🎵</div><h3>Music Maker</h3><p>Play piano</p></div>
+    <div class="card" id="card-animate" onclick="startGame('animate')"><div class="card-icon animate-c">🎬</div><h3>Animation Studio</h3><p>Draw & animate</p></div>
+    <div class="card premium-card" id="card-arabic" onclick="showPremiumPopup()"><div class="lock-badge">⭐ PREMIUM</div><div class="card-icon arb-c">🌙</div><h3>Arabic عربي</h3><p id="arabic-progress">28 levels 🔒</p></div>
+    <div class="card premium-card" id="card-math" onclick="showPremiumPopup()" style="grid-column:span 2;"><div class="lock-badge">⭐ PREMIUM</div><div class="card-icon math-c">➕➖</div><h3>Math — Addition & Subtraction</h3><p id="math-progress">50 levels 🔒</p></div>
   </div>
-
   <div class="btn-row">
     <button class="nav-btn" onclick="loadLeaderboard()">🏆 Leaderboard</button>
     <button class="nav-btn" onclick="openPin()">🔒 Parent</button>
@@ -461,10 +361,7 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
 <!-- GAME SCREEN -->
 <div id="game-screen" class="screen">
   <div class="game-wrap" id="gameContainer">
-    <div class="game-header">
-      <div class="game-title" id="game-title">Game</div>
-      <button class="back-btn" onclick="exitGame()">← Back</button>
-    </div>
+    <div class="game-header"><div class="game-title" id="game-title">Game</div><button class="back-btn" onclick="exitGame()">← Back</button></div>
     <div id="gameContent"></div>
   </div>
 </div>
@@ -472,25 +369,13 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
 <!-- PIN -->
 <div id="pin-screen" class="screen">
   <div class="pin-wrap">
-    <h2>🔒 Parent Access</h2>
-    <p>Enter your 4-digit PIN</p>
-    <div class="pin-dots">
-      <div class="pin-dot" id="pd0"></div><div class="pin-dot" id="pd1"></div>
-      <div class="pin-dot" id="pd2"></div><div class="pin-dot" id="pd3"></div>
-    </div>
+    <h2>🔒 Parent Access</h2><p>Enter your 4-digit PIN</p>
+    <div class="pin-dots"><div class="pin-dot" id="pd0"></div><div class="pin-dot" id="pd1"></div><div class="pin-dot" id="pd2"></div><div class="pin-dot" id="pd3"></div></div>
     <div class="pin-grid">
-      <button class="pin-key" onclick="pinKey('1')">1</button>
-      <button class="pin-key" onclick="pinKey('2')">2</button>
-      <button class="pin-key" onclick="pinKey('3')">3</button>
-      <button class="pin-key" onclick="pinKey('4')">4</button>
-      <button class="pin-key" onclick="pinKey('5')">5</button>
-      <button class="pin-key" onclick="pinKey('6')">6</button>
-      <button class="pin-key" onclick="pinKey('7')">7</button>
-      <button class="pin-key" onclick="pinKey('8')">8</button>
-      <button class="pin-key" onclick="pinKey('9')">9</button>
-      <button class="pin-key" onclick="pinClear()" style="font-size:1rem;">Clear</button>
-      <button class="pin-key" onclick="pinKey('0')">0</button>
-      <button class="pin-back" onclick="pinBackspace()">⌫</button>
+      <button class="pin-key" onclick="pinKey('1')">1</button><button class="pin-key" onclick="pinKey('2')">2</button><button class="pin-key" onclick="pinKey('3')">3</button>
+      <button class="pin-key" onclick="pinKey('4')">4</button><button class="pin-key" onclick="pinKey('5')">5</button><button class="pin-key" onclick="pinKey('6')">6</button>
+      <button class="pin-key" onclick="pinKey('7')">7</button><button class="pin-key" onclick="pinKey('8')">8</button><button class="pin-key" onclick="pinKey('9')">9</button>
+      <button class="pin-key" onclick="pinClear()" style="font-size:1rem;">Clear</button><button class="pin-key" onclick="pinKey('0')">0</button><button class="pin-back" onclick="pinBackspace()">⌫</button>
     </div>
     <div class="pin-error" id="pin-error"></div>
     <p style="font-size:.78rem;color:#bbb;margin-top:10px;">Default PIN: 1234</p>
@@ -501,10 +386,7 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
 <!-- DASHBOARD -->
 <div id="dash-screen" class="screen">
   <div class="dash-wrap">
-    <div class="dash-header">
-      <h2>📊 Parent Dashboard</h2>
-      <button class="back-btn" onclick="showScreen('home-screen')">← Home</button>
-    </div>
+    <div class="dash-header"><h2>📊 Parent Dashboard</h2><button class="back-btn" onclick="showScreen('home-screen')">← Home</button></div>
     <div class="dash-tabs">
       <button class="tab-btn active" onclick="switchTab('overview',this)">Overview</button>
       <button class="tab-btn" onclick="switchTab('badges',this)">Badges</button>
@@ -520,25 +402,13 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
       <div class="section-head">Subject Progress</div>
       <div id="subject-progress-list"></div>
     </div>
-    <div id="tab-badges" style="display:none;">
-      <div class="section-head">Achievements</div>
-      <div id="badges-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;"></div>
-    </div>
+    <div id="tab-badges" style="display:none;"><div class="section-head">Achievements</div><div id="badges-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;"></div></div>
     <div id="tab-settings" style="display:none;">
       <div class="section-head">Child Profile</div>
-      <div class="setting-row">
-        <div><div class="setting-label">Child's Name</div></div>
-        <input class="setting-input" id="set-name" type="text" maxlength="12">
-      </div>
-      <div class="setting-row">
-        <div><div class="setting-label">Daily Star Goal</div></div>
-        <input class="setting-input" id="set-goal" type="number" value="15" min="5" max="100">
-      </div>
+      <div class="setting-row"><div><div class="setting-label">Child's Name</div></div><input class="setting-input" id="set-name" type="text" maxlength="12"></div>
+      <div class="setting-row"><div><div class="setting-label">Daily Star Goal</div></div><input class="setting-input" id="set-goal" type="number" value="15" min="5" max="100"></div>
       <div class="section-head">Change PIN</div>
-      <div class="setting-row">
-        <div><div class="setting-label">New PIN</div><div class="setting-sub">4 digits</div></div>
-        <input class="setting-input" id="set-pin" type="password" maxlength="4" placeholder="••••">
-      </div>
+      <div class="setting-row"><div><div class="setting-label">New PIN</div><div class="setting-sub">4 digits</div></div><input class="setting-input" id="set-pin" type="password" maxlength="4" placeholder="••••"></div>
       <div class="section-head">Sound</div>
       <div class="setting-row"><div><div class="setting-label">Sound Effects</div></div><div class="toggle on" id="tog-sound" onclick="toggleSetting('sound',this)"></div></div>
       <div class="setting-row"><div><div class="setting-label">Speech Voice</div></div><div class="toggle on" id="tog-speech" onclick="toggleSetting('speech',this)"></div></div>
@@ -548,16 +418,11 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
         <div id="premium-status-sub" style="font-size:.78rem;color:#888;margin-top:3px;"></div>
       </div>
       <div id="code-input-area">
-        <div class="setting-row">
-          <div><div class="setting-label">Premium Code</div></div>
-          <input class="setting-input" id="set-code" type="text" placeholder="Enter code" maxlength="20" style="text-transform:uppercase;">
-        </div>
+        <div class="setting-row"><div><div class="setting-label">Premium Code</div></div><input class="setting-input" id="set-code" type="text" placeholder="Enter code" maxlength="20" style="text-transform:uppercase;"></div>
         <button class="code-activate-btn" id="activate-code-btn" onclick="activatePremiumCode()">🔓 Activate Code</button>
         <div id="code-error" style="color:#e74c3c;font-size:.82rem;margin-top:6px;text-align:center;min-height:18px;"></div>
       </div>
-      <div id="revoke-area" style="display:none;">
-        <button onclick="revokePremium()" style="width:100%;background:#f5f5f5;border:2px solid #e74c3c;color:#e74c3c;padding:11px;border-radius:14px;font-size:.9rem;font-weight:700;cursor:pointer;margin-top:8px;">🔒 Deactivate Premium</button>
-      </div>
+      <div id="revoke-area" style="display:none;"><button onclick="revokePremium()" style="width:100%;background:#f5f5f5;border:2px solid #e74c3c;color:#e74c3c;padding:11px;border-radius:14px;font-size:.9rem;font-weight:700;cursor:pointer;margin-top:8px;">🔒 Deactivate Premium</button></div>
       <button class="save-btn" id="settings-save-btn" onclick="saveSettings()">💾 Save Settings</button>
       <div class="reset-link" onclick="resetProgress()">Reset all progress data</div>
     </div>
@@ -572,13 +437,10 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
     <p>Get full access to all subjects</p>
     <div class="popup-price">$1.99 <span>/month</span></div>
     <div class="popup-features">
-      <div>✅ ABC English — FREE</div>
-      <div>✅ Numbers 1-10 — FREE</div>
-      <div>✅ More Fun — FREE</div>
-      <div>✅ Flag Quiz — FREE</div>
+      <div>✅ ABC English — FREE</div><div>✅ Numbers 1-10 — FREE</div>
+      <div>✅ More Fun — FREE</div><div>✅ Flag Quiz — FREE</div>
       <div>✅ 14+ More Games — FREE</div>
-      <div>🔒 Arabic عربي — PREMIUM</div>
-      <div>🔒 Math 50 levels — PREMIUM</div>
+      <div>🔒 Arabic عربي — PREMIUM</div><div>🔒 Math 50 levels — PREMIUM</div>
     </div>
     <button class="popup-pay-btn" onclick="goToPremium()">💳 Upgrade Now — $1.99/month</button>
     <button class="popup-close" onclick="closePremiumPopup()">Maybe later</button>
@@ -587,11 +449,8 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
 
 <!-- AD BANNER -->
 <div class="ad-banner-container" id="ad-banner">
-  <div id="ad-container" style="width:320px;height:50px;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;border-radius:8px;color:rgba(255,255,255,0.5);font-size:12px;">
-    📢 Loading Ad...
-  </div>
+  <div id="ad-container" style="width:320px;height:50px;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;border-radius:8px;color:rgba(255,255,255,0.5);font-size:12px;">📢 Loading Ad...</div>
 </div>
-
 </div>
 <div id="toast"></div>
 
@@ -649,18 +508,14 @@ const PREMIUM_URL='https://ayuubgaafaa.github.io/KidLearnPro/premium.html';
 
 // ═══ FIREBASE SAVE/LOAD ═════════════════════════════
 function fastSave() {
-  try {
-    const data = { ST: ST, completed: completed, streak: streak };
-    localStorage.setItem('kidlearn_data', JSON.stringify(data));
-  } catch(e) { /* ignore */ }
+  try { localStorage.setItem('kidlearn_data', JSON.stringify({ ST: ST, completed: completed, streak: streak })); } catch(e) {}
 }
 
 function saveToCloudNow() {
   const user = auth.currentUser;
   if (!user || isGuest) { fastSave(); return; }
   try {
-    const userRef = db.ref('users/' + user.uid);
-    userRef.update({
+    db.ref('users/' + user.uid).update({
       childName: ST.childName, totalStars: ST.totalStars,
       totalAnswers: ST.totalAnswers, correctAnswers: ST.correctAnswers,
       levelsDone: ST.levelsDone, todayMinutes: ST.todayMinutes,
@@ -669,14 +524,13 @@ function saveToCloudNow() {
       sound: ST.sound, speech: ST.speech,
       completed: completed, streak: streak,
       updatedAt: Date.now()
-    }).then(function() { console.log('✅ Cloud save successful'); isCloudDataLoaded = true; fastSave(); })
-    .catch(function(e) { console.log('❌ Cloud save error:', e); fastSave(); });
-  } catch(e) { console.log('❌ Save error:', e); fastSave(); }
+    }).then(() => { isCloudDataLoaded = true; fastSave(); }).catch(() => fastSave());
+  } catch(e) { fastSave(); }
 }
 
 function saveToCloudLater() {
   if (saveTimeout) clearTimeout(saveTimeout);
-  saveTimeout = setTimeout(function() { saveToCloudNow(); }, 300);
+  saveTimeout = setTimeout(saveToCloudNow, 300);
 }
 
 function loadLocalData() {
@@ -691,14 +545,14 @@ function loadLocalData() {
         return true;
       }
     }
-  } catch(e) { /* ignore */ }
+  } catch(e) {}
   return false;
 }
 
 function loadFromCloud() {
   const user = auth.currentUser;
   if (!user || isGuest) { loadLocalData(); return Promise.resolve(); }
-  return db.ref('users/' + user.uid).once('value').then(function(snap) {
+  return db.ref('users/' + user.uid).once('value').then((snap) => {
     if (snap.exists()) {
       const d = snap.val();
       if (d.childName !== undefined) ST.childName = d.childName;
@@ -718,14 +572,14 @@ function loadFromCloud() {
       isCloudDataLoaded = true;
       fastSave();
     } else { loadLocalData(); saveToCloudNow(); }
-  }).catch(function(err) { console.log('❌ Cloud load error:', err); loadLocalData(); });
+  }).catch(() => loadLocalData());
 }
 
 window.forceSync = function() {
   const user = auth.currentUser;
   if (!user) { showToast('❌ Please login first'); return; }
-  showToast('🔄 Syncing from cloud...');
-  db.ref('users/' + user.uid).once('value').then(function(snap) {
+  showToast('🔄 Syncing...');
+  db.ref('users/' + user.uid).once('value').then((snap) => {
     if (snap.exists()) {
       const d = snap.val();
       if (d.childName !== undefined) ST.childName = d.childName;
@@ -746,24 +600,24 @@ window.forceSync = function() {
       fastSave();
       refreshHome();
       updatePremiumUI();
-      if (document.getElementById('dash-screen').classList.contains('active')) { renderDash(); }
+      if (document.getElementById('dash-screen').classList.contains('active')) renderDash();
       showToast('✅ Synced! Stars: ' + ST.totalStars);
-    } else { showToast('📭 No cloud data found'); }
-  }).catch(function(err) { showToast('❌ Sync error'); });
+    } else showToast('📭 No cloud data found');
+  }).catch(() => showToast('❌ Sync error'));
 };
 
 function setupRealtimeListener(userId) {
   if (dbRef) { dbRef.off(); dbRef = null; }
   if (!userId || isGuest) return;
   dbRef = db.ref('users/' + userId);
-  dbRef.on('value', function(snap) {
+  dbRef.on('value', (snap) => {
     if (snap.exists()) {
       const d = snap.val();
       if (d.updatedAt) {
         const localData = localStorage.getItem('kidlearn_data');
         let localUpdated = 0;
         if (localData) {
-          try { const parsed = JSON.parse(localData); if (parsed.ST && parsed.ST._updatedAt) { localUpdated = parsed.ST._updatedAt || 0; } } catch(e) {}
+          try { const parsed = JSON.parse(localData); if (parsed.ST && parsed.ST._updatedAt) localUpdated = parsed.ST._updatedAt || 0; } catch(e) {}
         }
         if (d.updatedAt > localUpdated || !isCloudDataLoaded) {
           if (d.childName !== undefined) ST.childName = d.childName;
@@ -784,23 +638,18 @@ function setupRealtimeListener(userId) {
           fastSave();
           refreshHome();
           updatePremiumUI();
-          if (document.getElementById('dash-screen').classList.contains('active')) { renderDash(); }
+          if (document.getElementById('dash-screen').classList.contains('active')) renderDash();
         }
       }
     }
-  }, function(error) { console.log('❌ RTDB listener error:', error); });
+  }, (error) => console.log('❌ RTDB listener error:', error));
 }
 
 // ═══ AD FUNCTIONS ════════════════════════════════════
 let isAdShowing = false;
 function showBannerAd() {
   const container = document.getElementById('ad-container');
-  if (container) {
-    container.innerHTML = '📢 Ad Placeholder';
-    container.style.background = 'rgba(255,255,255,0.2)';
-    container.style.color = 'rgba(255,255,255,0.8)';
-    container.style.fontSize = '14px';
-  }
+  if (container) { container.innerHTML = '📢 Ad Placeholder'; container.style.background = 'rgba(255,255,255,0.2)'; container.style.color = 'rgba(255,255,255,0.8)'; container.style.fontSize = '14px'; }
 }
 
 function showInterstitialAd(callback) {
@@ -808,20 +657,10 @@ function showInterstitialAd(callback) {
   isAdShowing = true;
   const overlay = document.createElement('div');
   overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;color:white;padding:20px;';
-  overlay.innerHTML = `
-    <div style="font-size:48px;margin-bottom:20px;">📺</div>
-    <h2 style="color:white;margin-bottom:10px;">Ad</h2>
-    <p style="color:#aaa;text-align:center;margin-bottom:20px;">Watch a short ad to continue</p>
-    <button id="close-ad-btn" style="background:#6c72e6;color:white;border:none;padding:15px 40px;border-radius:14px;font-size:1rem;font-weight:700;cursor:pointer;">✕ Close</button>
-    <p style="color:#666;font-size:12px;margin-top:10px;">(Simulated ad for web testing)</p>
-  `;
+  overlay.innerHTML = `<div style="font-size:48px;margin-bottom:20px;">📺</div><h2 style="color:white;margin-bottom:10px;">Ad</h2><p style="color:#aaa;text-align:center;margin-bottom:20px;">Watch a short ad to continue</p><button id="close-ad-btn" style="background:#6c72e6;color:white;border:none;padding:15px 40px;border-radius:14px;font-size:1rem;font-weight:700;cursor:pointer;">✕ Close</button><p style="color:#666;font-size:12px;margin-top:10px;">(Simulated ad for web testing)</p>`;
   document.body.appendChild(overlay);
-  document.getElementById('close-ad-btn').addEventListener('click', function() {
-    overlay.remove(); isAdShowing = false; if (callback) callback(true);
-  });
-  setTimeout(function() {
-    if (overlay.parentNode) { overlay.remove(); isAdShowing = false; if (callback) callback(true); }
-  }, 3000);
+  document.getElementById('close-ad-btn').addEventListener('click', function() { overlay.remove(); isAdShowing = false; if (callback) callback(true); });
+  setTimeout(function() { if (overlay.parentNode) { overlay.remove(); isAdShowing = false; if (callback) callback(true); } }, 3000);
 }
 
 function showRewardedAd(callback) {
@@ -829,27 +668,17 @@ function showRewardedAd(callback) {
   isAdShowing = true;
   const overlay = document.createElement('div');
   overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;color:white;padding:20px;';
-  overlay.innerHTML = `
-    <div style="font-size:48px;margin-bottom:20px;">🎬</div>
-    <h2 style="color:white;margin-bottom:10px;">Watch Ad for Stars!</h2>
-    <p style="color:#f1c40f;font-size:24px;font-weight:bold;margin-bottom:20px;">+5 ⭐</p>
-    <button id="reward-ad-btn" style="background:#00b894;color:white;border:none;padding:15px 40px;border-radius:14px;font-size:1rem;font-weight:700;cursor:pointer;">🎯 Watch & Earn</button>
-    <p style="color:#666;font-size:12px;margin-top:10px;">(Simulated rewarded ad for web testing)</p>
-  `;
+  overlay.innerHTML = `<div style="font-size:48px;margin-bottom:20px;">🎬</div><h2 style="color:white;margin-bottom:10px;">Watch Ad for Stars!</h2><p style="color:#f1c40f;font-size:24px;font-weight:bold;margin-bottom:20px;">+5 ⭐</p><button id="reward-ad-btn" style="background:#00b894;color:white;border:none;padding:15px 40px;border-radius:14px;font-size:1rem;font-weight:700;cursor:pointer;">🎯 Watch & Earn</button><p style="color:#666;font-size:12px;margin-top:10px;">(Simulated rewarded ad for web testing)</p>`;
   document.body.appendChild(overlay);
-  document.getElementById('reward-ad-btn').addEventListener('click', function() {
-    overlay.remove(); isAdShowing = false; if (callback) callback(true);
-  });
-  setTimeout(function() {
-    if (overlay.parentNode) { overlay.remove(); isAdShowing = false; if (callback) callback(true); }
-  }, 2000);
+  document.getElementById('reward-ad-btn').addEventListener('click', function() { overlay.remove(); isAdShowing = false; if (callback) callback(true); });
+  setTimeout(function() { if (overlay.parentNode) { overlay.remove(); isAdShowing = false; if (callback) callback(true); } }, 2000);
 }
 
 function showInterstitial(callback) { showInterstitialAd(callback); }
 
 // ═══ GLOBAL FUNCTIONS ═══════════════════════════════
 window.switchAuthTab = function(tab) {
-  document.querySelectorAll('.auth-tab').forEach(function(b) { b.classList.remove('active'); });
+  document.querySelectorAll('.auth-tab').forEach((b) => b.classList.remove('active'));
   if (tab === 'login') {
     document.getElementById('login-tab').classList.add('active');
     document.getElementById('login-form').style.display = 'block';
@@ -869,7 +698,7 @@ window.showRewardedAd = function() {
       ST.totalStars += 5; ST.levelsDone += 1;
       refreshHome(); fastSave(); saveToCloudNow();
       sfxStar(); showToast('🎉 You earned 5 stars! ⭐⭐⭐⭐⭐');
-    } else { showToast('😅 Ad didn\'t complete. Try again!'); }
+    } else showToast('😅 Ad didn\'t complete. Try again!');
   });
 };
 
@@ -877,23 +706,22 @@ window.showRewardedAd = function() {
 let audioCtx=null;
 function getACtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();return audioCtx;}
 function tone(f,t,d,v,dl){dl=dl||0;try{const c=getACtx(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type=t;o.frequency.setValueAtTime(f,c.currentTime+dl);g.gain.setValueAtTime(v,c.currentTime+dl);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+dl+d);o.start(c.currentTime+dl);o.stop(c.currentTime+dl+d);}catch(e){}}
-function sfxCorrect(){if(!ST.sound)return;[523,659,784,1047].forEach(function(f,i){tone(f,'sine',.15,.4,i*.12);});}
+function sfxCorrect(){if(!ST.sound)return;[523,659,784,1047].forEach((f,i)=>tone(f,'sine',.15,.4,i*.12));}
 function sfxWrong(){if(!ST.sound)return;tone(200,'sawtooth',.2,.3,0);tone(150,'sawtooth',.2,.3,.18);}
-function sfxStar(){if(!ST.sound)return;[800,1000,1200,1500,1200,1000,800].forEach(function(f,i){tone(f,'sine',.1,.25,i*.06);});}
+function sfxStar(){if(!ST.sound)return;[800,1000,1200,1500,1200,1000,800].forEach((f,i)=>tone(f,'sine',.1,.25,i*.06));}
 function sfxClick(){if(!ST.sound)return;tone(440,'sine',.07,.2);}
-function sfxLevelUp(){if(!ST.sound)return;[262,330,392,523,659,784,1047].forEach(function(f,i){tone(f,'triangle',.18,.35,i*.08);});}
-document.addEventListener('touchstart',function(){try{getACtx();}catch(e){}},{once:true});
-document.addEventListener('click',function(){try{getACtx();}catch(e){}},{once:true});
+function sfxLevelUp(){if(!ST.sound)return;[262,330,392,523,659,784,1047].forEach((f,i)=>tone(f,'triangle',.18,.35,i*.08));}
+document.addEventListener('touchstart',()=>{try{getACtx();}catch(e){}},{once:true});
+document.addEventListener('click',()=>{try{getACtx();}catch(e){}},{once:true});
 
-// ═══ SPEECH ═════════════════════════════════════════
 function sayText(text,lang,rate,onEnd){
   if(!ST.speech||!('speechSynthesis' in window))return;
   window.speechSynthesis.cancel();
-  setTimeout(function(){
+  setTimeout(()=>{
     const u=new SpeechSynthesisUtterance(text);
     u.lang=lang||'en-US'; u.rate=rate||0.72; u.pitch=1.1; u.volume=1.0;
     const voices=window.speechSynthesis.getVoices();
-    const v=voices.find(function(x){return x.lang===u.lang;})||voices.find(function(x){return x.lang.startsWith(u.lang.split('-')[0]);})||null;
+    const v=voices.find((x)=>x.lang===u.lang)||voices.find((x)=>x.lang.startsWith(u.lang.split('-')[0]))||null;
     if(v)u.voice=v;
     if(onEnd)u.onend=onEnd;
     window.speechSynthesis.speak(u);
@@ -903,13 +731,13 @@ function sayText(text,lang,rate,onEnd){
 // ═══ AUTH FUNCTIONS ═════════════════════════════════
 function setAuthLoading(show, type) {
   if (type === 'login') {
-    var btn = document.getElementById('login-btn');
-    var loading = document.getElementById('login-loading');
+    const btn = document.getElementById('login-btn');
+    const loading = document.getElementById('login-loading');
     if(btn) btn.disabled = show;
     if(loading) loading.style.display = show ? 'block' : 'none';
-  } else if (type === 'register') {
-    var btn = document.getElementById('register-btn');
-    var loading = document.getElementById('register-loading');
+  } else {
+    const btn = document.getElementById('register-btn');
+    const loading = document.getElementById('register-loading');
     if(btn) btn.disabled = show;
     if(loading) loading.style.display = show ? 'block' : 'none';
   }
@@ -917,14 +745,14 @@ function setAuthLoading(show, type) {
 
 window.doLogin = function() {
   if (isAuthInProgress) return;
-  var email = document.getElementById('login-email').value.trim();
-  var pass = document.getElementById('login-pass').value;
-  var err = document.getElementById('auth-error');
+  const email = document.getElementById('login-email').value.trim();
+  const pass = document.getElementById('login-pass').value;
+  const err = document.getElementById('auth-error');
   if(!email||!pass){err.textContent='Please fill all fields';return;}
   isAuthInProgress = true;
   setAuthLoading(true, 'login');
   err.textContent='';
-  auth.signInWithEmailAndPassword(email,pass).then(function() {}).catch(function(e) {
+  auth.signInWithEmailAndPassword(email,pass).then(()=>{}).catch((e)=>{
     err.textContent=e.code==='auth/invalid-credential'?'Wrong email or password':e.message;
     setAuthLoading(false, 'login');
     isAuthInProgress = false;
@@ -933,18 +761,16 @@ window.doLogin = function() {
 
 window.doRegister = function() {
   if (isAuthInProgress) return;
-  var email = document.getElementById('reg-email').value.trim();
-  var pass = document.getElementById('reg-pass').value;
-  var child = document.getElementById('reg-child').value.trim()||'Kid';
-  var err = document.getElementById('auth-error');
+  const email = document.getElementById('reg-email').value.trim();
+  const pass = document.getElementById('reg-pass').value;
+  const child = document.getElementById('reg-child').value.trim()||'Kid';
+  const err = document.getElementById('auth-error');
   if(!email||!pass){err.textContent='Please fill all fields';return;}
   if(pass.length<6){err.textContent='Password must be at least 6 characters';return;}
   isAuthInProgress = true;
   setAuthLoading(true, 'register');
   err.textContent='';
-  auth.createUserWithEmailAndPassword(email,pass).then(function(cred) {
-    ST.childName=child; fastSave(); saveToCloudNow();
-  }).catch(function(e) {
+  auth.createUserWithEmailAndPassword(email,pass).then(()=>{ST.childName=child;fastSave();saveToCloudNow();}).catch((e)=>{
     err.textContent=e.code==='auth/email-already-in-use'?'Email already registered':e.message;
     setAuthLoading(false, 'register');
     isAuthInProgress = false;
@@ -952,16 +778,11 @@ window.doRegister = function() {
 };
 
 window.doForgotPassword = function() {
-  var email = document.getElementById('login-email').value.trim();
-  var err = document.getElementById('auth-error');
+  const email = document.getElementById('login-email').value.trim();
+  const err = document.getElementById('auth-error');
   if(!email){err.textContent='Please enter your email address';return;}
   err.textContent='Sending reset email...';
-  auth.sendPasswordResetEmail(email).then(function() {
-    showToast('📧 Password reset email sent! Check your inbox.');
-    err.textContent='';
-  }).catch(function(e) {
-    err.textContent=e.code==='auth/user-not-found'?'No account found with this email':e.message;
-  });
+  auth.sendPasswordResetEmail(email).then(()=>{showToast('📧 Password reset email sent! Check your inbox.');err.textContent='';}).catch((e)=>{err.textContent=e.code==='auth/user-not-found'?'No account found with this email':e.message;});
 };
 
 window.continueAsGuest = function() {
@@ -986,7 +807,7 @@ auth.onAuthStateChanged(function(user) {
   if (user && !isGuest) {
     currentUser = user; isGuest = false;
     setupRealtimeListener(user.uid);
-    loadFromCloud().then(function() {
+    loadFromCloud().then(()=>{
       showScreen('home-screen'); refreshHome(); updatePremiumUI();
       isAuthInProgress = false;
       setAuthLoading(false, 'login'); setAuthLoading(false, 'register');
@@ -994,294 +815,33 @@ auth.onAuthStateChanged(function(user) {
   } else if (!isGuest) {
     currentUser = null;
     if (dbRef) { dbRef.off(); dbRef = null; }
-    if (!document.getElementById('auth-screen').classList.contains('active')) { showScreen('auth-screen'); }
+    if (!document.getElementById('auth-screen').classList.contains('active')) showScreen('auth-screen');
     isAuthInProgress = false;
     setAuthLoading(false, 'login'); setAuthLoading(false, 'register');
   }
 });
 
-// ═══ ORIGINAL GAME DATA ══════════════════════════════
+// ═══ GAME DATA ══════════════════════════════════════
 const gameData = {
-  abc: [
-    {q:"A",word:"Apple", speech:"A. Apple", options:["🍎","🍌","🐱","🐕"],a:"🍎"},
-    {q:"B",word:"Banana", speech:"B. Banana", options:["🚗","🍌","🥚","🦊"],a:"🍌"},
-    {q:"C",word:"Cat", speech:"C. Cat", options:["🍇","🦆","🐱","🦁"],a:"🐱"},
-    {q:"D",word:"Dog", speech:"D. Dog", options:["🐕","🐘","🐸","🐐"],a:"🐕"},
-    {q:"E",word:"Elephant", speech:"E. Elephant", options:["🍎","🐘","🍦","🦊"],a:"🐘"},
-    {q:"F",word:"Fox", speech:"F. Fox", options:["🦊","🍇","👒","🦎"],a:"🦊"},
-    {q:"G",word:"Goat", speech:"G. Goat", options:["🍌","🍇","🐐","🍋"],a:"🐐"},
-    {q:"H",word:"Horse", speech:"H. Horse", options:["🐴","🦁","🐒","🐔"],a:"🐴"},
-    {q:"I",word:"Ice cream", speech:"I. Ice cream", options:["🐟","🍦","🦎","🦉"],a:"🍦"},
-    {q:"J",word:"Juice", speech:"J. Juice", options:["🧃","🐨","🦁","🐭"],a:"🧃"},
-    {q:"K",word:"Kangaroo", speech:"K. Kangaroo", options:["🦘","🐼","🐷","🐰"],a:"🦘"},
-    {q:"L",word:"Lion", speech:"L. Lion", options:["🐸","🐯","🦁","🐺"],a:"🦁"},
-    {q:"M",word:"Monkey", speech:"M. Monkey", options:["🐒","🐔","🐧","🐦"],a:"🐒"},
-    {q:"N",word:"Nest", speech:"N. Nest", options:["🪹","🦉","🦇","🦅"],a:"🪹"},
-    {q:"O",word:"Owl", speech:"O. Owl", options:["🐝","🐛","🦋","🦉"],a:"🦉"},
-    {q:"P",word:"Penguin", speech:"P. Penguin", options:["🐧","🐢","🐊","🐍"],a:"🐧"},
-    {q:"Q",word:"Queen Bee", speech:"Q. Queen Bee", options:["🐳","🦈","🐙","🐝"],a:"🐝"},
-    {q:"R",word:"Rabbit", speech:"R. Rabbit", options:["🦌","🐮","🐷","🐰"],a:"🐰"},
-    {q:"S",word:"Sheep", speech:"S. Sheep", options:["🐑","🐫","🐘","🦒"],a:"🐑"},
-    {q:"T",word:"Tiger", speech:"T. Tiger", options:["🦓","🐆","🐯","🦁"],a:"🐯"},
-    {q:"U",word:"Unicorn", speech:"U. Unicorn", options:["🦄","🦅","🦉","🦇"],a:"🦄"},
-    {q:"V",word:"Vulture", speech:"V. Vulture", options:["🦅","🦜","🕊️","🦤"],a:"🦅"},
-    {q:"W",word:"Whale", speech:"W. Whale", options:["🦈","🐳","🐟","🐙"],a:"🐳"},
-    {q:"X",word:"Xylophone", speech:"X. Xylophone", options:["🪘","🎸","🎹","🎺"],a:"🪘"},
-    {q:"Y",word:"Yak", speech:"Y. Yak", options:["🐂","🐄","🐐","🐑"],a:"🐂"},
-    {q:"Z",word:"Zebra", speech:"Z. Zebra", options:["🦓","🐎","🐴","🦌"],a:"🦓"}
-  ],
-  numbers: [
-    {q:"1",word:"One", speech:"One. One apple", options:["🍎","🍌🍌","🐱🐱🐱","🍕🍕🍕🍕"],a:"🍎"},
-    {q:"2",word:"Two", speech:"Two. Two bananas", options:["🍇","🍌🍌","🥚","🦊"],a:"🍌🍌"},
-    {q:"3",word:"Three", speech:"Three. Three cats", options:["🍇","🦆","🐱🐱🐱","🦁"],a:"🐱🐱🐱"},
-    {q:"4",word:"Four", speech:"Four. Four dogs", options:["🐕🐕🐕🐕","🐘","🐸","🐐"],a:"🐕🐕🐕🐕"},
-    {q:"5",word:"Five", speech:"Five. Five fish", options:["🐟🐟🐟🐟🐟","🐤","🦊","🐝"],a:"🐟🐟🐟🐟🐟"},
-    {q:"6",word:"Six", speech:"Six. Six birds", options:["🍎","🐦🐦🐦🐦🐦🐦","🍇","🍌"],a:"🐦🐦🐦🐦🐦🐦"},
-    {q:"7",word:"Seven", speech:"Seven. Seven frogs", options:["🐸🐸🐸🐸🐸🐸🐸","🦁","🐢","🐘"],a:"🐸🐸🐸🐸🐸🐸🐸"},
-    {q:"8",word:"Eight", speech:"Eight. Eight butterflies", options:["🦋🦋🦋🦋🦋🦋🦋🦋","🐝","🐛","🐞"],a:"🦋🦋🦋🦋🦋🦋🦋🦋"},
-    {q:"9",word:"Nine", speech:"Nine. Nine stars", options:["⭐","🌙","☁️","⭐⭐⭐⭐⭐⭐⭐⭐⭐"],a:"⭐⭐⭐⭐⭐⭐⭐⭐⭐"},
-    {q:"10",word:"Ten", speech:"Ten. Ten balloons", options:["🎈🎈🎈🎈🎈🎈🎈🎈🎈🎈","🚗","🧸","⚽"],a:"🎈🎈🎈🎈🎈🎈🎈🎈🎈🎈"}
-  ],
-  coloring: [
-    {q:"🦁",word:"Lion", speech:"What sound does the Lion make?", options:["Roar","Meow","Bark","Cluck"],a:"Roar", textOpts:true},
-    {q:"🐱",word:"Cat", speech:"What sound does the Cat make?", options:["Oink","Meow","Moo","Quack"], a:"Meow", textOpts:true},
-    {q:"🐕",word:"Dog", speech:"What sound does the Dog make?", options:["Neigh","Roar","Bark","Bleat"],a:"Bark", textOpts:true},
-    {q:"🐮",word:"Cow", speech:"What sound does the Cow make?", options:["Moo","Baah","Buzz","Hiss"], a:"Moo", textOpts:true},
-    {q:"🦆",word:"Duck", speech:"What sound does the Duck make?", options:["Chirp","Quack","Oink","Roar"],a:"Quack",textOpts:true},
-    {q:"🐔",word:"Chicken", speech:"What sound does the Chicken make?", options:["Cluck","Meow","Bark","Moo"], a:"Cluck", textOpts:true},
-    {q:"🐴",word:"Horse", speech:"What sound does the Horse make?", options:["Buzz","Hiss","Neigh","Roar"],a:"Neigh", textOpts:true},
-    {q:"🐑",word:"Sheep", speech:"What sound does the Sheep make?", options:["Baah","Meow","Quack","Oink"],a:"Baah", textOpts:true},
-    {q:"🐷",word:"Pig", speech:"What sound does the Pig make?", options:["Bark","Oink","Moo","Cluck"], a:"Oink", textOpts:true},
-    {q:"🐝",word:"Bee", speech:"What sound does the Bee make?", options:["Chirp","Buzz","Roar","Hiss"],a:"Buzz", textOpts:true},
-    {q:"🔴",word:"Red", speech:"What color is this?", options:["Blue","Red","Green","Yellow"], a:"Red", textOpts:true},
-    {q:"🔵",word:"Blue", speech:"What color is this?", options:["Red","Green","Blue","Black"], a:"Blue", textOpts:true},
-    {q:"🟢",word:"Green", speech:"What color is this?", options:["Yellow","White","Green","Red"], a:"Green", textOpts:true},
-    {q:"🟡",word:"Yellow", speech:"What color is this?", options:["Blue","Yellow","Pink","Orange"],a:"Yellow",textOpts:true},
-    {q:"⚫",word:"Black", speech:"What color is this?", options:["Black","White","Brown","Purple"],a:"Black", textOpts:true}
-  ],
-  arabic: [
-    {q:"أ",word:"أسد", speech:"أَلِف. أَسَد", speechLang:"ar-SA", options:["🦁","🦆","🍎","🐪"],a:"🦁"},
-    {q:"ب",word:"بطة", speech:"بَاء. بَطَّة", speechLang:"ar-SA", options:["📆","🦆","🍇","🐱"],a:"🦆"},
-    {q:"ت",word:"تفاحة", speech:"تَاء. تُفَّاحَة", speechLang:"ar-SA", options:["🍎","🍌","🥕","🥒"],a:"🍎"},
-    {q:"ث",word:"ثعلب", speech:"ثَاء. ثَعْلَب", speechLang:"ar-SA", options:["🦊","🐰","🐺","🦁"],a:"🦊"},
-    {q:"ج",word:"جمل", speech:"جِيم. جَمَل", speechLang:"ar-SA", options:["🐴","🐪","🐮","🐷"],a:"🐪"},
-    {q:"ح",word:"حصان", speech:"حَاء. حِصَان", speechLang:"ar-SA", options:["🐴","🐐","🐑","🐂"],a:"🐴"},
-    {q:"خ",word:"خروف", speech:"خَاء. خَرُوف", speechLang:"ar-SA", options:["🐑","🐺","🦊","🐻"],a:"🐑"},
-    {q:"د",word:"دب", speech:"دَال. دُبّ", speechLang:"ar-SA", options:["🐻","🦁","🐯","🐱"],a:"🐻"},
-    {q:"ذ",word:"ذئب", speech:"ذَال. ذِئْب", speechLang:"ar-SA", options:["🐺","🦊","🐕","🐱"],a:"🐺"},
-    {q:"ر",word:"رمان", speech:"رَاء. رُمَّان", speechLang:"ar-SA", options:["🍉","🍇","🍌","🍎"],a:"🍇"},
-    {q:"ز",word:"زرافة", speech:"زَاي. زَرَافَة", speechLang:"ar-SA", options:["🦒","🐘","🐪","🐎"],a:"🦒"},
-    {q:"س",word:"سمكة", speech:"سِين. سَمَكَة", speechLang:"ar-SA", options:["🐟","🦀","🐙","🐋"],a:"🐟"},
-    {q:"ش",word:"شمس", speech:"شِين. شَمْس", speechLang:"ar-SA", options:["☀️","🌙","☁️","⭐"],a:"☀️"},
-    {q:"ص",word:"صقر", speech:"صَاد. صَقْر", speechLang:"ar-SA", options:["🦅","🦉","🕊️","🦆"],a:"🦅"},
-    {q:"ض",word:"ضفدع", speech:"ضَاد. ضُفْدَع", speechLang:"ar-SA", options:["🐸","🐢","🐍","🦎"],a:"🐸"},
-    {q:"ط",word:"طائرة", speech:"طَاء. طَائِرَة", speechLang:"ar-SA", options:["🚀","🚗","✈️","🚢"],a:"✈️"},
-    {q:"ظ",word:"ظرف", speech:"ظَاء. ظَرْف", speechLang:"ar-SA", options:["✉️","📦","📜","📝"],a:"✉️"},
-    {q:"ع",word:"عنب", speech:"عَيْن. عِنَب", speechLang:"ar-SA", options:["🍇","🍒","🍓","🍉"],a:"🍇"},
-    {q:"غ",word:"غزال", speech:"غَيْن. غَزَال", speechLang:"ar-SA", options:["🦌","🐐","🐑","🐴"],a:"🦌"},
-    {q:"ف",word:"فيل", speech:"فَاء. فِيل", speechLang:"ar-SA", options:["🐘","🦒","🦏","🦛"],a:"🐘"},
-    {q:"ق",word:"قرد", speech:"قَاف. قِرْد", speechLang:"ar-SA", options:["🐒","🦍","🦧","🐱"],a:"🐒"},
-    {q:"ك",word:"كتاب", speech:"كَاف. كِتَاب", speechLang:"ar-SA", options:["📚","✏️","🎨","🎒"],a:"📚"},
-    {q:"ل",word:"ليمون", speech:"لَام. لَيْمُون", speechLang:"ar-SA", options:["🍋","🍏","🍐","🍊"],a:"🍋"},
-    {q:"م",word:"موز", speech:"مِيم. مَوْز", speechLang:"ar-SA", options:["🍌","🍍","🥭","🥝"],a:"🍌"},
-    {q:"ن",word:"نمر", speech:"نُون. نَمِر", speechLang:"ar-SA", options:["🐯","🦁","🐆","🐱"],a:"🐯"},
-    {q:"هـ",word:"هلال", speech:"هَاء. هِلَال", speechLang:"ar-SA", options:["🌙","☀️","⭐","🌍"],a:"🌙"},
-    {q:"و",word:"وردة", speech:"وَاو. وَرْدَة", speechLang:"ar-SA", options:["🌹","🌻","🌲","🌱"],a:"🌹"},
-    {q:"ي",word:"يد", speech:"يَاء. يَد", speechLang:"ar-SA", options:["👋","👀","👃","👂"],a:"👋"}
-  ],
-  math: (function(){
-    var levels=[];
-    for(var i=1;i<=25;i++){
-      var a=Math.floor(Math.random()*10)+1,b=Math.floor(Math.random()*10)+1,ans=a+b;
-      var wrong=[ans+1,ans-1,ans+2,ans-2].filter(function(x){return x>0&&x!==ans;});
-      var opts=[ans,wrong[0],wrong[1],wrong[2]].sort(function(){return Math.random()-.5;});
-      levels.push({q:a+' + '+b,word:a+' plus '+b,speech:'What is '+a+' plus '+b+'?',options:opts.map(String),a:String(ans),textOpts:true});
-    }
-    for(var i=1;i<=25;i++){
-      var a=Math.floor(Math.random()*15)+5,b=Math.floor(Math.random()*(a-1))+1,ans=a-b;
-      var wrong=[ans+1,ans-1,ans+2,ans-2].filter(function(x){return x>=0&&x!==ans;});
-      var opts=[ans,wrong[0],wrong[1],wrong[2]].sort(function(){return Math.random()-.5;});
-      levels.push({q:a+' - '+b,word:a+' minus '+b,speech:'What is '+a+' minus '+b+'?',options:opts.map(String),a:String(ans),textOpts:true});
-    }
-    return levels;
-  })()
+  abc: [{q:"A",word:"Apple", speech:"A. Apple", options:["🍎","🍌","🐱","🐕"],a:"🍎"},{q:"B",word:"Banana", speech:"B. Banana", options:["🚗","🍌","🥚","🦊"],a:"🍌"},{q:"C",word:"Cat", speech:"C. Cat", options:["🍇","🦆","🐱","🦁"],a:"🐱"},{q:"D",word:"Dog", speech:"D. Dog", options:["🐕","🐘","🐸","🐐"],a:"🐕"},{q:"E",word:"Elephant", speech:"E. Elephant", options:["🍎","🐘","🍦","🦊"],a:"🐘"},{q:"F",word:"Fox", speech:"F. Fox", options:["🦊","🍇","👒","🦎"],a:"🦊"},{q:"G",word:"Goat", speech:"G. Goat", options:["🍌","🍇","🐐","🍋"],a:"🐐"},{q:"H",word:"Horse", speech:"H. Horse", options:["🐴","🦁","🐒","🐔"],a:"🐴"},{q:"I",word:"Ice cream", speech:"I. Ice cream", options:["🐟","🍦","🦎","🦉"],a:"🍦"},{q:"J",word:"Juice", speech:"J. Juice", options:["🧃","🐨","🦁","🐭"],a:"🧃"},{q:"K",word:"Kangaroo", speech:"K. Kangaroo", options:["🦘","🐼","🐷","🐰"],a:"🦘"},{q:"L",word:"Lion", speech:"L. Lion", options:["🐸","🐯","🦁","🐺"],a:"🦁"},{q:"M",word:"Monkey", speech:"M. Monkey", options:["🐒","🐔","🐧","🐦"],a:"🐒"},{q:"N",word:"Nest", speech:"N. Nest", options:["🪹","🦉","🦇","🦅"],a:"🪹"},{q:"O",word:"Owl", speech:"O. Owl", options:["🐝","🐛","🦋","🦉"],a:"🦉"},{q:"P",word:"Penguin", speech:"P. Penguin", options:["🐧","🐢","🐊","🐍"],a:"🐧"},{q:"Q",word:"Queen Bee", speech:"Q. Queen Bee", options:["🐳","🦈","🐙","🐝"],a:"🐝"},{q:"R",word:"Rabbit", speech:"R. Rabbit", options:["🦌","🐮","🐷","🐰"],a:"🐰"},{q:"S",word:"Sheep", speech:"S. Sheep", options:["🐑","🐫","🐘","🦒"],a:"🐑"},{q:"T",word:"Tiger", speech:"T. Tiger", options:["🦓","🐆","🐯","🦁"],a:"🐯"},{q:"U",word:"Unicorn", speech:"U. Unicorn", options:["🦄","🦅","🦉","🦇"],a:"🦄"},{q:"V",word:"Vulture", speech:"V. Vulture", options:["🦅","🦜","🕊️","🦤"],a:"🦅"},{q:"W",word:"Whale", speech:"W. Whale", options:["🦈","🐳","🐟","🐙"],a:"🐳"},{q:"X",word:"Xylophone", speech:"X. Xylophone", options:["🪘","🎸","🎹","🎺"],a:"🪘"},{q:"Y",word:"Yak", speech:"Y. Yak", options:["🐂","🐄","🐐","🐑"],a:"🐂"},{q:"Z",word:"Zebra", speech:"Z. Zebra", options:["🦓","🐎","🐴","🦌"],a:"🦓"}],
+  numbers: [{q:"1",word:"One", speech:"One. One apple", options:["🍎","🍌🍌","🐱🐱🐱","🍕🍕🍕🍕"],a:"🍎"},{q:"2",word:"Two", speech:"Two. Two bananas", options:["🍇","🍌🍌","🥚","🦊"],a:"🍌🍌"},{q:"3",word:"Three", speech:"Three. Three cats", options:["🍇","🦆","🐱🐱🐱","🦁"],a:"🐱🐱🐱"},{q:"4",word:"Four", speech:"Four. Four dogs", options:["🐕🐕🐕🐕","🐘","🐸","🐐"],a:"🐕🐕🐕🐕"},{q:"5",word:"Five", speech:"Five. Five fish", options:["🐟🐟🐟🐟🐟","🐤","🦊","🐝"],a:"🐟🐟🐟🐟🐟"},{q:"6",word:"Six", speech:"Six. Six birds", options:["🍎","🐦🐦🐦🐦🐦🐦","🍇","🍌"],a:"🐦🐦🐦🐦🐦🐦"},{q:"7",word:"Seven", speech:"Seven. Seven frogs", options:["🐸🐸🐸🐸🐸🐸🐸","🦁","🐢","🐘"],a:"🐸🐸🐸🐸🐸🐸🐸"},{q:"8",word:"Eight", speech:"Eight. Eight butterflies", options:["🦋🦋🦋🦋🦋🦋🦋🦋","🐝","🐛","🐞"],a:"🦋🦋🦋🦋🦋🦋🦋🦋"},{q:"9",word:"Nine", speech:"Nine. Nine stars", options:["⭐","🌙","☁️","⭐⭐⭐⭐⭐⭐⭐⭐⭐"],a:"⭐⭐⭐⭐⭐⭐⭐⭐⭐"},{q:"10",word:"Ten", speech:"Ten. Ten balloons", options:["🎈🎈🎈🎈🎈🎈🎈🎈🎈🎈","🚗","🧸","⚽"],a:"🎈🎈🎈🎈🎈🎈🎈🎈🎈🎈"}],
+  coloring: [{q:"🦁",word:"Lion", speech:"What sound does the Lion make?", options:["Roar","Meow","Bark","Cluck"],a:"Roar", textOpts:true},{q:"🐱",word:"Cat", speech:"What sound does the Cat make?", options:["Oink","Meow","Moo","Quack"], a:"Meow", textOpts:true},{q:"🐕",word:"Dog", speech:"What sound does the Dog make?", options:["Neigh","Roar","Bark","Bleat"],a:"Bark", textOpts:true},{q:"🐮",word:"Cow", speech:"What sound does the Cow make?", options:["Moo","Baah","Buzz","Hiss"], a:"Moo", textOpts:true},{q:"🦆",word:"Duck", speech:"What sound does the Duck make?", options:["Chirp","Quack","Oink","Roar"],a:"Quack",textOpts:true},{q:"🐔",word:"Chicken", speech:"What sound does the Chicken make?", options:["Cluck","Meow","Bark","Moo"], a:"Cluck", textOpts:true},{q:"🐴",word:"Horse", speech:"What sound does the Horse make?", options:["Buzz","Hiss","Neigh","Roar"],a:"Neigh", textOpts:true},{q:"🐑",word:"Sheep", speech:"What sound does the Sheep make?", options:["Baah","Meow","Quack","Oink"],a:"Baah", textOpts:true},{q:"🐷",word:"Pig", speech:"What sound does the Pig make?", options:["Bark","Oink","Moo","Cluck"], a:"Oink", textOpts:true},{q:"🐝",word:"Bee", speech:"What sound does the Bee make?", options:["Chirp","Buzz","Roar","Hiss"],a:"Buzz", textOpts:true},{q:"🔴",word:"Red", speech:"What color is this?", options:["Blue","Red","Green","Yellow"], a:"Red", textOpts:true},{q:"🔵",word:"Blue", speech:"What color is this?", options:["Red","Green","Blue","Black"], a:"Blue", textOpts:true},{q:"🟢",word:"Green", speech:"What color is this?", options:["Yellow","White","Green","Red"], a:"Green", textOpts:true},{q:"🟡",word:"Yellow", speech:"What color is this?", options:["Blue","Yellow","Pink","Orange"],a:"Yellow",textOpts:true},{q:"⚫",word:"Black", speech:"What color is this?", options:["Black","White","Brown","Purple"],a:"Black", textOpts:true}],
+  arabic: [{q:"أ",word:"أسد", speech:"أَلِف. أَسَد", speechLang:"ar-SA", options:["🦁","🦆","🍎","🐪"],a:"🦁"},{q:"ب",word:"بطة", speech:"بَاء. بَطَّة", speechLang:"ar-SA", options:["📆","🦆","🍇","🐱"],a:"🦆"},{q:"ت",word:"تفاحة", speech:"تَاء. تُفَّاحَة", speechLang:"ar-SA", options:["🍎","🍌","🥕","🥒"],a:"🍎"},{q:"ث",word:"ثعلب", speech:"ثَاء. ثَعْلَب", speechLang:"ar-SA", options:["🦊","🐰","🐺","🦁"],a:"🦊"},{q:"ج",word:"جمل", speech:"جِيم. جَمَل", speechLang:"ar-SA", options:["🐴","🐪","🐮","🐷"],a:"🐪"},{q:"ح",word:"حصان", speech:"حَاء. حِصَان", speechLang:"ar-SA", options:["🐴","🐐","🐑","🐂"],a:"🐴"},{q:"خ",word:"خروف", speech:"خَاء. خَرُوف", speechLang:"ar-SA", options:["🐑","🐺","🦊","🐻"],a:"🐑"},{q:"د",word:"دب", speech:"دَال. دُبّ", speechLang:"ar-SA", options:["🐻","🦁","🐯","🐱"],a:"🐻"},{q:"ذ",word:"ذئب", speech:"ذَال. ذِئْب", speechLang:"ar-SA", options:["🐺","🦊","🐕","🐱"],a:"🐺"},{q:"ر",word:"رمان", speech:"رَاء. رُمَّان", speechLang:"ar-SA", options:["🍉","🍇","🍌","🍎"],a:"🍇"},{q:"ز",word:"زرافة", speech:"زَاي. زَرَافَة", speechLang:"ar-SA", options:["🦒","🐘","🐪","🐎"],a:"🦒"},{q:"س",word:"سمكة", speech:"سِين. سَمَكَة", speechLang:"ar-SA", options:["🐟","🦀","🐙","🐋"],a:"🐟"},{q:"ش",word:"شمس", speech:"شِين. شَمْس", speechLang:"ar-SA", options:["☀️","🌙","☁️","⭐"],a:"☀️"},{q:"ص",word:"صقر", speech:"صَاد. صَقْر", speechLang:"ar-SA", options:["🦅","🦉","🕊️","🦆"],a:"🦅"},{q:"ض",word:"ضفدع", speech:"ضَاد. ضُفْدَع", speechLang:"ar-SA", options:["🐸","🐢","🐍","🦎"],a:"🐸"},{q:"ط",word:"طائرة", speech:"طَاء. طَائِرَة", speechLang:"ar-SA", options:["🚀","🚗","✈️","🚢"],a:"✈️"},{q:"ظ",word:"ظرف", speech:"ظَاء. ظَرْف", speechLang:"ar-SA", options:["✉️","📦","📜","📝"],a:"✉️"},{q:"ع",word:"عنب", speech:"عَيْن. عِنَب", speechLang:"ar-SA", options:["🍇","🍒","🍓","🍉"],a:"🍇"},{q:"غ",word:"غزال", speech:"غَيْن. غَزَال", speechLang:"ar-SA", options:["🦌","🐐","🐑","🐴"],a:"🦌"},{q:"ف",word:"فيل", speech:"فَاء. فِيل", speechLang:"ar-SA", options:["🐘","🦒","🦏","🦛"],a:"🐘"},{q:"ق",word:"قرد", speech:"قَاف. قِرْد", speechLang:"ar-SA", options:["🐒","🦍","🦧","🐱"],a:"🐒"},{q:"ك",word:"كتاب", speech:"كَاف. كِتَاب", speechLang:"ar-SA", options:["📚","✏️","🎨","🎒"],a:"📚"},{q:"ل",word:"ليمون", speech:"لَام. لَيْمُون", speechLang:"ar-SA", options:["🍋","🍏","🍐","🍊"],a:"🍋"},{q:"م",word:"موز", speech:"مِيم. مَوْز", speechLang:"ar-SA", options:["🍌","🍍","🥭","🥝"],a:"🍌"},{q:"ن",word:"نمر", speech:"نُون. نَمِر", speechLang:"ar-SA", options:["🐯","🦁","🐆","🐱"],a:"🐯"},{q:"هـ",word:"هلال", speech:"هَاء. هِلَال", speechLang:"ar-SA", options:["🌙","☀️","⭐","🌍"],a:"🌙"},{q:"و",word:"وردة", speech:"وَاو. وَرْدَة", speechLang:"ar-SA", options:["🌹","🌻","🌲","🌱"],a:"🌹"},{q:"ي",word:"يد", speech:"يَاء. يَد", speechLang:"ar-SA", options:["👋","👀","👃","👂"],a:"👋"}],
+  math: (function(){var levels=[];for(var i=1;i<=25;i++){var a=Math.floor(Math.random()*10)+1,b=Math.floor(Math.random()*10)+1,ans=a+b;var wrong=[ans+1,ans-1,ans+2,ans-2].filter((x)=>x>0&&x!==ans);var opts=[ans,wrong[0],wrong[1],wrong[2]].sort(()=>Math.random()-.5);levels.push({q:a+' + '+b,word:a+' plus '+b,speech:'What is '+a+' plus '+b+'?',options:opts.map(String),a:String(ans),textOpts:true});}for(var i=1;i<=25;i++){var a=Math.floor(Math.random()*15)+5,b=Math.floor(Math.random()*(a-1))+1,ans=a-b;var wrong=[ans+1,ans-1,ans+2,ans-2].filter((x)=>x>=0&&x!==ans);var opts=[ans,wrong[0],wrong[1],wrong[2]].sort(()=>Math.random()-.5);levels.push({q:a+' - '+b,word:a+' minus '+b,speech:'What is '+a+' minus '+b+'?',options:opts.map(String),a:String(ans),textOpts:true});}return levels;})()
 };
 
-// ═══ NEW GAME DATA ═══════════════════════════════════
-const flagData = [
-  {name:"Afghanistan", flag:"🇦🇫"},{name:"Albania", flag:"🇦🇱"},{name:"Algeria", flag:"🇩🇿"},
-  {name:"Andorra", flag:"🇦🇩"},{name:"Angola", flag:"🇦🇴"},{name:"Argentina", flag:"🇦🇷"},
-  {name:"Armenia", flag:"🇦🇲"},{name:"Australia", flag:"🇦🇺"},{name:"Austria", flag:"🇦🇹"},
-  {name:"Azerbaijan", flag:"🇦🇿"},{name:"Bahamas", flag:"🇧🇸"},{name:"Bahrain", flag:"🇧🇭"},
-  {name:"Bangladesh", flag:"🇧🇩"},{name:"Barbados", flag:"🇧🇧"},{name:"Belarus", flag:"🇧🇾"},
-  {name:"Belgium", flag:"🇧🇪"},{name:"Belize", flag:"🇧🇿"},{name:"Benin", flag:"🇧🇯"},
-  {name:"Bhutan", flag:"🇧🇹"},{name:"Bolivia", flag:"🇧🇴"},{name:"Bosnia", flag:"🇧🇦"},
-  {name:"Botswana", flag:"🇧🇼"},{name:"Brazil", flag:"🇧🇷"},{name:"Brunei", flag:"🇧🇳"},
-  {name:"Bulgaria", flag:"🇧🇬"},{name:"Burkina Faso", flag:"🇧🇫"},{name:"Burundi", flag:"🇧🇮"},
-  {name:"Cabo Verde", flag:"🇨🇻"},{name:"Cambodia", flag:"🇰🇭"},{name:"Cameroon", flag:"🇨🇲"},
-  {name:"Canada", flag:"🇨🇦"},{name:"Chad", flag:"🇹🇩"},{name:"Chile", flag:"🇨🇱"},
-  {name:"China", flag:"🇨🇳"},{name:"Colombia", flag:"🇨🇴"},{name:"Comoros", flag:"🇰🇲"},
-  {name:"Congo DRC", flag:"🇨🇩"},{name:"Congo Rep", flag:"🇨🇬"},{name:"Costa Rica", flag:"🇨🇷"},
-  {name:"Croatia", flag:"🇭🇷"},{name:"Cuba", flag:"🇨🇺"},{name:"Cyprus", flag:"🇨🇾"},
-  {name:"Czechia", flag:"🇨🇿"},{name:"Denmark", flag:"🇩🇰"},{name:"Djibouti", flag:"🇩🇯"},
-  {name:"Dominica", flag:"🇩🇲"},{name:"Dominican Rep", flag:"🇩🇴"},{name:"Ecuador", flag:"🇪🇨"},
-  {name:"Egypt", flag:"🇪🇬"},{name:"El Salvador", flag:"🇸🇻"},{name:"Eritrea", flag:"🇪🇷"},
-  {name:"Estonia", flag:"🇪🇪"},{name:"Eswatini", flag:"🇸🇿"},{name:"Ethiopia", flag:"🇪🇹"},
-  {name:"Fiji", flag:"🇫🇯"},{name:"Finland", flag:"🇫🇮"},{name:"France", flag:"🇫🇷"},
-  {name:"Gabon", flag:"🇬🇦"},{name:"Gambia", flag:"🇬🇲"},{name:"Georgia", flag:"🇬🇪"},
-  {name:"Germany", flag:"🇩🇪"},{name:"Ghana", flag:"🇬🇭"},{name:"Greece", flag:"🇬🇷"},
-  {name:"Grenada", flag:"🇬🇩"},{name:"Guatemala", flag:"🇬🇹"},{name:"Guinea", flag:"🇬🇳"},
-  {name:"Guinea-Bissau", flag:"🇬🇼"},{name:"Guyana", flag:"🇬🇾"},{name:"Haiti", flag:"🇭🇹"},
-  {name:"Honduras", flag:"🇭🇳"},{name:"Hungary", flag:"🇭🇺"},{name:"Iceland", flag:"🇮🇸"},
-  {name:"India", flag:"🇮🇳"},{name:"Indonesia", flag:"🇮🇩"},{name:"Iran", flag:"🇮🇷"},
-  {name:"Iraq", flag:"🇮🇶"},{name:"Ireland", flag:"🇮🇪"},{name:"Israel", flag:"🇮🇱"},
-  {name:"Italy", flag:"🇮🇹"},{name:"Jamaica", flag:"🇯🇲"},{name:"Japan", flag:"🇯🇵"},
-  {name:"Jordan", flag:"🇯🇴"},{name:"Kazakhstan", flag:"🇰🇿"},{name:"Kenya", flag:"🇰🇪"},
-  {name:"Kiribati", flag:"🇰🇮"},{name:"Kuwait", flag:"🇰🇼"},{name:"Kyrgyzstan", flag:"🇰🇬"},
-  {name:"Laos", flag:"🇱🇦"},{name:"Latvia", flag:"🇱🇻"},{name:"Lebanon", flag:"🇱🇧"},
-  {name:"Lesotho", flag:"🇱🇸"},{name:"Liberia", flag:"🇱🇷"},{name:"Libya", flag:"🇱🇾"},
-  {name:"Liechtenstein", flag:"🇱🇮"},{name:"Lithuania", flag:"🇱🇹"},{name:"Luxembourg", flag:"🇱🇺"},
-  {name:"Madagascar", flag:"🇲🇬"},{name:"Malawi", flag:"🇲🇼"},{name:"Malaysia", flag:"🇲🇾"},
-  {name:"Maldives", flag:"🇲🇻"},{name:"Mali", flag:"🇲🇱"},{name:"Malta", flag:"🇲🇹"},
-  {name:"Marshall Is", flag:"🇲🇭"},{name:"Mauritania", flag:"🇲🇷"},{name:"Mauritius", flag:"🇲🇺"},
-  {name:"Mexico", flag:"🇲🇽"},{name:"Micronesia", flag:"🇫🇲"},{name:"Moldova", flag:"🇲🇩"},
-  {name:"Monaco", flag:"🇲🇨"},{name:"Mongolia", flag:"🇲🇳"},{name:"Montenegro", flag:"🇲🇪"},
-  {name:"Morocco", flag:"🇲🇦"},{name:"Mozambique", flag:"🇲🇿"},{name:"Myanmar", flag:"🇲🇲"},
-  {name:"Namibia", flag:"🇳🇦"},{name:"Nauru", flag:"🇳🇷"},{name:"Nepal", flag:"🇳🇵"},
-  {name:"Netherlands", flag:"🇳🇱"},{name:"New Zealand", flag:"🇳🇿"},{name:"Nicaragua", flag:"🇳🇮"},
-  {name:"Niger", flag:"🇳🇪"},{name:"Nigeria", flag:"🇳🇬"},{name:"North Korea", flag:"🇰🇵"},
-  {name:"North Macedonia", flag:"🇲🇰"},{name:"Norway", flag:"🇳🇴"},{name:"Oman", flag:"🇴🇲"},
-  {name:"Pakistan", flag:"🇵🇰"},{name:"Palau", flag:"🇵🇼"},{name:"Panama", flag:"🇵🇦"},
-  {name:"Papua New Guinea", flag:"🇵🇬"},{name:"Paraguay", flag:"🇵🇾"},{name:"Peru", flag:"🇵🇪"},
-  {name:"Philippines", flag:"🇵🇭"},{name:"Poland", flag:"🇵🇱"},{name:"Portugal", flag:"🇵🇹"},
-  {name:"Qatar", flag:"🇶🇦"},{name:"Romania", flag:"🇷🇴"},{name:"Russia", flag:"🇷🇺"},
-  {name:"Rwanda", flag:"🇷🇼"},{name:"Saint Kitts", flag:"🇰🇳"},{name:"Saint Lucia", flag:"🇱🇨"},
-  {name:"St Vincent", flag:"🇻🇨"},{name:"Samoa", flag:"🇼🇸"},{name:"San Marino", flag:"🇸🇲"},
-  {name:"Sao Tome", flag:"🇸🇹"},{name:"Saudi Arabia", flag:"🇸🇦"},{name:"Senegal", flag:"🇸🇳"},
-  {name:"Serbia", flag:"🇷🇸"},{name:"Seychelles", flag:"🇸🇨"},{name:"Sierra Leone", flag:"🇸🇱"},
-  {name:"Singapore", flag:"🇸🇬"},{name:"Slovakia", flag:"🇸🇰"},{name:"Slovenia", flag:"🇸🇮"},
-  {name:"Solomon Is", flag:"🇸🇧"},{name:"Somalia", flag:"🇸🇴"},{name:"South Africa", flag:"🇿🇦"},
-  {name:"South Korea", flag:"🇰🇷"},{name:"South Sudan", flag:"🇸🇸"},{name:"Spain", flag:"🇪🇸"},
-  {name:"Sri Lanka", flag:"🇱🇰"},{name:"Sudan", flag:"🇸🇩"},{name:"Suriname", flag:"🇸🇷"},
-  {name:"Sweden", flag:"🇸🇪"},{name:"Switzerland", flag:"🇨🇭"},{name:"Syria", flag:"🇸🇾"},
-  {name:"Tajikistan", flag:"🇹🇯"},{name:"Tanzania", flag:"🇹🇿"},{name:"Thailand", flag:"🇹🇭"},
-  {name:"Timor-Leste", flag:"🇹🇱"},{name:"Togo", flag:"🇹🇬"},{name:"Tonga", flag:"🇹🇴"},
-  {name:"Trinidad", flag:"🇹🇹"},{name:"Tunisia", flag:"🇹🇳"},{name:"Turkey", flag:"🇹🇷"},
-  {name:"Turkmenistan", flag:"🇹🇲"},{name:"Tuvalu", flag:"🇹🇻"},{name:"Uganda", flag:"🇺🇬"},
-  {name:"Ukraine", flag:"🇺🇦"},{name:"UAE", flag:"🇦🇪"},{name:"UK", flag:"🇬🇧"},
-  {name:"USA", flag:"🇺🇸"},{name:"Uruguay", flag:"🇺🇾"},{name:"Uzbekistan", flag:"🇺🇿"},
-  {name:"Vanuatu", flag:"🇻🇺"},{name:"Vatican City", flag:"🇻🇦"},{name:"Venezuela", flag:"🇻🇪"},
-  {name:"Vietnam", flag:"🇻🇳"},{name:"Yemen", flag:"🇾🇪"},{name:"Zambia", flag:"🇿🇲"},
-  {name:"Zimbabwe", flag:"🇿🇼"}
-];
-
-const memoryEmojis = ['🍎','🍌','🍇','🍉','🍓','🍑','🍒','🥝'];
-const scrambleWords = ['CAT','DOG','FISH','BIRD','STAR','MOON','SUN','EARTH','MARS','TREE','FLOWER','CLOUD'];
-const colorPatterns = [
-  [1,1,1,2,2,2,3,3,1,1,2,2,3,3,4,4,1,2,3,4,5,6,7,8,8,7,6,5,4,3,2,1,1,2,3,4,5,6,7,8,8,7,6,5,4,3,2,1,3,3,4,4,5,5,6,6,2,2,3,3,4,4,5,5],
-  [1,2,3,4,5,6,7,8,8,7,6,5,4,3,2,1,1,2,3,4,5,6,7,8,8,7,6,5,4,3,2,1,3,3,4,4,5,5,6,6,2,2,3,3,4,4,5,5,1,1,2,2,3,3,4,4,1,2,3,4,5,6,7,8]
-];
-const typingTexts = ["The quick brown fox jumps over the lazy dog","Practice makes perfect every single day","Coding is fun and creative","Learn to type fast with accuracy"];
-const geoQuestions = [
-  {q:"What is the capital of France?", opts:["London","Paris","Berlin","Madrid"], ans:1},
-  {q:"Which country has the most people?", opts:["USA","India","China","Brazil"], ans:2},
-  {q:"What is the largest continent?", opts:["Africa","Asia","North America","Europe"], ans:1},
-  {q:"Which ocean is the largest?", opts:["Atlantic","Pacific","Indian","Arctic"], ans:1},
-  {q:"What is the capital of Japan?", opts:["Seoul","Beijing","Bangkok","Tokyo"], ans:3},
-  {q:"What is the longest river?", opts:["Amazon","Nile","Mississippi","Yangtze"], ans:1},
-  {q:"What is the capital of Australia?", opts:["Sydney","Melbourne","Canberra","Perth"], ans:2},
-  {q:"Which desert is the largest?", opts:["Sahara","Gobi","Kalahari","Arabian"], ans:0},
-  {q:"What is the smallest country?", opts:["Monaco","Vatican City","San Marino","Liechtenstein"], ans:1},
-  {q:"Which mountain is the tallest?", opts:["K2","Mount Everest","Kilimanjaro","Denali"], ans:1},
-  {q:"What is the capital of Egypt?", opts:["Cairo","Alexandria","Luxor","Giza"], ans:0},
-  {q:"Which country has the most islands?", opts:["Indonesia","Philippines","Sweden","Japan"], ans:2}
-];
-const wordSearchWords = ['CAT','DOG','BIRD','FISH','HORSE','SNAKE'];
-const animalData = [
-  {animal:'Lion', emoji:'🦁', sound:'Roar!'},{animal:'Cat', emoji:'🐱', sound:'Meow!'},
-  {animal:'Dog', emoji:'🐕', sound:'Woof!'},{animal:'Cow', emoji:'🐄', sound:'Moo!'},
-  {animal:'Sheep', emoji:'🐑', sound:'Baa!'},{animal:'Horse', emoji:'🐴', sound:'Neigh!'},
-  {animal:'Duck', emoji:'🦆', sound:'Quack!'},{animal:'Chicken', emoji:'🐔', sound:'Cluck!'},
-  {animal:'Pig', emoji:'🐷', sound:'Oink!'},{animal:'Bee', emoji:'🐝', sound:'Buzz!'}
-];
-const storyTemplates = [
-  {template:"The ___ ___ went to the ___ to find a ___", slots:['adjective','animal','place','object']},
-  {template:"Once upon a time, a ___ ___ lived in a ___", slots:['adjective','animal','place']},
-  {template:"The ___ ___ jumped over the ___ and landed on a ___", slots:['adjective','animal','object','object']}
-];
-const wordBank = {
-  adjective:['brave','funny','sleepy','happy','sad','angry','lazy','smart','kind','wild'],
-  animal:['cat','dog','bird','fox','lion','bear','rabbit','horse','tiger','wolf'],
-  place:['castle','forest','mountain','village','ocean','desert','garden','jungle','cave','park'],
-  object:['stone','flower','tree','book','star','cloud','moon','sword','hat','ball']
-};
-const phonicsData = [
-  {letter:'A', sound:'/ā/', words:['Apple','Ant','Alligator']},{letter:'B', sound:'/b/', words:['Ball','Bear','Bird']},
-  {letter:'C', sound:'/k/', words:['Cat','Car','Cookie']},{letter:'D', sound:'/d/', words:['Dog','Duck','Doll']},
-  {letter:'E', sound:'/ē/', words:['Elephant','Egg','Eagle']},{letter:'F', sound:'/f/', words:['Fish','Fox','Flower']},
-  {letter:'G', sound:'/g/', words:['Goat','Giraffe','Guitar']},{letter:'H', sound:'/h/', words:['Horse','Hat','House']},
-  {letter:'I', sound:'/ī/', words:['Ice','Island','Insect']},{letter:'J', sound:'/j/', words:['Jump','Juice','Jet']},
-  {letter:'K', sound:'/k/', words:['Kite','King','Kangaroo']},{letter:'L', sound:'/l/', words:['Lion','Lemon','Lamp']},
-  {letter:'M', sound:'/m/', words:['Monkey','Moon','Milk']},{letter:'N', sound:'/n/', words:['Nest','Nose','Night']},
-  {letter:'O', sound:'/ō/', words:['Owl','Ocean','Orange']},{letter:'P', sound:'/p/', words:['Pig','Penguin','Pizza']},
-  {letter:'Q', sound:'/kw/', words:['Queen','Quack','Quiet']},{letter:'R', sound:'/r/', words:['Rabbit','Rainbow','Rocket']},
-  {letter:'S', sound:'/s/', words:['Sun','Star','Snake']},{letter:'T', sound:'/t/', words:['Tiger','Tree','Train']},
-  {letter:'U', sound:'/ū/', words:['Umbrella','Up','Unicorn']},{letter:'V', sound:'/v/', words:['Van','Violin','Volcano']},
-  {letter:'W', sound:'/w/', words:['Whale','Window','Water']},{letter:'X', sound:'/ks/', words:['X-ray','Xylophone','Box']},
-  {letter:'Y', sound:'/y/', words:['Yak','Yarn','Yellow']},{letter:'Z', sound:'/z/', words:['Zebra','Zoo','Zip']}
-];
-const vocabData = [
-  {word:'Brave', meaning:'Showing courage', example:'The brave knight saved the princess.'},
-  {word:'Bright', meaning:'Full of light', example:'The sun is very bright today.'},
-  {word:'Calm', meaning:'Peaceful and quiet', example:'The lake was calm and still.'},
-  {word:'Clever', meaning:'Quick to understand', example:'The clever fox solved the puzzle.'},
-  {word:'Eager', meaning:'Very excited to do something', example:'The kids were eager to play.'},
-  {word:'Gentle', meaning:'Soft and kind', example:'She gave the baby a gentle hug.'},
-  {word:'Honest', meaning:'Truthful', example:'He gave an honest answer.'},
-  {word:'Kind', meaning:'Caring and nice', example:'She is a kind person.'},
-  {word:'Loyal', meaning:'Faithful and devoted', example:'The dog is a loyal friend.'},
-  {word:'Patient', meaning:'Able to wait calmly', example:'You need to be patient.'},
-  {word:'Proud', meaning:'Feeling good about yourself', example:'She was proud of her work.'},
-  {word:'Wise', meaning:'Having knowledge and experience', example:'The wise owl gave advice.'}
-];
-const musicNotes = ['C4','D4','E4','F4','G4','A4','B4','C5'];
-const musicFreqs = {C4:261.63,'C#4':277.18,D4:293.66,'D#4':311.13,E4:329.63,F4:349.23,'F#4':369.99,G4:392.00,'G#4':415.30,A4:440.00,'A#4':466.16,B4:493.88,C5:523.25};
-
-// ═══ GAME STATE ═════════════════════════════════════
-let currentGame = null;
-let gameState = {};
+const flagData = [{name:"Afghanistan", flag:"🇦🇫"},{name:"Albania", flag:"🇦🇱"},{name:"Algeria", flag:"🇩🇿"},{name:"Andorra", flag:"🇦🇩"},{name:"Angola", flag:"🇦🇴"},{name:"Argentina", flag:"🇦🇷"},{name:"Armenia", flag:"🇦🇲"},{name:"Australia", flag:"🇦🇺"},{name:"Austria", flag:"🇦🇹"},{name:"Azerbaijan", flag:"🇦🇿"},{name:"Bahamas", flag:"🇧🇸"},{name:"Bahrain", flag:"🇧🇭"},{name:"Bangladesh", flag:"🇧🇩"},{name:"Barbados", flag:"🇧🇧"},{name:"Belarus", flag:"🇧🇾"},{name:"Belgium", flag:"🇧🇪"},{name:"Belize", flag:"🇧🇿"},{name:"Benin", flag:"🇧🇯"},{name:"Bhutan", flag:"🇧🇹"},{name:"Bolivia", flag:"🇧🇴"},{name:"Bosnia", flag:"🇧🇦"},{name:"Botswana", flag:"🇧🇼"},{name:"Brazil", flag:"🇧🇷"},{name:"Brunei", flag:"🇧🇳"},{name:"Bulgaria", flag:"🇧🇬"},{name:"Burkina Faso", flag:"🇧🇫"},{name:"Burundi", flag:"🇧🇮"},{name:"Cabo Verde", flag:"🇨🇻"},{name:"Cambodia", flag:"🇰🇭"},{name:"Cameroon", flag:"🇨🇲"},{name:"Canada", flag:"🇨🇦"},{name:"Chad", flag:"🇹🇩"},{name:"Chile", flag:"🇨🇱"},{name:"China", flag:"🇨🇳"},{name:"Colombia", flag:"🇨🇴"},{name:"Comoros", flag:"🇰🇲"},{name:"Congo DRC", flag:"🇨🇩"},{name:"Congo Rep", flag:"🇨🇬"},{name:"Costa Rica", flag:"🇨🇷"},{name:"Croatia", flag:"🇭🇷"},{name:"Cuba", flag:"🇨🇺"},{name:"Cyprus", flag:"🇨🇾"},{name:"Czechia", flag:"🇨🇿"},{name:"Denmark", flag:"🇩🇰"},{name:"Djibouti", flag:"🇩🇯"},{name:"Dominica", flag:"🇩🇲"},{name:"Dominican Rep", flag:"🇩🇴"},{name:"Ecuador", flag:"🇪🇨"},{name:"Egypt", flag:"🇪🇬"},{name:"El Salvador", flag:"🇸🇻"},{name:"Eritrea", flag:"🇪🇷"},{name:"Estonia", flag:"🇪🇪"},{name:"Eswatini", flag:"🇸🇿"},{name:"Ethiopia", flag:"🇪🇹"},{name:"Fiji", flag:"🇫🇯"},{name:"Finland", flag:"🇫🇮"},{name:"France", flag:"🇫🇷"},{name:"Gabon", flag:"🇬🇦"},{name:"Gambia", flag:"🇬🇲"},{name:"Georgia", flag:"🇬🇪"},{name:"Germany", flag:"🇩🇪"},{name:"Ghana", flag:"🇬🇭"},{name:"Greece", flag:"🇬🇷"},{name:"Grenada", flag:"🇬🇩"},{name:"Guatemala", flag:"🇬🇹"},{name:"Guinea", flag:"🇬🇳"},{name:"Guinea-Bissau", flag:"🇬🇼"},{name:"Guyana", flag:"🇬🇾"},{name:"Haiti", flag:"🇭🇹"},{name:"Honduras", flag:"🇭🇳"},{name:"Hungary", flag:"🇭🇺"},{name:"Iceland", flag:"🇮🇸"},{name:"India", flag:"🇮🇳"},{name:"Indonesia", flag:"🇮🇩"},{name:"Iran", flag:"🇮🇷"},{name:"Iraq", flag:"🇮🇶"},{name:"Ireland", flag:"🇮🇪"},{name:"Israel", flag:"🇮🇱"},{name:"Italy", flag:"🇮🇹"},{name:"Jamaica", flag:"🇯🇲"},{name:"Japan", flag:"🇯🇵"},{name:"Jordan", flag:"🇯🇴"},{name:"Kazakhstan", flag:"🇰🇿"},{name:"Kenya", flag:"🇰🇪"},{name:"Kiribati", flag:"🇰🇮"},{name:"Kuwait", flag:"🇰🇼"},{name:"Kyrgyzstan", flag:"🇰🇬"},{name:"Laos", flag:"🇱🇦"},{name:"Latvia", flag:"🇱🇻"},{name:"Lebanon", flag:"🇱🇧"},{name:"Lesotho", flag:"🇱🇸"},{name:"Liberia", flag:"🇱🇷"},{name:"Libya", flag:"🇱🇾"},{name:"Liechtenstein", flag:"🇱🇮"},{name:"Lithuania", flag:"🇱🇹"},{name:"Luxembourg", flag:"🇱🇺"},{name:"Madagascar", flag:"🇲🇬"},{name:"Malawi", flag:"🇲🇼"},{name:"Malaysia", flag:"🇲🇾"},{name:"Maldives", flag:"🇲🇻"},{name:"Mali", flag:"🇲🇱"},{name:"Malta", flag:"🇲🇹"},{name:"Marshall Is", flag:"🇲🇭"},{name:"Mauritania", flag:"🇲🇷"},{name:"Mauritius", flag:"🇲🇺"},{name:"Mexico", flag:"🇲🇽"},{name:"Micronesia", flag:"🇫🇲"},{name:"Moldova", flag:"🇲🇩"},{name:"Monaco", flag:"🇲🇨"},{name:"Mongolia", flag:"🇲🇳"},{name:"Montenegro", flag:"🇲🇪"},{name:"Morocco", flag:"🇲🇦"},{name:"Mozambique", flag:"🇲🇿"},{name:"Myanmar", flag:"🇲🇲"},{name:"Namibia", flag:"🇳🇦"},{name:"Nauru", flag:"🇳🇷"},{name:"Nepal", flag:"🇳🇵"},{name:"Netherlands", flag:"🇳🇱"},{name:"New Zealand", flag:"🇳🇿"},{name:"Nicaragua", flag:"🇳🇮"},{name:"Niger", flag:"🇳🇪"},{name:"Nigeria", flag:"🇳🇬"},{name:"North Korea", flag:"🇰🇵"},{name:"North Macedonia", flag:"🇲🇰"},{name:"Norway", flag:"🇳🇴"},{name:"Oman", flag:"🇴🇲"},{name:"Pakistan", flag:"🇵🇰"},{name:"Palau", flag:"🇵🇼"},{name:"Panama", flag:"🇵🇦"},{name:"Papua New Guinea", flag:"🇵🇬"},{name:"Paraguay", flag:"🇵🇾"},{name:"Peru", flag:"🇵🇪"},{name:"Philippines", flag:"🇵🇭"},{name:"Poland", flag:"🇵🇱"},{name:"Portugal", flag:"🇵🇹"},{name:"Qatar", flag:"🇶🇦"},{name:"Romania", flag:"🇷🇴"},{name:"Russia", flag:"🇷🇺"},{name:"Rwanda", flag:"🇷🇼"},{name:"Saint Kitts", flag:"🇰🇳"},{name:"Saint Lucia", flag:"🇱🇨"},{name:"St Vincent", flag:"🇻🇨"},{name:"Samoa", flag:"🇼🇸"},{name:"San Marino", flag:"🇸🇲"},{name:"Sao Tome", flag:"🇸🇹"},{name:"Saudi Arabia", flag:"🇸🇦"},{name:"Senegal", flag:"🇸🇳"},{name:"Serbia", flag:"🇷🇸"},{name:"Seychelles", flag:"🇸🇨"},{name:"Sierra Leone", flag:"🇸🇱"},{name:"Singapore", flag:"🇸🇬"},{name:"Slovakia", flag:"🇸🇰"},{name:"Slovenia", flag:"🇸🇮"},{name:"Solomon Is", flag:"🇸🇧"},{name:"Somalia", flag:"🇸🇴"},{name:"South Africa", flag:"🇿🇦"},{name:"South Korea", flag:"🇰🇷"},{name:"South Sudan", flag:"🇸🇸"},{name:"Spain", flag:"🇪🇸"},{name:"Sri Lanka", flag:"🇱🇰"},{name:"Sudan", flag:"🇸🇩"},{name:"Suriname", flag:"🇸🇷"},{name:"Sweden", flag:"🇸🇪"},{name:"Switzerland", flag:"🇨🇭"},{name:"Syria", flag:"🇸🇾"},{name:"Tajikistan", flag:"🇹🇯"},{name:"Tanzania", flag:"🇹🇿"},{name:"Thailand", flag:"🇹🇭"},{name:"Timor-Leste", flag:"🇹🇱"},{name:"Togo", flag:"🇹🇬"},{name:"Tonga", flag:"🇹🇴"},{name:"Trinidad", flag:"🇹🇹"},{name:"Tunisia", flag:"🇹🇳"},{name:"Turkey", flag:"🇹🇷"},{name:"Turkmenistan", flag:"🇹🇲"},{name:"Tuvalu", flag:"🇹🇻"},{name:"Uganda", flag:"🇺🇬"},{name:"Ukraine", flag:"🇺🇦"},{name:"UAE", flag:"🇦🇪"},{name:"UK", flag:"🇬🇧"},{name:"USA", flag:"🇺🇸"},{name:"Uruguay", flag:"🇺🇾"},{name:"Uzbekistan", flag:"🇺🇿"},{name:"Vanuatu", flag:"🇻🇺"},{name:"Vatican City", flag:"🇻🇦"},{name:"Venezuela", flag:"🇻🇪"},{name:"Vietnam", flag:"🇻🇳"},{name:"Yemen", flag:"🇾🇪"},{name:"Zambia", flag:"🇿🇲"},{name:"Zimbabwe", flag:"🇿🇼"}];
 
 // ═══ GAME FUNCTIONS ═════════════════════════════════
 window.startGame = function(mode) {
-  if((mode === 'arabic' || mode === 'math') && !isPremiumUnlocked()) {
-    showPremiumPopup();
-    return;
-  }
-  sfxClick();
-  currentGame = mode;
-  gameState = {};
-  
-  const titles = {
-    abc:'ABC English', numbers:'Numbers 123', coloring:'More Fun',
-    arabic:'Arabic عربي', math:'Math ➕➖',
-    flags:'🌍 Flag Quiz', memory:'🧠 Memory Match',
-    bingo:'🔢 Math Bingo', scramble:'🔤 Word Scramble',
-    color:'🎨 Color by Number', typing:'⌨️ Typing Tutor',
-    geo:'🌍 Geography Quiz', search:'🔍 Word Search',
-    animal:'🐄 Animal Sounds', story:'📖 Story Builder',
-    phonics:'🔤 Phonics', multiply:'✖️ Times Tables',
-    vocab:'📝 Vocabulary', music:'🎵 Music Maker',
-    animate:'🎬 Animation Studio'
-  };
-  
+  if((mode === 'arabic' || mode === 'math') && !isPremiumUnlocked()) { showPremiumPopup(); return; }
+  sfxClick(); currentGame = mode; gameState = {};
+  const titles = {abc:'ABC English', numbers:'Numbers 123', coloring:'More Fun', arabic:'Arabic عربي', math:'Math ➕➖', flags:'🌍 Flag Quiz', memory:'🧠 Memory Match', bingo:'🔢 Math Bingo', scramble:'🔤 Word Scramble', color:'🎨 Color by Number', typing:'⌨️ Typing Tutor', geo:'🌍 Geography Quiz', search:'🔍 Word Search', animal:'🐄 Animal Sounds', story:'📖 Story Builder', phonics:'🔤 Phonics', multiply:'✖️ Times Tables', vocab:'📝 Vocabulary', music:'🎵 Music Maker', animate:'🎬 Animation Studio'};
   document.getElementById('game-title').textContent = titles[mode] || mode;
   showScreen('game-screen');
   document.getElementById('gameContent').innerHTML = '';
-  
   switch(mode) {
-    case 'abc': case 'numbers': case 'coloring': case 'arabic': case 'math':
-      loadOriginalGame(mode);
-      break;
+    case 'abc': case 'numbers': case 'coloring': case 'arabic': case 'math': loadOriginalGame(mode); break;
     case 'flags': loadFlagGame(); break;
     case 'memory': loadMemoryGame(); break;
     case 'bingo': loadBingoGame(); break;
@@ -1305,159 +865,65 @@ window.startGame = function(mode) {
 // ═══ ORIGINAL GAME ══════════════════════════════════
 function loadOriginalGame(mode) {
   const data = gameData[mode];
-  curMode = mode;
-  curIdx = 0;
-  streak = 0;
-  gameState.mode = mode;
-  gameState.data = data;
-  gameState.mistakes = 0;
-  gameState.correctAns = '';
-  gameState.curSpeech = '';
-  gameState.curSpeechLang = 'en-US';
-  
+  curMode = mode; curIdx = 0; streak = 0;
+  gameState.mode = mode; gameState.data = data; gameState.mistakes = 0;
   const container = document.getElementById('gameContent');
-  container.innerHTML = `
-    <div class="level-lbl" id="level-lbl">Level 1</div>
-    <div class="streak-bar" id="streak-bar"></div>
-    <div class="question-box" id="question" onclick="speakQuestion()">?</div>
-    <div class="word-label" id="word-label"></div>
-    <p class="listen-hint" id="listen-hint">🔊 Tap to hear!</p>
-    <div id="quiz-options" class="options-grid"></div>
-    <div class="game-stats">
-      <span>⭐ Stars: <span id="gameStars">0</span></span>
-      <span>✅ Correct: <span id="gameCorrect">0</span></span>
-    </div>
-    <div class="game-footer" id="gameFooter">Tap an option to answer</div>
-  `;
+  container.innerHTML = `<div class="level-lbl" id="level-lbl">Level 1</div><div class="streak-bar" id="streak-bar"></div><div class="question-box" id="question" onclick="speakQuestion()">?</div><div class="word-label" id="word-label"></div><p class="listen-hint" id="listen-hint">🔊 Tap to hear!</p><div id="quiz-options" class="options-grid"></div><div class="game-stats"><span>⭐ Stars: <span id="gameStars">0</span></span><span>✅ Correct: <span id="gameCorrect">0</span></span></div><div class="game-footer" id="gameFooter">Tap an option to answer</div>`;
   loadOriginalLevel();
 }
 
 function loadOriginalLevel() {
   const data = gameState.data;
-  if(curIdx >= data.length) {
-    sfxLevelUp();
-    showToast('🎉 Section complete!');
-    setTimeout(exitGame, 2000);
-    return;
-  }
+  if(curIdx >= data.length) { sfxLevelUp(); showToast('🎉 Section complete!'); setTimeout(exitGame, 2000); return; }
   gameState.mistakes = 0;
   const q = data[curIdx];
-  gameState.correctAns = q.a;
-  gameState.curSpeech = q.speech;
-  gameState.curSpeechLang = q.speechLang || 'en-US';
-  
+  gameState.correctAns = q.a; gameState.curSpeech = q.speech; gameState.curSpeechLang = q.speechLang || 'en-US';
   document.getElementById('level-lbl').textContent = `Level ${curIdx+1} of ${data.length}`;
   document.getElementById('question').textContent = q.q;
   document.getElementById('word-label').textContent = q.word || '';
-  
   const bar = document.getElementById('streak-bar');
   bar.innerHTML = '';
-  for(let i=0; i<Math.min(streak, 10); i++) {
-    const d = document.createElement('div');
-    d.className = 'streak-dot hit';
-    bar.appendChild(d);
-  }
-  
+  for(let i=0; i<Math.min(streak, 10); i++) { const d = document.createElement('div'); d.className = 'streak-dot hit'; bar.appendChild(d); }
   const grid = document.getElementById('quiz-options');
   grid.innerHTML = '';
-  q.options.forEach(opt => {
-    const b = document.createElement('button');
-    b.className = 'opt-btn' + (q.textOpts ? ' text-opt' : '');
-    b.textContent = opt;
-    b.onclick = () => checkOriginalAnswer(b);
-    grid.appendChild(b);
-  });
-  
+  q.options.forEach(opt => { const b = document.createElement('button'); b.className = 'opt-btn' + (q.textOpts ? ' text-opt' : ''); b.textContent = opt; b.onclick = () => checkOriginalAnswer(b); grid.appendChild(b); });
   document.getElementById('gameFooter').textContent = 'Tap an option to answer';
   if(ST.speech) setTimeout(speakQuestion, 400);
 }
 
-function speakQuestion() {
-  if(!ST.speech || !gameState.curSpeech) return;
-  const qBox = document.getElementById('question');
-  if(qBox) qBox.classList.add('speaking');
-  sayText(gameState.curSpeech, gameState.curSpeechLang, 0.72, () => {
-    if(qBox) qBox.classList.remove('speaking');
-  });
-}
+function speakQuestion() { if(!ST.speech || !gameState.curSpeech) return; const qBox = document.getElementById('question'); if(qBox) qBox.classList.add('speaking'); sayText(gameState.curSpeech, gameState.curSpeechLang, 0.72, () => { if(qBox) qBox.classList.remove('speaking'); }); }
 window.speakQuestion = speakQuestion;
 
 function checkOriginalAnswer(btn) {
-  if(isAnswering) return;
-  if(btn.disabled) return;
+  if(isAnswering || btn.disabled) return;
   const allBtns = document.querySelectorAll('.opt-btn');
   allBtns.forEach(b => b.disabled = true);
-  
   if(btn.textContent === gameState.correctAns) {
-    isAnswering = true;
-    btn.classList.add('correct');
-    ST.correctAnswers++;
-    streak++;
-    ST.totalAnswers++;
+    isAnswering = true; btn.classList.add('correct'); ST.correctAnswers++; streak++; ST.totalAnswers++;
     const stars = gameState.mistakes === 0 ? 3 : (gameState.mistakes === 1 ? 2 : 1);
-    ST.totalStars += stars;
-    ST.levelsDone++;
-    ST.starsPerDay[6] = (ST.starsPerDay[6] || 0) + stars;
+    ST.totalStars += stars; ST.levelsDone++; ST.starsPerDay[6] = (ST.starsPerDay[6] || 0) + stars;
     completed[curMode] = Math.min(completed[curMode] + 1, gameState.data.length);
-    sfxCorrect();
-    if(stars === 3) setTimeout(sfxStar, 500);
+    sfxCorrect(); if(stars === 3) setTimeout(sfxStar, 500);
     const msg = stars === 3 ? '⭐⭐⭐ Perfect!' : (stars === 2 ? '⭐⭐ Great job!' : '⭐ Good try!');
-    showToast(msg);
-    document.getElementById('gameStars').textContent = ST.totalStars;
-    document.getElementById('gameCorrect').textContent = ST.correctAnswers;
-    document.getElementById('gameFooter').textContent = msg;
-    if(ST.speech && gameState.data[curIdx]) {
-      const q = gameState.data[curIdx];
-      setTimeout(() => sayText(stars === 3 ? 'Excellent! '+q.word+'!' : 'Great job!', 'en-US', 0.85), 300);
-    }
-    refreshHome();
-    fastSave();
-    saveToCloudLater();
+    showToast(msg); document.getElementById('gameStars').textContent = ST.totalStars; document.getElementById('gameCorrect').textContent = ST.correctAnswers; document.getElementById('gameFooter').textContent = msg;
+    if(ST.speech && gameState.data[curIdx]) { const q = gameState.data[curIdx]; setTimeout(() => sayText(stars === 3 ? 'Excellent! '+q.word+'!' : 'Great job!', 'en-US', 0.85), 300); }
+    refreshHome(); fastSave(); saveToCloudLater();
     levelTimer = setTimeout(() => { curIdx++; loadOriginalLevel(); }, 1800);
   } else {
-    btn.classList.add('wrong');
-    gameState.mistakes++;
-    ST.totalAnswers++;
-    sfxWrong();
+    btn.classList.add('wrong'); gameState.mistakes++; ST.totalAnswers++; sfxWrong();
     if(ST.speech) setTimeout(() => sayText('Try again!', 'en-US', 0.9), 100);
-    setTimeout(() => {
-      const btns = document.querySelectorAll('.opt-btn');
-      btns.forEach(b => {
-        if(!b.classList.contains('correct') && !b.classList.contains('wrong')) {
-          b.disabled = false;
-        }
-      });
-      isAnswering = false;
-    }, 600);
+    setTimeout(() => { const btns = document.querySelectorAll('.opt-btn'); btns.forEach(b => { if(!b.classList.contains('correct') && !b.classList.contains('wrong')) b.disabled = false; }); isAnswering = false; }, 600);
   }
 }
 
 // ═══ BINGO GAME ══════════════════════════════════════
 function loadBingoGame() {
-  const numbers = [];
-  while(numbers.length < 16) {
-    const num = Math.floor(Math.random() * 20) + 1;
-    if(!numbers.includes(num)) numbers.push(num);
-  }
-  // Make sure the numbers are displayed in a 4x4 grid
+  const numbers = []; while(numbers.length < 16) { const num = Math.floor(Math.random() * 20) + 1; if(!numbers.includes(num)) numbers.push(num); }
   gameState.bingoGrid = numbers.map((v, i) => ({ value: v, marked: false, index: i }));
-  gameState.bingoScore = 0;
-  gameState.bingoCorrect = 0;
-  gameState.bingoAnswer = 0;
-  
+  gameState.bingoScore = 0; gameState.bingoCorrect = 0; gameState.bingoAnswer = 0;
   const container = document.getElementById('gameContent');
-  container.innerHTML = `
-    <div style="background:#f5f5f5;padding:20px;border-radius:15px;text-align:center;font-size:1.5rem;font-weight:700;color:#4a3487;" id="bingoQuestion">? + ? = ?</div>
-    <div class="bingo-grid" id="bingoGrid"></div>
-    <div class="game-stats">
-      <span>⭐ Score: <span id="bingoScore">0</span></span>
-      <span>✅ Correct: <span id="bingoCorrect">0</span></span>
-    </div>
-    <div class="game-footer" id="bingoFooter">🔢 Find the answer on the grid!</div>
-    <button class="game-btn" onclick="resetBingoGame()">🔄 New Bingo</button>
-  `;
-  renderBingoGrid();
-  generateBingoQuestion();
+  container.innerHTML = `<div style="background:#f5f5f5;padding:20px;border-radius:15px;text-align:center;font-size:1.5rem;font-weight:700;color:#4a3487;" id="bingoQuestion">? + ? = ?</div><div class="bingo-grid" id="bingoGrid"></div><div class="game-stats"><span>⭐ Score: <span id="bingoScore">0</span></span><span>✅ Correct: <span id="bingoCorrect">0</span></span></div><div class="game-footer" id="bingoFooter">🔢 Find the answer on the grid!</div><button class="game-btn" onclick="resetBingoGame()">🔄 New Bingo</button>`;
+  renderBingoGrid(); generateBingoQuestion();
 }
 
 function renderBingoGrid() {
@@ -1483,18 +949,11 @@ function checkBingoCell(index) {
   const cell = gameState.bingoGrid[index];
   if(cell.marked) return;
   if(cell.value === gameState.bingoAnswer) {
-    cell.marked = true;
-    gameState.bingoCorrect++;
-    gameState.bingoScore += 10;
+    cell.marked = true; gameState.bingoCorrect++; gameState.bingoScore += 10;
     document.getElementById('bingoScore').textContent = gameState.bingoScore;
     document.getElementById('bingoCorrect').textContent = gameState.bingoCorrect;
-    renderBingoGrid();
-    ST.totalStars += 1;
-    refreshHome();
-    fastSave();
-    saveToCloudLater();
-    checkBingoWin();
-    generateBingoQuestion();
+    renderBingoGrid(); ST.totalStars += 1; refreshHome(); fastSave(); saveToCloudLater();
+    checkBingoWin(); generateBingoQuestion();
   } else {
     const div = document.querySelectorAll('.bingo-cell')[index];
     div.classList.add('wrong');
@@ -1503,83 +962,36 @@ function checkBingoCell(index) {
 }
 
 function checkBingoWin() {
-  let bingo = false;
-  const grid = gameState.bingoGrid;
-  for(let r=0; r<4; r++) {
-    let rowComplete = true;
-    for(let c=0; c<4; c++) { if(!grid[r*4+c].marked) rowComplete = false; }
-    if(rowComplete) bingo = true;
-  }
-  for(let c=0; c<4; c++) {
-    let colComplete = true;
-    for(let r=0; r<4; r++) { if(!grid[r*4+c].marked) colComplete = false; }
-    if(colComplete) bingo = true;
-  }
-  if(bingo) {
-    document.getElementById('bingoFooter').textContent = '🎉 BINGO! You win!';
-    ST.totalStars += 5;
-    refreshHome();
-    fastSave();
-    saveToCloudLater();
-  }
+  let bingo = false; const grid = gameState.bingoGrid;
+  for(let r=0; r<4; r++) { let rowComplete = true; for(let c=0; c<4; c++) { if(!grid[r*4+c].marked) rowComplete = false; } if(rowComplete) bingo = true; }
+  for(let c=0; c<4; c++) { let colComplete = true; for(let r=0; r<4; r++) { if(!grid[r*4+c].marked) colComplete = false; } if(colComplete) bingo = true; }
+  if(bingo) { document.getElementById('bingoFooter').textContent = '🎉 BINGO! You win!'; ST.totalStars += 5; refreshHome(); fastSave(); saveToCloudLater(); }
 }
 
 function resetBingoGame() { loadBingoGame(); }
 
-// ═══ OTHER GAME FUNCTIONS (Memory, Scramble, Color, Typing, Geo, Search, Animal, Story, Phonics, Multiply, Vocab, Music, Animate, Flag) ═══
-// [All other game functions remain the same as the previous version - I'm keeping them compact for length]
-
 // ═══ FLAG GAME ═══════════════════════════════════════
 function loadFlagGame() {
-  gameState.flagData = flagData;
-  gameState.flagUsed = [];
-  gameState.flagCorrect = 0;
-  gameState.flagWrong = 0;
-  gameState.flagAnswered = false;
-  
+  gameState.flagData = flagData; gameState.flagUsed = []; gameState.flagCorrect = 0; gameState.flagWrong = 0; gameState.flagAnswered = false;
   const container = document.getElementById('gameContent');
-  container.innerHTML = `
-    <div style="background:#f0ebe5;border-radius:20px;padding:20px;margin:10px 0;text-align:center;min-height:120px;display:flex;align-items:center;justify-content:center;font-size:5rem;" id="flagDisplay">🇨🇳</div>
-    <div style="font-weight:600;text-align:center;color:#555;margin:10px 0;" id="flagQuestion">Which country does this flag belong to?</div>
-    <div class="geo-options" id="flagOptions"></div>
-    <div class="game-stats">
-      <span>✅ Correct: <span id="flagCorrect">0</span></span>
-      <span>❌ Wrong: <span id="flagWrong">0</span></span>
-    </div>
-    <div class="game-footer" id="flagFooter">🌍 Guess the flag!</div>
-    <button class="game-btn" onclick="loadFlagQuestion()">🔄 Next Flag</button>
-  `;
+  container.innerHTML = `<div style="background:#f0ebe5;border-radius:20px;padding:20px;margin:10px 0;text-align:center;min-height:120px;display:flex;align-items:center;justify-content:center;font-size:5rem;" id="flagDisplay">🇨🇳</div><div style="font-weight:600;text-align:center;color:#555;margin:10px 0;" id="flagQuestion">Which country does this flag belong to?</div><div class="geo-options" id="flagOptions"></div><div class="game-stats"><span>✅ Correct: <span id="flagCorrect">0</span></span><span>❌ Wrong: <span id="flagWrong">0</span></span></div><div class="game-footer" id="flagFooter">🌍 Guess the flag!</div><button class="game-btn" onclick="loadFlagQuestion()">🔄 Next Flag</button>`;
   loadFlagQuestion();
 }
 
 function loadFlagQuestion() {
-  const flags = flagData;
-  const used = gameState.flagUsed;
+  const flags = flagData; const used = gameState.flagUsed;
   let available = flags.filter((_, i) => !used.includes(i));
   if(available.length === 0) { gameState.flagUsed = []; available = flags; }
-  
   const idx = Math.floor(Math.random() * available.length);
-  const selected = available[idx];
-  const globalIdx = flags.indexOf(selected);
+  const selected = available[idx]; const globalIdx = flags.indexOf(selected);
   gameState.flagUsed.push(globalIdx);
-  
   document.getElementById('flagDisplay').textContent = selected.flag;
-  
   const others = flags.filter(f => f.name !== selected.name).sort(() => Math.random() - .5);
   const options = [selected, ...others.slice(0, 3)].sort(() => Math.random() - .5);
-  gameState.flagAnswer = selected.name;
-  gameState.flagAnswered = false;
-  
+  gameState.flagAnswer = selected.name; gameState.flagAnswered = false;
   const container = document.getElementById('flagOptions');
   container.innerHTML = '';
-  options.forEach(opt => {
-    const btn = document.createElement('button');
-    btn.className = 'geo-opt';
-    btn.textContent = opt.name;
-    btn.onclick = () => checkFlagAnswer(btn, opt.name);
-    container.appendChild(btn);
-  });
-  
+  options.forEach(opt => { const btn = document.createElement('button'); btn.className = 'geo-opt'; btn.textContent = opt.name; btn.onclick = () => checkFlagAnswer(btn, opt.name); container.appendChild(btn); });
   document.getElementById('flagFooter').textContent = '🌍 Which country?';
   document.getElementById('flagQuestion').textContent = `Which country does this flag belong to? (${flags.length - gameState.flagUsed.length} remaining)`;
 }
@@ -1589,54 +1001,26 @@ function checkFlagAnswer(btn, selected) {
   gameState.flagAnswered = true;
   const btns = document.querySelectorAll('#flagOptions .geo-opt');
   btns.forEach(b => b.disabled = true);
-  
   if(selected === gameState.flagAnswer) {
-    btn.classList.add('correct');
-    gameState.flagCorrect++;
-    document.getElementById('flagCorrect').textContent = gameState.flagCorrect;
+    btn.classList.add('correct'); gameState.flagCorrect++; document.getElementById('flagCorrect').textContent = gameState.flagCorrect;
     document.getElementById('flagFooter').textContent = '✅ Correct! Well done!';
-    ST.totalStars += 2;
-    ST.levelsDone++;
-    refreshHome();
-    fastSave();
-    saveToCloudLater();
+    ST.totalStars += 2; ST.levelsDone++; refreshHome(); fastSave(); saveToCloudLater();
   } else {
-    btn.classList.add('wrong');
-    gameState.flagWrong++;
-    document.getElementById('flagWrong').textContent = gameState.flagWrong;
+    btn.classList.add('wrong'); gameState.flagWrong++; document.getElementById('flagWrong').textContent = gameState.flagWrong;
     btns.forEach(b => { if(b.textContent === gameState.flagAnswer) b.classList.add('correct'); });
     document.getElementById('flagFooter').textContent = '❌ Wrong! The answer was: ' + gameState.flagAnswer;
   }
   setTimeout(loadFlagQuestion, 1500);
 }
 
-// ═══ OTHER GAME FUNCTIONS (Compact versions) ════════
-// [Memory, Scramble, Color, Typing, Geo, Search, Animal, Story, Phonics, Multiply, Vocab, Music, Animate]
-// I'm keeping these compact to save space - they work the same as before
-
 // ═══ MEMORY GAME ═════════════════════════════════════
 function loadMemoryGame() {
-  const emojis = memoryEmojis;
+  const emojis = ['🍎','🍌','🍇','🍉','🍓','🍑','🍒','🥝'];
   const deck = [...emojis, ...emojis];
   gameState.memoryCards = shuffleArray(deck).map((e, i) => ({ id: i, emoji: e, flipped: false, matched: false }));
-  gameState.memoryFlipped = [];
-  gameState.memoryMatched = [];
-  gameState.memoryMoves = 0;
-  gameState.memoryLocked = false;
-  gameState.memoryTimer = 0;
-  gameState.memoryInterval = null;
-  
+  gameState.memoryFlipped = []; gameState.memoryMatched = []; gameState.memoryMoves = 0; gameState.memoryLocked = false; gameState.memoryTimer = 0; gameState.memoryInterval = null;
   const container = document.getElementById('gameContent');
-  container.innerHTML = `
-    <div class="game-stats">
-      <span>🎯 Moves: <span id="memMoves">0</span></span>
-      <span>✅ Matches: <span id="memMatches">0</span>/8</span>
-      <span>⏱️ <span id="memTimer">0</span>s</span>
-    </div>
-    <div class="memory-grid" id="memGrid"></div>
-    <div class="game-footer" id="memFooter">🔄 Flip cards to find matches!</div>
-    <button class="game-btn" onclick="resetMemoryGame()">🔄 New Game</button>
-  `;
+  container.innerHTML = `<div class="game-stats"><span>🎯 Moves: <span id="memMoves">0</span></span><span>✅ Matches: <span id="memMatches">0</span>/8</span><span>⏱️ <span id="memTimer">0</span>s</span></div><div class="memory-grid" id="memGrid"></div><div class="game-footer" id="memFooter">🔄 Flip cards to find matches!</div><button class="game-btn" onclick="resetMemoryGame()">🔄 New Game</button>`;
   renderMemoryGrid();
 }
 
@@ -1656,78 +1040,32 @@ function flipMemoryCard(index) {
   if(gameState.memoryLocked) return;
   const card = gameState.memoryCards[index];
   if(card.flipped || card.matched) return;
-  if(!gameState.memoryInterval) {
-    gameState.memoryInterval = setInterval(() => {
-      gameState.memoryTimer++;
-      document.getElementById('memTimer').textContent = gameState.memoryTimer;
-    }, 1000);
-  }
-  card.flipped = true;
-  gameState.memoryFlipped.push(index);
-  renderMemoryGrid();
-  if(gameState.memoryFlipped.length === 2) {
-    gameState.memoryLocked = true;
-    gameState.memoryMoves++;
-    document.getElementById('memMoves').textContent = gameState.memoryMoves;
-    checkMemoryMatch();
-  }
+  if(!gameState.memoryInterval) { gameState.memoryInterval = setInterval(() => { gameState.memoryTimer++; document.getElementById('memTimer').textContent = gameState.memoryTimer; }, 1000); }
+  card.flipped = true; gameState.memoryFlipped.push(index); renderMemoryGrid();
+  if(gameState.memoryFlipped.length === 2) { gameState.memoryLocked = true; gameState.memoryMoves++; document.getElementById('memMoves').textContent = gameState.memoryMoves; checkMemoryMatch(); }
 }
 
 function checkMemoryMatch() {
   const [i1, i2] = gameState.memoryFlipped;
-  const card1 = gameState.memoryCards[i1];
-  const card2 = gameState.memoryCards[i2];
+  const card1 = gameState.memoryCards[i1], card2 = gameState.memoryCards[i2];
   if(card1.emoji === card2.emoji) {
-    card1.matched = card2.matched = true;
-    gameState.memoryMatched.push(i1, i2);
-    gameState.memoryFlipped = [];
-    gameState.memoryLocked = false;
-    document.getElementById('memMatches').textContent = gameState.memoryMatched.length/2;
-    renderMemoryGrid();
-    ST.totalStars += 1;
-    refreshHome();
-    fastSave();
-    saveToCloudLater();
-    if(gameState.memoryMatched.length === gameState.memoryCards.length) {
-      clearInterval(gameState.memoryInterval);
-      document.getElementById('memFooter').textContent = '🎉 You win! Perfect memory!';
-    }
+    card1.matched = card2.matched = true; gameState.memoryMatched.push(i1, i2); gameState.memoryFlipped = []; gameState.memoryLocked = false;
+    document.getElementById('memMatches').textContent = gameState.memoryMatched.length/2; renderMemoryGrid();
+    ST.totalStars += 1; refreshHome(); fastSave(); saveToCloudLater();
+    if(gameState.memoryMatched.length === gameState.memoryCards.length) { clearInterval(gameState.memoryInterval); document.getElementById('memFooter').textContent = '🎉 You win! Perfect memory!'; }
   } else {
-    setTimeout(() => {
-      card1.flipped = card2.flipped = false;
-      gameState.memoryFlipped = [];
-      gameState.memoryLocked = false;
-      renderMemoryGrid();
-    }, 800);
+    setTimeout(() => { card1.flipped = card2.flipped = false; gameState.memoryFlipped = []; gameState.memoryLocked = false; renderMemoryGrid(); }, 800);
   }
 }
 
-function resetMemoryGame() {
-  if(gameState.memoryInterval) { clearInterval(gameState.memoryInterval); gameState.memoryInterval = null; }
-  loadMemoryGame();
-}
+function resetMemoryGame() { if(gameState.memoryInterval) { clearInterval(gameState.memoryInterval); gameState.memoryInterval = null; } loadMemoryGame(); }
 
 // ═══ SCRAMBLE GAME ═══════════════════════════════════
 function loadScrambleGame() {
-  gameState.scrambleWords = scrambleWords;
-  gameState.scrambleScore = 0;
-  gameState.scrambleCorrect = 0;
-  
+  const words = ['CAT','DOG','FISH','BIRD','STAR','MOON','SUN','EARTH','MARS','TREE','FLOWER','CLOUD'];
+  gameState.scrambleWords = words; gameState.scrambleScore = 0; gameState.scrambleCorrect = 0;
   const container = document.getElementById('gameContent');
-  container.innerHTML = `
-    <div class="scrambled-word" id="scrambleDisplay">???</div>
-    <div style="text-align:center;color:#888;font-size:.9rem;">💡 Hint: <span id="scrambleHint">Animals</span></div>
-    <div class="scramble-input">
-      <input type="text" id="scrambleInput" placeholder="Type your answer..." onkeypress="if(event.key==='Enter')checkScramble()">
-      <button onclick="checkScramble()">Guess</button>
-    </div>
-    <div class="game-stats">
-      <span>⭐ Score: <span id="scrambleScore">0</span></span>
-      <span>✅ Correct: <span id="scrambleCorrect">0</span></span>
-    </div>
-    <div class="game-footer" id="scrambleFooter">🔍 Unscramble the word!</div>
-    <button class="game-btn" onclick="loadScrambleQuestion()">🔄 Next Word</button>
-  `;
+  container.innerHTML = `<div class="scrambled-word" id="scrambleDisplay">???</div><div style="text-align:center;color:#888;font-size:.9rem;">💡 Hint: <span id="scrambleHint">Animals</span></div><div class="scramble-input"><input type="text" id="scrambleInput" placeholder="Type your answer..." onkeypress="if(event.key==='Enter')checkScramble()"><button onclick="checkScramble()">Guess</button></div><div class="game-stats"><span>⭐ Score: <span id="scrambleScore">0</span></span><span>✅ Correct: <span id="scrambleCorrect">0</span></span></div><div class="game-footer" id="scrambleFooter">🔍 Unscramble the word!</div><button class="game-btn" onclick="loadScrambleQuestion()">🔄 Next Word</button>`;
   loadScrambleQuestion();
 }
 
@@ -1747,56 +1085,513 @@ function checkScramble() {
   const guess = document.getElementById('scrambleInput').value.trim().toUpperCase();
   if(!guess || !gameState.scrambleCurrent) return;
   if(guess === gameState.scrambleCurrent) {
-    gameState.scrambleScore += 10;
-    gameState.scrambleCorrect++;
-    document.getElementById('scrambleScore').textContent = gameState.scrambleScore;
-    document.getElementById('scrambleCorrect').textContent = gameState.scrambleCorrect;
+    gameState.scrambleScore += 10; gameState.scrambleCorrect++; document.getElementById('scrambleScore').textContent = gameState.scrambleScore; document.getElementById('scrambleCorrect').textContent = gameState.scrambleCorrect;
     document.getElementById('scrambleFooter').textContent = '✅ Correct! Great job! 🎉';
-    ST.totalStars += 2;
-    refreshHome();
-    fastSave();
-    saveToCloudLater();
+    ST.totalStars += 2; refreshHome(); fastSave(); saveToCloudLater();
     setTimeout(loadScrambleQuestion, 1000);
+  } else { document.getElementById('scrambleFooter').textContent = '❌ Try again!'; document.getElementById('scrambleInput').value = ''; document.getElementById('scrambleInput').focus(); }
+}
+
+// ═══ COLOR GAME ══════════════════════════════════════
+function loadColorGame() {
+  const colors = ['#e74c3c','#3498db','#2ecc71','#f1c40f','#9b59b6','#e67e22','#1abc9c','#e84393'];
+  const pattern = [[1,1,1,2,2,2,3,3,1,1,2,2,3,3,4,4,1,2,3,4,5,6,7,8,8,7,6,5,4,3,2,1,1,2,3,4,5,6,7,8,8,7,6,5,4,3,2,1,3,3,4,4,5,5,6,6,2,2,3,3,4,4,5,5],[1,2,3,4,5,6,7,8,8,7,6,5,4,3,2,1,1,2,3,4,5,6,7,8,8,7,6,5,4,3,2,1,3,3,4,4,5,5,6,6,2,2,3,3,4,4,5,5,1,1,2,2,3,3,4,4,1,2,3,4,5,6,7,8]];
+  const p = pattern[Math.floor(Math.random() * pattern.length)];
+  gameState.colorPattern = p; gameState.colorColors = colors; gameState.colorFilled = p.map(() => null); gameState.colorSelected = 0; gameState.colorCount = 0;
+  const container = document.getElementById('gameContent');
+  container.innerHTML = `<div class="color-palette" id="colorPalette"></div><div class="color-grid" id="colorGrid"></div><div class="game-stats"><span>🎨 Colored: <span id="colorCount">0</span>/64</span><span>⭐ Stars: <span id="colorStars">0</span></span></div><div class="game-footer" id="colorFooter">🎨 Tap a cell to color it!</div><button class="game-btn" onclick="loadColorGame()">🔄 New Picture</button>`;
+  renderColorPalette(); renderColorGrid();
+}
+
+function renderColorPalette() {
+  const container = document.getElementById('colorPalette');
+  container.innerHTML = '';
+  gameState.colorColors.forEach((color, idx) => {
+    const div = document.createElement('div');
+    div.className = 'color-pick' + (idx === gameState.colorSelected ? ' active' : '');
+    div.style.background = color;
+    div.onclick = () => { gameState.colorSelected = idx; renderColorPalette(); };
+    container.appendChild(div);
+  });
+}
+
+function renderColorGrid() {
+  const container = document.getElementById('colorGrid');
+  container.innerHTML = '';
+  gameState.colorPattern.forEach((num, idx) => {
+    const div = document.createElement('div');
+    div.className = 'color-cell' + (gameState.colorFilled[idx] !== null ? ' colored' : '');
+    if(gameState.colorFilled[idx] !== null) { div.style.background = gameState.colorColors[gameState.colorFilled[idx]]; div.textContent = ''; } else { div.style.background = '#f0f0f0'; div.textContent = num; }
+    div.onclick = () => colorCell(idx);
+    container.appendChild(div);
+  });
+}
+
+function colorCell(idx) {
+  if(gameState.colorFilled[idx] !== null) return;
+  const patternNum = gameState.colorPattern[idx] - 1;
+  if(gameState.colorSelected === patternNum) {
+    gameState.colorFilled[idx] = gameState.colorSelected; gameState.colorCount++; document.getElementById('colorCount').textContent = gameState.colorCount;
+    if(gameState.colorCount === 64) { ST.totalStars += 10; document.getElementById('colorStars').textContent = ST.totalStars; document.getElementById('colorFooter').textContent = '🎉 Perfect! You earned 10 stars!'; refreshHome(); fastSave(); saveToCloudLater(); }
+    renderColorGrid();
   } else {
-    document.getElementById('scrambleFooter').textContent = '❌ Try again!';
-    document.getElementById('scrambleInput').value = '';
-    document.getElementById('scrambleInput').focus();
+    const cells = document.querySelectorAll('.color-cell');
+    cells[idx].style.transform = 'scale(.8)'; cells[idx].style.background = '#e74c3c';
+    setTimeout(() => { cells[idx].style.transform = 'scale(1)'; renderColorGrid(); }, 300);
   }
 }
 
-// ═══ SHUFFLE UTILITY ═════════════════════════════════
-function shuffleArray(arr) {
-  for(let i=arr.length-1; i>0; i--) {
-    const j = Math.floor(Math.random() * (i+1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
+// ═══ TYPING GAME ═════════════════════════════════════
+function loadTypingGame() {
+  const texts = ["The quick brown fox jumps over the lazy dog","Practice makes perfect every single day","Coding is fun and creative","Learn to type fast with accuracy"];
+  gameState.typingTexts = texts; gameState.typingCorrect = 0; gameState.typingWrong = 0; gameState.typingTimer = 0; gameState.typingInterval = null; gameState.typingFinished = false;
+  const container = document.getElementById('gameContent');
+  container.innerHTML = `<div class="typing-display" id="typingDisplay"></div><input class="typing-input" id="typingInput" placeholder="Type here..." autofocus><div class="game-stats"><span>✅ Correct: <span id="typingCorrect">0</span></span><span>❌ Wrong: <span id="typingWrong">0</span></span><span>⏱️ <span id="typingTimer">0</span>s</span></div><div class="game-footer" id="typingFooter">💡 Type the text above</div><button class="game-btn" onclick="resetTypingGame()">🔄 New Text</button>`;
+  loadTypingText();
 }
 
-// ═══ COMMON FUNCTIONS ════════════════════════════════
-function isPremiumUnlocked() {
-  return ST.isPremium === true && VALID_CODES.indexOf(ST.premiumCode.toUpperCase()) !== -1;
+function loadTypingText() {
+  const texts = gameState.typingTexts;
+  gameState.typingCurrent = texts[Math.floor(Math.random() * texts.length)];
+  gameState.typingIndex = 0; gameState.typingFinished = false; gameState.typingCorrect = 0; gameState.typingWrong = 0; gameState.typingTimer = 0;
+  if(gameState.typingInterval) { clearInterval(gameState.typingInterval); gameState.typingInterval = null; }
+  document.getElementById('typingCorrect').textContent = '0'; document.getElementById('typingWrong').textContent = '0'; document.getElementById('typingTimer').textContent = '0';
+  document.getElementById('typingInput').value = ''; document.getElementById('typingInput').disabled = false; document.getElementById('typingInput').focus();
+  document.getElementById('typingFooter').textContent = '💡 Type the text above';
+  updateTypingDisplay();
+  document.getElementById('typingInput').oninput = function(e) {
+    if(gameState.typingFinished) return;
+    if(!gameState.typingInterval) { gameState.typingInterval = setInterval(() => { gameState.typingTimer++; document.getElementById('typingTimer').textContent = gameState.typingTimer; }, 1000); }
+    const input = this.value; const expected = gameState.typingCurrent[gameState.typingIndex]; const lastChar = input[input.length-1];
+    if(lastChar === expected) { gameState.typingIndex++; gameState.typingCorrect++; document.getElementById('typingCorrect').textContent = gameState.typingCorrect;
+      if(gameState.typingIndex === gameState.typingCurrent.length) { gameState.typingFinished = true; document.getElementById('typingFooter').textContent = '🎉 Complete! Great job!'; clearInterval(gameState.typingInterval); document.getElementById('typingInput').disabled = true; ST.totalStars += 3; refreshHome(); fastSave(); saveToCloudLater(); }
+      updateTypingDisplay(); this.value = '';
+    } else if(lastChar && lastChar !== expected) { gameState.typingWrong++; document.getElementById('typingWrong').textContent = gameState.typingWrong; document.getElementById('typingFooter').textContent = `❌ Expected "${expected}" but got "${lastChar}"`; this.value = ''; setTimeout(() => { document.getElementById('typingFooter').textContent = '💡 Type the text above'; }, 1000); }
+  };
 }
+
+function updateTypingDisplay() {
+  const container = document.getElementById('typingDisplay');
+  let html = '';
+  for(let i=0; i<gameState.typingCurrent.length; i++) {
+    if(i < gameState.typingIndex) html += `<span class="typed">${gameState.typingCurrent[i]}</span>`;
+    else if(i === gameState.typingIndex) html += `<span class="current">${gameState.typingCurrent[i]}</span>`;
+    else html += `<span class="remaining">${gameState.typingCurrent[i]}</span>`;
+  }
+  container.innerHTML = html;
+}
+
+function resetTypingGame() { if(gameState.typingInterval) { clearInterval(gameState.typingInterval); gameState.typingInterval = null; } loadTypingText(); }
+
+// ═══ GEOGRAPHY GAME ══════════════════════════════════
+function loadGeoGame() {
+  const questions = [
+    {q:"What is the capital of France?", opts:["London","Paris","Berlin","Madrid"], ans:1},
+    {q:"Which country has the most people?", opts:["USA","India","China","Brazil"], ans:2},
+    {q:"What is the largest continent?", opts:["Africa","Asia","North America","Europe"], ans:1},
+    {q:"Which ocean is the largest?", opts:["Atlantic","Pacific","Indian","Arctic"], ans:1},
+    {q:"What is the capital of Japan?", opts:["Seoul","Beijing","Bangkok","Tokyo"], ans:3},
+    {q:"What is the longest river?", opts:["Amazon","Nile","Mississippi","Yangtze"], ans:1},
+    {q:"What is the capital of Australia?", opts:["Sydney","Melbourne","Canberra","Perth"], ans:2},
+    {q:"Which desert is the largest?", opts:["Sahara","Gobi","Kalahari","Arabian"], ans:0},
+    {q:"What is the smallest country?", opts:["Monaco","Vatican City","San Marino","Liechtenstein"], ans:1},
+    {q:"Which mountain is the tallest?", opts:["K2","Mount Everest","Kilimanjaro","Denali"], ans:1},
+    {q:"What is the capital of Egypt?", opts:["Cairo","Alexandria","Luxor","Giza"], ans:0},
+    {q:"Which country has the most islands?", opts:["Indonesia","Philippines","Sweden","Japan"], ans:2}
+  ];
+  gameState.geoQuestions = questions; gameState.geoIndex = 0; gameState.geoScore = 0; gameState.geoCorrect = 0; gameState.geoAnswered = false;
+  const container = document.getElementById('gameContent');
+  container.innerHTML = `<div class="geo-question" id="geoQuestion">Loading...</div><div class="geo-options" id="geoOptions"></div><div class="game-stats"><span>⭐ Score: <span id="geoScore">0</span></span><span>✅ Correct: <span id="geoCorrect">0</span></span></div><div class="game-footer" id="geoFooter">🌍 Test your geography knowledge!</div><button class="game-btn" onclick="resetGeoGame()">🔄 New Quiz</button>`;
+  loadGeoQuestion();
+}
+
+function loadGeoQuestion() {
+  const questions = gameState.geoQuestions;
+  if(gameState.geoIndex >= questions.length) { document.getElementById('geoQuestion').textContent = '🎉 Quiz Complete!'; document.getElementById('geoOptions').innerHTML = ''; document.getElementById('geoFooter').textContent = `✅ ${gameState.geoCorrect} correct out of ${questions.length}`; return; }
+  gameState.geoAnswered = false; const q = questions[gameState.geoIndex];
+  document.getElementById('geoQuestion').textContent = q.q;
+  const container = document.getElementById('geoOptions');
+  container.innerHTML = '';
+  q.opts.forEach((opt, idx) => { const btn = document.createElement('button'); btn.className = 'geo-opt'; btn.textContent = opt; btn.onclick = () => checkGeoAnswer(idx); container.appendChild(btn); });
+  document.getElementById('geoFooter').textContent = `Question ${gameState.geoIndex+1} of ${questions.length}`;
+}
+
+function checkGeoAnswer(idx) {
+  if(gameState.geoAnswered) return;
+  gameState.geoAnswered = true; const q = gameState.geoQuestions[gameState.geoIndex];
+  const btns = document.querySelectorAll('.geo-opt'); btns.forEach(b => b.disabled = true);
+  if(idx === q.ans) { btns[idx].classList.add('correct'); gameState.geoScore += 10; gameState.geoCorrect++; document.getElementById('geoScore').textContent = gameState.geoScore; document.getElementById('geoCorrect').textContent = gameState.geoCorrect; ST.totalStars += 2; refreshHome(); fastSave(); saveToCloudLater(); }
+  else { btns[idx].classList.add('wrong'); btns[q.ans].classList.add('correct'); }
+  document.getElementById('geoFooter').textContent = idx === q.ans ? '✅ Correct!' : `❌ The answer was: ${q.opts[q.ans]}`;
+  setTimeout(() => { gameState.geoIndex++; loadGeoQuestion(); }, 1500);
+}
+
+function resetGeoGame() { gameState.geoIndex = 0; gameState.geoScore = 0; gameState.geoCorrect = 0; document.getElementById('geoScore').textContent = '0'; document.getElementById('geoCorrect').textContent = '0'; loadGeoQuestion(); }
+
+// ═══ WORD SEARCH ══════════════════════════════════════
+function loadSearchGame() {
+  const words = ['CAT','DOG','BIRD','FISH','HORSE','SNAKE'];
+  const gridSize = 8; const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const grid = Array(gridSize).fill(null).map(() => Array(gridSize).fill(''));
+  for(let r=0; r<gridSize; r++) { for(let c=0; c<gridSize; c++) { grid[r][c] = alphabet[Math.floor(Math.random() * alphabet.length)]; } }
+  words.forEach((word) => { const r = Math.floor(Math.random() * gridSize); const c = Math.floor(Math.random() * gridSize); grid[r][c] = word[0]; });
+  gameState.searchGrid = grid; gameState.searchWords = words; gameState.searchFound = []; gameState.searchStars = 0;
+  const container = document.getElementById('gameContent');
+  container.innerHTML = `<div class="wsearch-words" id="searchWords"></div><div class="wsearch-grid" id="searchGrid"></div><div class="game-stats"><span>🔍 Found: <span id="searchFound">0</span>/<span id="searchTotal">${words.length}</span></span><span>⭐ Stars: <span id="searchStars">0</span></span></div><div class="game-footer" id="searchFooter">🔍 Find the words!</div><button class="game-btn" onclick="resetSearchGame()">🔄 New Puzzle</button>`;
+  renderSearchGrid(); renderSearchWords();
+}
+
+function renderSearchGrid() {
+  const grid = document.getElementById('searchGrid');
+  grid.innerHTML = '';
+  gameState.searchGrid.forEach(row => { row.forEach(letter => { const div = document.createElement('div'); div.className = 'wsearch-cell'; div.textContent = letter; div.onclick = () => handleSearchClick(letter); grid.appendChild(div); }); });
+}
+
+function renderSearchWords() {
+  const container = document.getElementById('searchWords');
+  container.innerHTML = '';
+  gameState.searchWords.forEach(word => { const span = document.createElement('span'); span.className = 'wsearch-tag' + (gameState.searchFound.includes(word) ? ' found' : ''); span.textContent = word; container.appendChild(span); });
+}
+
+function handleSearchClick(letter) {
+  const cells = document.querySelectorAll('.wsearch-cell');
+  let found = false;
+  gameState.searchWords.forEach(word => {
+    if(!gameState.searchFound.includes(word) && word.includes(letter)) {
+      gameState.searchFound.push(word); found = true; gameState.searchStars += 5; document.getElementById('searchStars').textContent = gameState.searchStars; document.getElementById('searchFound').textContent = gameState.searchFound.length; renderSearchWords();
+      ST.totalStars += 2; refreshHome(); fastSave(); saveToCloudLater();
+    }
+  });
+  if(!found) { cells.forEach(cell => { if(cell.textContent === letter) { cell.classList.add('selected'); setTimeout(() => cell.classList.remove('selected'), 300); } }); }
+}
+
+function resetSearchGame() { loadSearchGame(); }
+
+// ═══ ANIMAL SOUNDS ════════════════════════════════════
+function loadAnimalGame() {
+  const animals = [{animal:'Lion', emoji:'🦁', sound:'Roar!'},{animal:'Cat', emoji:'🐱', sound:'Meow!'},{animal:'Dog', emoji:'🐕', sound:'Woof!'},{animal:'Cow', emoji:'🐄', sound:'Moo!'},{animal:'Sheep', emoji:'🐑', sound:'Baa!'},{animal:'Horse', emoji:'🐴', sound:'Neigh!'},{animal:'Duck', emoji:'🦆', sound:'Quack!'},{animal:'Chicken', emoji:'🐔', sound:'Cluck!'},{animal:'Pig', emoji:'🐷', sound:'Oink!'},{animal:'Bee', emoji:'🐝', sound:'Buzz!'}];
+  gameState.animalData = animals; gameState.animalScore = 0; gameState.animalCorrect = 0; gameState.animalAnswered = false;
+  const container = document.getElementById('gameContent');
+  container.innerHTML = `<button class="sound-btn" onclick="playAnimalSound()">🔊 Play Animal Sound</button><div class="animal-display" id="animalDisplay" onclick="playAnimalSound()">🔊</div><div class="geo-options" id="animalOptions"></div><div class="game-stats"><span>⭐ Score: <span id="animalScore">0</span></span><span>✅ Correct: <span id="animalCorrect">0</span></span></div><div class="game-footer" id="animalFooter">🔊 Listen to the sound and guess the animal!</div><button class="game-btn" onclick="loadAnimalQuestion()">🔄 New Animal</button>`;
+  loadAnimalQuestion();
+}
+
+function loadAnimalQuestion() {
+  const animals = gameState.animalData;
+  const current = animals[Math.floor(Math.random() * animals.length)];
+  gameState.animalCurrent = current; gameState.animalAnswered = false;
+  document.getElementById('animalDisplay').textContent = '🔊';
+  const others = animals.filter(a => a.animal !== current.animal).sort(() => Math.random() - .5);
+  const options = [current, ...others.slice(0, 3)].sort(() => Math.random() - .5);
+  const container = document.getElementById('animalOptions');
+  container.innerHTML = '';
+  options.forEach(opt => { const btn = document.createElement('button'); btn.className = 'geo-opt'; btn.textContent = opt.animal; btn.onclick = () => checkAnimalAnswer(btn, opt.animal); container.appendChild(btn); });
+  document.getElementById('animalFooter').textContent = '🔊 Tap "Play Sound" to hear';
+}
+
+function playAnimalSound() {
+  if(!gameState.animalCurrent) return;
+  document.getElementById('animalDisplay').textContent = gameState.animalCurrent.emoji;
+  const msg = new SpeechSynthesisUtterance(gameState.animalCurrent.sound);
+  msg.rate = 0.7; msg.pitch = 1.2;
+  window.speechSynthesis.speak(msg);
+}
+
+function checkAnimalAnswer(btn, selected) {
+  if(gameState.animalAnswered) return;
+  gameState.animalAnswered = true;
+  const btns = document.querySelectorAll('#animalOptions .geo-opt');
+  btns.forEach(b => b.disabled = true);
+  if(selected === gameState.animalCurrent.animal) {
+    btn.classList.add('correct'); gameState.animalScore += 10; gameState.animalCorrect++; document.getElementById('animalScore').textContent = gameState.animalScore; document.getElementById('animalCorrect').textContent = gameState.animalCorrect;
+    document.getElementById('animalFooter').textContent = '✅ Correct! Well done!';
+    ST.totalStars += 2; refreshHome(); fastSave(); saveToCloudLater();
+  } else {
+    btn.classList.add('wrong'); btns.forEach(b => { if(b.textContent === gameState.animalCurrent.animal) b.classList.add('correct'); });
+    document.getElementById('animalFooter').textContent = '❌ Wrong! The answer was: ' + gameState.animalCurrent.animal;
+  }
+  setTimeout(loadAnimalQuestion, 1500);
+}
+
+// ═══ STORY BUILDER ════════════════════════════════════
+function loadStoryGame() {
+  const templates = [{template:"The ___ ___ went to the ___ to find a ___", slots:['adjective','animal','place','object']},{template:"Once upon a time, a ___ ___ lived in a ___", slots:['adjective','animal','place']},{template:"The ___ ___ jumped over the ___ and landed on a ___", slots:['adjective','animal','object','object']}];
+  const bank = {adjective:['brave','funny','sleepy','happy','sad','angry','lazy','smart','kind','wild'], animal:['cat','dog','bird','fox','lion','bear','rabbit','horse','tiger','wolf'], place:['castle','forest','mountain','village','ocean','desert','garden','jungle','cave','park'], object:['stone','flower','tree','book','star','cloud','moon','sword','hat','ball']};
+  gameState.storyTemplates = templates; gameState.storyBank = bank; gameState.storyUsed = []; gameState.storyCount = 0;
+  const container = document.getElementById('gameContent');
+  container.innerHTML = `<div class="story-text" id="storyText">Choose words to build your story!</div><div class="story-words" id="storyWords"></div><div class="game-stats"><span>📝 Words: <span id="storyWordsCount">0</span>/6</span><span>⭐ Stories: <span id="storyCount">0</span></span></div><div class="game-footer" id="storyFooter">📖 Click a word to add to the story!</div><button class="game-btn" onclick="loadStoryQuestion()">🔄 New Story</button>`;
+  loadStoryQuestion();
+}
+
+function loadStoryQuestion() {
+  const templates = gameState.storyTemplates;
+  const template = templates[Math.floor(Math.random() * templates.length)];
+  gameState.storyTemplate = template; gameState.storyUsed = []; gameState.storySlots = template.slots;
+  document.getElementById('storyText').textContent = template.template.replace(/___/g, '____');
+  document.getElementById('storyWordsCount').textContent = '0';
+  document.getElementById('storyFooter').textContent = '📖 Click a word to add to the story!';
+  renderStoryWords();
+}
+
+function renderStoryWords() {
+  const container = document.getElementById('storyWords');
+  container.innerHTML = '';
+  const remaining = gameState.storySlots.length - gameState.storyUsed.length;
+  if(remaining === 0) { container.innerHTML = '<span style="color:#2ecc71;">✅ Story complete! Click "New Story" to continue!</span>'; return; }
+  const slotType = gameState.storySlots[gameState.storyUsed.length];
+  const words = gameState.storyBank[slotType] || [];
+  words.forEach(word => { const div = document.createElement('div'); div.className = 'story-word' + (gameState.storyUsed.includes(word) ? ' selected' : ''); div.textContent = word; if(!gameState.storyUsed.includes(word)) { div.onclick = () => selectStoryWord(word); } container.appendChild(div); });
+}
+
+function selectStoryWord(word) {
+  if(gameState.storyUsed.includes(word)) return;
+  gameState.storyUsed.push(word); document.getElementById('storyWordsCount').textContent = gameState.storyUsed.length;
+  let story = gameState.storyTemplate.template;
+  let idx = 0;
+  story = story.replace(/___/g, () => gameState.storyUsed[idx++]);
+  document.getElementById('storyText').textContent = story;
+  renderStoryWords();
+  if(gameState.storyUsed.length === gameState.storySlots.length) {
+    gameState.storyCount++; document.getElementById('storyCount').textContent = gameState.storyCount; document.getElementById('storyFooter').textContent = '🎉 Story Complete! Well done!';
+    ST.totalStars += 3; refreshHome(); fastSave(); saveToCloudLater();
+  }
+}
+
+// ═══ PHONICS ══════════════════════════════════════════
+function loadPhonicsGame() {
+  const data = [{letter:'A', sound:'/ā/', words:['Apple','Ant','Alligator']},{letter:'B', sound:'/b/', words:['Ball','Bear','Bird']},{letter:'C', sound:'/k/', words:['Cat','Car','Cookie']},{letter:'D', sound:'/d/', words:['Dog','Duck','Doll']},{letter:'E', sound:'/ē/', words:['Elephant','Egg','Eagle']},{letter:'F', sound:'/f/', words:['Fish','Fox','Flower']},{letter:'G', sound:'/g/', words:['Goat','Giraffe','Guitar']},{letter:'H', sound:'/h/', words:['Horse','Hat','House']},{letter:'I', sound:'/ī/', words:['Ice','Island','Insect']},{letter:'J', sound:'/j/', words:['Jump','Juice','Jet']},{letter:'K', sound:'/k/', words:['Kite','King','Kangaroo']},{letter:'L', sound:'/l/', words:['Lion','Lemon','Lamp']},{letter:'M', sound:'/m/', words:['Monkey','Moon','Milk']},{letter:'N', sound:'/n/', words:['Nest','Nose','Night']},{letter:'O', sound:'/ō/', words:['Owl','Ocean','Orange']},{letter:'P', sound:'/p/', words:['Pig','Penguin','Pizza']},{letter:'Q', sound:'/kw/', words:['Queen','Quack','Quiet']},{letter:'R', sound:'/r/', words:['Rabbit','Rainbow','Rocket']},{letter:'S', sound:'/s/', words:['Sun','Star','Snake']},{letter:'T', sound:'/t/', words:['Tiger','Tree','Train']},{letter:'U', sound:'/ū/', words:['Umbrella','Up','Unicorn']},{letter:'V', sound:'/v/', words:['Van','Violin','Volcano']},{letter:'W', sound:'/w/', words:['Whale','Window','Water']},{letter:'X', sound:'/ks/', words:['X-ray','Xylophone','Box']},{letter:'Y', sound:'/y/', words:['Yak','Yarn','Yellow']},{letter:'Z', sound:'/z/', words:['Zebra','Zoo','Zip']}];
+  gameState.phonicsData = data; gameState.phonicsIndex = 0; gameState.phonicsProgress = 0;
+  const container = document.getElementById('gameContent');
+  container.innerHTML = `<div class="phonics-display" id="phonicsDisplay" onclick="playPhonicsSound()">A</div><div class="phonics-sound" id="phonicsSound">🔊 /ā/</div><div class="phonics-words" id="phonicsWords"></div><div class="phonics-nav"><button onclick="changePhonics(-1)">◀</button><button onclick="playPhonicsSound()">🔊 Play</button><button onclick="changePhonics(1)">▶</button></div><div class="game-stats"><span>🔤 Letter: <span id="phonicsIndex">1</span>/26</span><span>⭐ Progress: <span id="phonicsProgress">0</span>%</span></div><div class="game-footer" id="phonicsFooter">🔤 Listen and learn!</div><button class="game-btn" onclick="resetPhonicsGame()">🔄 Reset</button>`;
+  renderPhonics();
+}
+
+function renderPhonics() {
+  const data = gameState.phonicsData;
+  const idx = gameState.phonicsIndex;
+  const item = data[idx];
+  document.getElementById('phonicsDisplay').textContent = item.letter;
+  document.getElementById('phonicsSound').textContent = '🔊 ' + item.sound;
+  const container = document.getElementById('phonicsWords');
+  container.innerHTML = '';
+  item.words.forEach(word => { const div = document.createElement('div'); div.className = 'phonics-word'; div.textContent = word; container.appendChild(div); });
+  document.getElementById('phonicsIndex').textContent = idx + 1;
+  document.getElementById('phonicsProgress').textContent = Math.round((idx / 26) * 100);
+  document.getElementById('phonicsFooter').textContent = `🔤 Learning letter ${item.letter}`;
+}
+
+function playPhonicsSound() {
+  const item = gameState.phonicsData[gameState.phonicsIndex];
+  const msg = new SpeechSynthesisUtterance(`${item.letter} says ${item.sound}. ${item.words.join(', ')}`);
+  msg.rate = 0.6; msg.pitch = 1.2;
+  window.speechSynthesis.speak(msg);
+}
+
+function changePhonics(delta) {
+  gameState.phonicsIndex = (gameState.phonicsIndex + delta + 26) % 26;
+  renderPhonics();
+  gameState.phonicsProgress = Math.max(gameState.phonicsProgress, Math.round((gameState.phonicsIndex / 26) * 100));
+  document.getElementById('phonicsProgress').textContent = gameState.phonicsProgress;
+}
+
+function resetPhonicsGame() { gameState.phonicsIndex = 0; gameState.phonicsProgress = 0; renderPhonics(); }
+
+// ═══ MULTIPLICATION ═══════════════════════════════════
+function loadMultiplyGame() {
+  gameState.multiplyTable = 2; gameState.multiplyCorrect = 0; gameState.multiplyWrong = 0; gameState.multiplyAnswered = false;
+  const container = document.getElementById('gameContent');
+  container.innerHTML = `<div class="multiply-tables" id="multiplyTables"></div><div class="multiply-question" id="multiplyQuestion">2 × ? = ?</div><div class="multiply-options" id="multiplyOptions"></div><div class="game-stats"><span>✅ Correct: <span id="multiplyCorrect">0</span></span><span>❌ Wrong: <span id="multiplyWrong">0</span></span></div><div class="game-footer" id="multiplyFooter">✖️ Test your times tables!</div><button class="game-btn" onclick="loadMultiplyQuestion()">🔄 New Question</button>`;
+  renderMultiplyTables(); loadMultiplyQuestion();
+}
+
+function renderMultiplyTables() {
+  const container = document.getElementById('multiplyTables');
+  container.innerHTML = '';
+  for(let i=2; i<=12; i++) { const btn = document.createElement('button'); btn.className = 'multiply-table' + (i === gameState.multiplyTable ? ' active' : ''); btn.textContent = i; btn.onclick = () => { gameState.multiplyTable = i; renderMultiplyTables(); loadMultiplyQuestion(); }; container.appendChild(btn); }
+}
+
+function loadMultiplyQuestion() {
+  const table = gameState.multiplyTable;
+  const b = Math.floor(Math.random() * 12) + 1;
+  const answer = table * b;
+  gameState.multiplyAnswer = answer; gameState.multiplyAnswered = false;
+  document.getElementById('multiplyQuestion').textContent = `${table} × ${b} = ?`;
+  const container = document.getElementById('multiplyOptions');
+  container.innerHTML = '';
+  const opts = new Set([answer]);
+  while(opts.size < 4) { const offset = Math.floor(Math.random() * 10) + 1; const candidate = answer + (Math.random() > 0.5 ? offset : -offset); if(candidate > 0 && candidate < 200) opts.add(candidate); }
+  const shuffled = Array.from(opts).sort(() => Math.random() - .5);
+  shuffled.forEach(opt => { const btn = document.createElement('button'); btn.className = 'multiply-opt'; btn.textContent = opt; btn.onclick = () => checkMultiplyAnswer(btn, opt); container.appendChild(btn); });
+  document.getElementById('multiplyFooter').textContent = '✖️ Select the correct answer!';
+}
+
+function checkMultiplyAnswer(btn, selected) {
+  if(gameState.multiplyAnswered) return;
+  gameState.multiplyAnswered = true;
+  const btns = document.querySelectorAll('.multiply-opt');
+  btns.forEach(b => b.disabled = true);
+  if(selected === gameState.multiplyAnswer) {
+    btn.classList.add('correct'); gameState.multiplyCorrect++; document.getElementById('multiplyCorrect').textContent = gameState.multiplyCorrect;
+    document.getElementById('multiplyFooter').textContent = '✅ Correct! Well done!';
+    ST.totalStars += 2; refreshHome(); fastSave(); saveToCloudLater();
+  } else {
+    btn.classList.add('wrong'); gameState.multiplyWrong++; document.getElementById('multiplyWrong').textContent = gameState.multiplyWrong;
+    btns.forEach(b => { if(parseInt(b.textContent) === gameState.multiplyAnswer) b.classList.add('correct'); });
+    document.getElementById('multiplyFooter').textContent = `❌ The answer was: ${gameState.multiplyAnswer}`;
+  }
+  setTimeout(loadMultiplyQuestion, 1200);
+}
+
+// ═══ VOCABULARY ═══════════════════════════════════════
+function loadVocabGame() {
+  const data = [{word:'Brave', meaning:'Showing courage', example:'The brave knight saved the princess.'},{word:'Bright', meaning:'Full of light', example:'The sun is very bright today.'},{word:'Calm', meaning:'Peaceful and quiet', example:'The lake was calm and still.'},{word:'Clever', meaning:'Quick to understand', example:'The clever fox solved the puzzle.'},{word:'Eager', meaning:'Very excited to do something', example:'The kids were eager to play.'},{word:'Gentle', meaning:'Soft and kind', example:'She gave the baby a gentle hug.'},{word:'Honest', meaning:'Truthful', example:'He gave an honest answer.'},{word:'Kind', meaning:'Caring and nice', example:'She is a kind person.'},{word:'Loyal', meaning:'Faithful and devoted', example:'The dog is a loyal friend.'},{word:'Patient', meaning:'Able to wait calmly', example:'You need to be patient.'},{word:'Proud', meaning:'Feeling good about yourself', example:'She was proud of her work.'},{word:'Wise', meaning:'Having knowledge and experience', example:'The wise owl gave advice.'}];
+  gameState.vocabData = data; gameState.vocabIndex = 0; gameState.vocabLearned = 0; gameState.vocabStars = 0; gameState.vocabAnswered = false;
+  const container = document.getElementById('gameContent');
+  container.innerHTML = `<div class="vocab-card" id="vocabCard"></div><div class="vocab-options" id="vocabOptions"></div><div class="game-stats"><span>✅ Learned: <span id="vocabLearned">0</span></span><span>⭐ Stars: <span id="vocabStars">0</span></span></div><div class="game-footer" id="vocabFooter">📝 Learn new words!</div><button class="game-btn" onclick="loadVocabQuestion()">🔄 Next Word</button>`;
+  loadVocabQuestion();
+}
+
+function loadVocabQuestion() {
+  const data = gameState.vocabData;
+  const word = data[Math.floor(Math.random() * data.length)];
+  gameState.vocabCurrent = word; gameState.vocabAnswered = false;
+  document.getElementById('vocabCard').innerHTML = `<div class="vocab-word">${word.word}</div><div class="vocab-meaning">${word.meaning}</div><div class="vocab-example">"${word.example}"</div>`;
+  const others = data.filter(w => w.word !== word.word).sort(() => Math.random() - .5);
+  const options = [word, ...others.slice(0, 3)].sort(() => Math.random() - .5);
+  const container = document.getElementById('vocabOptions');
+  container.innerHTML = '';
+  options.forEach(opt => { const btn = document.createElement('button'); btn.className = 'vocab-opt'; btn.textContent = opt.word; btn.onclick = () => checkVocabAnswer(btn, opt.word); container.appendChild(btn); });
+  document.getElementById('vocabFooter').textContent = '📝 Which word matches the meaning?';
+}
+
+function checkVocabAnswer(btn, selected) {
+  if(gameState.vocabAnswered) return;
+  gameState.vocabAnswered = true;
+  const btns = document.querySelectorAll('.vocab-opt');
+  btns.forEach(b => b.disabled = true);
+  if(selected === gameState.vocabCurrent.word) {
+    btn.classList.add('correct'); gameState.vocabLearned++; gameState.vocabStars += 5; document.getElementById('vocabLearned').textContent = gameState.vocabLearned; document.getElementById('vocabStars').textContent = gameState.vocabStars;
+    document.getElementById('vocabFooter').textContent = '✅ Correct! New word learned!';
+    ST.totalStars += 3; refreshHome(); fastSave(); saveToCloudLater();
+  } else {
+    btn.classList.add('wrong'); btns.forEach(b => { if(b.textContent === gameState.vocabCurrent.word) b.classList.add('correct'); });
+    document.getElementById('vocabFooter').textContent = `❌ The correct word was: ${gameState.vocabCurrent.word}`;
+  }
+  setTimeout(loadVocabQuestion, 1500);
+}
+
+// ═══ MUSIC MAKER ══════════════════════════════════════
+function loadMusicGame() {
+  const notes = ['C4','D4','E4','F4','G4','A4','B4','C5'];
+  const freqs = {C4:261.63,'C#4':277.18,D4:293.66,'D#4':311.13,E4:329.63,F4:349.23,'F#4':369.99,G4:392.00,'G#4':415.30,A4:440.00,'A#4':466.16,B4:493.88,C5:523.25};
+  gameState.musicNotes = notes; gameState.musicFreqs = freqs; gameState.musicInstrument = 'piano'; gameState.musicNoteCount = 0; gameState.musicStars = 0; gameState.musicCtx = null;
+  const container = document.getElementById('gameContent');
+  container.innerHTML = `<div class="music-instruments" id="musicInstruments"></div><div class="music-piano" id="musicPiano"></div><div class="game-stats"><span>🎵 Notes: <span id="musicNotes">0</span></span><span>⭐ Stars: <span id="musicStars">0</span></span></div><div class="game-footer" id="musicFooter">🎹 Tap the keys to play music!</div><button class="game-btn" onclick="clearMusicNotes()">🗑️ Clear</button>`;
+  renderMusicInstruments(); renderMusicPiano();
+}
+
+function renderMusicInstruments() {
+  const instruments = ['piano','guitar','drums','synth'];
+  const labels = ['🎹 Piano','🎸 Guitar','🥁 Drums','🎛️ Synth'];
+  const container = document.getElementById('musicInstruments');
+  container.innerHTML = '';
+  instruments.forEach((inst, idx) => { const btn = document.createElement('button'); btn.className = 'music-inst' + (inst === gameState.musicInstrument ? ' active' : ''); btn.textContent = labels[idx]; btn.onclick = () => { gameState.musicInstrument = inst; renderMusicInstruments(); }; container.appendChild(btn); });
+}
+
+function renderMusicPiano() {
+  const container = document.getElementById('musicPiano');
+  container.innerHTML = '';
+  const notes = gameState.musicNotes;
+  const blackNotes = ['C#4','D#4','F#4','G#4','A#4'];
+  const blackIndices = [0,1,3,4,5];
+  notes.forEach((note, idx) => {
+    const key = document.createElement('div'); key.className = 'music-key'; key.textContent = note; key.onclick = () => playMusicNote(note); container.appendChild(key);
+    if(blackIndices.includes(idx)) {
+      const black = document.createElement('div'); black.className = 'music-key black'; black.textContent = blackNotes[blackIndices.indexOf(idx)]; black.onclick = (e) => { e.stopPropagation(); playMusicNote(blackNotes[blackIndices.indexOf(idx)]); }; container.appendChild(black);
+    }
+  });
+}
+
+function playMusicNote(note) {
+  if(!gameState.musicCtx) gameState.musicCtx = new (window.AudioContext || window.webkitAudioContext)();
+  const freq = gameState.musicFreqs[note] || 440;
+  const osc = gameState.musicCtx.createOscillator();
+  const gain = gameState.musicCtx.createGain();
+  osc.connect(gain); gain.connect(gameState.musicCtx.destination);
+  const inst = gameState.musicInstrument;
+  osc.type = inst === 'piano' ? 'sine' : inst === 'guitar' ? 'triangle' : inst === 'drums' ? 'sawtooth' : 'square';
+  osc.frequency.setValueAtTime(freq, gameState.musicCtx.currentTime);
+  gain.gain.setValueAtTime(0.3, gameState.musicCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.01, gameState.musicCtx.currentTime + 0.5);
+  osc.start(gameState.musicCtx.currentTime); osc.stop(gameState.musicCtx.currentTime + 0.5);
+  gameState.musicNoteCount++; gameState.musicStars += 2;
+  document.getElementById('musicNotes').textContent = gameState.musicNoteCount;
+  document.getElementById('musicStars').textContent = gameState.musicStars;
+  ST.totalStars += 1; refreshHome(); fastSave(); saveToCloudLater();
+}
+
+function clearMusicNotes() { gameState.musicNoteCount = 0; gameState.musicStars = 0; document.getElementById('musicNotes').textContent = '0'; document.getElementById('musicStars').textContent = '0'; }
+
+// ═══ ANIMATION STUDIO ═════════════════════════════════
+function loadAnimateGame() {
+  const canvas = document.createElement('canvas'); canvas.width = 300; canvas.height = 200; canvas.className = 'animate-canvas'; canvas.id = 'animCanvas';
+  gameState.animFrames = [canvas.toDataURL()]; gameState.animIndex = 0; gameState.animTool = 'draw'; gameState.animDrawing = false; gameState.animStars = 0;
+  const container = document.getElementById('gameContent');
+  container.innerHTML = `<div style="display:flex;justify-content:center;margin:10px 0;">${canvas.outerHTML}</div><div class="animate-tools"><button class="animate-tool active" data-tool="draw" onclick="setAnimTool('draw')">✏️ Draw</button><button class="animate-tool" data-tool="clear" onclick="setAnimTool('clear')">🗑️ Clear</button><button class="animate-tool" onclick="addAnimFrame()">➕ Add Frame</button><button class="animate-tool" onclick="playAnimation()">▶️ Play</button></div><div class="animate-frames" id="animFrames"></div><div class="game-stats"><span>🎬 Frames: <span id="animFramesCount">1</span></span><span>⭐ Stars: <span id="animStars">0</span></span></div><div class="game-footer" id="animFooter">🎨 Draw on the canvas!</div><button class="game-btn" onclick="resetAnimation()">🔄 Reset Animation</button>`;
+  const c = document.getElementById('animCanvas');
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, c.width, c.height);
+  c.addEventListener('mousedown', (e) => { if(gameState.animTool === 'clear') { ctx.clearRect(0,0,c.width,c.height); gameState.animFrames[gameState.animIndex] = c.toDataURL(); return; } gameState.animDrawing = true; ctx.beginPath(); ctx.moveTo(e.offsetX, e.offsetY); });
+  c.addEventListener('mousemove', (e) => { if(!gameState.animDrawing || gameState.animTool !== 'draw') return; ctx.lineTo(e.offsetX, e.offsetY); ctx.strokeStyle = '#333'; ctx.lineWidth = 3; ctx.lineCap = 'round'; ctx.stroke(); });
+  c.addEventListener('mouseup', () => { if(gameState.animDrawing) { gameState.animDrawing = false; gameState.animFrames[gameState.animIndex] = c.toDataURL(); } });
+  c.addEventListener('touchstart', (e) => { e.preventDefault(); const rect = c.getBoundingClientRect(); const x = (e.touches[0].clientX - rect.left) * (c.width/rect.width); const y = (e.touches[0].clientY - rect.top) * (c.height/rect.height); if(gameState.animTool === 'clear') { ctx.clearRect(0,0,c.width,c.height); gameState.animFrames[gameState.animIndex] = c.toDataURL(); return; } gameState.animDrawing = true; ctx.beginPath(); ctx.moveTo(x, y); });
+  c.addEventListener('touchmove', (e) => { e.preventDefault(); if(!gameState.animDrawing || gameState.animTool !== 'draw') return; const rect = c.getBoundingClientRect(); const x = (e.touches[0].clientX - rect.left) * (c.width/rect.width); const y = (e.touches[0].clientY - rect.top) * (c.height/rect.height); ctx.lineTo(x, y); ctx.strokeStyle = '#333'; ctx.lineWidth = 3; ctx.lineCap = 'round'; ctx.stroke(); });
+  c.addEventListener('touchend', (e) => { e.preventDefault(); if(gameState.animDrawing) { gameState.animDrawing = false; gameState.animFrames[gameState.animIndex] = c.toDataURL(); } });
+  renderAnimFrames();
+}
+
+function renderAnimFrames() {
+  const container = document.getElementById('animFrames');
+  container.innerHTML = '';
+  gameState.animFrames.forEach((_, idx) => {
+    const div = document.createElement('div'); div.className = 'animate-frame' + (idx === gameState.animIndex ? ' active' : ''); div.textContent = idx + 1;
+    div.onclick = () => { gameState.animIndex = idx; const c = document.getElementById('animCanvas'); const ctx = c.getContext('2d'); const img = new Image(); img.onload = () => { ctx.clearRect(0,0,c.width,c.height); ctx.drawImage(img,0,0); }; img.src = gameState.animFrames[idx]; renderAnimFrames(); };
+    container.appendChild(div);
+  });
+  document.getElementById('animFramesCount').textContent = gameState.animFrames.length;
+}
+
+function setAnimTool(tool) { gameState.animTool = tool; document.querySelectorAll('.animate-tool').forEach(b => b.classList.toggle('active', b.dataset.tool === tool)); }
+
+function addAnimFrame() { const c = document.getElementById('animCanvas'); gameState.animFrames.push(c.toDataURL()); gameState.animIndex = gameState.animFrames.length - 1; renderAnimFrames(); gameState.animStars += 2; document.getElementById('animStars').textContent = gameState.animStars; ST.totalStars += 1; refreshHome(); fastSave(); saveToCloudLater(); }
+
+function playAnimation() { if(gameState.animInterval) { clearInterval(gameState.animInterval); gameState.animInterval = null; return; } let idx = 0; const c = document.getElementById('animCanvas'); const ctx = c.getContext('2d'); gameState.animInterval = setInterval(() => { const img = new Image(); img.onload = () => { ctx.clearRect(0,0,c.width,c.height); ctx.drawImage(img,0,0); }; img.src = gameState.animFrames[idx]; idx = (idx + 1) % gameState.animFrames.length; gameState.animIndex = idx; renderAnimFrames(); }, 300); }
+
+function resetAnimation() { if(gameState.animInterval) { clearInterval(gameState.animInterval); gameState.animInterval = null; } const c = document.getElementById('animCanvas'); const ctx = c.getContext('2d'); gameState.animFrames = [c.toDataURL()]; gameState.animIndex = 0; gameState.animStars = 0; document.getElementById('animStars').textContent = '0'; renderAnimFrames(); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, c.width, c.height); }
+
+// ═══ UTILITY ══════════════════════════════════════════
+function shuffleArray(arr) { for(let i=arr.length-1; i>0; i--) { const j = Math.floor(Math.random() * (i+1)); [arr[i], arr[j]] = [arr[j], arr[i]]; } return arr; }
+
+function isPremiumUnlocked() { return ST.isPremium === true && VALID_CODES.indexOf(ST.premiumCode.toUpperCase()) !== -1; }
 
 window.showPremiumPopup = function() { document.getElementById('premium-popup').classList.add('show'); };
 window.closePremiumPopup = function() { document.getElementById('premium-popup').classList.remove('show'); };
 window.goToPremium = function() { window.open(PREMIUM_URL,'_blank'); };
 
 window.showScreen = function(id) {
-  document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
-  var el = document.getElementById(id);
+  document.querySelectorAll('.screen').forEach((s) => s.classList.remove('active'));
+  const el = document.getElementById(id);
   if(el) el.classList.add('active');
 };
 
 function refreshHome() {
-  var nameEl = document.getElementById('child-name-display');
+  const nameEl = document.getElementById('child-name-display');
   if(nameEl) nameEl.textContent='Hello, '+ST.childName+'! 👋';
-  var starEl = document.getElementById('star-count');
+  const starEl = document.getElementById('star-count');
   if(starEl) starEl.textContent='⭐ '+ST.totalStars+' stars collected';
-  
-  var gameNames = ['abc','numbers','coloring','flags','memory','bingo','scramble','color','typing','geo','search','animal','story','phonics','multiply','vocab','music','animate','arabic','math'];
-  gameNames.forEach(function(m) {
-    var el = document.getElementById(m+'-progress');
+  const gameNames = ['abc','numbers','coloring','flags','memory','bingo','scramble','color','typing','geo','search','animal','story','phonics','multiply','vocab','music','animate','arabic','math'];
+  gameNames.forEach((m) => {
+    const el = document.getElementById(m+'-progress');
     if(el) {
       if(m === 'flags') { el.textContent='195 flags'; }
       else if(m === 'memory') { el.textContent='8 pairs'; }
@@ -1818,26 +1613,22 @@ function refreshHome() {
       else if(gameData[m]) { el.textContent=completed[m]+'/'+gameData[m].length+' levels'; }
     }
   });
-  
-  var premium = isPremiumUnlocked();
-  var upgradeBtn = document.getElementById('upgrade-btn');
+  const premium = isPremiumUnlocked();
+  const upgradeBtn = document.getElementById('upgrade-btn');
   if(upgradeBtn) upgradeBtn.style.display = premium ? 'none' : 'block';
-  
-  var arabicCard = document.getElementById('card-arabic');
-  var mathCard = document.getElementById('card-math');
+  const arabicCard = document.getElementById('card-arabic');
+  const mathCard = document.getElementById('card-math');
   if(premium) {
-    if(arabicCard){arabicCard.onclick=function(){startGame('arabic');}; arabicCard.querySelector('p').textContent=completed.arabic+'/28 levels'; arabicCard.classList.remove('premium-card'); var badge=arabicCard.querySelector('.lock-badge'); if(badge) badge.style.display='none';}
-    if(mathCard){mathCard.onclick=function(){startGame('math');}; mathCard.querySelector('p').textContent=completed.math+'/50 levels'; mathCard.classList.remove('premium-card'); var badge=mathCard.querySelector('.lock-badge'); if(badge) badge.style.display='none';}
+    if(arabicCard){arabicCard.onclick=function(){startGame('arabic');}; arabicCard.querySelector('p').textContent=completed.arabic+'/28 levels'; arabicCard.classList.remove('premium-card'); const badge=arabicCard.querySelector('.lock-badge'); if(badge) badge.style.display='none';}
+    if(mathCard){mathCard.onclick=function(){startGame('math');}; mathCard.querySelector('p').textContent=completed.math+'/50 levels'; mathCard.classList.remove('premium-card'); const badge=mathCard.querySelector('.lock-badge'); if(badge) badge.style.display='none';}
   } else {
-    if(arabicCard){arabicCard.onclick=window.showPremiumPopup; arabicCard.querySelector('p').textContent='28 levels 🔒'; arabicCard.classList.add('premium-card'); var badge=arabicCard.querySelector('.lock-badge'); if(badge) badge.style.display='';}
-    if(mathCard){mathCard.onclick=window.showPremiumPopup; mathCard.querySelector('p').textContent='50 levels 🔒'; mathCard.classList.add('premium-card'); var badge=mathCard.querySelector('.lock-badge'); if(badge) badge.style.display='';}
+    if(arabicCard){arabicCard.onclick=window.showPremiumPopup; arabicCard.querySelector('p').textContent='28 levels 🔒'; arabicCard.classList.add('premium-card'); const badge=arabicCard.querySelector('.lock-badge'); if(badge) badge.style.display='';}
+    if(mathCard){mathCard.onclick=window.showPremiumPopup; mathCard.querySelector('p').textContent='50 levels 🔒'; mathCard.classList.add('premium-card'); const badge=mathCard.querySelector('.lock-badge'); if(badge) badge.style.display='';}
   }
-  
-  var tot = gameData.abc.length + gameData.numbers.length + gameData.coloring.length;
-  var don = completed.abc + completed.numbers + completed.coloring;
-  var progressEl = document.getElementById('main-progress');
+  const tot = gameData.abc.length + gameData.numbers.length + gameData.coloring.length;
+  const don = completed.abc + completed.numbers + completed.coloring;
+  const progressEl = document.getElementById('main-progress');
   if(progressEl) progressEl.style.width=(don/tot*100)+'%';
-  
   updatePremiumUI();
 }
 
@@ -1853,54 +1644,28 @@ window.exitGame = function() {
 };
 
 // ═══ PIN ═══════════════════════════════════════════
-var pinE='';
-window.openPin = function() {
-  pinE = ''; updPin();
-  document.getElementById('pin-error').textContent = '';
-  showScreen('pin-screen');
-};
-window.pinKey = function(d) {
-  if (pinE.length >= 4) return;
-  sfxClick();
-  pinE += d;
-  updPin();
-  if (pinE.length === 4) { setTimeout(chkPin, 200); }
-};
+let pinE='';
+window.openPin = function() { pinE = ''; updPin(); document.getElementById('pin-error').textContent = ''; showScreen('pin-screen'); };
+window.pinKey = function(d) { if (pinE.length >= 4) return; sfxClick(); pinE += d; updPin(); if (pinE.length === 4) { setTimeout(chkPin, 200); } };
 window.pinBackspace = function() { pinE = pinE.slice(0, -1); updPin(); };
 window.pinClear = function() { pinE = ''; updPin(); };
-function updPin() {
-  for (var i = 0; i < 4; i++) {
-    var el = document.getElementById('pd' + i);
-    if (el) el.classList.toggle('filled', i < pinE.length);
-  }
-}
+function updPin() { for (let i=0; i<4; i++) { const el = document.getElementById('pd'+i); if (el) el.classList.toggle('filled', i < pinE.length); } }
 function chkPin() {
-  var enteredPin = pinE.trim();
-  var savedPin = String(ST.pin).trim();
-  if (enteredPin === savedPin) {
-    showScreen('dash-screen');
-    renderDash();
-    pinE = '';
-    updPin();
-    document.getElementById('pin-error').textContent = '';
-  } else {
-    sfxWrong();
-    document.getElementById('pin-error').textContent = '❌ Wrong PIN. Try again.';
-    pinE = '';
-    updPin();
-  }
+  const enteredPin = pinE.trim();
+  const savedPin = String(ST.pin).trim();
+  if (enteredPin === savedPin) { showScreen('dash-screen'); renderDash(); pinE = ''; updPin(); document.getElementById('pin-error').textContent = ''; }
+  else { sfxWrong(); document.getElementById('pin-error').textContent = '❌ Wrong PIN. Try again.'; pinE = ''; updPin(); }
 }
 
 // ═══ PREMIUM ══════════════════════════════════════
 function updatePremiumUI(){
-  var statusText=document.getElementById('premium-status-text');
-  var statusSub=document.getElementById('premium-status-sub');
-  var codeArea=document.getElementById('code-input-area');
-  var revokeArea=document.getElementById('revoke-area');
-  var box=document.getElementById('premium-status-box');
-  var codeBtn = document.getElementById('activate-code-btn');
-  var premium = isPremiumUnlocked();
-  
+  const statusText=document.getElementById('premium-status-text');
+  const statusSub=document.getElementById('premium-status-sub');
+  const codeArea=document.getElementById('code-input-area');
+  const revokeArea=document.getElementById('revoke-area');
+  const box=document.getElementById('premium-status-box');
+  const codeBtn = document.getElementById('activate-code-btn');
+  const premium = isPremiumUnlocked();
   if(premium){
     if(box) box.style.background='linear-gradient(135deg,#f1c40f22,#e67e2222)';
     if(statusText) statusText.textContent='⭐ Premium Active!';
@@ -1920,8 +1685,8 @@ function updatePremiumUI(){
 window.updatePremiumUI=updatePremiumUI;
 
 window.activatePremiumCode = function() {
-  var code = document.getElementById('set-code').value.trim().toUpperCase();
-  var errEl = document.getElementById('code-error');
+  const code = document.getElementById('set-code').value.trim().toUpperCase();
+  const errEl = document.getElementById('code-error');
   errEl.textContent = '';
   if (!code) { errEl.textContent = '⚠️ Please enter a code'; return; }
   if (VALID_CODES.indexOf(code) !== -1) {
@@ -1930,17 +1695,13 @@ window.activatePremiumCode = function() {
     sfxLevelUp(); showToast('🎉 Premium Unlocked!');
     errEl.textContent = ''; document.getElementById('set-code').value = '';
     saveToCloudNow();
-  } else {
-    errEl.textContent = '❌ Invalid code. Please check and try again.';
-    sfxWrong();
-  }
+  } else { errEl.textContent = '❌ Invalid code. Please check and try again.'; sfxWrong(); }
 };
 
 window.revokePremium = function() {
   if (!confirm('Deactivate Premium?')) return;
   ST.isPremium = false; ST.premiumCode = '';
-  fastSave(); saveToCloudNow(); updatePremiumUI(); refreshHome();
-  showToast('Premium deactivated');
+  fastSave(); saveToCloudNow(); updatePremiumUI(); refreshHome(); showToast('Premium deactivated');
 };
 
 // ═══ DASHBOARD ════════════════════════════════════
@@ -1948,66 +1709,64 @@ function renderDash(){
   document.getElementById('d-stars').textContent = ST.totalStars;
   document.getElementById('d-levels').textContent = ST.levelsDone;
   document.getElementById('d-time').textContent = ST.todayMinutes + 'm';
-  var acc = ST.totalAnswers > 0 ? Math.round(ST.correctAnswers / ST.totalAnswers * 100) : 0;
+  const acc = ST.totalAnswers > 0 ? Math.round(ST.correctAnswers / ST.totalAnswers * 100) : 0;
   document.getElementById('d-accuracy').textContent = acc + '%';
   document.getElementById('set-name').value = ST.childName;
   document.getElementById('set-goal').value = ST.dailyGoal;
-  var togSound = document.getElementById('tog-sound');
-  var togSpeech = document.getElementById('tog-speech');
+  const togSound = document.getElementById('tog-sound');
+  const togSpeech = document.getElementById('tog-speech');
   if(togSound) togSound.classList.toggle('on', ST.sound);
   if(togSpeech) togSpeech.classList.toggle('on', ST.speech);
-  updatePremiumUI();
-  renderSubj();
-  renderBadges();
+  updatePremiumUI(); renderSubj(); renderBadges();
 }
 
 function renderSubj(){
-  var icons = {abc:'🔤', numbers:'🔢', coloring:'🎨', arabic:'🌙', math:'➕', flags:'🌍', memory:'🧠', bingo:'🔢', scramble:'🔤', color:'🎨', typing:'⌨️', geo:'🌍', search:'🔍', animal:'🐄', story:'📖', phonics:'🔤', multiply:'✖️', vocab:'📝', music:'🎵', animate:'🎬'};
-  var labels = {abc:'ABC English', numbers:'Numbers', coloring:'More Fun', arabic:'Arabic عربي', math:'Math', flags:'Flag Quiz', memory:'Memory Match', bingo:'Math Bingo', scramble:'Word Scramble', color:'Color by Number', typing:'Typing Tutor', geo:'Geography Quiz', search:'Word Search', animal:'Animal Sounds', story:'Story Builder', phonics:'Phonics', multiply:'Times Tables', vocab:'Vocabulary', music:'Music Maker', animate:'Animation Studio'};
-  var list = document.getElementById('subject-progress-list');
+  const icons = {abc:'🔤', numbers:'🔢', coloring:'🎨', arabic:'🌙', math:'➕', flags:'🌍', memory:'🧠', bingo:'🔢', scramble:'🔤', color:'🎨', typing:'⌨️', geo:'🌍', search:'🔍', animal:'🐄', story:'📖', phonics:'🔤', multiply:'✖️', vocab:'📝', music:'🎵', animate:'🎬'};
+  const labels = {abc:'ABC English', numbers:'Numbers', coloring:'More Fun', arabic:'Arabic عربي', math:'Math', flags:'Flag Quiz', memory:'Memory Match', bingo:'Math Bingo', scramble:'Word Scramble', color:'Color by Number', typing:'Typing Tutor', geo:'Geography Quiz', search:'Word Search', animal:'Animal Sounds', story:'Story Builder', phonics:'Phonics', multiply:'Times Tables', vocab:'Vocabulary', music:'Music Maker', animate:'Animation Studio'};
+  const list = document.getElementById('subject-progress-list');
   if(!list) return;
   list.innerHTML = '';
-  var allGames = ['abc','numbers','coloring','flags','memory','bingo','scramble','color','typing','geo','search','animal','story','phonics','multiply','vocab','music','animate','arabic','math'];
-  allGames.forEach(function(m) {
-    var tot = gameData[m] ? gameData[m].length : (m === 'flags' ? 195 : 8);
-    var don = completed[m] || 0;
-    var pct = Math.round(don/tot*100);
+  const allGames = ['abc','numbers','coloring','flags','memory','bingo','scramble','color','typing','geo','search','animal','story','phonics','multiply','vocab','music','animate','arabic','math'];
+  allGames.forEach((m) => {
+    const tot = gameData[m] ? gameData[m].length : (m === 'flags' ? 195 : 8);
+    const don = completed[m] || 0;
+    let pct = Math.round(don/tot*100);
     if(m === 'flags') pct = Math.min(don/195*100, 100);
-    var badge = (m==='arabic'||m==='math') ? '<span style="font-size:.7rem;background:#f1c40f;color:white;padding:2px 6px;border-radius:10px;margin-left:6px;">PREMIUM</span>' : '';
+    const badge = (m==='arabic'||m==='math') ? '<span style="font-size:.7rem;background:#f1c40f;color:white;padding:2px 6px;border-radius:10px;margin-left:6px;">PREMIUM</span>' : '';
     list.innerHTML += `<div class="subject-row"><div class="subject-icon">${icons[m]||'📚'}</div><div class="subject-info"><div class="subject-name">${labels[m]||m}${badge}</div><div class="subject-meta">${don}/${tot} levels · ${pct}%</div><div class="mini-bar-wrap"><div class="mini-bar" style="width:${pct}%"></div></div></div></div>`;
   });
 }
 
-var BDG = [
-  {icon:'🌟',name:'First Star',desc:'Earn 1 star',fn:function(){return ST.totalStars>=1;}},
-  {icon:'🔥',name:'On Fire',desc:'Earn 10 stars',fn:function(){return ST.totalStars>=10;}},
-  {icon:'💫',name:'Star Collector',desc:'Earn 50 stars',fn:function(){return ST.totalStars>=50;}},
-  {icon:'👑',name:'Star King',desc:'Earn 100 stars',fn:function(){return ST.totalStars>=100;}},
-  {icon:'🔤',name:'ABC Master',desc:'Complete ABC',fn:function(){return completed.abc>=gameData.abc.length;}},
-  {icon:'🔢',name:'Number Ninja',desc:'Complete Numbers',fn:function(){return completed.numbers>=gameData.numbers.length;}},
-  {icon:'🎨',name:'Fun Master',desc:'Complete More Fun',fn:function(){return completed.coloring>=gameData.coloring.length;}},
-  {icon:'🌍',name:'Flag Explorer',desc:'Complete Flag Quiz',fn:function(){return completed.flags>0;}},
-  {icon:'🧠',name:'Memory Master',desc:'Complete Memory Game',fn:function(){return completed.memory>0;}},
-  {icon:'🌙',name:'Arabic Star',desc:'Complete Arabic',fn:function(){return completed.arabic>=gameData.arabic.length;}},
-  {icon:'➕',name:'Math Wizard',desc:'Complete Math',fn:function(){return completed.math>=gameData.math.length;}},
-  {icon:'⚡',name:'Streak King',desc:'5 correct in a row',fn:function(){return streak>=5;}},
+const BDG = [
+  {icon:'🌟',name:'First Star',desc:'Earn 1 star',fn:()=>ST.totalStars>=1},
+  {icon:'🔥',name:'On Fire',desc:'Earn 10 stars',fn:()=>ST.totalStars>=10},
+  {icon:'💫',name:'Star Collector',desc:'Earn 50 stars',fn:()=>ST.totalStars>=50},
+  {icon:'👑',name:'Star King',desc:'Earn 100 stars',fn:()=>ST.totalStars>=100},
+  {icon:'🔤',name:'ABC Master',desc:'Complete ABC',fn:()=>completed.abc>=gameData.abc.length},
+  {icon:'🔢',name:'Number Ninja',desc:'Complete Numbers',fn:()=>completed.numbers>=gameData.numbers.length},
+  {icon:'🎨',name:'Fun Master',desc:'Complete More Fun',fn:()=>completed.coloring>=gameData.coloring.length},
+  {icon:'🌍',name:'Flag Explorer',desc:'Complete Flag Quiz',fn:()=>completed.flags>0},
+  {icon:'🧠',name:'Memory Master',desc:'Complete Memory Game',fn:()=>completed.memory>0},
+  {icon:'🌙',name:'Arabic Star',desc:'Complete Arabic',fn:()=>completed.arabic>=gameData.arabic.length},
+  {icon:'➕',name:'Math Wizard',desc:'Complete Math',fn:()=>completed.math>=gameData.math.length},
+  {icon:'⚡',name:'Streak King',desc:'5 correct in a row',fn:()=>streak>=5},
 ];
 
 function renderBadges(){
-  var g=document.getElementById('badges-grid');
+  const g=document.getElementById('badges-grid');
   if(!g)return;
   g.innerHTML='';
-  BDG.forEach(function(b){
-    var e=b.fn();
+  BDG.forEach((b) => {
+    const e=b.fn();
     g.innerHTML += `<div style="background:#f8f7ff;border-radius:14px;padding:12px 8px;text-align:center;opacity:${e?1:.4}"><div style="font-size:1.8rem;">${b.icon}</div><div style="font-size:.72rem;font-weight:700;color:#555;margin-top:4px;">${b.name}</div><div style="font-size:.65rem;color:#aaa;">${b.desc}</div></div>`;
   });
 }
 
 window.switchTab=function(tab,el){
-  document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});
+  document.querySelectorAll('.tab-btn').forEach((b)=>b.classList.remove('active'));
   el.classList.add('active');
-  ['overview','badges','settings'].forEach(function(t){
-    var el2=document.getElementById('tab-'+t);
+  ['overview','badges','settings'].forEach((t) => {
+    const el2 = document.getElementById('tab-'+t);
     if(el2) el2.style.display = t === tab ? 'block' : 'none';
   });
   if(tab === 'badges') renderBadges();
@@ -2016,14 +1775,14 @@ window.switchTab=function(tab,el){
 window.toggleSetting=function(k,el){ ST[k] = !ST[k]; el.classList.toggle('on', ST[k]); fastSave(); saveToCloudNow(); };
 
 window.saveSettings = function() {
-  var btn = document.getElementById('settings-save-btn');
+  const btn = document.getElementById('settings-save-btn');
   if (btn) { btn.disabled = true; btn.textContent = '⏳ Saving...'; }
   try {
-    var n = document.getElementById('set-name').value.trim();
+    const n = document.getElementById('set-name').value.trim();
     if (n) ST.childName = n;
-    var g = parseInt(document.getElementById('set-goal').value);
+    const g = parseInt(document.getElementById('set-goal').value);
     if (!isNaN(g) && g > 0) ST.dailyGoal = g;
-    var p = document.getElementById('set-pin').value.trim();
+    const p = document.getElementById('set-pin').value.trim();
     if (p.length === 4 && /^\d+$/.test(p)) {
       ST.pin = p;
       document.getElementById('set-pin').value = '';
@@ -2039,62 +1798,59 @@ window.resetProgress = function() {
   ST.totalStars = 0; ST.totalAnswers = 0; ST.correctAnswers = 0;
   ST.levelsDone = 0; ST.todayMinutes = 0;
   ST.starsPerDay = [0,0,0,0,0,0,0];
-  Object.keys(completed).forEach(function(k){ completed[k] = 0; });
+  Object.keys(completed).forEach((k) => completed[k] = 0);
   streak = 0;
   fastSave(); saveToCloudNow(); refreshHome(); renderDash();
   showToast('🔄 Progress reset');
 };
 
 function showToast(msg){
-  var t = document.getElementById('toast');
+  const t = document.getElementById('toast');
   if(!t) return;
   t.textContent = msg;
   t.style.opacity = '1';
   clearTimeout(window._tt);
-  window._tt = setTimeout(function(){ t.style.opacity = '0'; }, 2500);
+  window._tt = setTimeout(() => t.style.opacity = '0', 2500);
 }
 
 // ═══ LEADERBOARD ═══════════════════════════════════
 function loadLeaderboard() {
-  // First show the leaderboard screen
   showScreen('leaderboard-screen');
-  
-  var list = document.getElementById('lb-list');
+  const list = document.getElementById('lb-list');
   list.innerHTML = '<div class="lb-empty"><span>🏆</span>Loading leaderboard...</div>';
   
-  // Check if user is logged in
   if (!auth.currentUser) {
     list.innerHTML = '<div class="lb-empty"><span>🔒</span>Please login to see the leaderboard<br><span style="font-size:.8rem;color:#aaa;">Login or continue as guest</span></div>';
     return;
   }
   
-  db.ref('users').once('value').then(function(snap) {
+  db.ref('users').once('value').then((snap) => {
     if (!snap.exists()) {
       list.innerHTML = '<div class="lb-empty"><span>👀</span>No players yet!<br><span style="font-size:.8rem;color:#aaa;">Be the first to earn stars!</span></div>';
       return;
     }
     
-    var users = [];
-    snap.forEach(function(child) {
-      var data = child.val();
+    const users = [];
+    snap.forEach((child) => {
+      const data = child.val();
       data.uid = child.key;
       if (data.totalStars > 0 || data.totalStars === 0) { users.push(data); }
     });
     
-    users.sort(function(a, b) { return (b.totalStars || 0) - (a.totalStars || 0); });
-    var topUsers = users.slice(0, 50);
-    var medals = ['🥇', '🥈', '🥉'];
-    var rankColors = ['gold', 'silver', 'bronze'];
-    var html = '';
+    users.sort((a, b) => (b.totalStars || 0) - (a.totalStars || 0));
+    const topUsers = users.slice(0, 50);
+    const medals = ['🥇', '🥈', '🥉'];
+    const rankColors = ['gold', 'silver', 'bronze'];
+    let html = '';
     
-    topUsers.forEach(function(data, index) {
-      var rank = index + 1;
-      var isMe = currentUser && data.uid === currentUser.uid;
-      var medal = rank <= 3 ? medals[rank-1] : rank;
-      var rankColor = rank <= 3 ? rankColors[rank-1] : '';
-      var stars = data.totalStars || 0;
-      var childName = data.childName || 'Kid';
-      var levelsDone = data.levelsDone || 0;
+    topUsers.forEach((data, index) => {
+      const rank = index + 1;
+      const isMe = currentUser && data.uid === currentUser.uid;
+      const medal = rank <= 3 ? medals[rank-1] : rank;
+      const rankColor = rank <= 3 ? rankColors[rank-1] : '';
+      const stars = data.totalStars || 0;
+      const childName = data.childName || 'Kid';
+      const levelsDone = data.levelsDone || 0;
       
       html += `<div class="lb-item ${isMe ? 'me' : ''}">
         <div class="lb-rank ${rankColor}">${medal}</div>
@@ -2112,7 +1868,7 @@ function loadLeaderboard() {
     } else {
       list.innerHTML = html;
     }
-  }).catch(function(err) {
+  }).catch((err) => {
     console.log('Leaderboard error:', err);
     list.innerHTML = '<div class="lb-empty"><span>⚠️</span>Could not load leaderboard<br><span style="font-size:.8rem;color:#aaa;">Make sure you are connected to the internet</span></div>';
   });
@@ -2120,16 +1876,11 @@ function loadLeaderboard() {
 
 // ═══ INIT ═══════════════════════════════════════════
 setTimeout(showBannerAd, 1000);
-
 if('speechSynthesis' in window){
   window.speechSynthesis.getVoices();
-  window.speechSynthesis.onvoiceschanged = function() {
-    window.speechSynthesis.getVoices();
-  };
+  window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
 }
-
-console.log('🚀 KidLearn Pro loaded with 19+ Games!');
-console.log('🎮 Games Available: ABC, Numbers, Coloring, Flag Quiz, Memory, Math Bingo, Word Scramble, Color by Number, Typing Tutor, Geography Quiz, Word Search, Animal Sounds, Story Builder, Phonics, Times Tables, Vocabulary, Music Maker, Animation Studio, Arabic, Math');
+console.log('🚀 KidLearn Pro loaded with 20 Games!');
 </script>
 </body>
   </html>
