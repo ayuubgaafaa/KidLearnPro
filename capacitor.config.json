@@ -1,8 +1,0 @@
-{
-  "appId": "com.ayuubgaafaa.kidlearnpro",
-  "appName": "KidLearn Pro",
-  "webDir": "www",
-  "android": {
-    "allowMixedContent": true
-  }
-}
