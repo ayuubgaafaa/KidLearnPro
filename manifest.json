@@ -1,41 +1,17 @@
 {
-  "name": "KidLearn Pro",
-  "short_name": "KidLearn",
-  "description": "Fun learning app for kids — ABC, Numbers, Arabic &amp; Math!",
-  "id": "com.kidlearnpro.app",
-  "start_url": "/KidLearnPro/index.html",
+  "background_color": "#ffffff",
+  "dir": "ltr",
   "display": "standalone",
-  "background_color": "#4a3487",
-  "theme_color": "#6c72e6",
-  "orientation": "portrait",
-  "scope": "/KidLearnPro/",
-  "lang": "en",
-  "icons": [
-    {
-      "src": "https://ayuubgaafaa.github.io/KidLearnPro/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "https://ayuubgaafaa.github.io/KidLearnPro/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
-    }
-  ],
+  "name": "KidLearnPro",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "ayuubgaafaa.github",
+  "start_url": "https://ayuubgaafaa.github.io/KidLearnPro/",
+  "theme_color": "#ffffff",
+  "description": "KidLearn Pro — Fun Learning App for Kids! ⭐\n\nA safe, ad-free educational app designed for children ages 2-8 to learn \nABC, Numbers, Arabic letters, and Math through fun interactive games!\n\n🔤 ABC ENGLISH (Free)\nLearn all 26 letters with pictures, voice pronunciation, and fun quizzes.\n\n🔢 NUMBERS 1-10 (Free)\nCount with colorful emoji and engaging visuals.\n\n🎨 MORE FUN (Free)\nAnimal sounds, color recognition, and a free drawing canvas.\n\n🌙 ARABIC LETTERS (Premium)\nAll 28 Arabic letters with authentic Arabic voice pronunciation.\n\n➕➖ MATH (Premium)\n50 levels of addition and subtraction practice.\n\n✨ FEATURES\n• Voice pronunciation in English &amp; Arabic\n• Star rewards system to track progress\n• Cloud save — progress syncs across devices\n• Global leaderboard\n• Parent Dashboard with PIN protection\n• Daily goals &amp; progress tracking\n• 100% safe — no ads, no social features\n• Works offline after first load\n\n👨‍👩‍👧 PARENT DASHBOARD\nMonitor your child's learning progress, set daily goals, manage \nsubjects, and track time spent — all protected with a PIN code.\n\n🔒 SAFE FOR KIDS\nNo advertisements. No in-app chat. No external links for children. \nBuilt with child safety as the top priority.\n\n⭐ PREMIUM — $1.99/month\nUnlock Arabic letters and 50 Math levels for the complete learning \nexperience.\n\nPerfect for toddlers, preschoolers, and early learners!",
   "categories": [
     "education",
+    "games",
     "kids"
-  ],
-  "iarc_rating_id": "e84b072d-71b3-4d3e-86ae-31a8ce4e53b7",
-  "screenshots": [
-    {
-      "src": "https://ayuubgaafaa.github.io/KidLearnPro/screenshot1.png",
-      "sizes": "540x720",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "KidLearn Pro Home Screen"
-    }
   ]
 }
