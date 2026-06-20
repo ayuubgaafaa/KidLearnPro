@@ -1266,25 +1266,72 @@ function loadOriginalLevel() {
 function speakQuestion() { if(!ST.speech || !gameState.curSpeech) return; const qBox = document.getElementById('question'); if(qBox) qBox.classList.add('speaking'); sayText(gameState.curSpeech, gameState.curSpeechLang, 0.72, () => { if(qBox) qBox.classList.remove('speaking'); }); }
 window.speakQuestion = speakQuestion;
 
+// ═══ FIXED checkOriginalAnswer function ═══════════════
 function checkOriginalAnswer(btn) {
   if(isAnswering || btn.disabled) return;
   const allBtns = document.querySelectorAll('.opt-btn');
   allBtns.forEach(b => b.disabled = true);
+  
   if(btn.textContent === gameState.correctAns) {
-    isAnswering = true; btn.classList.add('correct'); ST.correctAnswers++; streak++; ST.totalAnswers++;
+    isAnswering = true;
+    btn.classList.add('correct');
+    ST.correctAnswers++;
+    streak++;
+    ST.totalAnswers++;
+    
     const stars = gameState.mistakes === 0 ? 3 : (gameState.mistakes === 1 ? 2 : 1);
-    ST.totalStars += stars; ST.levelsDone++; ST.starsPerDay[6] = (ST.starsPerDay[6] || 0) + stars;
+    ST.totalStars += stars;
+    ST.levelsDone++;
+    ST.starsPerDay[6] = (ST.starsPerDay[6] || 0) + stars;
     completed[curMode] = Math.min(completed[curMode] + 1, gameState.data.length);
-    sfxCorrect(); if(stars === 3) setTimeout(sfxStar, 500);
+    
+    sfxCorrect();
+    if(stars === 3) setTimeout(sfxStar, 500);
+    
     const msg = stars === 3 ? '⭐⭐⭐ Perfect!' : (stars === 2 ? '⭐⭐ Great job!' : '⭐ Good try!');
-    showToast(msg); document.getElementById('gameStars').textContent = ST.totalStars; document.getElementById('gameCorrect').textContent = ST.correctAnswers; document.getElementById('gameFooter').textContent = msg;
-    if(ST.speech && gameState.data[curIdx]) { const q = gameState.data[curIdx]; setTimeout(() => sayText(stars === 3 ? 'Excellent! '+q.word+'!' : 'Great job!', 'en-US', 0.85), 300); }
-    refreshHome(); fastSave(); saveToCloudNow();
-    levelTimer = setTimeout(() => { curIdx++; loadOriginalLevel(); }, 1800);
+    showToast(msg);
+    document.getElementById('gameStars').textContent = ST.totalStars;
+    document.getElementById('gameCorrect').textContent = ST.correctAnswers;
+    document.getElementById('gameFooter').textContent = msg;
+    
+    if(ST.speech && gameState.data[curIdx]) {
+      const q = gameState.data[curIdx];
+      setTimeout(() => sayText(stars === 3 ? 'Excellent! '+q.word+'!' : 'Great job!', 'en-US', 0.85), 300);
+    }
+    
+    refreshHome();
+    fastSave();
+    saveToCloudNow();
+    
+    // Reset isAnswering before loading next level
+    isAnswering = false;
+    levelTimer = setTimeout(() => {
+      curIdx++;
+      loadOriginalLevel();
+    }, 1800);
+    
   } else {
-    btn.classList.add('wrong'); gameState.mistakes++; ST.totalAnswers++; sfxWrong();
-    if(ST.speech) setTimeout(() => sayText('Try again!', 'en-US', 0.9), 100);
-    setTimeout(() => { const btns = document.querySelectorAll('.opt-btn'); btns.forEach(b => { if(!b.classList.contains('correct') && !b.classList.contains('wrong')) b.disabled = false; }); isAnswering = false; }, 600);
+    btn.classList.add('wrong');
+    gameState.mistakes++;
+    ST.totalAnswers++;
+    sfxWrong();
+    
+    if(ST.speech) {
+      setTimeout(() => sayText('Try again!', 'en-US', 0.9), 100);
+    }
+    
+    // Re-enable buttons after wrong answer
+    setTimeout(() => {
+      const btns = document.querySelectorAll('.opt-btn');
+      btns.forEach(b => {
+        if(!b.classList.contains('correct') && !b.classList.contains('wrong')) {
+          b.disabled = false;
+        }
+      });
+      // Reset the wrong class so the button can be used again
+      btn.classList.remove('wrong');
+      isAnswering = false;
+    }, 600);
   }
 }
 
@@ -2136,7 +2183,7 @@ function renderDash(){
 
 function renderSubj(){
   const icons = {abc:'🔤', numbers:'🔢', coloring:'🎨', arabic:'🌙', math:'➕', flags:'🌍', memory:'🧠', bingo:'🔢', scramble:'🔤', color:'🎨', typing:'⌨️', geo:'🌍', search:'🔍', animal:'🐄', story:'📖', phonics:'🔤', multiply:'✖️', vocab:'📝', music:'🎵', animate:'🎬'};
-  const labels = {abc:'ABC English', numbers:'Numbers', coloring:'More Fun', arabic:'Arabic عربي', math:'Math', flags:'Flag Quiz', memory:'Memory Match', bingo:'Math Bingo', scramble:'Word Scramble', color:'Color by Number', typing:'Typing Tutor', geo:'Geography Quiz', search:'Word Search', animal:'Animal Sounds', story:'Story Builder', phonics:'Phonics', multiply:'Times Tables', vocab:'Vocabulary', music:'Music Maker', animate:'Animation Studio'};
+  const labels = {abc:'ABC English', numbers:'Numbers', coloring:'More Fun', arabic:'Arabic عربي', math:'Math', flags:'Flag Quiz', memory:'Memory Match', bingo:'Math Bingo', scramble:'Word Scramble', color:'Color by Number', typing:'Typing Tutor', geo:'Geography Quiz', search:'Word Search', animal:'Animal Sounds', story:'Story Builder', phonics:'Phonics', multiply:'Times Tables', vocab:'Vocabulary', music:'Music Maker', animation:'Animation Studio'};
   const list = document.getElementById('subject-progress-list');
   if(!list) return;
   list.innerHTML = '';
@@ -2300,4 +2347,4 @@ console.log('🔒 🔐 KidLearn Pro loaded with FULL SECURITY!');
 console.log('✅ Features: Encryption, Rate Limiting, Input Validation, Session Management, CSRF Protection');
 </script>
 </body>
-                                                                                                                           </html>
+</html>
