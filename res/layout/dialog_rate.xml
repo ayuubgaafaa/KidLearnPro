@@ -1,0 +1,47 @@
+import android.content.SharedPreferences;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+
+// 🔵 Gudaha onCreate()
+SharedPreferences prefs = getSharedPreferences("kidlearn", MODE_PRIVATE);
+boolean rated = prefs.getBoolean("rated", false);
+
+if (!rated && pageCount > 5) {
+    showRateDialog();
+}
+
+// 🔵 Show Rate Dialog
+private void showRateDialog() {
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    View view = getLayoutInflater().inflate(R.layout.dialog_rate, null);
+    builder.setView(view);
+    
+    Button rateBtn = view.findViewById(R.id.rateBtn);
+    Button laterBtn = view.findViewById(R.id.laterBtn);
+    Button neverBtn = view.findViewById(R.id.neverBtn);
+    
+    AlertDialog dialog = builder.create();
+    dialog.setCancelable(false);
+    
+    rateBtn.setOnClickListener(v -> {
+        // 🔵 U dir Play Store
+        Intent intent = new Intent(Intent.ACTION_VIEW, 
+            Uri.parse("market://details?id=com.kidlearn.app"));
+        startActivity(intent);
+        
+        SharedPreferences prefs = getSharedPreferences("kidlearn", MODE_PRIVATE);
+        prefs.edit().putBoolean("rated", true).apply();
+        dialog.dismiss();
+    });
+    
+    laterBtn.setOnClickListener(v -> dialog.dismiss());
+    
+    neverBtn.setOnClickListener(v -> {
+        SharedPreferences prefs = getSharedPreferences("kidlearn", MODE_PRIVATE);
+        prefs.edit().putBoolean("rated", true).apply();
+        dialog.dismiss();
+    });
+    
+    dialog.show();
+}
