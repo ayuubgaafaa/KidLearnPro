@@ -6,13 +6,24 @@
   "start_url": "/KidLearnPro/index.html",
   "scope": "/KidLearnPro/",
   "display": "standalone",
+  "display_override": ["standalone", "fullscreen", "minimal-ui"],
   "orientation": "portrait",
   "background_color": "#4a3487",
   "theme_color": "#6c72e6",
   "lang": "en",
   "dir": "ltr",
+  "iarc_rating_id": "e84b072d-71b3-4d3e-86ae-31a8ce4e53b7",
   "prefer_related_applications": false,
-  "related_applications": [],
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=com.kidlearnpro.app",
+      "id": "com.kidlearnpro.app"
+    }
+  ],
+  "scope_extensions": [
+    {"origin": "https://ayuubgaafaa.github.io"}
+  ],
   "categories": ["education", "kids", "games"],
   "icons": [
     {
@@ -47,6 +58,13 @@
       "type": "image/png",
       "form_factor": "narrow",
       "label": "KidLearn Pro Home Screen"
+    },
+    {
+      "src": "https://ayuubgaafaa.github.io/KidLearnPro/screenshot1.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "KidLearn Pro Desktop View"
     }
   ]
 }
