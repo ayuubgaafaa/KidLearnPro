@@ -11,6 +11,8 @@
   "theme_color": "#6c72e6",
   "lang": "en",
   "dir": "ltr",
+  "prefer_related_applications": false,
+  "related_applications": [],
   "categories": ["education", "kids", "games"],
   "icons": [
     {
