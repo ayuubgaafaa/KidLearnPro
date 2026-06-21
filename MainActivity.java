@@ -1,47 +1,58 @@
-package com.kidlearn.app;
+package com.kidlearnpro.app;
 
 import android.os.Bundle;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import androidx.appcompat.app.AppCompatActivity;
-import android.widget.Toast;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.content.Context;
-import android.app.AlertDialog;
+import com.google.android.gms.ads.*;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 
 public class MainActivity extends AppCompatActivity {
 
     WebView webView;
-    boolean isOnline = false;
+    AdView bannerAd;
+    InterstitialAd interstitialAd;
+    int pageCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Initialize AdMob
+        MobileAds.initialize(this, initializationStatus -> {});
+
+        // Banner Ad
+        bannerAd = findViewById(R.id.bannerAd);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        bannerAd.loadAd(adRequest);
+
+        // Interstitial Ad
+        InterstitialAd.load(this,
+            "ca-app-pub-3403694718641998/5184929941",
+            adRequest,
+            new InterstitialAdLoadCallback() {
+                @Override
+                public void onAdLoaded(InterstitialAd ad) {
+                    interstitialAd = ad;
+                }
+            });
+
+        // WebView
         webView = findViewById(R.id.webView);
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
-        settings.setCacheMode(WebSettings.LOAD_DEFAULT);  // 🔵 Offline support
-        
-        // 🔵 Hubi internet-ka
-        checkInternetConnection();
 
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
-                // 🔵 Muuji in app-ka uu shaqeynayo
-                Toast.makeText(MainActivity.this, "✅ KidLearn Pro Loaded!", Toast.LENGTH_SHORT).show();
-            }
-            
-            @Override
-            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                // 🔵 Haddii internet uu jiro
-                if (!isOnline) {
-                    showOfflineDialog();
+                pageCount++;
+                if (pageCount % 3 == 0 && interstitialAd != null) {
+                    interstitialAd.show(MainActivity.this);
+                    interstitialAd = null;
                 }
             }
         });
@@ -49,24 +60,12 @@ public class MainActivity extends AppCompatActivity {
         webView.loadUrl("https://ayuubgaafaa.github.io/KidLearnPro/");
     }
 
-    // 🔵 Hubi internet-ka
-    private void checkInternetConnection() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        isOnline = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-    }
-
-    // 🔵 Muuji fariin offline
-    private void showOfflineDialog() {
-        new AlertDialog.Builder(this)
-            .setTitle("📡 No Internet Connection")
-            .setMessage("KidLearn Pro needs internet to load content. Please check your connection.")
-            .setPositiveButton("Retry", (dialog, which) -> {
-                webView.reload();
-            })
-            .setNegativeButton("Exit", (dialog, which) -> {
-                finish();
-            })
-            .show();
+    @Override
+    public void onBackPressed() {
+        if (webView.canGoBack()) {
+            webView.goBack();
+        } else {
+            super.onBackPressed();
+        }
     }
 }
