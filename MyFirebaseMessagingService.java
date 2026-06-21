@@ -1,4 +1,4 @@
-package com.kidlearn.app;
+package com.kidlearnpro.app;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -11,15 +11,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        // 🔵 Soo dir notification
-        showNotification(remoteMessage.getNotification().getTitle(),
-                         remoteMessage.getNotification().getBody());
+        if (remoteMessage.getNotification() != null) {
+            String title = remoteMessage.getNotification().getTitle();
+            String body = remoteMessage.getNotification().getBody();
+            showNotification(title, body);
+        }
     }
 
     private void showNotification(String title, String message) {
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-        // 🔵 Samee channel (Android 8+)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(
                 "kidlearn_channel",
@@ -29,12 +30,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             manager.createNotificationChannel(channel);
         }
 
-        // 🔵 Dhise notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "kidlearn_channel")
             .setSmallIcon(android.R.drawable.ic_dialog_info)
-            .setContentTitle(title)
-            .setContentText(message)
-            .setAutoCancel(true);
+            .setContentTitle(title != null ? title : "KidLearn Pro")
+            .setContentText(message != null ? message : "New update available!")
+            .setAutoCancel(true)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         manager.notify(1, builder.build());
     }
