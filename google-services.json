@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "204320277724",
+    "firebase_url": "https://durable-sound-463120-v8-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "durable-sound-463120-v8",
+    "storage_bucket": "durable-sound-463120-v8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:204320277724:android:68a5505345cd589eaf6019",
+        "android_client_info": {
+          "package_name": "com.kidlearnpro.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "204320277724-n9m7skd0vgrade1o7u437rroj8uskg4j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASERIcQdUfaS8ukF6zJgLyINwW9LzuLIw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "204320277724-n9m7skd0vgrade1o7u437rroj8uskg4j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
