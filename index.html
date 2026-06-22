@@ -6,6 +6,106 @@
 <title>KidLearn Pro</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
+   /* ============================================
+   🛠 FIX: Progress Bars Visibility
+   ============================================ */
+
+/* 1. Mini progress bars - si fiican loogu arko */
+.mini-track {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border-radius: 6px !important;
+  height: 6px !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+.mini-fill {
+  height: 100% !important;
+  border-radius: 6px !important;
+  background: linear-gradient(90deg, #6C5CE7, #8B7CF8, #4ECDC4) !important;
+  transition: width 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55) !important;
+  box-shadow: 0 0 12px rgba(108, 92, 231, 0.5) !important;
+}
+
+/* 2. Main progress bar (home page) */
+.progress-track {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border-radius: 8px !important;
+  height: 6px !important;
+  overflow: hidden !important;
+}
+
+.progress-fill {
+  height: 100% !important;
+  border-radius: 8px !important;
+  background: linear-gradient(90deg, #6C5CE7, #F72585, #FFB833) !important;
+  background-size: 200% 100% !important;
+  animation: shimmer 2s linear infinite !important;
+  box-shadow: 0 0 16px rgba(108, 92, 231, 0.4) !important;
+}
+
+/* 3. Subject progress rows - si fiican */
+.progress-row {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 14px !important;
+  padding: 10px 12px !important;
+  margin-bottom: 6px !important;
+}
+
+.subj-name-native {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  font-size: 12px !important;
+}
+
+.subj-meta-native {
+  color: rgba(255, 255, 255, 0.5) !important;
+  font-size: 9px !important;
+  font-weight: 600 !important;
+}
+
+.subj-pct {
+  color: #FFB833 !important;
+  font-weight: 800 !important;
+  font-size: 11px !important;
+  min-width: 36px !important;
+  text-align: right !important;
+}
+
+/* 4. Stats chips - si fiican */
+.stat-chip {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+.chip-val {
+  color: #FFB833 !important;
+  font-weight: 900 !important;
+}
+
+.chip-lbl {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* 5. Tab buttons - si fiican */
+.dash-tab-native {
+  color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.dash-tab-native.active {
+  color: #8B7CF8 !important;
+  border-bottom: 2px solid #6C5CE7 !important;
+}
+
+/* 6. Dashboard header */
+.dash-header-native {
+  background: linear-gradient(135deg, #6C5CE7, #8B7CF8) !important;
+}
+
+.dash-header-top h2 {
+  color: #ffffff !important;
+}
 /* ============================================
    🎨 KIDLEARN PRO - PREMIUM NATIVE UI v2
    ============================================ */
