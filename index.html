@@ -44,9 +44,10 @@ body{background:var(--bg);display:flex;justify-content:center;align-items:center
 .screen.active{display:flex;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
 
-.status-bar{height:34px;background:rgba(0,0,0,0.25);display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-shrink:0;backdrop-filter:blur(8px);}
-.status-bar .time{color:#fff;font-size:11px;font-weight:800;}
-.status-bar .icons{color:#fff;font-size:10px;opacity:.75;display:flex;gap:5px;align-items:center;}
+/* STATUS BAR - WIFI & WATCH TIME WAA LA SAARAY */
+.status-bar{
+  display:none !important;
+}
 
 #boot-loading{
   display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -76,20 +77,20 @@ body{background:var(--bg);display:flex;justify-content:center;align-items:center
 @keyframes float{0%,100%{transform:translateY(0) rotate(-3deg);}50%{transform:translateY(-10px) rotate(3deg);}}
 .login-title{font-size:26px;font-weight:900;color:#fff;margin-bottom:2px;position:relative;z-index:1;background:linear-gradient(135deg,#fff 0%,#C4B5FD 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
 .login-sub{font-size:11px;color:rgba(255,255,255,.6);margin-bottom:20px;font-weight:600;position:relative;z-index:1;}
-.login-card{background:rgba(255,255,255,.97);border-radius:28px;padding:20px 18px;width:100%;box-shadow:0 24px 60px rgba(0,0,0,.4),0 0 0 1px rgba(255,255,255,.1);position:relative;z-index:1;}
-.tab-row{display:flex;background:#F0EEFF;border-radius:14px;padding:3px;margin-bottom:16px;}
-.tab-pill{flex:1;padding:8px;border-radius:11px;font-size:11px;font-weight:800;text-align:center;color:#aaa;cursor:pointer;transition:all .3s;}
+.login-card{background:rgba(255,255,255,.08);backdrop-filter:blur(12px);border-radius:28px;padding:20px 18px;width:100%;border:1px solid rgba(255,255,255,0.1);position:relative;z-index:1;}
+.tab-row{display:flex;background:rgba(255,255,255,0.1);border-radius:14px;padding:3px;margin-bottom:16px;}
+.tab-pill{flex:1;padding:8px;border-radius:11px;font-size:11px;font-weight:800;text-align:center;color:rgba(255,255,255,0.6);cursor:pointer;transition:all .3s;}
 .tab-pill.active{background:linear-gradient(135deg,#6C5CE7,#8B7CF8);color:#fff;box-shadow:0 4px 12px rgba(108,92,231,.4);}
-.input-label{font-size:9px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px;}
-.native-input{background:#F8F7FF;border:2px solid #EEE;border-radius:13px;padding:10px 12px;margin-bottom:10px;width:100%;display:flex;align-items:center;gap:8px;transition:border-color .2s;}
+.input-label{font-size:9px;font-weight:800;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px;}
+.native-input{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:13px;padding:10px 12px;margin-bottom:10px;width:100%;display:flex;align-items:center;gap:8px;transition:border-color .2s;}
 .native-input:focus-within{border-color:#6C5CE7;}
-.native-input input{background:transparent;border:none;outline:none;font-size:12px;font-family:'Nunito',sans-serif;flex:1;color:#333;}
-.native-input input::placeholder{color:#C4B5FD;}
+.native-input input{background:transparent;border:none;outline:none;font-size:12px;font-family:'Nunito',sans-serif;flex:1;color:#fff;}
+.native-input input::placeholder{color:rgba(255,255,255,0.4);}
 .primary-btn{background:linear-gradient(135deg,#6C5CE7,#8B7CF8);color:#fff;border:none;border-radius:15px;padding:13px;font-size:12px;font-weight:800;width:100%;cursor:pointer;transition:all .2s;box-shadow:0 6px 20px rgba(108,92,231,.45);margin-bottom:8px;}
 .primary-btn:active{transform:scale(.96);}
-.ghost-btn{background:#F5F4FF;border:2px solid #E8E5FF;border-radius:15px;padding:10px;font-size:11px;font-weight:700;color:#888;cursor:pointer;width:100%;transition:all .2s;}
+.ghost-btn{color:#fff;background:rgba(255,255,255,0.1);border:2px solid rgba(255,255,255,0.15);border-radius:15px;padding:10px;font-size:11px;font-weight:700;cursor:pointer;width:100%;transition:all .2s;}
 .ghost-btn:active{transform:scale(.96);}
-.auth-error{color:#e74c3c;font-size:10px;text-align:center;margin-top:6px;min-height:16px;font-weight:700;}
+.auth-error{color:#FF6B6B;font-size:10px;text-align:center;margin-top:6px;min-height:16px;font-weight:700;}
 
 .home-bg{background:linear-gradient(160deg,#1A1035 0%,#2D1B69 40%,#1A1035 100%);flex:1;display:flex;flex-direction:column;overflow:hidden;height:100%;position:relative;}
 .home-bg::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(247,37,133,.18) 0%,transparent 70%);pointer-events:none;animation:blob 8s ease-in-out infinite;}
@@ -102,34 +103,34 @@ body{background:var(--bg);display:flex;justify-content:center;align-items:center
 .home-logo-row .logo-text{font-size:17px;font-weight:900;background:linear-gradient(135deg,#fff,#C4B5FD);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
 .menu-dots{width:34px;height:34px;background:rgba(255,255,255,.1);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:19px;color:#fff;cursor:pointer;transition:all .2s;border:none;font-weight:900;backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.08);}
 .menu-dots:active{transform:scale(.9);}
-.dropdown-menu{display:none;position:absolute;top:52px;left:12px;background:rgba(23,20,42,.96);backdrop-filter:blur(16px);border-radius:18px;padding:8px 0;min-width:165px;z-index:50;border:1px solid rgba(255,255,255,.08);box-shadow:0 24px 64px rgba(0,0,0,.6);}
+.dropdown-menu{display:none;position:absolute;top:52px;left:12px;background:rgba(23,20,42,.97);backdrop-filter:blur(16px);border-radius:18px;padding:8px 0;min-width:165px;z-index:50;border:1px solid rgba(255,255,255,.08);box-shadow:0 24px 64px rgba(0,0,0,.6);}
 .dropdown-menu.show{display:block;animation:fadeIn .2s ease;}
 .dropdown-item{padding:10px 18px;color:rgba(255,255,255,.8);font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:10px;border:none;background:transparent;width:100%;text-align:left;font-family:'Nunito',sans-serif;}
 .dropdown-item:hover{background:rgba(255,255,255,.05);color:#fff;}
 .dropdown-item.danger{color:#FF6B6B;}
 .dropdown-divider{height:1px;background:rgba(255,255,255,.06);margin:4px 12px;}
 
-.user-hero{background:rgba(255,255,255,.07);margin:4px 12px 6px;border-radius:22px;padding:12px 14px;border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(12px);flex-shrink:0;position:relative;z-index:1;}
+.user-hero{background:rgba(255,255,255,.08);margin:4px 12px 6px;border-radius:22px;padding:12px 14px;border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(12px);flex-shrink:0;position:relative;z-index:1;}
 .user-hero-top{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
 .avatar-circle{width:44px;height:44px;background:linear-gradient(135deg,var(--purple),var(--pink));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;box-shadow:0 4px 16px rgba(108,92,231,.4);}
-.user-text h3{font-size:13px;font-weight:800;color:#fff;margin-bottom:1px;}
-.user-text p{font-size:10px;color:rgba(255,255,255,.55);font-weight:600;}
-.star-count{margin-left:auto;background:rgba(255,184,51,.15);border:1px solid rgba(255,184,51,.25);border-radius:20px;padding:4px 10px;font-size:11px;font-weight:800;color:#FFB833;}
+.user-text h3{font-size:14px;font-weight:800;color:#fff;margin-bottom:1px;}
+.user-text p{font-size:10px;color:rgba(255,255,255,.65);font-weight:600;}
+.star-count{margin-left:auto;color:#FFB833;background:rgba(255,184,51,.2);border:1px solid rgba(255,184,51,.3);border-radius:20px;padding:4px 10px;font-size:11px;font-weight:800;}
 .progress-track{background:rgba(255,255,255,.1);border-radius:8px;height:6px;overflow:hidden;}
 .progress-fill{height:100%;border-radius:8px;background:linear-gradient(90deg,#6C5CE7,#F72585,#FFB833);background-size:200% 100%;width:0%;transition:width 1s cubic-bezier(.68,-.55,.27,1.55);animation:shimmer 2s linear infinite;}
 @keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
 
 .home-tabs{display:flex;background:rgba(255,255,255,.06);margin:0 12px 6px;border-radius:15px;padding:4px;flex-shrink:0;}
-.home-tab{flex:1;padding:8px 4px;border-radius:11px;font-size:10px;font-weight:800;text-align:center;color:rgba(255,255,255,.4);cursor:pointer;transition:all .25s;border:none;background:transparent;font-family:'Nunito',sans-serif;}
-.home-tab.active{background:rgba(255,255,255,.14);color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.2);}
+.home-tab{flex:1;padding:8px 4px;border-radius:11px;font-size:10px;font-weight:800;text-align:center;color:rgba(255,255,255,.5);cursor:pointer;transition:all .25s;border:none;background:transparent;font-family:'Nunito',sans-serif;}
+.home-tab.active{background:rgba(255,255,255,.15);color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.2);}
 .tab-content{flex:1;overflow:hidden;padding:0 10px 4px;display:flex;flex-direction:column;}
 .tab-panel{display:none;flex-direction:column;height:100%;overflow:hidden;}
 .tab-panel.active{display:flex;animation:fadeIn .25s ease;}
 
 .games-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;flex:1;align-content:start;}
-.game-tile{background:rgba(255,255,255,.04);border-radius:20px;padding:12px 8px 10px;display:flex;flex-direction:column;align-items:center;gap:3px;position:relative;overflow:hidden;cursor:pointer;transition:all .2s;border:1px solid rgba(255,255,255,.07);backdrop-filter:blur(4px);}
+.game-tile{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:10px 4px;display:flex;flex-direction:column;align-items:center;gap:3px;position:relative;overflow:hidden;cursor:pointer;transition:all .2s;}
 .game-tile:active{transform:scale(.91) translateY(2px);filter:brightness(.9);}
-.game-tile::before{content:'';position:absolute;top:0;left:0;right:0;height:2.5px;border-radius:20px 20px 0 0;}
+.game-tile::before{content:'';position:absolute;top:0;left:0;right:0;height:2.5px;border-radius:16px 16px 0 0;}
 .gt-abc::before{background:linear-gradient(90deg,#FF6B6B,#EE5A24);}
 .gt-num::before{background:linear-gradient(90deg,#4ECDC4,#00B894);}
 .gt-col::before{background:linear-gradient(90deg,#FFD93D,#F9A825);}
@@ -150,10 +151,10 @@ body{background:var(--bg);display:flex;justify-content:center;align-items:center
 .gt-animate::before{background:linear-gradient(90deg,#FDCB6E,#E17055);}
 .gt-math::before{background:linear-gradient(90deg,#6C5CE7,#4834D4);}
 .gt-arb::before{background:linear-gradient(90deg,#00CEC9,#0984E3);}
-.game-icon-wrap{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:900;margin-bottom:2px;box-shadow:0 4px 12px rgba(0,0,0,.25);}
-.gi-abc{background:linear-gradient(135deg,#FF6B6B,#EE5A24);color:#fff;font-size:12px;}
-.gi-num{background:linear-gradient(135deg,#4ECDC4,#00B894);color:#fff;font-size:12px;}
-.gi-col{background:linear-gradient(135deg,#FFD93D,#F9A825);color:#fff;font-size:12px;}
+.game-icon-wrap{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;margin-bottom:2px;box-shadow:0 4px 12px rgba(0,0,0,.25);}
+.gi-abc{background:linear-gradient(135deg,#FF6B6B,#EE5A24);color:#fff;}
+.gi-num{background:linear-gradient(135deg,#4ECDC4,#00B894);color:#fff;}
+.gi-col{background:linear-gradient(135deg,#FFD93D,#F9A825);color:#fff;}
 .gi-flag{background:linear-gradient(135deg,#74B9FF,#0984E3);color:#fff;}
 .gi-mem{background:linear-gradient(135deg,#FD79A8,#E84393);color:#fff;}
 .gi-bingo{background:linear-gradient(135deg,#FDCB6E,#E17055);color:#fff;}
@@ -171,19 +172,19 @@ body{background:var(--bg);display:flex;justify-content:center;align-items:center
 .gi-animate{background:linear-gradient(135deg,#FDCB6E,#E17055);color:#fff;}
 .gi-math{background:linear-gradient(135deg,#6C5CE7,#4834D4);color:#fff;}
 .gi-arb{background:linear-gradient(135deg,#00CEC9,#0984E3);color:#fff;}
-.game-tile h5{font-size:9px;font-weight:800;color:rgba(255,255,255,.9);text-align:center;}
-.game-tile p{font-size:8px;color:rgba(255,255,255,.4);text-align:center;font-weight:600;}
-.lock-dot{position:absolute;top:7px;right:6px;font-size:7px;background:linear-gradient(135deg,#FFB833,#F72585);color:#fff;border-radius:8px;padding:1px 5px;font-weight:800;}
+.game-tile h5{font-size:9px;font-weight:800;color:#fff;text-align:center;}
+.game-tile p{font-size:9px;color:rgba(255,255,255,.8);text-align:center;font-weight:700;}
+.lock-dot{position:absolute;top:7px;right:6px;font-size:8px;background:linear-gradient(135deg,#FFB833,#F72585);color:#fff;border-radius:8px;padding:1px 6px;font-weight:800;}
 
 .ad-native-banner{background:rgba(255,255,255,.04);padding:3px 14px;display:flex;align-items:center;gap:8px;border-top:1px solid rgba(255,255,255,.05);flex-shrink:0;height:32px;position:relative;z-index:1;}
 .ad-icon{font-size:12px;}
-.ad-text{font-size:8px;color:rgba(255,255,255,.25);font-weight:700;flex:1;}
+.ad-text{font-size:8px;color:rgba(255,255,255,.4);font-weight:700;flex:1;}
 
-.bottom-nav{height:54px;background:rgba(11,9,25,.95);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:space-around;padding:0 8px;border-top:1px solid rgba(255,255,255,.06);flex-shrink:0;position:relative;z-index:1;}
+.bottom-nav{height:54px;background:rgba(11,9,25,.97);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:space-around;padding:0 8px;border-top:1px solid rgba(255,255,255,.08);flex-shrink:0;position:relative;z-index:1;}
 .nav-item{display:flex;flex-direction:column;align-items:center;gap:1px;padding:5px 14px;border-radius:13px;cursor:pointer;transition:all .25s;background:transparent;border:none;}
-.nav-item.active{background:rgba(108,92,231,.2);}
+.nav-item.active{background:rgba(108,92,231,.25);}
 .nav-item .nav-icon{font-size:19px;}
-.nav-item .nav-label{font-size:7px;font-weight:800;color:rgba(255,255,255,.3);}
+.nav-item .nav-label{font-size:7px;font-weight:800;color:rgba(255,255,255,.5);}
 .nav-item.active .nav-label{color:#8B7CF8;}
 .nav-item:active{transform:scale(.88);}
 
@@ -193,31 +194,32 @@ body{background:var(--bg);display:flex;justify-content:center;align-items:center
 .back-circle:active{transform:scale(.88);}
 .game-header-info{flex:1;}
 .game-header-info h3{font-size:14px;font-weight:900;color:#fff;}
-.game-header-info p{font-size:10px;color:rgba(255,255,255,.7);font-weight:600;}
+.game-header-info p{font-size:10px;color:rgba(255,255,255,.8);font-weight:600;}
 .game-header-score{background:rgba(255,255,255,.15);border-radius:13px;padding:5px 11px;text-align:center;backdrop-filter:blur(4px);}
 .game-header-score .score-num{font-size:16px;font-weight:900;color:#FFB833;}
-.game-header-score .score-lbl{font-size:7px;color:rgba(255,255,255,.65);font-weight:700;}
+.game-header-score .score-lbl{font-size:7px;color:rgba(255,255,255,.7);font-weight:700;}
 
 .streak-native{display:flex;gap:5px;padding:7px 14px;justify-content:center;flex-shrink:0;}
-.streak-pip{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.12);transition:all .4s cubic-bezier(.68,-.55,.27,1.55);}
-.streak-pip.on{background:linear-gradient(135deg,#FFB833,#F72585);box-shadow:0 0 10px rgba(255,184,51,.6);}
+.streak-pip{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.2);transition:all .4s cubic-bezier(.68,-.55,.27,1.55);}
+.streak-pip.on{background:linear-gradient(135deg,#FFB833,#F72585);box-shadow:0 0 12px rgba(255,184,51,.6);}
 
 .question-native{background:rgba(255,255,255,.06);margin:0 12px 8px;border-radius:24px;padding:18px 20px;display:flex;flex-direction:column;align-items:center;box-shadow:0 8px 32px rgba(0,0,0,.3);flex-shrink:0;border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(8px);}
-.question-emoji{font-size:58px;margin-bottom:5px;transition:transform .3s;cursor:pointer;}
+.question-emoji{font-size:50px;margin-bottom:5px;transition:transform .3s;cursor:pointer;}
 .question-emoji:active{transform:scale(.9);}
-.question-word{font-size:16px;font-weight:800;color:#fff;}
-.question-hint{font-size:10px;color:rgba(255,255,255,.4);font-weight:600;margin-top:3px;cursor:pointer;}
+.question-word{font-size:15px;font-weight:800;color:#fff;}
+.question-hint{font-size:10px;color:rgba(255,255,255,.5);font-weight:600;margin-top:3px;cursor:pointer;}
 
 .options-label{font-size:9px;font-weight:800;color:rgba(255,255,255,.4);text-align:center;margin-bottom:5px;letter-spacing:.6px;text-transform:uppercase;flex-shrink:0;}
 .options-native{display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:0 12px 8px;flex:1;align-content:center;}
-.opt-native{background:rgba(255,255,255,.06);border:2px solid rgba(108,92,231,.4);border-radius:20px;padding:16px 8px;display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:0 4px 16px rgba(0,0,0,.2);min-height:68px;cursor:pointer;transition:all .2s;backdrop-filter:blur(4px);}
+.opt-native{background:rgba(255,255,255,.1);border:2px solid rgba(108,92,231,.5);border-radius:20px;padding:16px 8px;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 4px 16px rgba(0,0,0,.2);min-height:60px;cursor:pointer;transition:all .2s;color:#fff;}
 .opt-native:active:not(.disabled){transform:scale(.9);}
-.opt-native.correct{background:rgba(78,205,196,.2);border-color:#4ECDC4;box-shadow:0 0 20px rgba(78,205,196,.3);}
-.opt-native.wrong{background:rgba(255,107,107,.15);border-color:#FF6B6B;animation:shake .4s ease;}
+.opt-native.correct{background:rgba(78,205,196,.3);border-color:#4ECDC4;box-shadow:0 0 20px rgba(78,205,196,.3);}
+.opt-native.wrong{background:rgba(255,107,107,.3);border-color:#FF6B6B;animation:shake .4s ease;}
 .opt-native.disabled{opacity:.6;cursor:not-allowed;}
+.opt-native.text-opt{color:#fff;font-weight:700;font-size:16px;}
 @keyframes shake{0%,100%{transform:translateX(0);}20%,60%{transform:translateX(-6px);}40%,80%{transform:translateX(6px);}}
 
-.game-stats-native{display:flex;justify-content:space-between;padding:5px 14px 7px;font-size:9px;font-weight:700;color:rgba(255,255,255,.4);border-top:1px solid rgba(255,255,255,.06);background:rgba(0,0,0,.2);flex-shrink:0;}
+.game-stats-native{display:flex;justify-content:space-between;padding:5px 14px 7px;font-size:9px;font-weight:700;color:rgba(255,255,255,.5);border-top:1px solid rgba(255,255,255,.06);background:rgba(0,0,0,.2);flex-shrink:0;}
 
 #toast{position:fixed;bottom:75px;left:50%;transform:translateX(-50%);background:rgba(23,20,42,.95);backdrop-filter:blur(16px);color:#fff;padding:10px 22px;border-radius:30px;font-size:11px;font-weight:700;opacity:0;transition:all .35s ease;pointer-events:none;z-index:999;box-shadow:0 8px 32px rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.1);max-width:88%;text-align:center;}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(-4px);}
@@ -245,7 +247,7 @@ body{background:var(--bg);display:flex;justify-content:center;align-items:center
 .stat-chips{display:flex;gap:8px;}
 .stat-chip{background:rgba(255,255,255,.15);border-radius:14px;padding:8px 12px;text-align:center;backdrop-filter:blur(4px);flex:1;}
 .chip-val{font-size:18px;font-weight:900;color:#FFB833;}
-.chip-lbl{font-size:8px;color:rgba(255,255,255,.65);font-weight:700;}
+.chip-lbl{font-size:8px;color:rgba(255,255,255,.7);font-weight:700;}
 .dash-tabs-native{display:flex;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.06);flex-shrink:0;}
 .dash-tab-native{flex:1;padding:10px;font-size:11px;font-weight:800;text-align:center;color:rgba(255,255,255,.4);cursor:pointer;transition:all .25s;border:none;background:transparent;font-family:'Nunito',sans-serif;}
 .dash-tab-native.active{color:#8B7CF8;border-bottom:2px solid #6C5CE7;}
@@ -256,27 +258,30 @@ body{background:var(--bg);display:flex;justify-content:center;align-items:center
 .progress-row{display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(255,255,255,.04);border-radius:16px;border:1px solid rgba(255,255,255,.05);}
 .subj-icon-native{font-size:22px;width:38px;text-align:center;}
 .subj-info{flex:1;}
-.subj-name-native{font-size:12px;font-weight:700;color:rgba(255,255,255,.85);}
-.subj-meta-native{font-size:9px;color:rgba(255,255,255,.35);font-weight:600;margin-bottom:4px;}
+.subj-name-native{font-size:12px;font-weight:700;color:#fff;}
+.subj-meta-native{font-size:9px;color:rgba(255,255,255,.5);font-weight:600;margin-bottom:4px;}
 .mini-track{background:rgba(255,255,255,.08);border-radius:4px;height:4px;overflow:hidden;}
 .mini-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#6C5CE7,#F72585);transition:width .6s ease;}
 .subj-pct{font-size:11px;font-weight:800;color:rgba(255,255,255,.5);}
 
-#pin-screen .login-card{background:rgba(255,255,255,.97);}
-.pin-key{background:#F0EEFF !important;border:none !important;border-radius:14px !important;padding:14px !important;font-size:18px !important;font-weight:800 !important;cursor:pointer !important;transition:all .15s !important;font-family:'Nunito',sans-serif !important;color:#4a3487 !important;}
-.pin-key:active{background:#D9D3FF !important;transform:scale(.92) !important;}
+#pin-screen .login-card{background:rgba(255,255,255,.08);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.1);}
+.pin-key{background:rgba(255,255,255,.12) !important;border:none !important;border-radius:14px !important;padding:14px !important;font-size:18px !important;font-weight:800 !important;cursor:pointer !important;transition:all .15s !important;font-family:'Nunito',sans-serif !important;color:#fff !important;}
+.pin-key:active{background:rgba(255,255,255,.25) !important;transform:scale(.92) !important;}
 .pin-back{background:linear-gradient(135deg,#F72585,#ee5a24) !important;color:#fff !important;border:none !important;border-radius:14px !important;padding:14px !important;font-size:18px !important;font-weight:800 !important;cursor:pointer !important;transition:all .15s !important;}
 .pin-back:active{transform:scale(.92) !important;}
+#pin-screen h2{color:#fff !important;}
+#pin-screen p{color:rgba(255,255,255,.6) !important;}
+.pin-error{color:#FF6B6B !important;}
 
 #leaderboard-screen .screen-inner{background:#0F0D1E;flex:1;padding:16px;overflow-y:auto;}
 .lb-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
 .lb-header h2{font-size:18px;font-weight:900;color:#fff;}
-.lb-row{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:16px;background:rgba(255,255,255,.04);margin-bottom:6px;border:1px solid rgba(255,255,255,.06);transition:all .2s;}
-.lb-row.me{background:rgba(108,92,231,.15);border-color:rgba(108,92,231,.3);}
+.lb-row{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:16px;background:rgba(255,255,255,.05);margin-bottom:6px;border:1px solid rgba(255,255,255,.06);transition:all .2s;}
+.lb-row.me{background:rgba(108,92,231,.2);border-color:rgba(108,92,231,.4);}
 .lb-rank{font-size:18px;font-weight:800;width:30px;text-align:center;}
 .lb-name-col{flex:1;}
-.lb-name{font-size:13px;font-weight:700;color:rgba(255,255,255,.85);}
-.lb-levels{font-size:10px;color:rgba(255,255,255,.35);}
+.lb-name{font-size:13px;font-weight:700;color:#fff;}
+.lb-levels{font-size:10px;color:rgba(255,255,255,.5);}
 .lb-stars{font-size:15px;font-weight:800;color:#FFB833;}
 
 @media(max-width:430px){body{padding:8px;}.app{border-radius:32px;height:640px;max-height:640px;}}
@@ -302,10 +307,6 @@ body{background:var(--bg);display:flex;justify-content:center;align-items:center
 
 <!-- ==================== LOGIN ==================== -->
 <div id="login-screen" class="screen">
-  <div class="status-bar">
-    <span class="time">9:41</span>
-    <div class="icons"><span>●●●●</span><span>WiFi</span><span>🔋</span></div>
-  </div>
   <div class="login-bg">
     <canvas id="particles"></canvas>
     <div class="login-logo">⭐</div>
@@ -341,10 +342,6 @@ body{background:var(--bg);display:flex;justify-content:center;align-items:center
 
 <!-- ==================== HOME ==================== -->
 <div id="home-screen" class="screen">
-  <div class="status-bar">
-    <span class="time">9:41</span>
-    <div class="icons"><span>●●●●</span><span>WiFi</span><span>🔋</span></div>
-  </div>
   <div class="home-bg">
     <div class="home-top-bar">
       <div style="position:relative;">
@@ -465,29 +462,29 @@ body{background:var(--bg);display:flex;justify-content:center;align-items:center
       <div id="tab-settings" style="display:none;">
         <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.5px;margin:8px 0;">Profile</div>
         <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:rgba(255,255,255,.04);border-radius:14px;margin-bottom:8px;border:1px solid rgba(255,255,255,.06);">
-          <div style="font-size:12px;font-weight:600;color:rgba(255,255,255,.8);">👦 Child's Name</div>
-          <input id="set-name" type="text" maxlength="12" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:6px 10px;font-size:12px;width:120px;text-align:center;color:#fff;outline:none;font-family:'Nunito',sans-serif;" value="Kid">
+          <div style="font-size:12px;font-weight:600;color:#fff;">👦 Child's Name</div>
+          <input id="set-name" type="text" maxlength="12" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:6px 10px;font-size:12px;width:120px;text-align:center;color:#fff;outline:none;font-family:'Nunito',sans-serif;" value="Kid">
         </div>
         <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:rgba(255,255,255,.04);border-radius:14px;margin-bottom:8px;border:1px solid rgba(255,255,255,.06);">
-          <div style="font-size:12px;font-weight:600;color:rgba(255,255,255,.8);">🎯 Daily Goal</div>
-          <input id="set-goal" type="number" min="1" max="100" value="15" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:6px 10px;font-size:12px;width:80px;text-align:center;color:#fff;outline:none;font-family:'Nunito',sans-serif;">
+          <div style="font-size:12px;font-weight:600;color:#fff;">🎯 Daily Goal</div>
+          <input id="set-goal" type="number" min="1" max="100" value="15" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:6px 10px;font-size:12px;width:80px;text-align:center;color:#fff;outline:none;font-family:'Nunito',sans-serif;">
         </div>
         <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:rgba(255,255,255,.04);border-radius:14px;margin-bottom:8px;border:1px solid rgba(255,255,255,.06);">
-          <div style="font-size:12px;font-weight:600;color:rgba(255,255,255,.8);">🔊 Sound Effects</div>
-          <div class="toggle" id="sound-toggle" onclick="toggleSound()" style="width:44px;height:24px;background:#4ECDC4;border-radius:12px;cursor:pointer;position:relative;transition:background .2s;flex-shrink:0;">
+          <div style="font-size:12px;font-weight:600;color:#fff;">🔊 Sound Effects</div>
+          <div class="toggle" id="sound-toggle" onclick="toggleSound()" style="width:44px;height:24px;background:rgba(255,255,255,.3);border-radius:12px;cursor:pointer;position:relative;transition:background .2s;flex-shrink:0;">
             <div style="width:18px;height:18px;background:white;border-radius:50%;position:absolute;top:3px;left:3px;transition:left .2s;box-shadow:0 1px 4px rgba(0,0,0,.2);"></div>
           </div>
         </div>
         <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.5px;margin:12px 0 8px;">Premium</div>
         <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:rgba(255,255,255,.04);border-radius:14px;margin-bottom:8px;border:1px solid rgba(255,255,255,.06);">
-          <div style="font-size:12px;font-weight:600;color:rgba(255,255,255,.8);">🔑 Premium Code</div>
-          <input id="set-code" type="text" placeholder="Enter code" maxlength="20" style="text-transform:uppercase;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:6px 10px;font-size:12px;width:140px;text-align:center;color:#fff;outline:none;font-family:'Nunito',sans-serif;">
+          <div style="font-size:12px;font-weight:600;color:#fff;">🔑 Premium Code</div>
+          <input id="set-code" type="text" placeholder="Enter code" maxlength="20" style="text-transform:uppercase;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:6px 10px;font-size:12px;width:140px;text-align:center;color:#fff;outline:none;font-family:'Nunito',sans-serif;">
         </div>
         <button onclick="activatePremiumCode()" style="width:100%;background:linear-gradient(135deg,#FFB833,#F72585);border:none;color:#fff;padding:11px;border-radius:13px;font-size:12px;font-weight:800;cursor:pointer;margin-top:2px;font-family:'Nunito',sans-serif;box-shadow:0 4px 16px rgba(247,37,133,.3);">🔓 Activate Code</button>
         <div id="code-error" style="color:#FF6B6B;font-size:10px;margin-top:5px;text-align:center;min-height:16px;"></div>
-        <div id="premium-status-box" style="background:rgba(255,255,255,.04);border-radius:16px;padding:14px;margin-top:10px;text-align:center;border:1px solid rgba(255,255,255,.06);">
+        <div id="premium-status-box" style="background:rgba(255,255,255,.06);border-radius:16px;padding:14px;margin-top:10px;text-align:center;border:1px solid rgba(255,255,255,.08);">
           <div id="premium-status-text" style="font-size:13px;font-weight:800;color:#8B7CF8;">🔒 Free Version</div>
-          <div id="premium-status-sub" style="font-size:10px;color:rgba(255,255,255,.3);margin-top:3px;">Enter a code to unlock Premium</div>
+          <div id="premium-status-sub" style="font-size:10px;color:rgba(255,255,255,.4);margin-top:3px;">Enter a code to unlock Premium</div>
         </div>
         <div id="revoke-area" style="display:none;">
           <button onclick="revokePremium()" style="width:100%;background:rgba(255,107,107,.08);border:1.5px solid rgba(255,107,107,.3);color:#FF6B6B;padding:10px;border-radius:13px;font-size:11px;font-weight:700;cursor:pointer;margin-top:8px;font-family:'Nunito',sans-serif;">🔒 Deactivate Premium</button>
@@ -506,16 +503,15 @@ body{background:var(--bg);display:flex;justify-content:center;align-items:center
 
 <!-- ==================== PIN ==================== -->
 <div id="pin-screen" class="screen">
-  <div class="status-bar"><span class="time">9:41</span><div class="icons"><span>●●●●</span><span>WiFi</span><span>🔋</span></div></div>
   <div style="background:linear-gradient(145deg,#0B0919,#1A1035);flex:1;display:flex;align-items:center;justify-content:center;padding:20px;">
     <div class="login-card" style="max-width:320px;margin:0 auto;">
-      <h2 style="font-size:20px;font-weight:900;color:#4a3487;text-align:center;margin-bottom:4px;">🔒 Parent Access</h2>
-      <p style="text-align:center;color:#888;font-size:11px;margin-bottom:16px;">Enter your 4-digit PIN</p>
+      <h2 style="font-size:20px;font-weight:900;text-align:center;margin-bottom:4px;color:#fff;">🔒 Parent Access</h2>
+      <p style="text-align:center;color:rgba(255,255,255,.6);font-size:11px;margin-bottom:16px;">Enter your 4-digit PIN</p>
       <div style="display:flex;justify-content:center;gap:12px;margin-bottom:18px;">
-        <div id="pd0" style="width:15px;height:15px;border-radius:50%;background:#E8E5FF;transition:all .25s;"></div>
-        <div id="pd1" style="width:15px;height:15px;border-radius:50%;background:#E8E5FF;transition:all .25s;"></div>
-        <div id="pd2" style="width:15px;height:15px;border-radius:50%;background:#E8E5FF;transition:all .25s;"></div>
-        <div id="pd3" style="width:15px;height:15px;border-radius:50%;background:#E8E5FF;transition:all .25s;"></div>
+        <div id="pd0" style="width:15px;height:15px;border-radius:50%;background:rgba(255,255,255,.2);transition:all .25s;"></div>
+        <div id="pd1" style="width:15px;height:15px;border-radius:50%;background:rgba(255,255,255,.2);transition:all .25s;"></div>
+        <div id="pd2" style="width:15px;height:15px;border-radius:50%;background:rgba(255,255,255,.2);transition:all .25s;"></div>
+        <div id="pd3" style="width:15px;height:15px;border-radius:50%;background:rgba(255,255,255,.2);transition:all .25s;"></div>
       </div>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
         <button class="pin-key" onclick="pinKey('1')">1</button>
@@ -532,7 +528,7 @@ body{background:var(--bg);display:flex;justify-content:center;align-items:center
         <button class="pin-back" onclick="pinBackspace()">⌫</button>
       </div>
       <div id="pin-error" style="color:#FF6B6B;font-size:11px;text-align:center;margin-top:8px;min-height:16px;font-weight:700;"></div>
-      <p style="font-size:10px;color:#bbb;text-align:center;margin-top:8px;">Default PIN: 1234</p>
+      <p style="font-size:10px;color:rgba(255,255,255,.4);text-align:center;margin-top:8px;">Default PIN: 1234</p>
       <button class="ghost-btn" style="margin-top:8px;" onclick="navigateTo('home-screen')">Cancel</button>
     </div>
   </div>
@@ -540,7 +536,6 @@ body{background:var(--bg);display:flex;justify-content:center;align-items:center
 
 <!-- ==================== LEADERBOARD ==================== -->
 <div id="leaderboard-screen" class="screen">
-  <div class="status-bar"><span class="time">9:41</span><div class="icons"><span>●●●●</span><span>WiFi</span><span>🔋</span></div></div>
   <div style="background:#0F0D1E;flex:1;padding:16px;overflow-y:auto;">
     <div class="lb-header">
       <h2>🏆 Leaderboard</h2>
@@ -581,7 +576,7 @@ body{background:var(--bg);display:flex;justify-content:center;align-items:center
 
 <script>
 // ============================================
-// 🔐 SECURITY & CONFIG (from code-ka 1aad)
+// 🔐 SECURITY & CONFIG
 // ============================================
 const ENCRYPTION_KEY = 'KidLearnPro2024Secure!';
 function encryptData(text, key) {
@@ -739,7 +734,7 @@ let levelTimer = null;
 let gameState = {};
 
 // ============================================
-// 📦 FULL GAME DATA (20+ games from code-ka 1aad)
+// 📦 FULL GAME DATA (20+ games)
 // ============================================
 const gameData = {
   abc: [
@@ -847,7 +842,6 @@ const gameData = {
   })()
 };
 
-// Flag data
 const flagData = [
   {name:"Afghanistan", flag:"🇦🇫"},{name:"Albania", flag:"🇦🇱"},{name:"Algeria", flag:"🇩🇿"},
   {name:"Andorra", flag:"🇦🇩"},{name:"Angola", flag:"🇦🇴"},{name:"Argentina", flag:"🇦🇷"},
@@ -1186,7 +1180,7 @@ function toggleSound() {
   ST.sound = !ST.sound;
   const toggle = document.getElementById('sound-toggle');
   if (toggle) {
-    toggle.style.background = ST.sound ? '#4ECDC4' : '#FF6B6B';
+    toggle.style.background = ST.sound ? '#4ECDC4' : 'rgba(255,255,255,.3)';
     toggle.querySelector('div').style.left = ST.sound ? '3px' : '23px';
   }
   fastSave(); saveToCloudNow();
@@ -1194,7 +1188,7 @@ function toggleSound() {
 function updateSoundToggle() {
   const toggle = document.getElementById('sound-toggle');
   if (toggle) {
-    toggle.style.background = ST.sound ? '#4ECDC4' : '#FF6B6B';
+    toggle.style.background = ST.sound ? '#4ECDC4' : 'rgba(255,255,255,.3)';
     toggle.querySelector('div').style.left = ST.sound ? '3px' : '23px';
   }
 }
@@ -1314,7 +1308,7 @@ function refreshHome() {
 }
 
 // ============================================
-// 🎮 GAME FUNCTIONS (from code-ka 1aad)
+// 🎮 GAME FUNCTIONS
 // ============================================
 function startGame(mode) {
   if ((mode === 'arabic' || mode === 'math') && !isPremiumUnlocked()) {
@@ -1382,7 +1376,6 @@ function loadGameLevel(idx) {
   document.getElementById('game-level').textContent = 'Level ' + (idx+1) + ' of ' + data.length;
   document.getElementById('question-emoji').textContent = q.q || '❓';
   document.getElementById('question-word').textContent = q.word || '';
-  // Streak
   const sb = document.getElementById('streak-bar');
   sb.innerHTML = '';
   for (let i = 0; i < 5; i++) {
@@ -1390,12 +1383,11 @@ function loadGameLevel(idx) {
     d.className = 'streak-pip' + (i < streak ? ' on' : '');
     sb.appendChild(d);
   }
-  // Options
   const grid = document.getElementById('options-grid');
   grid.innerHTML = '';
   q.options.forEach(opt => {
     const div = document.createElement('div');
-    div.className = 'opt-native';
+    div.className = 'opt-native' + (q.textOpts ? ' text-opt' : '');
     div.textContent = opt;
     div.onclick = () => checkAnswer(div, opt);
     grid.appendChild(div);
@@ -1453,13 +1445,11 @@ function exitGame() {
 // ─── FLAG GAME ───
 function loadFlagGame() {
   gameState.flagData = flagData; gameState.flagUsed = []; gameState.flagCorrect = 0; gameState.flagWrong = 0;
-  const titles = { flags:'🌍 Flag Quiz' };
-  document.getElementById('game-title').textContent = titles.flags;
+  document.getElementById('game-title').textContent = '🌍 Flag Quiz';
   document.getElementById('game-level').textContent = 'Flag Quiz';
   document.getElementById('game-stars-display').textContent = '⭐ ' + ST.totalStars;
   navigateTo('game-screen');
-  const container = document.getElementById('options-grid');
-  container.innerHTML = '';
+  document.getElementById('options-grid').innerHTML = '';
   loadFlagQuestion();
 }
 
@@ -1515,8 +1505,7 @@ function loadMemoryGame() {
   const deck = [...emojis, ...emojis];
   gameState.memoryCards = shuffleArray(deck).map((e, i) => ({ id: i, emoji: e, flipped: false, matched: false }));
   gameState.memoryFlipped = []; gameState.memoryMatched = []; gameState.memoryMoves = 0; gameState.memoryLocked = false;
-  const titles = { memory:'🧠 Memory Match' };
-  document.getElementById('game-title').textContent = titles.memory;
+  document.getElementById('game-title').textContent = '🧠 Memory Match';
   document.getElementById('game-level').textContent = 'Find pairs';
   document.getElementById('game-stars-display').textContent = '⭐ ' + ST.totalStars;
   navigateTo('game-screen');
@@ -1585,8 +1574,7 @@ function loadBingoGame() {
   }
   gameState.bingoGrid = numbers.map((v, i) => ({ value: v, marked: false, index: i }));
   gameState.bingoScore = 0; gameState.bingoCorrect = 0;
-  const titles = { bingo:'🔢 Math Bingo' };
-  document.getElementById('game-title').textContent = titles.bingo;
+  document.getElementById('game-title').textContent = '🔢 Math Bingo';
   document.getElementById('game-level').textContent = '4x4 Grid';
   document.getElementById('game-stars-display').textContent = '⭐ ' + ST.totalStars;
   navigateTo('game-screen');
@@ -1659,8 +1647,7 @@ function checkBingoWin() {
 function loadScrambleGame() {
   const words = ['CAT','DOG','FISH','BIRD','STAR','MOON','SUN','EARTH','MARS','TREE','FLOWER','CLOUD'];
   gameState.scrambleWords = words; gameState.scrambleScore = 0; gameState.scrambleCorrect = 0;
-  const titles = { scramble:'🔤 Word Scramble' };
-  document.getElementById('game-title').textContent = titles.scramble;
+  document.getElementById('game-title').textContent = '🔤 Word Scramble';
   document.getElementById('game-level').textContent = 'Unscramble';
   document.getElementById('game-stars-display').textContent = '⭐ ' + ST.totalStars;
   navigateTo('game-screen');
@@ -1717,8 +1704,7 @@ function loadColorGame() {
   ];
   const p = pattern[Math.floor(Math.random() * pattern.length)];
   gameState.colorPattern = p; gameState.colorColors = colors; gameState.colorFilled = p.map(() => null); gameState.colorSelected = 0; gameState.colorCount = 0;
-  const titles = { color:'🎨 Color by Number' };
-  document.getElementById('game-title').textContent = titles.color;
+  document.getElementById('game-title').textContent = '🎨 Color by Number';
   document.getElementById('game-level').textContent = '8 colors';
   document.getElementById('game-stars-display').textContent = '⭐ ' + ST.totalStars;
   navigateTo('game-screen');
@@ -1732,7 +1718,6 @@ function loadColorGame() {
 }
 
 function renderColorPalette() {
-  // Add color palette above grid
   const container = document.getElementById('question-hint');
   let html = '<div style="display:flex;gap:4px;justify-content:center;flex-wrap:wrap;margin:4px 0;">';
   gameState.colorColors.forEach((color, idx) => {
@@ -1792,8 +1777,7 @@ function colorCell(idx) {
 function loadTypingGame() {
   const texts = ["The quick brown fox jumps over the lazy dog","Practice makes perfect every single day","Coding is fun and creative","Learn to type fast with accuracy"];
   gameState.typingTexts = texts; gameState.typingCorrect = 0; gameState.typingWrong = 0; gameState.typingIndex = 0; gameState.typingFinished = false;
-  const titles = { typing:'⌨️ Typing Tutor' };
-  document.getElementById('game-title').textContent = titles.typing;
+  document.getElementById('game-title').textContent = '⌨️ Typing Tutor';
   document.getElementById('game-level').textContent = 'Speed & accuracy';
   document.getElementById('game-stars-display').textContent = '⭐ ' + ST.totalStars;
   navigateTo('game-screen');
@@ -1865,7 +1849,7 @@ function loadGeoGame() {
     {q:"Which country has the most people?", opts:["USA","India","China","Brazil"], ans:2},
     {q:"What is the largest continent?", opts:["Africa","Asia","North America","Europe"], ans:1},
     {q:"Which ocean is the largest?", opts:["Atlantic","Pacific","Indian","Arctic"], ans:1},
-    {q:"What is the capital of Japan?", opts:["Seoul","Beijing","Bangkok","Tokyo"], ans:3},
+    {q:"What is the capital of Japan?", opts:["Seoul","Beijing","Tokyo","Bangkok"], ans:3},
     {q:"What is the longest river?", opts:["Amazon","Nile","Mississippi","Yangtze"], ans:1},
     {q:"What is the capital of Australia?", opts:["Sydney","Melbourne","Canberra","Perth"], ans:2},
     {q:"Which desert is the largest?", opts:["Sahara","Gobi","Kalahari","Arabian"], ans:0},
@@ -1875,8 +1859,7 @@ function loadGeoGame() {
     {q:"Which country has the most islands?", opts:["Indonesia","Philippines","Sweden","Japan"], ans:2}
   ];
   gameState.geoQuestions = questions; gameState.geoIndex = 0; gameState.geoScore = 0; gameState.geoCorrect = 0;
-  const titles = { geo:'🌍 Geography Quiz' };
-  document.getElementById('game-title').textContent = titles.geo;
+  document.getElementById('game-title').textContent = '🌍 Geography Quiz';
   document.getElementById('game-level').textContent = '12 questions';
   document.getElementById('game-stars-display').textContent = '⭐ ' + ST.totalStars;
   navigateTo('game-screen');
@@ -1946,8 +1929,7 @@ function loadSearchGame() {
     grid[r][c] = word[0];
   });
   gameState.searchGrid = grid; gameState.searchWords = words; gameState.searchFound = [];
-  const titles = { search:'🔍 Word Search' };
-  document.getElementById('game-title').textContent = titles.search;
+  document.getElementById('game-title').textContent = '🔍 Word Search';
   document.getElementById('game-level').textContent = 'Find 6 words';
   document.getElementById('game-stars-display').textContent = '⭐ ' + ST.totalStars;
   navigateTo('game-screen');
@@ -1974,7 +1956,6 @@ function renderSearchGrid() {
       gridEl.appendChild(div);
     });
   });
-  // Show found words
   const hint = document.getElementById('question-hint');
   let html = '🔍 Found: ';
   gameState.searchWords.forEach(w => {
@@ -2015,8 +1996,7 @@ function loadAnimalGame() {
     {animal:'Pig', emoji:'🐷', sound:'Oink!'},{animal:'Bee', emoji:'🐝', sound:'Buzz!'}
   ];
   gameState.animalData = animals; gameState.animalScore = 0; gameState.animalCorrect = 0;
-  const titles = { animal:'🐄 Animal Sounds' };
-  document.getElementById('game-title').textContent = titles.animal;
+  document.getElementById('game-title').textContent = '🐄 Animal Sounds';
   document.getElementById('game-level').textContent = '10 animals';
   document.getElementById('game-stars-display').textContent = '⭐ ' + ST.totalStars;
   navigateTo('game-screen');
@@ -2085,8 +2065,7 @@ function loadStoryGame() {
     object:['stone','flower','tree','book','star','cloud','moon','sword','hat','ball']
   };
   gameState.storyTemplates = templates; gameState.storyBank = bank; gameState.storyUsed = [];
-  const titles = { story:'📖 Story Builder' };
-  document.getElementById('game-title').textContent = titles.story;
+  document.getElementById('game-title').textContent = '📖 Story Builder';
   document.getElementById('game-level').textContent = 'Create stories';
   document.getElementById('game-stars-display').textContent = '⭐ ' + ST.totalStars;
   navigateTo('game-screen');
@@ -2164,8 +2143,7 @@ function loadPhonicsGame() {
     {letter:'Y', sound:'/y/', words:['Yak','Yarn','Yellow']},{letter:'Z', sound:'/z/', words:['Zebra','Zoo','Zip']}
   ];
   gameState.phonicsData = data; gameState.phonicsIndex = 0;
-  const titles = { phonics:'🔤 Phonics' };
-  document.getElementById('game-title').textContent = titles.phonics;
+  document.getElementById('game-title').textContent = '🔤 Phonics';
   document.getElementById('game-level').textContent = '26 letters';
   document.getElementById('game-stars-display').textContent = '⭐ ' + ST.totalStars;
   navigateTo('game-screen');
@@ -2201,8 +2179,7 @@ function playPhonicsSound() {
 // ─── MULTIPLY ───
 function loadMultiplyGame() {
   gameState.multiplyTable = 2; gameState.multiplyCorrect = 0; gameState.multiplyWrong = 0;
-  const titles = { multiply:'✖️ Times Tables' };
-  document.getElementById('game-title').textContent = titles.multiply;
+  document.getElementById('game-title').textContent = '✖️ Times Tables';
   document.getElementById('game-level').textContent = '2-12 tables';
   document.getElementById('game-stars-display').textContent = '⭐ ' + ST.totalStars;
   navigateTo('game-screen');
@@ -2287,8 +2264,7 @@ function loadVocabGame() {
     {word:'Wise', meaning:'Having knowledge and experience', example:'The wise owl gave advice.'}
   ];
   gameState.vocabData = data; gameState.vocabLearned = 0;
-  const titles = { vocab:'📝 Vocabulary' };
-  document.getElementById('game-title').textContent = titles.vocab;
+  document.getElementById('game-title').textContent = '📝 Vocabulary';
   document.getElementById('game-level').textContent = '12 words';
   document.getElementById('game-stars-display').textContent = '⭐ ' + ST.totalStars;
   navigateTo('game-screen');
@@ -2340,8 +2316,7 @@ function loadMusicGame() {
   const notes = ['C4','D4','E4','F4','G4','A4','B4','C5'];
   const freqs = {C4:261.63,'C#4':277.18,D4:293.66,'D#4':311.13,E4:329.63,F4:349.23,'F#4':369.99,G4:392.00,'G#4':415.30,A4:440.00,'A#4':466.16,B4:493.88,C5:523.25};
   gameState.musicNotes = notes; gameState.musicFreqs = freqs; gameState.musicCtx = null;
-  const titles = { music:'🎵 Music Maker' };
-  document.getElementById('game-title').textContent = titles.music;
+  document.getElementById('game-title').textContent = '🎵 Music Maker';
   document.getElementById('game-level').textContent = 'Play piano';
   document.getElementById('game-stars-display').textContent = '⭐ ' + ST.totalStars;
   navigateTo('game-screen');
@@ -2392,8 +2367,7 @@ function loadAnimateGame() {
   canvas.style.cssText = 'width:100%;border-radius:12px;background:#fff;border:1px solid rgba(255,255,255,.1);touch-action:none;';
   canvas.id = 'animCanvas';
   gameState.animFrames = [canvas.toDataURL()]; gameState.animIndex = 0; gameState.animTool = 'draw'; gameState.animDrawing = false;
-  const titles = { animate:'🎬 Animation Studio' };
-  document.getElementById('game-title').textContent = titles.animate;
+  document.getElementById('game-title').textContent = '🎬 Animation Studio';
   document.getElementById('game-level').textContent = 'Draw & animate';
   document.getElementById('game-stars-display').textContent = '⭐ ' + ST.totalStars;
   navigateTo('game-screen');
@@ -2595,7 +2569,7 @@ function pinClear() { pinE = ''; updatePinDots(); }
 function updatePinDots() {
   for (let i = 0; i < 4; i++) {
     const d = document.getElementById('pd'+i);
-    if (d) d.style.background = i < pinE.length ? '#6C5CE7' : '#E8E5FF';
+    if (d) d.style.background = i < pinE.length ? '#6C5CE7' : 'rgba(255,255,255,.2)';
   }
 }
 function checkPin() {
@@ -2702,4 +2676,4 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 </body>
-  </html>
+   </html>
