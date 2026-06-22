@@ -2,1533 +2,464 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KidLearn Pro</title>
 <style>
-/* ============================================
-   🎨 KIDLEARN PRO - CHILDREN FRIENDLY DESIGN
-   ============================================ */
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: 'Comic Sans MS', 'Segoe UI', 'Nunito', cursive, sans-serif;
-  user-select: none;
-}
-
-body {
-  background: #f0f4ff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 12px;
-  overflow: hidden;
-}
-
-.app {
-  width: 100%;
-  max-width: 420px;
-  background: #ffffff;
-  border-radius: 32px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.10), 0 8px 24px rgba(102,126,234,0.08);
-  overflow: hidden;
-  position: relative;
-  height: 700px;
-  max-height: 700px;
-  display: flex;
-  flex-direction: column;
-}
-
-/* ============================================
-   📱 STATUS BAR
-   ============================================ */
-
-.status-bar {
-  height: 32px;
-  background: #667eea;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 18px;
-  flex-shrink: 0;
-}
-
-.status-bar .time {
-  color: white;
-  font-size: 11px;
-  font-weight: 700;
-}
-
-.status-bar .icons {
-  color: white;
-  font-size: 10px;
-  opacity: 0.8;
-  display: flex;
-  gap: 4px;
-  align-items: center;
-}
-
-/* ============================================
-   📱 SCREENS
-   ============================================ */
-
-.screen {
-  display: none;
-  flex-direction: column;
-  height: 100%;
-  flex: 1;
-  overflow: hidden;
-}
-
-.screen.active {
-  display: flex;
-}
-
-/* ============================================
-   🔐 LOGIN SCREEN
-   ============================================ */
-
-.login-bg {
-  background: linear-gradient(160deg, #a8c0ff 0%, #3f2b96 50%, #667eea 100%);
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 24px 20px;
-}
-
-.login-logo {
-  font-size: 54px;
-  margin-bottom: 6px;
-  animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%,100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-8px) rotate(5deg); }
-}
-
-.login-title {
-  font-size: 28px;
-  font-weight: 900;
-  color: white;
-  margin-bottom: 2px;
-  text-shadow: 0 2px 12px rgba(0,0,0,0.15);
-}
-
-.login-sub {
-  font-size: 12px;
-  color: rgba(255,255,255,0.85);
-  margin-bottom: 22px;
-  font-weight: 600;
-}
-
-.login-card {
-  background: white;
-  border-radius: 24px;
-  padding: 20px 18px;
-  width: 100%;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.15);
-}
-
-.tab-row {
-  display: flex;
-  background: #f0f3ff;
-  border-radius: 12px;
-  padding: 3px;
-  margin-bottom: 16px;
-}
-
-.tab-pill {
-  flex: 1;
-  padding: 7px;
-  border-radius: 10px;
-  font-size: 11px;
-  font-weight: 700;
-  text-align: center;
-  color: #aaa;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.tab-pill.active {
-  background: linear-gradient(135deg, #667eea, #3f2b96);
-  color: white;
-  box-shadow: 0 2px 8px rgba(102,126,234,0.3);
-}
-
-.native-input {
-  background: #f8f9ff;
-  border: 2px solid #e8ecff;
-  border-radius: 12px;
-  padding: 10px 12px;
-  font-size: 12px;
-  color: #333;
-  margin-bottom: 10px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.native-input input {
-  background: transparent;
-  border: none;
-  outline: none;
-  font-size: 12px;
-  font-family: 'Comic Sans MS', 'Segoe UI', cursive;
-  flex: 1;
-  color: #333;
-}
-
-.native-input input::placeholder {
-  color: #bbb;
-}
-
-.input-label {
-  font-size: 9px;
-  font-weight: 700;
-  color: #888;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 4px;
-}
-
-.primary-btn {
-  background: linear-gradient(135deg, #667eea, #3f2b96);
-  color: white;
-  border: none;
-  border-radius: 14px;
-  padding: 12px;
-  font-size: 13px;
-  font-weight: 700;
-  text-align: center;
-  box-shadow: 0 4px 16px rgba(102,126,234,0.3);
-  margin-bottom: 8px;
-  cursor: pointer;
-  width: 100%;
-  transition: all 0.3s;
-}
-
-.primary-btn:active {
-  transform: scale(0.95);
-}
-
-.ghost-btn {
-  background: #f5f7ff;
-  border: 2px solid #e8ecff;
-  border-radius: 14px;
-  padding: 10px;
-  font-size: 12px;
-  font-weight: 600;
-  text-align: center;
-  color: #888;
-  cursor: pointer;
-  width: 100%;
-  transition: all 0.3s;
-}
-
-.ghost-btn:active {
-  transform: scale(0.95);
-}
-
-.auth-error {
-  color: #e74c3c;
-  font-size: 10px;
-  text-align: center;
-  margin-top: 6px;
-  min-height: 16px;
-  font-weight: 600;
-}
-
-/* ============================================
-   🏠 HOME SCREEN
-   ============================================ */
-
-.home-bg {
-  background: linear-gradient(160deg, #667eea 0%, #3f2b96 50%, #a8c0ff 100%);
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  height: 100%;
-}
-
-.home-top-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 16px 6px;
-  flex-shrink: 0;
-}
-
-.home-logo-row {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.home-logo-row .logo-icon { font-size: 22px; }
-.home-logo-row .logo-text { font-size: 18px; font-weight: 900; color: white; }
-
-.menu-dots {
-  width: 32px;
-  height: 32px;
-  background: rgba(255,255,255,0.15);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  color: white;
-  cursor: pointer;
-  transition: all 0.3s;
-  border: none;
-  font-weight: 900;
-}
-
-.menu-dots:active { transform: scale(0.9); }
-
-.dropdown-menu {
-  display: none;
-  position: absolute;
-  top: 50px;
-  left: 12px;
-  background: rgba(20,20,40,0.95);
-  backdrop-filter: blur(12px);
-  border-radius: 16px;
-  padding: 8px 0;
-  min-width: 160px;
-  z-index: 50;
-  border: 1px solid rgba(255,255,255,0.1);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-}
-
-.dropdown-menu.show { display: block; }
-
-.dropdown-item {
-  padding: 10px 18px;
-  color: rgba(255,255,255,0.8);
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  border: none;
-  background: transparent;
-  width: 100%;
-  text-align: left;
-  font-family: 'Comic Sans MS', 'Segoe UI', cursive;
-}
-
-.dropdown-item:hover { background: rgba(255,255,255,0.05); color: white; }
-.dropdown-item.danger { color: #ff6b6b; }
-.dropdown-item.danger:hover { background: rgba(255,107,107,0.1); }
-.dropdown-divider { height: 1px; background: rgba(255,255,255,0.06); margin: 4px 12px; }
-
-.user-hero {
-  background: rgba(255,255,255,0.12);
-  margin: 6px 12px;
-  border-radius: 20px;
-  padding: 12px 14px;
-  border: 1px solid rgba(255,255,255,0.15);
-  backdrop-filter: blur(6px);
-  flex-shrink: 0;
-}
-
-.user-hero-top {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 8px;
-}
-
-.avatar-circle {
-  width: 42px;
-  height: 42px;
-  background: rgba(255,255,255,0.2);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  flex-shrink: 0;
-}
-
-.user-text h3 {
-  font-size: 13px;
-  font-weight: 700;
-  color: white;
-  margin-bottom: 1px;
-}
-
-.user-text p {
-  font-size: 10px;
-  color: rgba(255,255,255,0.75);
-  font-weight: 600;
-}
-
-.star-count {
-  margin-left: auto;
-  background: rgba(255,215,0,0.25);
-  border-radius: 20px;
-  padding: 4px 10px;
-  font-size: 11px;
-  font-weight: 700;
-  color: #ffd93d;
-}
-
-.progress-track {
-  background: rgba(255,255,255,0.15);
-  border-radius: 8px;
-  height: 6px;
-  overflow: hidden;
-}
-
-.progress-fill {
-  height: 100%;
-  border-radius: 8px;
-  background: linear-gradient(90deg, #ffd93d, #ff6b6b);
-  width: 0%;
-  transition: width 1s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-}
-
-/* 🔵 3 TABS - GAMES, QUIZ, LESSONS */
-.home-tabs {
-  display: flex;
-  background: rgba(255,255,255,0.10);
-  margin: 8px 12px 6px;
-  border-radius: 16px;
-  padding: 4px;
-  flex-shrink: 0;
-}
-
-.home-tab {
-  flex: 1;
-  padding: 8px 4px;
-  border-radius: 12px;
-  font-size: 10px;
-  font-weight: 700;
-  text-align: center;
-  color: rgba(255,255,255,0.5);
-  cursor: pointer;
-  transition: all 0.3s;
-  border: none;
-  background: transparent;
-  font-family: 'Comic Sans MS', 'Segoe UI', cursive;
-}
-
-.home-tab.active {
-  background: rgba(255,255,255,0.2);
-  color: white;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-
-.tab-content {
-  flex: 1;
-  overflow: hidden;
-  padding: 0 10px 6px;
-  display: flex;
-  flex-direction: column;
-}
-
-.tab-panel {
-  display: none;
-  flex-direction: column;
-  height: 100%;
-  overflow: hidden;
-}
-
-.tab-panel.active { display: flex; }
-
-/* GAMES GRID */
-.games-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  flex: 1;
-  align-content: start;
-}
-
-.game-tile {
-  background: white;
-  border-radius: 18px;
-  padding: 12px 8px 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.game-tile:active { transform: scale(0.92); }
-
-.game-tile::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-  border-radius: 18px 18px 0 0;
-}
-
-/* Children friendly colors */
-.gt-abc::after { background: #ff6b6b; }
-.gt-num::after { background: #4ecdc4; }
-.gt-col::after { background: #ffd93d; }
-.gt-flag::after { background: #6c5ce7; }
-.gt-mem::after { background: #fd79a8; }
-.gt-bingo::after { background: #fdcb6e; }
-.gt-scramble::after { background: #a29bfe; }
-.gt-color::after { background: #e17055; }
-.gt-typ::after { background: #00b894; }
-.gt-geo::after { background: #55efc4; }
-.gt-search::after { background: #fdcb6e; }
-.gt-animal::after { background: #a29bfe; }
-.gt-story::after { background: #74b9ff; }
-.gt-phonics::after { background: #ff7675; }
-.gt-multiply::after { background: #55efc4; }
-.gt-vocab::after { background: #a29bfe; }
-.gt-music::after { background: #fd79a8; }
-.gt-animate::after { background: #fdcb6e; }
-.gt-math::after { background: #6c5ce7; }
-.gt-arb::after { background: #00cec9; }
-
-.game-icon-wrap {
-  width: 44px;
-  height: 44px;
-  border-radius: 13px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  font-weight: 700;
-  margin-bottom: 2px;
-}
-
-.gi-abc { background: #ff6b6b; color: white; font-size: 12px; }
-.gi-num { background: #4ecdc4; color: white; font-size: 12px; }
-.gi-col { background: #ffd93d; color: white; font-size: 12px; }
-.gi-flag { background: #6c5ce7; color: white; }
-.gi-mem { background: #fd79a8; color: white; }
-.gi-bingo { background: #fdcb6e; color: white; }
-.gi-scramble { background: #a29bfe; color: white; }
-.gi-color { background: #e17055; color: white; }
-.gi-typ { background: #00b894; color: white; }
-.gi-geo { background: #55efc4; color: white; }
-.gi-search { background: #fdcb6e; color: white; }
-.gi-animal { background: #a29bfe; color: white; }
-.gi-story { background: #74b9ff; color: white; }
-.gi-phonics { background: #ff7675; color: white; }
-.gi-multiply { background: #55efc4; color: white; }
-.gi-vocab { background: #a29bfe; color: white; }
-.gi-music { background: #fd79a8; color: white; }
-.gi-animate { background: #fdcb6e; color: white; }
-.gi-math { background: #6c5ce7; color: white; }
-.gi-arb { background: #00cec9; color: white; }
-
-.game-tile h5 { font-size: 9px; font-weight: 700; color: #333; text-align: center; }
-.game-tile p { font-size: 8px; color: #aaa; text-align: center; font-weight: 600; }
-
-.lock-dot {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  background: linear-gradient(135deg, #ffd93d, #ff6b6b);
-  color: white;
-  border-radius: 8px;
-  padding: 1px 5px;
-  font-weight: 700;
-  font-size: 7px;
-}
-
-/* AD BANNER */
-.ad-native-banner {
-  background: rgba(255,255,255,0.06);
-  padding: 3px 14px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  border-top: 1px solid rgba(255,255,255,0.05);
-  flex-shrink: 0;
-  height: 32px;
-}
-
-.ad-icon { font-size: 12px; }
-.ad-text { font-size: 8px; color: rgba(255,255,255,0.35); font-weight: 600; flex: 1; }
-
-.qa-watch-small {
-  padding: 2px 12px;
-  font-size: 8px;
-  border-radius: 10px;
-  border: none;
-  background: linear-gradient(135deg, #00b894, #00a3d0);
-  color: white;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.qa-watch-small:active { transform: scale(0.9); }
-
-/* BOTTOM NAV */
-.bottom-nav {
-  height: 52px;
-  background: rgba(15,15,26,0.92);
-  backdrop-filter: blur(12px);
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  padding: 0 8px;
-  border-top: 1px solid rgba(255,255,255,0.06);
-  flex-shrink: 0;
-}
-
-.nav-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1px;
-  padding: 4px 14px;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.3s;
-  background: transparent;
-  border: none;
-}
-
-.nav-item.active { background: rgba(102,126,234,0.15); }
-.nav-item .nav-icon { font-size: 18px; }
-.nav-item .nav-label { font-size: 7px; font-weight: 600; color: rgba(255,255,255,0.35); }
-.nav-item.active .nav-label { color: #667eea; }
-.nav-item:active { transform: scale(0.9); }
-
-/* ============================================
-   🎮 GAME SCREEN
-   ============================================ */
-
-.game-bg {
-  background: #f8faff;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  height: 100%;
-}
-
-.game-header-native {
-  background: linear-gradient(135deg, #667eea, #3f2b96);
-  padding: 10px 16px 14px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
-}
-
-.back-circle {
-  width: 32px;
-  height: 32px;
-  background: rgba(255,255,255,0.2);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  color: white;
-  flex-shrink: 0;
-  cursor: pointer;
-  transition: all 0.3s;
-  border: none;
-}
-
-.back-circle:active { transform: scale(0.9); }
-
-.game-header-info { flex: 1; }
-.game-header-info h3 { font-size: 14px; font-weight: 700; color: white; }
-.game-header-info p { font-size: 10px; color: rgba(255,255,255,0.75); font-weight: 600; }
-
-.game-header-score {
-  background: rgba(255,255,255,0.15);
-  border-radius: 12px;
-  padding: 5px 10px;
-  text-align: center;
-}
-
-.game-header-score .score-num { font-size: 15px; font-weight: 700; color: #ffd93d; }
-.game-header-score .score-lbl { font-size: 7px; color: rgba(255,255,255,0.7); font-weight: 600; }
-
-.streak-native {
-  display: flex;
-  gap: 4px;
-  padding: 6px 14px;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.streak-pip {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #ddd;
-  transition: all 0.3s;
-}
-
-.streak-pip.on {
-  background: linear-gradient(135deg, #ffd93d, #ff6b6b);
-  box-shadow: 0 0 8px rgba(255,215,0,0.4);
-}
-
-.question-native {
-  background: white;
-  margin: 0 12px 8px;
-  border-radius: 22px;
-  padding: 16px 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-shadow: 0 4px 20px rgba(102,126,234,0.08);
-  flex-shrink: 0;
-}
-
-.question-emoji { font-size: 56px; margin-bottom: 4px; }
-.question-word { font-size: 15px; font-weight: 700; color: #3f2b96; }
-.question-hint { font-size: 10px; color: #aaa; font-weight: 600; margin-top: 3px; cursor: pointer; }
-
-.options-native {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  padding: 0 12px 8px;
-  flex: 1;
-  align-content: center;
-}
-
-.opt-native {
-  background: white;
-  border: 2.5px solid #667eea;
-  border-radius: 18px;
-  padding: 14px 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 28px;
-  box-shadow: 0 3px 12px rgba(102,126,234,0.06);
-  min-height: 64px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.opt-native:active:not(.disabled) { transform: scale(0.92); }
-.opt-native.correct { background: #d5f5e3; border-color: #00b894; }
-.opt-native.wrong { background: #fde8e8; border-color: #ff6b6b; }
-.opt-native.disabled { opacity: 0.6; cursor: not-allowed; }
-
-.game-stats-native {
-  display: flex;
-  justify-content: space-between;
-  padding: 4px 14px 6px;
-  font-size: 9px;
-  font-weight: 600;
-  color: #888;
-  border-top: 1px solid #f0f0f0;
-  background: white;
-  margin-top: auto;
-  flex-shrink: 0;
-}
-
-/* ============================================
-   📱 TOAST
-   ============================================ */
-
-#toast {
-  position: fixed;
-  bottom: 80px;
-  left: 50%;
-  transform: translateX(-50%) scale(0.8);
-  background: rgba(0,0,0,0.85);
-  backdrop-filter: blur(10px);
-  color: white;
-  padding: 10px 20px;
-  border-radius: 30px;
-  font-size: 11px;
-  font-weight: 600;
-  opacity: 0;
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  pointer-events: none;
-  z-index: 999;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.25);
-  border: 1px solid rgba(255,255,255,0.08);
-  max-width: 90%;
-  text-align: center;
-}
-
-#toast.show {
-  opacity: 1;
-  transform: translateX(-50%) scale(1);
-}
-
-/* ============================================
-   📱 RESPONSIVE
-   ============================================ */
-
-@media (max-width: 430px) {
-  body { padding: 8px; }
-  .app { border-radius: 24px; height: 620px; max-height: 620px; }
-}
-
-@media (max-width: 380px) {
-  .games-grid { grid-template-columns: repeat(2, 1fr); }
-  .app { border-radius: 18px; height: 560px; max-height: 560px; }
-  .login-title { font-size: 20px; }
-  .question-emoji { font-size: 40px; }
-  .opt-native { font-size: 20px; min-height: 52px; }
-}
-
-/* ============================================
-   📱 LOADING
-   ============================================ */
-
-#boot-loading {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  background: linear-gradient(160deg, #a8c0ff 0%, #3f2b96 50%, #667eea 100%);
-  color: white;
-  padding: 20px;
-}
-
-#boot-loading .loader {
-  width: 48px;
-  height: 48px;
-  border: 4px solid rgba(255,255,255,0.1);
-  border-top: 4px solid #ffd93d;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-#boot-loading p { margin-top: 14px; opacity: 0.8; font-weight: 600; font-size: 14px; }
-
-/* ============================================
-   🎯 GAME OVERLAY
-   ============================================ */
-
-.game-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-  backdrop-filter: blur(6px);
-  z-index: 100;
-  align-items: center;
-  justify-content: center;
-}
-
-.game-overlay.show { display: flex; }
-
-.game-overlay-content {
-  background: white;
-  border-radius: 28px;
-  padding: 28px 22px;
-  max-width: 380px;
-  width: 90%;
-  text-align: center;
-}
-
-.game-overlay-content h2 {
-  font-size: 20px;
-  font-weight: 700;
-  color: #3f2b96;
-  margin-bottom: 6px;
-}
-
-.game-overlay-content p {
-  font-size: 13px;
-  color: #888;
-  margin-bottom: 14px;
-}
-
-.game-overlay-content .btn-row { display: flex; gap: 10px; }
-.game-overlay-content .btn-row button {
-  flex: 1;
-  padding: 12px;
-  border: none;
-  border-radius: 14px;
-  font-weight: 700;
-  font-size: 12px;
-  cursor: pointer;
-  transition: all 0.3s;
-  font-family: 'Comic Sans MS', 'Segoe UI', cursive;
-}
-.game-overlay-content .btn-row button:active { transform: scale(0.95); }
-.game-overlay-content .btn-primary { background: linear-gradient(135deg, #667eea, #3f2b96); color: white; }
-.game-overlay-content .btn-secondary { background: #f5f7ff; color: #888; }
-
-/* ============================================
-   📊 DASHBOARD
-   ============================================ */
-
-.dash-bg {
-  background: #f4f7ff;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  height: 100%;
-}
-
-.dash-header-native {
-  background: linear-gradient(135deg, #667eea, #3f2b96);
-  padding: 12px 16px 18px;
-  flex-shrink: 0;
-}
-
-.dash-header-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 14px;
-}
-
-.dash-header-top h2 { font-size: 16px; font-weight: 700; color: white; }
-
-.stat-chips {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 6px;
-}
-
-.stat-chip {
-  background: rgba(255,255,255,0.15);
-  border-radius: 12px;
-  padding: 8px 4px;
-  text-align: center;
-  border: 1px solid rgba(255,255,255,0.08);
-}
-
-.stat-chip .chip-val { font-size: 15px; font-weight: 700; color: white; }
-.stat-chip .chip-lbl { font-size: 7px; color: rgba(255,255,255,0.65); font-weight: 600; margin-top: 1px; }
-
-.dash-tabs-native {
-  display: flex;
-  background: white;
-  border-bottom: 1px solid #eee;
-  flex-shrink: 0;
-}
-
-.dash-tab-native {
-  flex: 1;
-  padding: 10px 4px;
-  font-size: 9.5px;
-  font-weight: 600;
-  color: #aaa;
-  text-align: center;
-  border-bottom: 2.5px solid transparent;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.dash-tab-native.active { color: #667eea; border-bottom-color: #667eea; }
-
-.dash-scroll {
-  flex: 1;
-  overflow-y: auto;
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.dash-scroll::-webkit-scrollbar { display: none; }
-
-.progress-row {
-  background: white;
-  border-radius: 16px;
-  padding: 11px 12px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-}
-
-.subj-icon-native {
-  width: 36px;
-  height: 36px;
-  border-radius: 11px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  flex-shrink: 0;
-}
-
-.si-abc { background: #ff6b6b; }
-.si-num { background: #4ecdc4; }
-.si-col { background: #ffd93d; }
-.si-flag { background: #6c5ce7; }
-.si-mem { background: #fd79a8; }
-.si-bingo { background: #fdcb6e; }
-.si-scramble { background: #a29bfe; }
-.si-color { background: #e17055; }
-.si-typ { background: #00b894; }
-.si-geo { background: #55efc4; }
-.si-search { background: #fdcb6e; }
-.si-animal { background: #a29bfe; }
-.si-story { background: #74b9ff; }
-.si-phonics { background: #ff7675; }
-.si-multiply { background: #55efc4; }
-.si-vocab { background: #a29bfe; }
-.si-music { background: #fd79a8; }
-.si-animate { background: #fdcb6e; }
-.si-math { background: #6c5ce7; }
-.si-arb { background: #00cec9; }
-
-.subj-info { flex: 1; }
-.subj-name-native { font-size: 11px; font-weight: 600; color: #333; margin-bottom: 3px; }
-.subj-meta-native { font-size: 9px; color: #aaa; font-weight: 600; margin-bottom: 4px; }
-
-.mini-track { background: #eee; border-radius: 6px; height: 5px; overflow: hidden; }
-.mini-fill { height: 100%; border-radius: 6px; background: linear-gradient(90deg, #667eea, #3f2b96); transition: width 0.8s ease; }
-.subj-pct { font-size: 11px; font-weight: 700; color: #667eea; }
-
-.setting-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 0;
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.setting-label { font-size: 12px; font-weight: 600; color: #333; }
-.setting-sub { font-size: 10px; color: #aaa; }
-
-.setting-input {
-  border: 2px solid #e0e0e0;
-  border-radius: 10px;
-  padding: 6px 10px;
-  font-size: 12px;
-  width: 120px;
-  text-align: center;
-}
-
-.save-btn {
-  width: 100%;
-  background: linear-gradient(135deg, #667eea, #3f2b96);
-  color: white;
-  border: none;
-  padding: 12px;
-  border-radius: 14px;
-  font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  margin-top: 12px;
-  transition: all 0.3s;
-}
-
-.save-btn:active { transform: scale(0.95); }
-
-.reset-link {
-  text-align: center;
-  margin-top: 8px;
-  font-size: 10px;
-  color: #ff6b6b;
-  cursor: pointer;
-  text-decoration: underline;
-}
-
-.premium-status-box {
-  background: #f8f7ff;
-  border-radius: 14px;
-  padding: 12px;
-  margin-bottom: 8px;
-  text-align: center;
-}
-
-.code-activate-btn {
-  width: 100%;
-  background: linear-gradient(135deg, #ffd93d, #ff6b6b);
-  border: none;
-  color: white;
-  padding: 10px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  margin-top: 8px;
-  transition: all 0.3s;
-}
-
-.code-activate-btn:active { transform: scale(0.95); }
-
-/* PIN SCREEN */
-.pin-dots { display: flex; justify-content: center; gap: 12px; margin-bottom: 16px; }
-.pin-dot { width: 14px; height: 14px; border-radius: 50%; background: #e0e0e0; transition: all 0.3s; }
-.pin-dot.filled { background: #667eea; transform: scale(1.2); }
-
-.pin-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-.pin-key {
-  background: #f5f7ff;
-  border: none;
-  border-radius: 12px;
-  padding: 14px;
-  font-size: 18px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.pin-key:active { background: #e0e0e0; transform: scale(0.92); }
-.pin-back {
-  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
-  color: white;
-  border: none;
-  border-radius: 12px;
-  padding: 14px;
-  font-size: 16px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.pin-back:active { transform: scale(0.92); }
-.pin-error { color: #ff6b6b; font-size: 11px; text-align: center; margin-top: 8px; min-height: 16px; }
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',sans-serif;user-select:none;}
+body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh;display:flex;justify-content:center;align-items:center;color:white;padding:16px;padding-bottom:80px;}
+.app{width:100%;max-width:420px;}
+.screen{display:none;}
+.screen.active{display:block;}
+.auth-wrap{background:white;color:#333;border-radius:28px;padding:30px 24px;box-shadow:0 12px 30px rgba(0,0,0,.22);}
+.auth-logo{text-align:center;font-size:50px;margin-bottom:8px;}
+.auth-wrap h1{text-align:center;font-size:1.8rem;font-weight:800;color:#4a3487;margin-bottom:4px;}
+.auth-wrap p{text-align:center;color:#888;font-size:.9rem;margin-bottom:20px;}
+.auth-tabs{display:flex;background:#f5f5f5;border-radius:14px;padding:4px;margin-bottom:20px;}
+.auth-tab{flex:1;background:transparent;border:none;padding:10px;border-radius:10px;font-weight:700;font-size:.9rem;cursor:pointer;color:#888;}
+.auth-tab.active{background:#4a3487;color:white;}
+.input-group{margin-bottom:14px;}
+.input-group label{font-size:.82rem;font-weight:700;color:#555;margin-bottom:5px;display:block;}
+.input-group input{width:100%;border:2px solid #e0e0e0;border-radius:12px;padding:12px 14px;font-size:.95rem;outline:none;transition:border .2s;}
+.input-group input:focus{border-color:#6c72e6;}
+.child-name-input{background:#f8f7ff;border-radius:14px;padding:14px;margin-bottom:14px;}
+.child-name-input label{font-size:.82rem;font-weight:700;color:#4a3487;margin-bottom:5px;display:block;}
+.child-name-input input{width:100%;border:2px solid #e0e0e0;border-radius:10px;padding:10px 12px;font-size:.95rem;outline:none;}
+.auth-btn{width:100%;background:linear-gradient(135deg,#6c72e6,#4a3487);color:white;border:none;padding:14px;border-radius:14px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:4px;transition:opacity .2s;}
+.auth-btn:disabled{opacity:.6;cursor:not-allowed;}
+.auth-error{color:#e74c3c;font-size:.82rem;text-align:center;margin-top:8px;min-height:18px;}
+.guest-btn{width:100%;background:#f5f5f5;border:2px solid #ddd;color:#888;padding:12px;border-radius:14px;font-size:.9rem;font-weight:600;cursor:pointer;margin-top:10px;}
+.auth-loading{display:none;text-align:center;padding:8px;color:#6c72e6;font-weight:600;font-size:.85rem;}
+.home-header{text-align:center;padding:10px 0 4px;}
+.home-header .logo{font-size:44px;}
+.home-header h1{font-size:2.2rem;font-weight:800;letter-spacing:-1px;}
+.home-header p{opacity:.85;font-size:1rem;margin-bottom:16px;}
+.user-card{background:rgba(255,255,255,.15);border-radius:20px;padding:16px 20px;margin-bottom:14px;display:flex;align-items:center;gap:14px;}
+.user-avatar{font-size:38px;background:rgba(255,255,255,.2);border-radius:50%;width:58px;height:58px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.user-info{flex:1;}
+.user-info h2{font-size:1.15rem;font-weight:700;}
+.user-info .stars{font-size:.9rem;opacity:.9;}
+.progress-bar-wrap{background:rgba(255,255,255,.2);border-radius:8px;height:8px;margin-top:6px;overflow:hidden;}
+.progress-bar{background:#f1c40f;height:100%;border-radius:8px;width:0%;transition:width .5s;}
+.user-buttons{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap;}
+.user-buttons button{background:rgba(255,255,255,.2);border:none;color:white;padding:6px 12px;border-radius:8px;font-size:.75rem;cursor:pointer;transition:background .2s;}
+.user-buttons button:active{transform:scale(.95);}
+.sync-btn{background:rgba(0,184,148,0.4) !important;border:1px solid rgba(0,184,148,0.6) !important;}
+.sync-btn:active{background:rgba(0,184,148,0.7) !important;}
+.cards-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.card{background:white;color:#333;border-radius:22px;padding:18px 14px;display:flex;flex-direction:column;align-items:center;cursor:pointer;transition:transform .15s,box-shadow .15s;box-shadow:0 4px 12px rgba(0,0,0,.15);position:relative;}
+.card:active{transform:scale(.95);}
+.card-icon{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.4rem;margin-bottom:8px;}
+.card h3{font-size:.9rem;font-weight:700;text-align:center;}
+.card p{font-size:.7rem;color:#888;margin-top:2px;text-align:center;}
+.abc-c{background:#7ba3b5;color:white;}
+.num-c{background:#6a949e;color:white;}
+.fun-c{background:#e67e22;color:white;}
+.arb-c{background:#f39c12;color:white;}
+.math-c{background:#9b59b6;color:white;}
+.flags-c{background:linear-gradient(135deg,#2d7d8a,#1a5a6a);color:white;}
+.memory-c{background:linear-gradient(135deg,#e74c3c,#c0392b);color:white;}
+.bingo-c{background:linear-gradient(135deg,#f39c12,#d68910);color:white;}
+.scramble-c{background:linear-gradient(135deg,#8e44ad,#6c3483);color:white;}
+.color-c{background:linear-gradient(135deg,#e91e63,#c2185b);color:white;}
+.typing-c{background:linear-gradient(135deg,#00bcd4,#0097a7);color:white;}
+.geo-c{background:linear-gradient(135deg,#4caf50,#388e3c);color:white;}
+.search-c{background:linear-gradient(135deg,#ff9800,#e65100);color:white;}
+.animal-c{background:linear-gradient(135deg,#795548,#4e342e);color:white;}
+.story-c{background:linear-gradient(135deg,#2196f3,#1565c0);color:white;}
+.phonics-c{background:linear-gradient(135deg,#ff6f00,#e65100);color:white;}
+.multiply-c{background:linear-gradient(135deg,#009688,#00695c);color:white;}
+.vocab-c{background:linear-gradient(135deg,#3f51b5,#283593);color:white;}
+.music-c{background:linear-gradient(135deg,#d32f2f,#b71c1c);color:white;}
+.animate-c{background:linear-gradient(135deg,#7b1fa2,#4a148c);color:white;}
+.lock-badge{position:absolute;top:10px;right:10px;background:linear-gradient(135deg,#f1c40f,#e67e22);color:white;font-size:.7rem;font-weight:800;padding:3px 8px;border-radius:20px;}
+.card.premium-card::after{content:'';position:absolute;inset:0;border-radius:22px;border:2px solid #f1c40f;}
+.btn-row{display:flex;gap:10px;margin-bottom:10px;}
+.nav-btn{flex:1;background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.25);color:white;padding:11px 6px;border-radius:14px;font-size:.82rem;font-weight:600;cursor:pointer;text-align:center;}
+.upgrade-btn{width:100%;background:linear-gradient(135deg,#f1c40f,#e67e22);border:none;color:white;padding:13px;border-radius:14px;font-size:.95rem;font-weight:800;cursor:pointer;margin-bottom:10px;box-shadow:0 4px 14px rgba(241,196,15,.4);}
+.watch-ad-btn{width:100%;background:linear-gradient(135deg,#00b894,#00a3d0);border:none;color:white;padding:13px;border-radius:14px;font-size:.95rem;font-weight:800;cursor:pointer;margin-bottom:10px;box-shadow:0 4px 14px rgba(0,184,148,.4);}
+.lb-wrap{background:white;color:#333;border-radius:28px;padding:24px 20px;box-shadow:0 12px 30px rgba(0,0,0,.22);}
+.lb-wrap h2{font-size:1.4rem;font-weight:800;color:#4a3487;margin-bottom:16px;text-align:center;}
+.lb-item{display:flex;align-items:center;gap:12px;padding:12px;border-radius:14px;margin-bottom:8px;background:#f8f7ff;}
+.lb-item.me{background:#e8e6ff;border:2px solid #6c72e6;}
+.lb-rank{font-size:1.4rem;font-weight:800;width:36px;text-align:center;}
+.lb-rank.gold{color:#f1c40f;}
+.lb-rank.silver{color:#aaa;}
+.lb-rank.bronze{color:#cd7f32;}
+.lb-avatar{font-size:1.8rem;}
+.lb-info{flex:1;}
+.lb-name{font-size:.9rem;font-weight:700;color:#333;}
+.lb-stars{font-size:.78rem;color:#888;}
+.lb-score{font-size:1.1rem;font-weight:800;color:#4a3487;}
+.lb-empty{text-align:center;color:#aaa;padding:40px 20px;font-size:.95rem;}
+.lb-empty span{font-size:2rem;display:block;margin-bottom:10px;}
+.game-wrap{background:white;color:#333;border-radius:28px;padding:20px 18px;box-shadow:0 12px 30px rgba(0,0,0,.22);}
+.game-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.game-title{font-size:1.3rem;font-weight:800;color:#4a3487;}
+.back-btn{background:#e74c3c;color:white;border:none;padding:6px 14px;border-radius:10px;cursor:pointer;font-weight:700;font-size:.8rem;}
+.bingo-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0;max-width:350px;margin:10px auto;}
+.bingo-cell{background:#f5f5f5;border-radius:12px;padding:15px 8px;text-align:center;font-size:1.3rem;font-weight:700;cursor:pointer;transition:all .3s;border:3px solid #ddd;color:#333;}
+.bingo-cell.marked{background:#2ecc71;border-color:#27ae60;color:white;transform:scale(.95);}
+.bingo-cell.wrong{background:#e74c3c;border-color:#c0392b;color:white;animation:shake .3s;}
+@keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-10px);}75%{transform:translateX(10px);}}
+.bingo-cell:active:not(.marked){transform:scale(.9);}
+.memory-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0;max-width:350px;margin:10px auto;}
+.mem-card{aspect-ratio:1;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:2rem;cursor:pointer;transition:all .3s;box-shadow:0 4px 15px rgba(0,0,0,.1);}
+.mem-card.flipped{background:#fff;transform:rotateY(180deg);}
+.mem-card.matched{background:#2ecc71;transform:scale(.95);cursor:default;opacity:.7;}
+.mem-card:hover:not(.flipped):not(.matched){transform:scale(1.05);}
+.scrambled-word{text-align:center;font-size:2.5rem;font-weight:800;color:#4a3487;letter-spacing:6px;padding:15px;background:#f5f5f5;border-radius:15px;margin:10px 0;}
+.scramble-input{display:flex;gap:10px;margin:10px 0;max-width:350px;margin:10px auto;}
+.scramble-input input{flex:1;padding:12px;border:2px solid #ddd;border-radius:12px;font-size:1rem;outline:none;}
+.scramble-input button{padding:12px 20px;border:none;border-radius:12px;background:#6c72e6;color:white;font-weight:700;cursor:pointer;}
+.color-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:3px;margin:10px 0;max-width:350px;margin:10px auto;}
+.color-cell{aspect-ratio:1;border-radius:4px;cursor:pointer;background:#f0f0f0;border:1px solid #ddd;font-size:.6rem;display:flex;align-items:center;justify-content:center;color:#999;font-weight:700;}
+.color-cell.colored{border-color:transparent;}
+.color-palette{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:8px 0;}
+.color-pick{width:30px;height:30px;border-radius:50%;border:3px solid transparent;cursor:pointer;transition:all .3s;}
+.color-pick.active{border-color:#333;transform:scale(1.15);}
+.typing-display{background:#f5f5f5;padding:20px;border-radius:15px;text-align:center;font-size:1.2rem;line-height:2rem;margin:10px 0;color:#333;max-width:350px;margin:10px auto;}
+.typing-display .typed{color:#2ecc71;}
+.typing-display .current{color:#f1c40f;text-decoration:underline;font-weight:700;}
+.typing-display .remaining{color:#999;}
+.typing-input{width:100%;padding:12px;border:2px solid #ddd;border-radius:12px;font-size:1rem;text-align:center;outline:none;max-width:350px;display:block;margin:10px auto;}
+.geo-question{background:#f5f5f5;padding:20px;border-radius:15px;text-align:center;font-size:1.1rem;font-weight:600;color:#333;margin:10px 0;min-height:60px;}
+.geo-options{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;max-width:350px;margin:10px auto;}
+.geo-opt{padding:12px;border:none;border-radius:12px;font-weight:600;background:#f0f0f0;cursor:pointer;transition:all .3s;}
+.geo-opt:active:not(:disabled){transform:scale(.95);}
+.geo-opt.correct{background:#2ecc71;color:white;}
+.geo-opt.wrong{background:#e74c3c;color:white;}
+.geo-opt:disabled{opacity:.5;cursor:not-allowed;}
+.wsearch-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:3px;margin:10px 0;max-width:350px;margin:10px auto;}
+.wsearch-cell{aspect-ratio:1;background:#f0f0f0;border-radius:4px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem;cursor:pointer;transition:all .2s;color:#333;}
+.wsearch-cell.found{background:#2ecc71;color:white;}
+.wsearch-cell.selected{background:#f1c40f;transform:scale(1.1);}
+.wsearch-words{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:10px 0;}
+.wsearch-tag{padding:4px 12px;border-radius:15px;background:#f0f0f0;font-size:.8rem;font-weight:600;color:#333;}
+.wsearch-tag.found{background:#2ecc71;color:white;text-decoration:line-through;}
+.animal-display{background:#f5f5f5;border-radius:15px;padding:20px;text-align:center;font-size:4rem;margin:10px 0;cursor:pointer;min-height:120px;display:flex;align-items:center;justify-content:center;}
+.sound-btn{width:100%;max-width:350px;display:block;margin:10px auto;padding:12px;border:none;border-radius:12px;background:#3498db;color:white;font-weight:700;cursor:pointer;}
+.story-text{background:#f5f5f5;padding:20px;border-radius:15px;color:#333;font-size:1rem;line-height:1.8;margin:10px 0;min-height:100px;}
+.story-words{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:10px 0;}
+.story-word{padding:8px 16px;border-radius:12px;background:#f0f0f0;cursor:pointer;font-weight:600;transition:all .3s;border:2px solid transparent;color:#333;}
+.story-word:hover{transform:scale(1.05);}
+.story-word.selected{border-color:#6c72e6;background:#e8e6ff;}
+.phonics-display{text-align:center;font-size:6rem;padding:15px;background:#f5f5f5;border-radius:15px;margin:10px 0;cursor:pointer;color:#4a3487;max-width:350px;margin:10px auto;}
+.phonics-sound{text-align:center;font-size:1.2rem;color:#888;margin-bottom:10px;}
+.phonics-words{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:10px 0;}
+.phonics-word{padding:8px 16px;border-radius:12px;background:#f0f0f0;font-weight:600;color:#333;}
+.phonics-nav{display:flex;gap:10px;justify-content:center;margin:10px 0;}
+.phonics-nav button{padding:10px 20px;border:none;border-radius:12px;background:#6c72e6;color:white;font-weight:700;cursor:pointer;}
+.multiply-question{text-align:center;font-size:2.5rem;font-weight:800;color:#4a3487;padding:20px;background:#f5f5f5;border-radius:15px;margin:10px 0;max-width:350px;margin:10px auto;}
+.multiply-options{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin:10px 0;max-width:350px;margin:10px auto;}
+.multiply-opt{padding:12px;border:none;border-radius:12px;font-weight:700;font-size:1.2rem;background:#f0f0f0;cursor:pointer;transition:all .3s;color:#333;}
+.multiply-opt:active:not(:disabled){transform:scale(.95);}
+.multiply-opt.correct{background:#2ecc71;color:white;}
+.multiply-opt.wrong{background:#e74c3c;color:white;}
+.multiply-opt:disabled{opacity:.5;cursor:not-allowed;}
+.multiply-tables{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:10px 0;}
+.multiply-table{padding:6px 14px;border-radius:10px;background:#f0f0f0;cursor:pointer;font-weight:600;transition:all .3s;color:#333;}
+.multiply-table.active{background:#6c72e6;color:white;}
+.vocab-card{background:#f5f5f5;border-radius:15px;padding:20px;text-align:center;margin:10px 0;}
+.vocab-word{font-size:2rem;font-weight:800;color:#4a3487;}
+.vocab-meaning{font-size:1.1rem;color:#555;margin:8px 0;}
+.vocab-example{font-size:.9rem;color:#888;font-style:italic;padding:10px;background:rgba(0,0,0,0.03);border-radius:10px;}
+.vocab-options{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;max-width:350px;margin:10px auto;}
+.vocab-opt{padding:12px;border:none;border-radius:12px;font-weight:600;background:#f0f0f0;cursor:pointer;transition:all .3s;color:#333;}
+.vocab-opt:active:not(:disabled){transform:scale(.95);}
+.vocab-opt.correct{background:#2ecc71;color:white;}
+.vocab-opt.wrong{background:#e74c3c;color:white;}
+.vocab-opt:disabled{opacity:.5;cursor:not-allowed;}
+.music-piano{display:flex;gap:3px;justify-content:center;margin:10px 0;flex-wrap:wrap;max-width:350px;margin:10px auto;}
+.music-key{width:40px;height:140px;border-radius:8px;background:linear-gradient(180deg,#fff,#ddd);border:2px solid #999;cursor:pointer;transition:all .1s;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px;font-size:.6rem;font-weight:700;color:#666;}
+.music-key:active{transform:scale(.95);background:#f1c40f;}
+.music-key.black{width:26px;height:90px;background:linear-gradient(180deg,#333,#111);border-color:#000;color:#fff;margin:0 -13px;position:relative;z-index:2;}
+.music-key.black:active{background:#555;}
+.music-instruments{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:10px 0;}
+.music-inst{padding:8px 16px;border:none;border-radius:10px;font-weight:700;background:#f0f0f0;cursor:pointer;transition:all .3s;color:#333;}
+.music-inst.active{background:#6c72e6;color:white;}
+.animate-canvas{border-radius:12px;display:block;margin:0 auto;width:100%;max-width:300px;background:#fff;border:2px solid #ddd;touch-action:none;}
+.animate-tools{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:10px 0;}
+.animate-tool{padding:8px 16px;border:none;border-radius:10px;font-weight:700;background:#f0f0f0;cursor:pointer;transition:all .3s;color:#333;}
+.animate-tool.active{background:#6c72e6;color:white;}
+.animate-frames{display:flex;gap:6px;overflow-x:auto;padding:8px 0;margin:10px 0;justify-content:center;}
+.animate-frame{width:40px;height:40px;border:2px solid #ddd;border-radius:8px;background:#f5f5f5;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#999;}
+.animate-frame.active{border-color:#6c72e6;background:#e8e6ff;}
+.game-stats{display:flex;justify-content:space-between;padding:8px 0;border-top:2px solid #eee;margin-top:10px;font-weight:600;color:#555;font-size:.85rem;}
+.game-footer{text-align:center;font-size:.85rem;color:#888;margin-top:10px;min-height:25px;}
+.game-btn{width:100%;max-width:350px;display:block;margin:10px auto;padding:12px;border:none;border-radius:12px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#6c72e6,#4a3487);color:white;transition:all .3s;}
+.game-btn:active{transform:scale(.95);}
+.game-btn.gold{background:linear-gradient(135deg,#f1c40f,#e67e22);color:white;}
+.question-box{font-size:72px;background:#f5f5f5;border-radius:18px;padding:14px;margin-bottom:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;width:100%;min-height:110px;transition:background .2s;max-width:350px;margin:10px auto;}
+.question-box.speaking{background:#e8f4fd;animation:pulse .6s ease infinite;}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.02);}}
+.word-label{font-size:1.1rem;font-weight:700;color:#4a3487;text-align:center;margin-bottom:14px;min-height:24px;}
+.listen-hint{font-size:.82rem;color:#aaa;margin-bottom:14px;text-align:center;}
+.options-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:350px;margin:10px auto;}
+.opt-btn{background:#f9f9f9;border:3px solid #6c72e6;padding:14px 8px;font-size:1.9rem;border-radius:18px;cursor:pointer;transition:all .18s;min-height:84px;display:flex;align-items:center;justify-content:center;word-break:break-all;text-align:center;}
+.opt-btn.correct{background:#d5f5e3;border-color:#2ecc71;}
+.opt-btn.wrong{background:#fde8e8;border-color:#e74c3c;}
+.opt-btn.text-opt{font-size:1.1rem;font-weight:700;color:#333;}
+.opt-btn:disabled{opacity:.6;cursor:not-allowed;}
+.streak-bar{display:flex;gap:6px;margin-bottom:10px;justify-content:center;}
+.streak-dot{width:10px;height:10px;border-radius:50%;background:#ddd;}
+.streak-dot.hit{background:#f1c40f;}
+.level-lbl{font-size:.9rem;color:#888;margin-bottom:8px;font-weight:600;text-align:center;}
+.pin-wrap{background:white;color:#333;border-radius:28px;padding:30px 24px;text-align:center;box-shadow:0 12px 30px rgba(0,0,0,.22);}
+.pin-wrap h2{font-size:1.5rem;font-weight:800;color:#4a3487;margin-bottom:6px;}
+.pin-wrap p{color:#888;font-size:.9rem;margin-bottom:20px;}
+.pin-dots{display:flex;justify-content:center;gap:14px;margin-bottom:20px;}
+.pin-dot{width:16px;height:16px;border-radius:50%;background:#e0e0e0;}
+.pin-dot.filled{background:#4a3487;}
+.pin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.pin-key{background:#f5f5f5;border:none;border-radius:14px;padding:16px;font-size:1.4rem;font-weight:700;cursor:pointer;}
+.pin-key:active{background:#e0e0e0;}
+.pin-back{background:#e74c3c;color:white;border:none;border-radius:14px;padding:16px;font-size:1.2rem;cursor:pointer;}
+.pin-error{color:#e74c3c;font-size:.85rem;margin-top:8px;min-height:18px;}
+.dash-wrap{background:white;color:#333;border-radius:28px;padding:24px 20px;box-shadow:0 12px 30px rgba(0,0,0,.22);}
+.dash-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;}
+.dash-header h2{font-size:1.4rem;font-weight:800;color:#4a3487;}
+.dash-tabs{display:flex;gap:8px;margin-bottom:20px;background:#f5f5f5;border-radius:14px;padding:4px;}
+.tab-btn{flex:1;background:transparent;border:none;padding:9px 4px;border-radius:10px;font-weight:600;font-size:.78rem;cursor:pointer;color:#888;}
+.tab-btn.active{background:#4a3487;color:white;}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;}
+.stat-card{background:#f8f7ff;border-radius:14px;padding:14px 12px;text-align:center;}
+.stat-card .val{font-size:1.8rem;font-weight:800;color:#4a3487;}
+.stat-card .lbl{font-size:.75rem;color:#888;margin-top:2px;}
+.subject-row{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.subject-icon{font-size:1.4rem;width:36px;text-align:center;}
+.subject-info{flex:1;}
+.subject-name{font-size:.9rem;font-weight:700;color:#333;}
+.subject-meta{font-size:.75rem;color:#888;}
+.mini-bar-wrap{background:#eee;border-radius:6px;height:7px;margin-top:5px;overflow:hidden;}
+.mini-bar{height:100%;border-radius:6px;background:linear-gradient(90deg,#6c72e6,#4a3487);}
+.setting-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #f0f0f0;}
+.setting-row:last-child{border-bottom:none;}
+.setting-label{font-size:.9rem;font-weight:600;color:#333;}
+.setting-sub{font-size:.75rem;color:#aaa;}
+.toggle{width:44px;height:24px;background:#ddd;border-radius:12px;cursor:pointer;position:relative;transition:background .2s;flex-shrink:0;}
+.toggle.on{background:#4a3487;}
+.toggle::after{content:'';position:absolute;width:18px;height:18px;background:white;border-radius:50%;top:3px;left:3px;transition:left .2s;box-shadow:0 1px 4px rgba(0,0,0,.2);}
+.toggle.on::after{left:23px;}
+.setting-input{border:2px solid #e0e0e0;border-radius:10px;padding:6px 10px;font-size:.9rem;width:120px;text-align:center;}
+.save-btn{width:100%;background:linear-gradient(135deg,#6c72e6,#4a3487);color:white;border:none;padding:13px;border-radius:14px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:16px;}
+.reset-link{text-align:center;margin-top:10px;font-size:.8rem;color:#e74c3c;cursor:pointer;text-decoration:underline;}
+.section-head{font-size:.8rem;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.5px;margin:14px 0 8px;}
+.premium-status-box{background:#f8f7ff;border-radius:14px;padding:14px;margin-bottom:10px;text-align:center;}
+.code-activate-btn{width:100%;background:linear-gradient(135deg,#f1c40f,#e67e22);border:none;color:white;padding:13px;border-radius:14px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:8px;}
+.popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:100;display:none;align-items:center;justify-content:center;padding:20px;}
+.popup-overlay.show{display:flex;}
+.popup{background:white;border-radius:28px;padding:28px 22px;width:100%;max-width:380px;text-align:center;}
+.popup-icon{font-size:52px;margin-bottom:8px;}
+.popup h2{font-size:1.4rem;font-weight:800;color:#4a3487;margin-bottom:6px;}
+.popup p{font-size:.9rem;color:#888;margin-bottom:18px;}
+.popup-features{background:#f8f7ff;border-radius:16px;padding:14px;margin-bottom:18px;text-align:left;}
+.popup-features div{font-size:.85rem;color:#333;padding:4px 0;font-weight:500;}
+.popup-price{font-size:1.8rem;font-weight:800;color:#4a3487;margin-bottom:4px;}
+.popup-price span{font-size:.9rem;color:#aaa;font-weight:400;}
+.popup-pay-btn{width:100%;background:linear-gradient(135deg,#f1c40f,#e67e22);border:none;color:white;padding:15px;border-radius:14px;font-size:1rem;font-weight:800;cursor:pointer;margin-bottom:10px;}
+.popup-close{width:100%;background:#f5f5f5;border:none;color:#888;padding:12px;border-radius:14px;font-size:.9rem;cursor:pointer;font-weight:600;}
+.ad-banner-container{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,0.1);z-index:50;display:flex;justify-content:center;align-items:center;min-height:60px;}
+#toast{position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:#333;color:white;padding:10px 20px;border-radius:30px;font-size:.9rem;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999;}
 </style>
 </head>
 <body>
-
-<div class="app" id="app">
-
-  <!-- BOOT LOADING -->
-  <div id="boot-loading">
-    <div class="loader"></div>
-    <p>⭐ Loading KidLearn Pro...</p>
-  </div>
-
-  <!-- ==========================================
-  🔐 LOGIN SCREEN
-  ========================================== -->
-  <div id="login-screen" class="screen">
-    <div class="status-bar">
-      <span class="time">9:41</span>
-      <div class="icons"><span>●●●●</span><span>WiFi</span><span>🔋</span></div>
-    </div>
-    <div class="login-bg">
-      <div class="login-logo">⭐</div>
-      <div class="login-title">KidLearn Pro</div>
-      <div class="login-sub">Learn ABC, Numbers, Arabic &amp; Math!</div>
-      <div class="login-card">
-        <div class="tab-row">
-          <div class="tab-pill active" onclick="switchAuthTab('login')">Login</div>
-          <div class="tab-pill" onclick="switchAuthTab('register')">Register</div>
-        </div>
-        <div id="login-form">
-          <div class="input-label">Email</div>
-          <div class="native-input">📧 <input type="email" id="login-email" placeholder="parent@email.com"></div>
-          <div class="input-label">Password</div>
-          <div class="native-input">🔒 <input type="password" id="login-pass" placeholder="••••••••"></div>
-          <button class="primary-btn" onclick="doLogin()">🔐 Login</button>
-          <div class="auth-error" id="auth-error"></div>
-        </div>
-        <div id="register-form" style="display:none;">
-          <div class="input-label">Email</div>
-          <div class="native-input">📧 <input type="email" id="reg-email" placeholder="parent@email.com"></div>
-          <div class="input-label">Password</div>
-          <div class="native-input">🔒 <input type="password" id="reg-pass" placeholder="Min 6 characters"></div>
-          <div class="input-label">👦 Child's Name</div>
-          <div class="native-input">👦 <input type="text" id="reg-child" placeholder="e.g. Ayub" maxlength="12"></div>
-          <button class="primary-btn" onclick="doRegister()">🚀 Create Account</button>
-          <div class="auth-error" id="reg-error"></div>
-        </div>
-        <button class="ghost-btn" onclick="continueAsGuest()">👤 Continue as Guest</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ==========================================
-  🏠 HOME SCREEN
-  ========================================== -->
-  <div id="home-screen" class="screen">
-    <div class="status-bar">
-      <span class="time">9:41</span>
-      <div class="icons"><span>●●●●</span><span>WiFi</span><span>🔋</span></div>
-    </div>
-    <div class="home-bg">
-      <div class="home-top-bar">
-        <div style="position:relative;">
-          <button class="menu-dots" onclick="toggleMenu()">⋮</button>
-          <div class="dropdown-menu" id="dropdownMenu">
-            <button class="dropdown-item" onclick="openSettings()">⚙️ Settings</button>
-            <button class="dropdown-item" onclick="showPremiumPopup()">⭐ Premium</button>
-            <button class="dropdown-item" onclick="loadLeaderboard()">🏆 Leaderboard</button>
-            <div class="dropdown-divider"></div>
-            <button class="dropdown-item danger" onclick="doLogout()">🚪 Logout</button>
-          </div>
-        </div>
-        <div class="home-logo-row">
-          <span class="logo-icon">⭐</span>
-          <span class="logo-text">KidLearn</span>
-        </div>
-        <div style="width:32px;"></div>
-      </div>
-
-      <div class="user-hero">
-        <div class="user-hero-top">
-          <div class="avatar-circle">👦</div>
-          <div class="user-text">
-            <h3 id="child-name-display">Hello, Ayub! 👋</h3>
-            <p>Keep learning every day</p>
-          </div>
-          <div class="star-count" id="star-count">⭐ 0</div>
-        </div>
-        <div class="progress-track">
-          <div id="main-progress" class="progress-fill" style="width:0%"></div>
-        </div>
-      </div>
-
-      <!-- 3 TABS: Games | Quiz | Lessons -->
-      <div class="home-tabs">
-        <button class="home-tab active" onclick="switchTab('games')">🎮 Games</button>
-        <button class="home-tab" onclick="switchTab('quiz')">📝 Quiz</button>
-        <button class="home-tab" onclick="switchTab('lessons')">📚 Lessons</button>
-      </div>
-
-      <div class="tab-content">
-        <!-- GAMES Panel (8 games) -->
-        <div class="tab-panel active" id="panel-games">
-          <div class="games-grid">
-            <div class="game-tile gt-abc" onclick="startGame('abc')">
-              <div class="game-icon-wrap gi-abc">abc</div>
-              <h5>ABC English</h5>
-              <p id="abc-progress">0/26</p>
-            </div>
-            <div class="game-tile gt-num" onclick="startGame('numbers')">
-              <div class="game-icon-wrap gi-num">123</div>
-              <h5>Numbers</h5>
-              <p id="numbers-progress">0/10</p>
-            </div>
-            <div class="game-tile gt-col" onclick="startGame('coloring')">
-              <div class="game-icon-wrap gi-col">🎨</div>
-              <h5>More Fun</h5>
-              <p id="coloring-progress">0/15</p>
-            </div>
-            <div class="game-tile gt-mem" onclick="startGame('memory')">
-              <div class="game-icon-wrap gi-mem">🧠</div>
-              <h5>Memory Match</h5>
-              <p>8 pairs</p>
-            </div>
-            <div class="game-tile gt-bingo" onclick="startGame('bingo')">
-              <div class="game-icon-wrap gi-bingo">🔢</div>
-              <h5>Math Bingo</h5>
-              <p>4x4</p>
-            </div>
-            <div class="game-tile gt-color" onclick="startGame('color')">
-              <div class="game-icon-wrap gi-color">🎨</div>
-              <h5>Color by Number</h5>
-              <p>8 colors</p>
-            </div>
-            <div class="game-tile gt-typ" onclick="startGame('typing')">
-              <div class="game-icon-wrap gi-typ">⌨️</div>
-              <h5>Typing Tutor</h5>
-              <p>Speed</p>
-            </div>
-            <div class="game-tile gt-music" onclick="startGame('music')">
-              <div class="game-icon-wrap gi-music">🎵</div>
-              <h5>Music Maker</h5>
-              <p>Piano</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- QUIZ Panel (6 games) -->
-        <div class="tab-panel" id="panel-quiz">
-          <div class="games-grid">
-            <div class="game-tile gt-flag" onclick="startGame('flags')">
-              <div class="game-icon-wrap gi-flag">🌍</div>
-              <h5>Flag Quiz</h5>
-              <p id="flags-progress">0/24</p>
-            </div>
-            <div class="game-tile gt-geo" onclick="startGame('geo')">
-              <div class="game-icon-wrap gi-geo">🗺️</div>
-              <h5>Geography</h5>
-              <p>12 questions</p>
-            </div>
-            <div class="game-tile gt-search" onclick="startGame('search')">
-              <div class="game-icon-wrap gi-search">🔍</div>
-              <h5>Word Search</h5>
-              <p>6 words</p>
-            </div>
-            <div class="game-tile gt-scramble" onclick="startGame('scramble')">
-              <div class="game-icon-wrap gi-scramble">🔤</div>
-              <h5>Scramble</h5>
-              <p>12 words</p>
-            </div>
-            <div class="game-tile gt-animal" onclick="startGame('animal')">
-              <div class="game-icon-wrap gi-animal">🐄</div>
-              <h5>Animal Sounds</h5>
-              <p>10 animals</p>
-            </div>
-            <div class="game-tile gt-vocab" onclick="startGame('vocab')">
-              <div class="game-icon-wrap gi-vocab">📝</div>
-              <h5>Vocabulary</h5>
-              <p>12 words</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- LESSONS Panel (6 games) -->
-        <div class="tab-panel" id="panel-lessons">
-          <div class="games-grid">
-            <div class="game-tile gt-phonics" onclick="startGame('phonics')">
-              <div class="game-icon-wrap gi-phonics">🔤</div>
-              <h5>Phonics</h5>
-              <p>26 letters</p>
-            </div>
-            <div class="game-tile gt-multiply" onclick="startGame('multiply')">
-              <div class="game-icon-wrap gi-multiply">✖️</div>
-              <h5>Times Tables</h5>
-              <p>2-12</p>
-            </div>
-            <div class="game-tile gt-story" onclick="startGame('story')">
-              <div class="game-icon-wrap gi-story">📖</div>
-              <h5>Story Builder</h5>
-              <p>Create</p>
-            </div>
-            <div class="game-tile gt-animate" onclick="startGame('animate')">
-              <div class="game-icon-wrap gi-animate">🎬</div>
-              <h5>Animation</h5>
-              <p>Draw</p>
-            </div>
-            <div class="game-tile gt-arb premium-tile" onclick="showPremiumPopup()">
-              <div class="lock-dot">PRO</div>
-              <div class="game-icon-wrap gi-arb">🌙</div>
-              <h5>Arabic عربي</h5>
-              <p id="arabic-progress">28 🔒</p>
-            </div>
-            <div class="game-tile gt-math premium-tile" onclick="showPremiumPopup()">
-              <div class="lock-dot">PRO</div>
-              <div class="game-icon-wrap gi-math">➕</div>
-              <h5>Math</h5>
-              <p id="math-progress">50 🔒</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="ad-native-banner">
-        <span class="ad-icon">📢</span>
-        <span class="ad-text">Advertisement</span>
-        <button class="qa-watch-small" onclick="showRewardedAd()">Watch +5⭐</button>
-      </div>
-
-      <div class="bottom-nav">
-        <button class="nav-item active" onclick="showScreen('home-screen')">
-          <span class="nav-icon">🏠</span><span class="nav-label">Home</span>
-        </button>
-        <button class="nav-item" onclick="loadLeaderboard()">
-          <span class="nav-icon">🏆</span><span class="nav-label">Ranks</span>
-        </button>
-        <button class="nav-item" onclick="openPin()">
-          <span class="nav-icon">📊</span><span class="nav-label">Progress</span>
-        </button>
-        <button class="nav-item" onclick="openPin()">
-          <span class="nav-icon">⚙️</span><span class="nav-label">Parent</span>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ==========================================
-  🎮 GAME SCREEN
-  ========================================== -->
-  <div id="game-screen" class="screen">
-    <div class="game-bg">
-      <div class="game-header-native">
-        <div class="back-circle" onclick="exitGame()">←</div>
-        <div class="game-header-info">
-          <h3 id="game-title">ABC English</h3>
-          <p id="game-level">Level 1 of 26</p>
-        </div>
-        <div class="game-header-score">
-          <div class="score-num" id="game-stars-display">⭐ 0</div>
-          <div class="score-lbl">Stars</div>
-        </div>
-      </div>
-
-      <div class="streak-native" id="streak-bar">
-        <div class="streak-pip on"></div>
-        <div class="streak-pip on"></div>
-        <div class="streak-pip"></div>
-        <div class="streak-pip"></div>
-        <div class="streak-pip"></div>
-      </div>
-
-      <div class="question-native">
-        <div class="question-emoji" id="question-emoji">🍎</div>
-        <div class="question-word" id="question-word">A — Apple</div>
-        <div class="question-hint" id="question-hint">🔊 Tap to hear</div>
-      </div>
-
-      <div style="font-size:9px;font-weight:600;color:#667eea;text-align:center;margin-bottom:4px;letter-spacing:.5px;text-transform:uppercase;">Pick the right answer</div>
-
-      <div class="options-native" id="options-grid">
-        <div class="opt-native" onclick="checkAnswer(this, '🍎')">🍎</div>
-        <div class="opt-native" onclick="checkAnswer(this, '🍌')">🍌</div>
-        <div class="opt-native" onclick="checkAnswer(this, '🐱')">🐱</div>
-        <div class="opt-native" onclick="checkAnswer(this, '🐕')">🐕</div>
-      </div>
-
-      <div class="game-stats-native">
-        <span>⭐ Stars: <span id="gameStars">0</span></span>
-        <span>✅ Correct: <span id="gameCorrect">0</span></span>
-        <span>🔥 Streak: <span id="gameStreak">0</span></span>
-      </div>
-    </div>
-  </div>
-
-  <!-- ==========================================
-  📊 DASHBOARD
-  ========================================== -->
-  <div id="dash-screen" class="screen">
-    <div class="dash-bg">
-      <div class="dash-header-native">
-        <div class="dash-header-top">
-          <h2>📊 Parent Dashboard</h2>
-          <div class="back-circle" onclick="showScreen('home-screen')" style="color:white;font-size:18px;">✕</div>
-        </div>
-        <div class="stat-chips">
-          <div class="stat-chip"><div class="chip-val" id="d-stars">0</div><div class="chip-lbl">⭐ Stars</div></div>
-          <div class="stat-chip"><div class="chip-val" id="d-levels">0</div><div class="chip-lbl">🎯 Levels</div></div>
-          <div class="stat-chip"><div class="chip-val" id="d-time">0m</div><div class="chip-lbl">⏱️ Today</div></div>
-          <div class="stat-chip"><div class="chip-val" id="d-accuracy">0%</div><div class="chip-lbl">🎯 Accuracy</div></div>
-        </div>
-      </div>
-
-      <div class="dash-tabs-native">
-        <div class="dash-tab-native active" onclick="switchDashTab('overview',this)">Overview</div>
-        <div class="dash-tab-native" onclick="switchDashTab('badges',this)">Badges</div>
-        <div class="dash-tab-native" onclick="switchDashTab('settings',this)">Settings</div>
-      </div>
-
-      <div class="dash-scroll" id="dash-content">
-        <div id="tab-overview"><div id="subject-progress-list"></div></div>
-        <div id="tab-badges" style="display:none;"><div id="badges-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;"></div></div>
-        <div id="tab-settings" style="display:none;">
-          <div style="font-size:11px;font-weight:600;color:#aaa;text-transform:uppercase;letter-spacing:0.5px;margin:8px 0;">Child Profile</div>
-          <div class="setting-row"><div><div class="setting-label">Child's Name</div></div><input class="setting-input" id="set-name" type="text" maxlength="12"></div>
-          <div class="setting-row"><div><div class="setting-label">Daily Goal</div></div><input class="setting-input" id="set-goal" type="number" value="15" min="5" max="100"></div>
-          <div style="font-size:11px;font-weight:600;color:#aaa;text-transform:uppercase;letter-spacing:0.5px;margin:12px 0 8px;">Change PIN</div>
-          <div class="setting-row"><div><div class="setting-label">New PIN</div><div class="setting-sub">4 digits</div></div><input class="setting-input" id="set-pin" type="password" maxlength="4" placeholder="••••"></div>
-          <div style="font-size:11px;font-weight:600;color:#aaa;text-transform:uppercase;letter-spacing:0.5px;margin:12px 0 8px;">Premium</div>
-          <div class="premium-status-box" id="premium-status-box">
-            <div id="premium-status-text" style="font-size:12px;font-weight:600;color:#3f2b96;">🔒 Free Version</div>
-            <div id="premium-status-sub" style="font-size:10px;color:#888;margin-top:2px;">Enter a code to unlock Premium</div>
-          </div>
-          <div id="code-input-area">
-            <div class="setting-row"><div><div class="setting-label">Premium Code</div></div><input class="setting-input" id="set-code" type="text" placeholder="Enter code" maxlength="20" style="text-transform:uppercase;"></div>
-            <button class="code-activate-btn" onclick="activatePremiumCode()">🔓 Activate Code</button>
-            <div id="code-error" style="color:#ff6b6b;font-size:10px;margin-top:4px;text-align:center;min-height:16px;"></div>
-          </div>
-          <div id="revoke-area" style="display:none;"><button onclick="revokePremium()" style="width:100%;background:#f5f7ff;border:2px solid #ff6b6b;color:#ff6b6b;padding:10px;border-radius:12px;font-size:11px;font-weight:600;cursor:pointer;margin-top:8px;">🔒 Deactivate Premium</button></div>
-          <button class="save-btn" onclick="saveSettings()">💾 Save Settings</button>
-          <div class="reset-link" onclick="resetProgress()">Reset all progress data</div>
-        </div>
-      </div>
-
-      <div class="bottom-nav" style="background:rgba(244,247,255,0.98);border-top:1px solid #e8ecff;flex-shrink:0;">
-        <button class="nav-item" onclick="showScreen('home-screen')"><span class="nav-icon">🏠</span><span class="nav-label" style="color:#bbb;">Home</span></button>
-        <button class="nav-item" onclick="loadLeaderboard()"><span class="nav-icon">🏆</span><span class="nav-label" style="color:#bbb;">Ranks</span></button>
-        <button class="nav-item active"><span class="nav-icon">📊</span><span class="nav-label" style="color:#667eea;">Progress</span></button>
-        <button class="nav-item" onclick="openPin()"><span class="nav-icon">⚙️</span><span class="nav-label" style="color:#bbb;">Parent</span></button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ==========================================
-  🔒 PIN SCREEN
-  ========================================== -->
-  <div id="pin-screen" class="screen">
-    <div class="status-bar"><span class="time">9:41</span><div class="icons"><span>●●●●</span><span>WiFi</span><span>🔋</span></div></div>
-    <div style="background:#f4f7ff;flex:1;display:flex;align-items:center;justify-content:center;padding:20px;">
-      <div class="login-card" style="max-width:320px;margin:0 auto;">
-        <h2 style="font-size:20px;font-weight:700;color:#3f2b96;text-align:center;margin-bottom:4px;">🔒 Parent Access</h2>
-        <p style="text-align:center;color:#888;font-size:11px;margin-bottom:16px;">Enter your 4-digit PIN</p>
-        <div class="pin-dots"><div class="pin-dot" id="pd0"></div><div class="pin-dot" id="pd1"></div><div class="pin-dot" id="pd2"></div><div class="pin-dot" id="pd3"></div></div>
-        <div class="pin-grid">
-          <button class="pin-key" onclick="pinKey('1')">1</button><button class="pin-key" onclick="pinKey('2')">2</button><button class="pin-key" onclick="pinKey('3')">3</button>
-          <button class="pin-key" onclick="pinKey('4')">4</button><button class="pin-key" onclick="pinKey('5')">5</button><button class="pin-key" onclick="pinKey('6')">6</button>
-          <button class="pin-key" onclick="pinKey('7')">7</button><button class="pin-key" onclick="pinKey('8')">8</button><button class="pin-key" onclick="pinKey('9')">9</button>
-          <button class="pin-key" onclick="pinClear()" style="font-size:12px;">Clear</button><button class="pin-key" onclick="pinKey('0')">0</button><button class="pin-back" onclick="pinBackspace()">⌫</button>
-        </div>
-        <div class="pin-error" id="pin-error"></div>
-        <p style="font-size:10px;color:#bbb;text-align:center;margin-top:8px;">Default PIN: 1234</p>
-        <button class="ghost-btn" style="margin-top:8px;" onclick="showScreen('home-screen')">Cancel</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ==========================================
-  🏆 LEADERBOARD
-  ========================================== -->
-  <div id="leaderboard-screen" class="screen">
-    <div class="status-bar"><span class="time">9:41</span><div class="icons"><span>●●●●</span><span>WiFi</span><span>🔋</span></div></div>
-    <div style="background:#f4f7ff;flex:1;padding:16px;overflow-y:auto;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-        <h2 style="font-size:18px;font-weight:700;color:#3f2b96;">🏆 Leaderboard</h2>
-        <button class="back-circle" onclick="showScreen('home-screen')" style="background:#ff6b6b;color:white;width:32px;height:32px;border-radius:50%;border:none;font-size:13px;cursor:pointer;">←</button>
-      </div>
-      <div id="lb-list"><div style="text-align:center;color:#aaa;padding:40px 20px;"><span style="font-size:32px;display:block;margin-bottom:8px;">🏆</span><p style="font-size:13px;">Loading leaderboard...</p></div></div>
-    </div>
-  </div>
-
-  <!-- ==========================================
-  ⭐ PREMIUM POPUP
-  ========================================== -->
-  <div class="game-overlay" id="premium-popup">
-    <div class="game-overlay-content">
-      <div style="font-size:48px;margin-bottom:4px;">⭐</div>
-      <h2>Unlock Premium!</h2>
-      <p>Get full access to all subjects</p>
-      <div style="font-size:24px;font-weight:700;color:#3f2b96;margin-bottom:4px;">$1.99 <span style="font-size:13px;color:#aaa;font-weight:400;">/month</span></div>
-      <div style="background:#f8f7ff;border-radius:16px;padding:12px;margin-bottom:14px;text-align:left;">
-        <div style="font-size:12px;color:#333;padding:3px 0;font-weight:600;">✅ ABC English — FREE</div>
-        <div style="font-size:12px;color:#333;padding:3px 0;font-weight:600;">✅ Numbers 1-10 — FREE</div>
-        <div style="font-size:12px;color:#333;padding:3px 0;font-weight:600;">✅ 16+ More Games — FREE</div>
-        <div style="font-size:12px;color:#333;padding:3px 0;font-weight:600;">🔒 Arabic عربي — PREMIUM</div>
-        <div style="font-size:12px;color:#333;padding:3px 0;font-weight:600;">🔒 Math 50 levels — PREMIUM</div>
-      </div>
-      <button class="primary-btn" onclick="goToPremium()">💳 Upgrade Now</button>
-      <button class="ghost-btn" onclick="closePremiumPopup()">Maybe later</button>
-    </div>
-  </div>
-
+<div class="app">
+<div id="boot-loading" style="text-align:center;color:white;padding:60px 20px;">
+  <div style="font-size:48px;">⭐</div>
+  <p style="margin-top:14px;opacity:.8;">Loading...</p>
 </div>
 
-<!-- ==========================================
-📱 TOAST
-========================================== -->
+<!-- AUTH -->
+<div id="auth-screen" class="screen active">
+  <div class="auth-wrap">
+    <div class="auth-logo">⭐</div>
+    <h1>KidLearn Pro</h1>
+    <p>Learn ABC, Numbers, Arabic & Math!</p>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="login-tab" onclick="switchAuthTab('login')">Login</button>
+      <button class="auth-tab" id="register-tab" onclick="switchAuthTab('register')">Register</button>
+    </div>
+    <div id="login-form">
+      <div style="text-align:center;color:#bbb;font-size:.8rem;margin-bottom:14px;">Use email to sign in</div>
+      <div class="input-group"><label>Email</label><input type="email" id="login-email" placeholder="parent@email.com"></div>
+      <div class="input-group"><label>Password</label><input type="password" id="login-pass" placeholder="••••••••"></div>
+      <button class="auth-btn" id="login-btn" onclick="doLogin()">🔐 Login</button>
+      <div id="login-loading" class="auth-loading">⏳ Logging in...</div>
+      <div style="text-align:center;margin-top:12px;">
+        <span style="color:#6c72e6;cursor:pointer;font-size:.85rem;font-weight:600;" onclick="doForgotPassword()">Forgot Password?</span>
+      </div>
+    </div>
+    <div id="register-form" style="display:none;">
+      <div style="text-align:center;color:#bbb;font-size:.8rem;margin-bottom:14px;">Create your account</div>
+      <div class="input-group"><label>Parent Email</label><input type="email" id="reg-email" placeholder="parent@email.com"></div>
+      <div class="input-group"><label>Password</label><input type="password" id="reg-pass" placeholder="Min 6 characters"></div>
+      <div class="child-name-input"><label>👦 Child's Name</label><input type="text" id="reg-child" placeholder="e.g. Ayub" maxlength="12"></div>
+      <button class="auth-btn" id="register-btn" onclick="doRegister()">🚀 Create Account</button>
+      <div id="register-loading" class="auth-loading">⏳ Creating account...</div>
+    </div>
+    <div class="auth-error" id="auth-error"></div>
+    <button class="guest-btn" onclick="continueAsGuest()">👤 Continue as Guest</button>
+  </div>
+</div>
+
+<!-- HOME -->
+<div id="home-screen" class="screen">
+  <div class="home-header"><div class="logo">⭐</div><h1>KidLearn</h1><p>Learn & Play!</p></div>
+  <div class="user-card">
+    <div class="user-avatar">👦</div>
+    <div class="user-info">
+      <h2 id="child-name-display">Hello! 👋</h2>
+      <div class="stars" id="star-count">⭐ 0 stars collected</div>
+      <div class="progress-bar-wrap"><div id="main-progress" class="progress-bar"></div></div>
+      <div class="user-buttons">
+        <button onclick="doLogout()">🚪 Logout</button>
+        <button class="sync-btn" onclick="forceSync()">🔄 Sync Now</button>
+      </div>
+    </div>
+  </div>
+  <button class="watch-ad-btn" onclick="showRewardedAd()">🎬 Watch Ad for +5 Stars</button>
+  <button class="upgrade-btn" id="upgrade-btn" onclick="showPremiumPopup()">⭐ Upgrade to Premium — $1.99/month</button>
+  <div class="cards-grid">
+    <div class="card" id="card-abc" onclick="startGame('abc')"><div class="card-icon abc-c">abc</div><h3>ABC English</h3><p id="abc-progress">26 levels</p></div>
+    <div class="card" id="card-numbers" onclick="startGame('numbers')"><div class="card-icon num-c">1 2 3</div><h3>Numbers</h3><p id="numbers-progress">10 levels</p></div>
+    <div class="card" id="card-coloring" onclick="startGame('coloring')"><div class="card-icon fun-c">🎨</div><h3>More Fun</h3><p id="coloring-progress">15 levels</p></div>
+    <div class="card" id="card-flags" onclick="startGame('flags')"><div class="card-icon flags-c">🌍</div><h3>Flag Quiz</h3><p id="flags-progress">195 flags</p></div>
+    <div class="card" id="card-memory" onclick="startGame('memory')"><div class="card-icon memory-c">🧠</div><h3>Memory Match</h3><p>8 pairs</p></div>
+    <div class="card" id="card-bingo" onclick="startGame('bingo')"><div class="card-icon bingo-c">🔢</div><h3>Math Bingo</h3><p>4x4 grid</p></div>
+    <div class="card" id="card-scramble" onclick="startGame('scramble')"><div class="card-icon scramble-c">🔤</div><h3>Word Scramble</h3><p>12 words</p></div>
+    <div class="card" id="card-color" onclick="startGame('color')"><div class="card-icon color-c">🎨</div><h3>Color by Number</h3><p>8 colors</p></div>
+    <div class="card" id="card-typing" onclick="startGame('typing')"><div class="card-icon typing-c">⌨️</div><h3>Typing Tutor</h3><p>Speed & accuracy</p></div>
+    <div class="card" id="card-geo" onclick="startGame('geo')"><div class="card-icon geo-c">🌍</div><h3>Geography Quiz</h3><p>12 questions</p></div>
+    <div class="card" id="card-search" onclick="startGame('search')"><div class="card-icon search-c">🔍</div><h3>Word Search</h3><p>6 words</p></div>
+    <div class="card" id="card-animal" onclick="startGame('animal')"><div class="card-icon animal-c">🐄</div><h3>Animal Sounds</h3><p>10 animals</p></div>
+    <div class="card" id="card-story" onclick="startGame('story')"><div class="card-icon story-c">📖</div><h3>Story Builder</h3><p>Create stories</p></div>
+    <div class="card" id="card-phonics" onclick="startGame('phonics')"><div class="card-icon phonics-c">🔤</div><h3>Phonics</h3><p>26 letters</p></div>
+    <div class="card" id="card-multiply" onclick="startGame('multiply')"><div class="card-icon multiply-c">✖️</div><h3>Times Tables</h3><p>2-12 tables</p></div>
+    <div class="card" id="card-vocab" onclick="startGame('vocab')"><div class="card-icon vocab-c">📝</div><h3>Vocabulary</h3><p>12 words</p></div>
+    <div class="card" id="card-music" onclick="startGame('music')"><div class="card-icon music-c">🎵</div><h3>Music Maker</h3><p>Play piano</p></div>
+    <div class="card" id="card-animate" onclick="startGame('animate')"><div class="card-icon animate-c">🎬</div><h3>Animation Studio</h3><p>Draw & animate</p></div>
+    <div class="card premium-card" id="card-arabic" onclick="showPremiumPopup()"><div class="lock-badge">⭐ PREMIUM</div><div class="card-icon arb-c">🌙</div><h3>Arabic عربي</h3><p id="arabic-progress">28 levels 🔒</p></div>
+    <div class="card premium-card" id="card-math" onclick="showPremiumPopup()" style="grid-column:span 2;"><div class="lock-badge">⭐ PREMIUM</div><div class="card-icon math-c">➕➖</div><h3>Math — Addition & Subtraction</h3><p id="math-progress">50 levels 🔒</p></div>
+  </div>
+  <div class="btn-row">
+    <button class="nav-btn" onclick="loadLeaderboard()">🏆 Leaderboard</button>
+    <button class="nav-btn" onclick="openPin()">🔒 Parent</button>
+  </div>
+</div>
+
+<!-- LEADERBOARD -->
+<div id="leaderboard-screen" class="screen">
+  <div class="lb-wrap">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <h2 style="margin:0;">🏆 Leaderboard</h2>
+      <button class="back-btn" onclick="showScreen('home-screen')">← Back</button>
+    </div>
+    <div id="lb-list"><p style="text-align:center;color:#aaa;padding:20px;">Loading...</p></div>
+  </div>
+</div>
+
+<!-- GAME SCREEN -->
+<div id="game-screen" class="screen">
+  <div class="game-wrap" id="gameContainer">
+    <div class="game-header"><div class="game-title" id="game-title">Game</div><button class="back-btn" onclick="exitGame()">← Back</button></div>
+    <div id="gameContent"></div>
+  </div>
+</div>
+
+<!-- PIN -->
+<div id="pin-screen" class="screen">
+  <div class="pin-wrap">
+    <h2>🔒 Parent Access</h2><p>Enter your 4-digit PIN</p>
+    <div class="pin-dots"><div class="pin-dot" id="pd0"></div><div class="pin-dot" id="pd1"></div><div class="pin-dot" id="pd2"></div><div class="pin-dot" id="pd3"></div></div>
+    <div class="pin-grid">
+      <button class="pin-key" onclick="pinKey('1')">1</button><button class="pin-key" onclick="pinKey('2')">2</button><button class="pin-key" onclick="pinKey('3')">3</button>
+      <button class="pin-key" onclick="pinKey('4')">4</button><button class="pin-key" onclick="pinKey('5')">5</button><button class="pin-key" onclick="pinKey('6')">6</button>
+      <button class="pin-key" onclick="pinKey('7')">7</button><button class="pin-key" onclick="pinKey('8')">8</button><button class="pin-key" onclick="pinKey('9')">9</button>
+      <button class="pin-key" onclick="pinClear()" style="font-size:1rem;">Clear</button><button class="pin-key" onclick="pinKey('0')">0</button><button class="pin-back" onclick="pinBackspace()">⌫</button>
+    </div>
+    <div class="pin-error" id="pin-error"></div>
+    <p style="font-size:.78rem;color:#bbb;margin-top:10px;">Default PIN: 1234</p>
+    <button class="back-btn" style="margin-top:14px;width:100%;" onclick="showScreen('home-screen')">Cancel</button>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dash-screen" class="screen">
+  <div class="dash-wrap">
+    <div class="dash-header"><h2>📊 Parent Dashboard</h2><button class="back-btn" onclick="showScreen('home-screen')">← Home</button></div>
+    <div class="dash-tabs">
+      <button class="tab-btn active" onclick="switchTab('overview',this)">Overview</button>
+      <button class="tab-btn" onclick="switchTab('badges',this)">Badges</button>
+      <button class="tab-btn" onclick="switchTab('settings',this)">Settings</button>
+    </div>
+    <div id="tab-overview">
+      <div class="stat-grid">
+        <div class="stat-card"><div class="val" id="d-stars">0</div><div class="lbl">⭐ Total Stars</div></div>
+        <div class="stat-card"><div class="val" id="d-levels">0</div><div class="lbl">🎯 Levels Done</div></div>
+        <div class="stat-card"><div class="val" id="d-time">0m</div><div class="lbl">⏱️ Time Today</div></div>
+        <div class="stat-card"><div class="val" id="d-accuracy">0%</div><div class="lbl">🎯 Accuracy</div></div>
+      </div>
+      <div class="section-head">Subject Progress</div>
+      <div id="subject-progress-list"></div>
+    </div>
+    <div id="tab-badges" style="display:none;"><div class="section-head">Achievements</div><div id="badges-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;"></div></div>
+    <div id="tab-settings" style="display:none;">
+      <div class="section-head">Child Profile</div>
+      <div class="setting-row"><div><div class="setting-label">Child's Name</div></div><input class="setting-input" id="set-name" type="text" maxlength="12"></div>
+      <div class="setting-row"><div><div class="setting-label">Daily Star Goal</div></div><input class="setting-input" id="set-goal" type="number" value="15" min="5" max="100"></div>
+      <div class="section-head">Change PIN</div>
+      <div class="setting-row"><div><div class="setting-label">New PIN</div><div class="setting-sub">4 digits</div></div><input class="setting-input" id="set-pin" type="password" maxlength="4" placeholder="••••"></div>
+      <div class="section-head">Sound</div>
+      <div class="setting-row"><div><div class="setting-label">Sound Effects</div></div><div class="toggle on" id="tog-sound" onclick="toggleSetting('sound',this)"></div></div>
+      <div class="setting-row"><div><div class="setting-label">Speech Voice</div></div><div class="toggle on" id="tog-speech" onclick="toggleSetting('speech',this)"></div></div>
+      <div class="section-head">Premium</div>
+      <div class="premium-status-box" id="premium-status-box">
+        <div id="premium-status-text" style="font-size:.9rem;font-weight:700;color:#4a3487;"></div>
+        <div id="premium-status-sub" style="font-size:.78rem;color:#888;margin-top:3px;"></div>
+      </div>
+      <div id="code-input-area">
+        <div class="setting-row"><div><div class="setting-label">Premium Code</div></div><input class="setting-input" id="set-code" type="text" placeholder="Enter code" maxlength="20" style="text-transform:uppercase;"></div>
+        <button class="code-activate-btn" id="activate-code-btn" onclick="activatePremiumCode()">🔓 Activate Code</button>
+        <div id="code-error" style="color:#e74c3c;font-size:.82rem;margin-top:6px;text-align:center;min-height:18px;"></div>
+      </div>
+      <div id="revoke-area" style="display:none;"><button onclick="revokePremium()" style="width:100%;background:#f5f5f5;border:2px solid #e74c3c;color:#e74c3c;padding:11px;border-radius:14px;font-size:.9rem;font-weight:700;cursor:pointer;margin-top:8px;">🔒 Deactivate Premium</button></div>
+      <button class="save-btn" id="settings-save-btn" onclick="saveSettings()">💾 Save Settings</button>
+      <div class="reset-link" onclick="resetProgress()">Reset all progress data</div>
+    </div>
+  </div>
+</div>
+
+<!-- PREMIUM POPUP -->
+<div class="popup-overlay" id="premium-popup">
+  <div class="popup">
+    <div class="popup-icon">⭐</div>
+    <h2>Unlock Premium!</h2>
+    <p>Get full access to all subjects</p>
+    <div class="popup-price">$1.99 <span>/month</span></div>
+    <div class="popup-features">
+      <div>✅ ABC English — FREE</div><div>✅ Numbers 1-10 — FREE</div>
+      <div>✅ More Fun — FREE</div><div>✅ Flag Quiz — FREE</div>
+      <div>✅ 14+ More Games — FREE</div>
+      <div>🔒 Arabic عربي — PREMIUM</div><div>🔒 Math 50 levels — PREMIUM</div>
+    </div>
+    <button class="popup-pay-btn" onclick="goToPremium()">💳 Upgrade Now — $1.99/month</button>
+    <button class="popup-close" onclick="closePremiumPopup()">Maybe later</button>
+  </div>
+</div>
+
+<!-- AD BANNER -->
+<div class="ad-banner-container" id="ad-banner">
+  <div id="ad-container" style="width:320px;height:50px;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;border-radius:8px;color:rgba(255,255,255,0.5);font-size:12px;">📢 Loading Ad...</div>
+</div>
+</div>
 <div id="toast"></div>
 
-<!-- ==========================================
-📜 JAVASCRIPT - BACKEND OLD CODE
-========================================== -->
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
 <script>
 // ═══════════════════════════════════════════════════════
-// ═══ SECURITY MODULE (FROM OLD CODE) ══════════════════
+// ═══ SECURITY MODULE ═══════════════════════════════════
 // ═══════════════════════════════════════════════════════
 
 const ENCRYPTION_KEY = 'KidLearnPro2024Secure!';
@@ -1635,9 +566,10 @@ function generateCsrfToken() {
 const CSRF_TOKEN = generateCsrfToken();
 
 // ═══════════════════════════════════════════════════════
-// ═══ FIREBASE CONFIG ══════════════════════════════════
+// ═══ END SECURITY MODULE ═══════════════════════════════
 // ═══════════════════════════════════════════════════════
 
+// ═══ FIREBASE CONFIG ══════════════════════════════════
 const firebaseConfig = {
   apiKey: "AIzaSyDXmAT5fdeFokrKe3r7rerL0GGLziAYkd0",
   authDomain: "durable-sound-463120.firebaseapp.com",
@@ -1652,10 +584,7 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.database();
 
-// ═══════════════════════════════════════════════════════
 // ═══ STATE ═══════════════════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 let currentUser = null;
 let isGuest = false;
 let isAuthInProgress = false;
@@ -1687,10 +616,7 @@ let curMode='abc', curIdx=0, mistakes=0, correctAns='', curSpeech='', curSpeechL
 
 const PREMIUM_URL='https://ayuubgaafaa.github.io/KidLearnPro/premium.html';
 
-// ═══════════════════════════════════════════════════════
 // ═══ SECURE SAVE/LOAD ═════════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function fastSave() {
   try {
     const encryptedPin = encryptData(ST.pin, ENCRYPTION_KEY);
@@ -1731,6 +657,33 @@ function loadLocalData() {
   return false;
 }
 
+function secureSaveToCloud() {
+  const user = auth.currentUser;
+  if (!user || isGuest) return;
+  
+  const dataToSave = {
+    childName: sanitizeInput(ST.childName).substring(0, 20),
+    totalStars: Math.max(0, ST.totalStars),
+    totalAnswers: Math.max(0, ST.totalAnswers),
+    correctAnswers: Math.max(0, ST.correctAnswers),
+    levelsDone: Math.max(0, ST.levelsDone),
+    todayMinutes: Math.max(0, ST.todayMinutes),
+    isPremium: !!ST.isPremium,
+    premiumCode: sanitizeInput(ST.premiumCode).substring(0, 20),
+    pin: isValidPin(ST.pin) ? ST.pin : '1234',
+    dailyGoal: Math.min(100, Math.max(5, ST.dailyGoal)),
+    sound: !!ST.sound,
+    speech: !!ST.speech,
+    completed: {...completed},
+    streak: Math.max(0, streak),
+    updatedAt: Date.now()
+  };
+  
+  try {
+    db.ref('users/' + user.uid).update(dataToSave);
+  } catch(e) { /* handle error */ }
+}
+
 function saveToCloudNow() {
   const user = auth.currentUser;
   if (!user || isGuest) { fastSave(); return; }
@@ -1758,6 +711,11 @@ function saveToCloudNow() {
       fastSave();
     }).catch(() => fastSave());
   } catch(e) { fastSave(); }
+}
+
+function saveToCloudLater() {
+  if (saveTimeout) clearTimeout(saveTimeout);
+  saveTimeout = setTimeout(saveToCloudNow, 300);
 }
 
 function loadFromCloud() {
@@ -1817,10 +775,46 @@ window.forceSync = function() {
   }).catch(() => showToast('❌ Sync error'));
 };
 
-// ═══════════════════════════════════════════════════════
-// ═══ AD FUNCTIONS ════════════════════════════════════
-// ═══════════════════════════════════════════════════════
+function setupRealtimeListener(userId) {
+  if (dbRef) { dbRef.off(); dbRef = null; }
+  if (!userId || isGuest) return;
+  dbRef = db.ref('users/' + userId);
+  dbRef.on('value', (snap) => {
+    if (snap.exists()) {
+      const d = snap.val();
+      if (d.updatedAt) {
+        const localData = localStorage.getItem('kidlearn_data');
+        let localUpdated = 0;
+        if (localData) {
+          try { const parsed = JSON.parse(localData); if (parsed.ST && parsed.ST._updatedAt) localUpdated = parsed.ST._updatedAt || 0; } catch(e) {}
+        }
+        if (d.updatedAt > localUpdated || !isCloudDataLoaded) {
+          if (d.childName !== undefined && isValidName(d.childName)) ST.childName = d.childName;
+          if (d.totalStars !== undefined) ST.totalStars = Math.max(0, d.totalStars);
+          if (d.totalAnswers !== undefined) ST.totalAnswers = Math.max(0, d.totalAnswers);
+          if (d.correctAnswers !== undefined) ST.correctAnswers = Math.max(0, d.correctAnswers);
+          if (d.levelsDone !== undefined) ST.levelsDone = Math.max(0, d.levelsDone);
+          if (d.todayMinutes !== undefined) ST.todayMinutes = Math.max(0, d.todayMinutes);
+          if (d.isPremium !== undefined) ST.isPremium = !!d.isPremium;
+          if (d.premiumCode !== undefined) ST.premiumCode = sanitizeInput(d.premiumCode);
+          if (d.pin !== undefined && isValidPin(d.pin)) ST.pin = d.pin;
+          if (d.dailyGoal !== undefined) ST.dailyGoal = Math.min(100, Math.max(5, d.dailyGoal));
+          if (typeof d.sound === 'boolean') ST.sound = d.sound;
+          if (typeof d.speech === 'boolean') ST.speech = d.speech;
+          if (d.completed) Object.assign(completed, d.completed);
+          if (d.streak !== undefined) streak = Math.max(0, d.streak);
+          isCloudDataLoaded = true;
+          fastSave();
+          refreshHome();
+          updatePremiumUI();
+          if (document.getElementById('dash-screen').classList.contains('active')) renderDash();
+        }
+      }
+    }
+  }, (error) => console.log('❌ RTDB listener error:', error));
+}
 
+// ═══ AD FUNCTIONS ════════════════════════════════════
 let isAdShowing = false;
 function showBannerAd() {
   const container = document.getElementById('ad-container');
@@ -1832,7 +826,7 @@ function showInterstitialAd(callback) {
   isAdShowing = true;
   const overlay = document.createElement('div');
   overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;color:white;padding:20px;';
-  overlay.innerHTML = `<div style="font-size:48px;margin-bottom:20px;">📺</div><h2 style="color:white;margin-bottom:10px;">Ad</h2><p style="color:#aaa;text-align:center;margin-bottom:20px;">Watch a short ad to continue</p><button id="close-ad-btn" style="background:#667eea;color:white;border:none;padding:15px 40px;border-radius:14px;font-size:1rem;font-weight:700;cursor:pointer;">✕ Close</button><p style="color:#666;font-size:12px;margin-top:10px;">(Simulated ad for web testing)</p>`;
+  overlay.innerHTML = `<div style="font-size:48px;margin-bottom:20px;">📺</div><h2 style="color:white;margin-bottom:10px;">Ad</h2><p style="color:#aaa;text-align:center;margin-bottom:20px;">Watch a short ad to continue</p><button id="close-ad-btn" style="background:#6c72e6;color:white;border:none;padding:15px 40px;border-radius:14px;font-size:1rem;font-weight:700;cursor:pointer;">✕ Close</button><p style="color:#666;font-size:12px;margin-top:10px;">(Simulated ad for web testing)</p>`;
   document.body.appendChild(overlay);
   document.getElementById('close-ad-btn').addEventListener('click', function() { overlay.remove(); isAdShowing = false; if (callback) callback(true); });
   setTimeout(function() { if (overlay.parentNode) { overlay.remove(); isAdShowing = false; if (callback) callback(true); } }, 3000);
@@ -1843,7 +837,7 @@ function showRewardedAd(callback) {
   isAdShowing = true;
   const overlay = document.createElement('div');
   overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;color:white;padding:20px;';
-  overlay.innerHTML = `<div style="font-size:48px;margin-bottom:20px;">🎬</div><h2 style="color:white;margin-bottom:10px;">Watch Ad for Stars!</h2><p style="color:#ffd93d;font-size:24px;font-weight:bold;margin-bottom:20px;">+5 ⭐</p><button id="reward-ad-btn" style="background:#00b894;color:white;border:none;padding:15px 40px;border-radius:14px;font-size:1rem;font-weight:700;cursor:pointer;">🎯 Watch & Earn</button><p style="color:#666;font-size:12px;margin-top:10px;">(Simulated rewarded ad for web testing)</p>`;
+  overlay.innerHTML = `<div style="font-size:48px;margin-bottom:20px;">🎬</div><h2 style="color:white;margin-bottom:10px;">Watch Ad for Stars!</h2><p style="color:#f1c40f;font-size:24px;font-weight:bold;margin-bottom:20px;">+5 ⭐</p><button id="reward-ad-btn" style="background:#00b894;color:white;border:none;padding:15px 40px;border-radius:14px;font-size:1rem;font-weight:700;cursor:pointer;">🎯 Watch & Earn</button><p style="color:#666;font-size:12px;margin-top:10px;">(Simulated rewarded ad for web testing)</p>`;
   document.body.appendChild(overlay);
   document.getElementById('reward-ad-btn').addEventListener('click', function() { overlay.remove(); isAdShowing = false; if (callback) callback(true); });
   setTimeout(function() { if (overlay.parentNode) { overlay.remove(); isAdShowing = false; if (callback) callback(true); } }, 2000);
@@ -1851,10 +845,7 @@ function showRewardedAd(callback) {
 
 function showInterstitial(callback) { showInterstitialAd(callback); }
 
-// ═══════════════════════════════════════════════════════
 // ═══ GLOBAL FUNCTIONS ═══════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 window.switchAuthTab = function(tab) {
   document.querySelectorAll('.auth-tab').forEach((b) => b.classList.remove('active'));
   if (tab === 'login') {
@@ -1880,10 +871,7 @@ window.showRewardedAd = function() {
   });
 };
 
-// ═══════════════════════════════════════════════════════
 // ═══ AUDIO ══════════════════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 let audioCtx=null;
 function getACtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();return audioCtx;}
 function tone(f,t,d,v,dl){dl=dl||0;try{const c=getACtx(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type=t;o.frequency.setValueAtTime(f,c.currentTime+dl);g.gain.setValueAtTime(v,c.currentTime+dl);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+dl+d);o.start(c.currentTime+dl);o.stop(c.currentTime+dl+d);}catch(e){}}
@@ -1909,10 +897,7 @@ function sayText(text,lang,rate,onEnd){
   },200);
 }
 
-// ═══════════════════════════════════════════════════════
 // ═══ AUTH FUNCTIONS ══════════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function setAuthLoading(show, type) {
   if (type === 'login') {
     const btn = document.getElementById('login-btn');
@@ -1999,10 +984,7 @@ window.doLogout = function() {
   auth.signOut();
 };
 
-// ═══════════════════════════════════════════════════════
-// ═══ AUTH STATE LISTENER ═════════════════════════════
-// ═══════════════════════════════════════════════════════
-
+// ═══ FAST AUTH STATE LISTENER ════════════════════════
 document.getElementById('boot-loading').style.display = 'none';
 document.getElementById('auth-screen').classList.add('active');
 loadLocalData();
@@ -2010,31 +992,7 @@ loadLocalData();
 auth.onAuthStateChanged(function(user) {
   if (user && !isGuest) {
     currentUser = user; isGuest = false;
-    dbRef = db.ref('users/' + user.uid);
-    dbRef.on('value', (snap) => {
-      if (snap.exists()) {
-        const d = snap.val();
-        if (d.childName !== undefined && isValidName(d.childName)) ST.childName = d.childName;
-        if (d.totalStars !== undefined) ST.totalStars = Math.max(0, d.totalStars);
-        if (d.totalAnswers !== undefined) ST.totalAnswers = Math.max(0, d.totalAnswers);
-        if (d.correctAnswers !== undefined) ST.correctAnswers = Math.max(0, d.correctAnswers);
-        if (d.levelsDone !== undefined) ST.levelsDone = Math.max(0, d.levelsDone);
-        if (d.todayMinutes !== undefined) ST.todayMinutes = Math.max(0, d.todayMinutes);
-        if (d.isPremium !== undefined) ST.isPremium = !!d.isPremium;
-        if (d.premiumCode !== undefined) ST.premiumCode = sanitizeInput(d.premiumCode);
-        if (d.pin !== undefined && isValidPin(d.pin)) ST.pin = d.pin;
-        if (d.dailyGoal !== undefined) ST.dailyGoal = Math.min(100, Math.max(5, d.dailyGoal));
-        if (typeof d.sound === 'boolean') ST.sound = d.sound;
-        if (typeof d.speech === 'boolean') ST.speech = d.speech;
-        if (d.completed) Object.assign(completed, d.completed);
-        if (d.streak !== undefined) streak = Math.max(0, d.streak);
-        isCloudDataLoaded = true;
-        fastSave();
-        refreshHome();
-        updatePremiumUI();
-        if (document.getElementById('dash-screen').classList.contains('active')) renderDash();
-      }
-    }, (error) => console.log('❌ RTDB listener error:', error));
+    setupRealtimeListener(user.uid);
     loadFromCloud().then(()=>{
       showScreen('home-screen'); refreshHome(); updatePremiumUI();
       isAuthInProgress = false;
@@ -2051,10 +1009,7 @@ auth.onAuthStateChanged(function(user) {
   }
 });
 
-// ═══════════════════════════════════════════════════════
-// ═══ COMPLETE GAME DATA (20 GAMES) ══════════════════
-// ═══════════════════════════════════════════════════════
-
+// ═══ GAME DATA ══════════════════════════════════════
 const gameData = {
   abc: [
     {q:"A",word:"Apple", speech:"A. Apple", options:["🍎","🍌","🐱","🐕"],a:"🍎"},
@@ -2228,10 +1183,7 @@ const flagData = [
   {name:"Zimbabwe", flag:"🇿🇼"}
 ];
 
-// ═══════════════════════════════════════════════════════
 // ═══ GAME FUNCTIONS ═════════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 window.startGame = function(mode) {
   if((mode === 'arabic' || mode === 'math') && !isPremiumUnlocked()) { showPremiumPopup(); return; }
   sfxClick(); currentGame = mode; gameState = {};
@@ -2272,10 +1224,7 @@ window.startGame = function(mode) {
   ST.sessionStart = Date.now();
 };
 
-// ═══════════════════════════════════════════════════════
 // ═══ ORIGINAL GAME ══════════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function loadOriginalGame(mode) {
   const data = gameData[mode];
   curMode = mode; curIdx = 0; streak = 0;
@@ -2372,10 +1321,7 @@ function checkOriginalAnswer(btn) {
   }
 }
 
-// ═══════════════════════════════════════════════════════
 // ═══ BINGO GAME ══════════════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function loadBingoGame() {
   const numbers = []; while(numbers.length < 16) { const num = Math.floor(Math.random() * 20) + 1; if(!numbers.includes(num)) numbers.push(num); }
   gameState.bingoGrid = numbers.map((v, i) => ({ value: v, marked: false, index: i }));
@@ -2429,10 +1375,7 @@ function checkBingoWin() {
 
 function resetBingoGame() { loadBingoGame(); }
 
-// ═══════════════════════════════════════════════════════
 // ═══ FLAG GAME ═══════════════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function loadFlagGame() {
   gameState.flagData = flagData; gameState.flagUsed = []; gameState.flagCorrect = 0; gameState.flagWrong = 0; gameState.flagAnswered = false;
   const container = document.getElementById('gameContent');
@@ -2475,10 +1418,7 @@ function checkFlagAnswer(btn, selected) {
   setTimeout(loadFlagQuestion, 1500);
 }
 
-// ═══════════════════════════════════════════════════════
 // ═══ MEMORY GAME ═════════════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function loadMemoryGame() {
   const emojis = ['🍎','🍌','🍇','🍉','🍓','🍑','🍒','🥝'];
   const deck = [...emojis, ...emojis];
@@ -2525,10 +1465,7 @@ function checkMemoryMatch() {
 
 function resetMemoryGame() { if(gameState.memoryInterval) { clearInterval(gameState.memoryInterval); gameState.memoryInterval = null; } loadMemoryGame(); }
 
-// ═══════════════════════════════════════════════════════
 // ═══ SCRAMBLE GAME ═══════════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function loadScrambleGame() {
   const words = ['CAT','DOG','FISH','BIRD','STAR','MOON','SUN','EARTH','MARS','TREE','FLOWER','CLOUD'];
   gameState.scrambleWords = words; gameState.scrambleScore = 0; gameState.scrambleCorrect = 0;
@@ -2560,10 +1497,7 @@ function checkScramble() {
   } else { document.getElementById('scrambleFooter').textContent = '❌ Try again!'; document.getElementById('scrambleInput').value = ''; document.getElementById('scrambleInput').focus(); }
 }
 
-// ═══════════════════════════════════════════════════════
 // ═══ COLOR GAME ══════════════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function loadColorGame() {
   const colors = ['#e74c3c','#3498db','#2ecc71','#f1c40f','#9b59b6','#e67e22','#1abc9c','#e84393'];
   const pattern = [[1,1,1,2,2,2,3,3,1,1,2,2,3,3,4,4,1,2,3,4,5,6,7,8,8,7,6,5,4,3,2,1,1,2,3,4,5,6,7,8,8,7,6,5,4,3,2,1,3,3,4,4,5,5,6,6,2,2,3,3,4,4,5,5],[1,2,3,4,5,6,7,8,8,7,6,5,4,3,2,1,1,2,3,4,5,6,7,8,8,7,6,5,4,3,2,1,3,3,4,4,5,5,6,6,2,2,3,3,4,4,5,5,1,1,2,2,3,3,4,4,1,2,3,4,5,6,7,8]];
@@ -2612,10 +1546,7 @@ function colorCell(idx) {
   }
 }
 
-// ═══════════════════════════════════════════════════════
 // ═══ TYPING GAME ═════════════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function loadTypingGame() {
   const texts = ["The quick brown fox jumps over the lazy dog","Practice makes perfect every single day","Coding is fun and creative","Learn to type fast with accuracy"];
   gameState.typingTexts = texts; gameState.typingCorrect = 0; gameState.typingWrong = 0; gameState.typingTimer = 0; gameState.typingInterval = null; gameState.typingFinished = false;
@@ -2657,10 +1588,7 @@ function updateTypingDisplay() {
 
 function resetTypingGame() { if(gameState.typingInterval) { clearInterval(gameState.typingInterval); gameState.typingInterval = null; } loadTypingText(); }
 
-// ═══════════════════════════════════════════════════════
 // ═══ GEOGRAPHY GAME ══════════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function loadGeoGame() {
   const questions = [
     {q:"What is the capital of France?", opts:["London","Paris","Berlin","Madrid"], ans:1},
@@ -2705,10 +1633,7 @@ function checkGeoAnswer(idx) {
 
 function resetGeoGame() { gameState.geoIndex = 0; gameState.geoScore = 0; gameState.geoCorrect = 0; document.getElementById('geoScore').textContent = '0'; document.getElementById('geoCorrect').textContent = '0'; loadGeoQuestion(); }
 
-// ═══════════════════════════════════════════════════════
 // ═══ WORD SEARCH ══════════════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function loadSearchGame() {
   const words = ['CAT','DOG','BIRD','FISH','HORSE','SNAKE'];
   const gridSize = 8; const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -2747,10 +1672,7 @@ function handleSearchClick(letter) {
 
 function resetSearchGame() { loadSearchGame(); }
 
-// ═══════════════════════════════════════════════════════
 // ═══ ANIMAL SOUNDS ════════════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function loadAnimalGame() {
   const animals = [
     {animal:'Lion', emoji:'🦁', sound:'Roar!'},{animal:'Cat', emoji:'🐱', sound:'Meow!'},
@@ -2802,10 +1724,7 @@ function checkAnimalAnswer(btn, selected) {
   setTimeout(loadAnimalQuestion, 1500);
 }
 
-// ═══════════════════════════════════════════════════════
 // ═══ STORY BUILDER ════════════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function loadStoryGame() {
   const templates = [
     {template:"The ___ ___ went to the ___ to find a ___", slots:['adjective','animal','place','object']},
@@ -2858,10 +1777,7 @@ function selectStoryWord(word) {
   }
 }
 
-// ═══════════════════════════════════════════════════════
 // ═══ PHONICS ══════════════════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function loadPhonicsGame() {
   const data = [
     {letter:'A', sound:'/ā/', words:['Apple','Ant','Alligator']},{letter:'B', sound:'/b/', words:['Ball','Bear','Bird']},
@@ -2914,10 +1830,7 @@ function changePhonics(delta) {
 
 function resetPhonicsGame() { gameState.phonicsIndex = 0; gameState.phonicsProgress = 0; renderPhonics(); }
 
-// ═══════════════════════════════════════════════════════
 // ═══ MULTIPLICATION ═══════════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function loadMultiplyGame() {
   gameState.multiplyTable = 2; gameState.multiplyCorrect = 0; gameState.multiplyWrong = 0; gameState.multiplyAnswered = false;
   const container = document.getElementById('gameContent');
@@ -2963,10 +1876,7 @@ function checkMultiplyAnswer(btn, selected) {
   setTimeout(loadMultiplyQuestion, 1200);
 }
 
-// ═══════════════════════════════════════════════════════
 // ═══ VOCABULARY ═══════════════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function loadVocabGame() {
   const data = [
     {word:'Brave', meaning:'Showing courage', example:'The brave knight saved the princess.'},
@@ -3017,10 +1927,7 @@ function checkVocabAnswer(btn, selected) {
   setTimeout(loadVocabQuestion, 1500);
 }
 
-// ═══════════════════════════════════════════════════════
 // ═══ MUSIC MAKER ══════════════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function loadMusicGame() {
   const notes = ['C4','D4','E4','F4','G4','A4','B4','C5'];
   const freqs = {C4:261.63,'C#4':277.18,D4:293.66,'D#4':311.13,E4:329.63,F4:349.23,'F#4':369.99,G4:392.00,'G#4':415.30,A4:440.00,'A#4':466.16,B4:493.88,C5:523.25};
@@ -3072,10 +1979,7 @@ function playMusicNote(note) {
 
 function clearMusicNotes() { gameState.musicNoteCount = 0; gameState.musicStars = 0; document.getElementById('musicNotes').textContent = '0'; document.getElementById('musicStars').textContent = '0'; }
 
-// ═══════════════════════════════════════════════════════
 // ═══ ANIMATION STUDIO ═════════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function loadAnimateGame() {
   const canvas = document.createElement('canvas'); canvas.width = 300; canvas.height = 200; canvas.className = 'animate-canvas'; canvas.id = 'animCanvas';
   gameState.animFrames = [canvas.toDataURL()]; gameState.animIndex = 0; gameState.animTool = 'draw'; gameState.animDrawing = false; gameState.animStars = 0;
@@ -3112,10 +2016,7 @@ function playAnimation() { if(gameState.animInterval) { clearInterval(gameState.
 
 function resetAnimation() { if(gameState.animInterval) { clearInterval(gameState.animInterval); gameState.animInterval = null; } const c = document.getElementById('animCanvas'); const ctx = c.getContext('2d'); gameState.animFrames = [c.toDataURL()]; gameState.animIndex = 0; gameState.animStars = 0; document.getElementById('animStars').textContent = '0'; renderAnimFrames(); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, c.width, c.height); }
 
-// ═══════════════════════════════════════════════════════
 // ═══ UTILITY ══════════════════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function shuffleArray(arr) { for(let i=arr.length-1; i>0; i--) { const j = Math.floor(Math.random() * (i+1)); [arr[i], arr[j]] = [arr[j], arr[i]]; } return arr; }
 
 function isPremiumUnlocked() { return ST.isPremium === true && validatePremiumCode(ST.premiumCode); }
@@ -3189,10 +2090,7 @@ window.exitGame = function() {
   fastSave(); saveToCloudNow(); refreshHome(); showScreen('home-screen');
 };
 
-// ═══════════════════════════════════════════════════════
 // ═══ PIN ═══════════════════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 let pinE='';
 window.openPin = function() { pinE = ''; updPin(); document.getElementById('pin-error').textContent = ''; showScreen('pin-screen'); };
 window.pinKey = function(d) { if (pinE.length >= 4) return; sfxClick(); pinE += d; updPin(); if (pinE.length === 4) { setTimeout(chkPin, 200); } };
@@ -3206,10 +2104,7 @@ function chkPin() {
   else { sfxWrong(); document.getElementById('pin-error').textContent = '❌ Wrong PIN. Try again.'; pinE = ''; updPin(); }
 }
 
-// ═══════════════════════════════════════════════════════
 // ═══ PREMIUM ══════════════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function updatePremiumUI(){
   const statusText=document.getElementById('premium-status-text');
   const statusSub=document.getElementById('premium-status-sub');
@@ -3256,10 +2151,7 @@ window.revokePremium = function() {
   fastSave(); saveToCloudNow(); updatePremiumUI(); refreshHome(); showToast('Premium deactivated');
 };
 
-// ═══════════════════════════════════════════════════════
 // ═══ DASHBOARD ════════════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function renderDash(){
   document.getElementById('d-stars').textContent = ST.totalStars;
   document.getElementById('d-levels').textContent = ST.levelsDone;
@@ -3370,12 +2262,8 @@ function showToast(msg){
   window._tt = setTimeout(() => t.style.opacity = '0', 2500);
 }
 
-// ═══════════════════════════════════════════════════════
 // ═══ LEADERBOARD ═══════════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function loadLeaderboard() {
-  closeMenu();
   showScreen('leaderboard-screen');
   const list = document.getElementById('lb-list');
   list.innerHTML = '<div class="lb-empty"><span>🏆</span>Loading leaderboard...</div>';
@@ -3435,78 +2323,14 @@ function loadLeaderboard() {
   });
 }
 
-// ═══════════════════════════════════════════════════════
-// ═══ TAB FUNCTIONS ══════════════════════════════════
-// ═══════════════════════════════════════════════════════
-
-function switchTab(tab) {
-  document.querySelectorAll('.home-tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.home-tab').forEach(t => {
-    if (t.textContent.toLowerCase().includes(tab)) t.classList.add('active');
-  });
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.getElementById('panel-' + tab).classList.add('active');
+// ═══ INIT ═══════════════════════════════════════════
+setTimeout(showBannerAd, 1000);
+if('speechSynthesis' in window){
+  window.speechSynthesis.getVoices();
+  window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
 }
-
-function toggleMenu() {
-  const menu = document.getElementById('dropdownMenu');
-  menu.classList.toggle('show');
-}
-
-function closeMenu() {
-  const menu = document.getElementById('dropdownMenu');
-  menu.classList.remove('show');
-}
-
-// ─── INIT ───
-document.addEventListener('DOMContentLoaded', function() {
-  const boot = document.getElementById('boot-loading');
-  if (boot) boot.style.display = 'none';
-  
-  loadLocalData();
-  showScreen('login-screen');
-   
-  
-  // Close dropdown when clicking outside
-  document.addEventListener('click', function(e) {
-    const menu = document.getElementById('dropdownMenu');
-    if (menu && !e.target.closest('.menu-dots') && !e.target.closest('.dropdown-menu')) {
-      menu.classList.remove('show');
-    }
-  });
-  
-  console.log('🎨 KidLearn Pro - Children Friendly Design');
-  console.log('📚 20 Games - Divided into 3 Tabs: Games, Quiz, Lessons');
-  console.log('🔒 Full Security & Firebase Backend');
-});
-   <script>
-// Force show login screen if white screen appears
-document.addEventListener('DOMContentLoaded', function() {
-    // Force hide boot loading
-    var boot = document.getElementById('boot-loading');
-    if (boot) boot.style.display = 'none';
-    
-    // Force show login screen
-    var loginScreen = document.getElementById('login-screen');
-    if (loginScreen) {
-        loginScreen.classList.add('active');
-    }
-    
-    // Force show auth screen if nothing is showing
-    var screens = document.querySelectorAll('.screen');
-    var hasActive = false;
-    screens.forEach(function(s) {
-        if (s.classList.contains('active')) hasActive = true;
-    });
-    
-    if (!hasActive) {
-        var auth = document.getElementById('auth-screen');
-        if (auth) auth.classList.add('active');
-    }
-    
-    console.log('✅ Force loaded - KidLearn Pro');
-});
-</script>
+console.log('🔒 🔐 KidLearn Pro loaded with FULL SECURITY!');
+console.log('✅ Features: Encryption, Rate Limiting, Input Validation, Session Management, CSRF Protection');
 </script>
 </body>
-                                             </html>
+</html>
