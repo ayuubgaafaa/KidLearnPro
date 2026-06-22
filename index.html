@@ -7,6 +7,416 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
    /* ============================================
+   🛠 FULL SCREEN + LIGHT STATUS BAR + BLACK FONTS
+   ============================================ */
+
+/* 1. App-ka oo qabsada shaashada dhan */
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: #F5F5F5 !important; /* Background khafiif ah */
+  overflow: hidden !important;
+  height: 100vh !important;
+  width: 100vw !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.app {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: 100vh !important;
+  max-height: 100vh !important;
+  border-radius: 0 !important;
+  background: #FFFFFF !important; /* Background cad */
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* 2. Status bar (time, wifi, battery) - qari ama samee mid khafiif ah */
+.status-bar {
+  display: none !important; /* Qari gabi ahaan */
+}
+
+/* Haddii aad rabto in status bar-ka la arko laakiin khafiif ah:
+.status-bar {
+  display: flex !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+  color: #333333 !important;
+  height: 30px !important;
+}
+.status-bar .time { color: #333333 !important; }
+.status-bar .icons { color: #333333 !important; }
+.status-bar .icons span { color: #333333 !important; }
+*/
+
+/* 3. Dhammaan background-yada - cad ama khafiif */
+.home-bg, .game-bg, .dash-bg, .login-bg {
+  background: #FFFFFF !important;
+}
+
+.home-bg::before, .home-bg::after {
+  display: none !important; /* Ka saar blobs-ka */
+}
+
+/* 4. Cards iyo containers - cad */
+.login-card, .user-hero, .game-tile, .question-native, .dash-header-native {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border: 1px solid rgba(0, 0, 0, 0.06) !important;
+}
+
+.dash-header-native {
+  background: linear-gradient(135deg, #6C5CE7, #8B7CF8) !important;
+}
+
+/* 5. Dhammaan qoraalada - MADOW (black) */
+body, .app, .screen, .home-bg, .game-bg, .dash-bg,
+.game-tile, .game-tile h5, .game-tile p,
+.user-text h3, .user-text p, .star-count,
+.subj-name-native, .subj-meta-native, .subj-pct,
+.question-word, .question-hint, .game-stats-native,
+.nav-item .nav-label, .nav-item.active .nav-label,
+.lb-name, .lb-levels, .lb-stars,
+.dash-header-top h2, .chip-lbl,
+.premium-list div, .game-overlay-content h2, .game-overlay-content p,
+.login-title, .login-sub, .home-logo-row .logo-text,
+.home-tab, .dropdown-item, .ad-text,
+.game-header-info h3, .game-header-info p,
+.game-header-score .score-num, .game-header-score .score-lbl,
+.opt-native, .opt-native.text-opt,
+#tab-settings div, #tab-settings label, #tab-settings .setting-label,
+#tab-settings .setting-sub, #tab-settings input,
+.native-input input, .native-input input::placeholder,
+.pin-key, .pin-back,
+.auth-error, .reg-error, .pin-error,
+.lb-header h2, #pin-screen h2, #pin-screen p,
+.dropdown-item, .dropdown-item.danger,
+.game-overlay-content .btn-secondary,
+#premium-status-text, #premium-status-sub,
+.chip-val, .chip-lbl,
+.score-num, .score-lbl,
+.question-hint, .options-label,
+.game-stats-native span,
+.nav-item .nav-icon,
+.home-logo-row .logo-icon,
+.menu-dots,
+.back-circle,
+.game-header-info h3,
+.game-header-info p,
+.ad-icon, .ad-text,
+.boot-title, .boot-sub {
+  color: #1A1A2E !important; /* Madow khafiif ah */
+}
+
+/* 6. Qoraalada muhiimka ah - madaw */
+.game-tile h5 {
+  color: #1A1A2E !important;
+  font-weight: 800 !important;
+}
+
+.game-tile p {
+  color: #555555 !important;
+  font-weight: 700 !important;
+}
+
+.star-count {
+  color: #FFB833 !important;
+  background: rgba(255, 184, 51, 0.15) !important;
+  border: 1px solid rgba(255, 184, 51, 0.3) !important;
+}
+
+.user-text h3 {
+  color: #1A1A2E !important;
+}
+
+.user-text p {
+  color: #666666 !important;
+}
+
+/* 7. Option buttons - background cad + qoraal madaw */
+.opt-native {
+  background: #F5F5F5 !important;
+  border: 2px solid #6C5CE7 !important;
+  color: #1A1A2E !important;
+}
+
+.opt-native.text-opt {
+  color: #1A1A2E !important;
+  font-weight: 700 !important;
+}
+
+.opt-native.correct {
+  background: #D4EDDA !important;
+  border-color: #28A745 !important;
+  color: #155724 !important;
+}
+
+.opt-native.wrong {
+  background: #F8D7DA !important;
+  border-color: #DC3545 !important;
+  color: #721C24 !important;
+}
+
+/* 8. Bottom navigation - background cad + qoraal madaw */
+.bottom-nav {
+  background: #FFFFFF !important;
+  border-top: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+.nav-item .nav-label {
+  color: #666666 !important;
+}
+
+.nav-item.active .nav-label {
+  color: #6C5CE7 !important;
+}
+
+.nav-item.active {
+  background: rgba(108, 92, 231, 0.1) !important;
+}
+
+/* 9. Home tabs - qoraal madaw */
+.home-tab {
+  color: #666666 !important;
+}
+
+.home-tab.active {
+  background: rgba(108, 92, 231, 0.1) !important;
+  color: #6C5CE7 !important;
+}
+
+/* 10. Input fields - background cad */
+.native-input {
+  background: #F5F5F5 !important;
+  border: 1px solid #DDDDDD !important;
+}
+
+.native-input input {
+  color: #1A1A2E !important;
+}
+
+.native-input input::placeholder {
+  color: #AAAAAA !important;
+}
+
+/* 11. Buttons */
+.primary-btn {
+  background: linear-gradient(135deg, #6C5CE7, #8B7CF8) !important;
+  color: #FFFFFF !important;
+}
+
+.ghost-btn {
+  color: #1A1A2E !important;
+  background: #F5F5F5 !important;
+  border: 2px solid #DDDDDD !important;
+}
+
+/* 12. Progress bars - kuwo dhalaalaya */
+.progress-fill {
+  background: linear-gradient(90deg, #6C5CE7, #F72585, #FFB833) !important;
+  background-size: 200% 100% !important;
+  animation: shimmer 2s linear infinite !important;
+}
+
+.mini-fill {
+  background: linear-gradient(90deg, #6C5CE7, #8B7CF8) !important;
+}
+
+.mini-track {
+  background: #E8E8E8 !important;
+}
+
+/* 13. Login screen */
+.login-title {
+  background: linear-gradient(135deg, #6C5CE7, #8B7CF8) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+.login-sub {
+  color: #666666 !important;
+}
+
+.login-card {
+  background: #FFFFFF !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+.tab-pill {
+  color: #666666 !important;
+}
+
+.tab-pill.active {
+  background: linear-gradient(135deg, #6C5CE7, #8B7CF8) !important;
+  color: #FFFFFF !important;
+}
+
+/* 14. Dashboard */
+.dash-header-top h2 {
+  color: #FFFFFF !important;
+}
+
+.chip-val {
+  color: #FFB833 !important;
+}
+
+.chip-lbl {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.stat-chip {
+  background: rgba(255, 255, 255, 0.15) !important;
+}
+
+/* 15. Settings */
+#tab-settings input {
+  background: #F5F5F5 !important;
+  border: 1px solid #DDDDDD !important;
+  color: #1A1A2E !important;
+}
+
+#tab-settings input::placeholder {
+  color: #AAAAAA !important;
+}
+
+#tab-settings .toggle {
+  background: #DDDDDD !important;
+}
+
+#tab-settings .toggle.on {
+  background: #4ECDC4 !important;
+}
+
+#tab-settings .toggle.on::after {
+  left: 23px !important;
+}
+
+/* 16. Toast */
+#toast {
+  background: #1A1A2E !important;
+  color: #FFFFFF !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* 17. Game header - wali midab leh */
+.game-header-native {
+  background: linear-gradient(135deg, #6C5CE7, #8B7CF8) !important;
+}
+
+.game-header-info h3 {
+  color: #FFFFFF !important;
+}
+
+.game-header-info p {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.game-header-score .score-num {
+  color: #FFB833 !important;
+}
+
+.game-header-score .score-lbl {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* 18. Premium popup */
+.game-overlay-content {
+  background: #FFFFFF !important;
+}
+
+.game-overlay-content h2 {
+  color: #1A1A2E !important;
+}
+
+.game-overlay-content p {
+  color: #666666 !important;
+}
+
+.premium-list {
+  background: #F5F5F5 !important;
+}
+
+.premium-list div {
+  color: #1A1A2E !important;
+}
+
+/* 19. Leaderboard */
+.lb-row {
+  background: #F5F5F5 !important;
+  border: 1px solid #E8E8E8 !important;
+}
+
+.lb-row.me {
+  background: rgba(108, 92, 231, 0.1) !important;
+  border-color: #6C5CE7 !important;
+}
+
+.lb-name {
+  color: #1A1A2E !important;
+}
+
+.lb-levels {
+  color: #888888 !important;
+}
+
+.lb-stars {
+  color: #FFB833 !important;
+}
+
+.lb-header h2 {
+  color: #1A1A2E !important;
+}
+
+/* 20. Pin screen */
+.pin-key {
+  background: #F5F5F5 !important;
+  color: #1A1A2E !important;
+}
+
+.pin-back {
+  background: linear-gradient(135deg, #F72585, #ee5a24) !important;
+  color: #FFFFFF !important;
+}
+
+#pin-screen h2 {
+  color: #1A1A2E !important;
+}
+
+#pin-screen p {
+  color: #666666 !important;
+}
+
+/* 21. Dropdown menu */
+.dropdown-menu {
+  background: #FFFFFF !important;
+  border: 1px solid #E8E8E8 !important;
+}
+
+.dropdown-item {
+  color: #1A1A2E !important;
+}
+
+.dropdown-item.danger {
+  color: #DC3545 !important;
+}
+
+/* 22. Ad banner */
+.ad-native-banner {
+  background: rgba(0, 0, 0, 0.03) !important;
+  border-top: 1px solid rgba(0, 0, 0, 0.06) !important;
+}
+
+.ad-text {
+  color: #888888 !important;
+}
+
+/* 23. Lock badge */
+.lock-dot {
+  background: linear-gradient(135deg, #FFB833, #F72585) !important;
+  color: #FFFFFF !important;
+}
+   /* ============================================
    🛠 FIX: Progress Bars Visibility
    ============================================ */
 
