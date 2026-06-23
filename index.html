@@ -888,6 +888,10 @@ function doRegister() {
   success.textContent = '';
   const teacherCode =
 "KLP" + Math.floor(10000 + Math.random() * 90000);
+  const teacherCode =
+document.getElementById(
+"teacher-code"
+).value;
   
   if(selectedRole === 'parent') {
     const email = document.getElementById('reg-parent-email').value.trim();
