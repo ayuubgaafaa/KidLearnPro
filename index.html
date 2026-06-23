@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KidLearn Pro — Teacher Rules & Firebase</title>
+<title>KidLearn Pro — Complete App</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',sans-serif;user-select:none;}
 body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh;display:flex;justify-content:center;align-items:center;color:white;padding:16px;padding-bottom:80px;}
@@ -282,9 +282,9 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
           <div class="input-group"><label>👤 Full Name</label><input type="text" id="reg-teacher-name" placeholder="Your full name"></div>
           <div class="input-group"><label>📧 Email</label><input type="email" id="reg-teacher-email" placeholder="teacher@email.com"></div>
           <div class="input-group"><label>🔑 Password</label><input type="password" id="reg-teacher-pass" placeholder="Min 6 characters"></div>
-          <div class="input-group"><label>🆔 Teacher ID / Certificate</label><input type="text" id="reg-teacher-id" placeholder="Certificate number or ID"></div>
-          <div class="input-group"><label>📝 Experience & CV</label><textarea id="reg-teacher-cv" placeholder="Describe your teaching experience, qualifications, etc."></textarea></div>
-          <div class="input-group"><label>📚 Subject Specialization</label>
+          <div class="input-group"><label>🆔 Teacher ID</label><input type="text" id="reg-teacher-id" placeholder="Certificate number"></div>
+          <div class="input-group"><label>📝 Experience</label><textarea id="reg-teacher-cv" placeholder="Describe your experience..."></textarea></div>
+          <div class="input-group"><label>📚 Subject</label>
             <select id="reg-teacher-subject">
               <option value="all">All Subjects</option>
               <option value="english">English</option>
@@ -383,8 +383,6 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
     <div id="teacher-students" style="display:none;">
       <div class="section-head">👨‍🎓 Your Students</div>
       <div id="teacher-student-list">No students enrolled</div>
-      <div class="section-head">📊 Student Progress</div>
-      <div id="teacher-student-progress">No data available</div>
     </div>
     <div id="teacher-content" style="display:none;">
       <div class="section-head">📤 Upload Content</div>
@@ -434,28 +432,18 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
         <p style="font-size:.82rem;color:#666;padding:4px 0;">• Content must be educational and age-appropriate</p>
         <p style="font-size:.82rem;color:#666;padding:4px 0;">• No inappropriate or harmful content</p>
         <p style="font-size:.82rem;color:#666;padding:4px 0;">• Must specify grade level for each content</p>
-        <p style="font-size:.82rem;color:#666;padding:4px 0;">• Content must be accurate and factual</p>
       </div>
       <div style="background:#f8f7ff;border-radius:16px;padding:16px;margin-bottom:12px;">
         <h4 style="color:#4a3487;">3. Student Management Rules</h4>
         <p style="font-size:.82rem;color:#666;padding:4px 0;">• Teachers can approve/reject student requests</p>
         <p style="font-size:.82rem;color:#666;padding:4px 0;">• Must monitor student progress regularly</p>
         <p style="font-size:.82rem;color:#666;padding:4px 0;">• Provide feedback and support to students</p>
-        <p style="font-size:.82rem;color:#666;padding:4px 0;">• Maintain professional relationship with students</p>
-      </div>
-      <div style="background:#f8f7ff;border-radius:16px;padding:16px;margin-bottom:12px;">
-        <h4 style="color:#4a3487;">4. Exam Creation Rules</h4>
-        <p style="font-size:.82rem;color:#666;padding:4px 0;">• Exams must be appropriate for student level</p>
-        <p style="font-size:.82rem;color:#666;padding:4px 0;">• Questions must be clear and accurate</p>
-        <p style="font-size:.82rem;color:#666;padding:4px 0;">• Provide correct answers in JSON format</p>
-        <p style="font-size:.82rem;color:#666;padding:4px 0;">• Exams are automatically scored</p>
       </div>
       <div style="background:#f8f7ff;border-radius:16px;padding:16px;">
-        <h4 style="color:#4a3487;">5. Code of Conduct</h4>
+        <h4 style="color:#4a3487;">4. Code of Conduct</h4>
         <p style="font-size:.82rem;color:#666;padding:4px 0;">• Be respectful and professional</p>
         <p style="font-size:.82rem;color:#666;padding:4px 0;">• No discrimination or harassment</p>
         <p style="font-size:.82rem;color:#666;padding:4px 0;">• Protect student privacy and data</p>
-        <p style="font-size:.82rem;color:#666;padding:4px 0;">• Report any issues to admin</p>
       </div>
     </div>
   </div>
@@ -546,7 +534,7 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
   </div>
 </div>
 
-<!-- LEADERBOARD -->
+<!-- LEADERBOARD SCREEN -->
 <div id="leaderboard-screen" class="screen">
   <div class="lb-wrap">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
@@ -629,86 +617,6 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.database();
 
-// ═══ FIREBASE DATABASE RULES ═════════════════════════
-// These rules should be set in Firebase Console > Realtime Database > Rules
-const FIREBASE_RULES = `
-{
-  "rules": {
-    // Read rules - anyone can read public data
-    ".read": "auth != null",
-    
-    // Write rules - users can only write their own data
-    ".write": "auth != null",
-    
-    "users": {
-      "$uid": {
-        // Users can read/write their own data
-        ".read": "auth.uid === $uid",
-        ".write": "auth.uid === $uid",
-        // Teachers can read student data
-        "studentData": {
-          ".read": "root.child('users/' + auth.uid + '/role').val() === 'teacher'"
-        }
-      }
-    },
-    
-    "teacherApplications": {
-      ".read": "auth != null",
-      ".write": "auth != null",
-      "$appId": {
-        // Only the teacher who created it or admin can modify
-        ".write": "data.child('teacherId').val() === auth.uid || root.child('users/' + auth.uid + '/role').val() === 'parent'"
-      }
-    },
-    
-    "studentRequests": {
-      ".read": "auth != null",
-      ".write": "auth != null",
-      "$reqId": {
-        // Only the student or their parent/teacher can modify
-        ".write": "data.child('studentId').val() === auth.uid || data.child('parentEmail').val() === root.child('users/' + auth.uid + '/email').val()"
-      }
-    },
-    
-    "content": {
-      ".read": "auth != null",
-      ".write": "auth != null",
-      "$contentId": {
-        // Only the teacher who created it can modify
-        ".write": "data.child('teacherId').val() === auth.uid"
-      }
-    },
-    
-    "exams": {
-      ".read": "auth != null",
-      ".write": "auth != null",
-      "$examId": {
-        // Only the teacher who created it can modify
-        ".write": "data.child('teacherId').val() === auth.uid"
-      }
-    },
-    
-    "leaderboard": {
-      ".read": "auth != null",
-      ".write": "auth != null",
-      "$uid": {
-        // Users can only update their own leaderboard entry
-        ".write": "auth.uid === $uid"
-      }
-    },
-    
-    "teacherStudents": {
-      ".read": "auth != null",
-      ".write": "auth != null",
-      "$teacherId": {
-        // Only the teacher can manage their students
-        ".write": "auth.uid === $teacherId"
-      }
-    }
-  }
-}
-`;
-
 // ═══ STATE ═══════════════════════════════════════════
 let currentUser = null;
 let isGuest = false;
@@ -720,7 +628,7 @@ let examScore = 0;
 let gameState = {};
 let streak = 0;
 let curMode = 'abc', curIdx = 0;
-let flagIndex = 0, flagScore = 0;
+let flagScore = 0;
 
 let ST = {
   childName: 'Kid',
@@ -739,10 +647,7 @@ let ST = {
   teacherApproved: false,
   studentApproved: false,
   enrolledTeachers: [],
-  examScores: [],
-  teacherSubject: 'all',
-  teacherId: '',
-  gradeLevel: 'preschool'
+  examScores: []
 };
 
 let completed = {
@@ -753,8 +658,127 @@ let completed = {
 };
 
 // ═══ GAME DATA ══════════════════════════════════════
-// [All 20 games data - same as before]
-// I'll keep it compact to save space
+const gameData = {
+  abc: [
+    {q:"A",word:"Apple",speech:"A. Apple",options:["🍎","🍌","🐱","🐕"],a:"🍎"},
+    {q:"B",word:"Banana",speech:"B. Banana",options:["🚗","🍌","🥚","🦊"],a:"🍌"},
+    {q:"C",word:"Cat",speech:"C. Cat",options:["🍇","🦆","🐱","🦁"],a:"🐱"},
+    {q:"D",word:"Dog",speech:"D. Dog",options:["🐕","🐘","🐸","🐐"],a:"🐕"},
+    {q:"E",word:"Elephant",speech:"E. Elephant",options:["🍎","🐘","🍦","🦊"],a:"🐘"},
+    {q:"F",word:"Fox",speech:"F. Fox",options:["🦊","🍇","👒","🦎"],a:"🦊"},
+    {q:"G",word:"Goat",speech:"G. Goat",options:["🍌","🍇","🐐","🍋"],a:"🐐"},
+    {q:"H",word:"Horse",speech:"H. Horse",options:["🐴","🦁","🐒","🐔"],a:"🐴"},
+    {q:"I",word:"Ice cream",speech:"I. Ice cream",options:["🐟","🍦","🦎","🦉"],a:"🍦"},
+    {q:"J",word:"Juice",speech:"J. Juice",options:["🧃","🐨","🦁","🐭"],a:"🧃"},
+    {q:"K",word:"Kangaroo",speech:"K. Kangaroo",options:["🦘","🐼","🐷","🐰"],a:"🦘"},
+    {q:"L",word:"Lion",speech:"L. Lion",options:["🐸","🐯","🦁","🐺"],a:"🦁"},
+    {q:"M",word:"Monkey",speech:"M. Monkey",options:["🐒","🐔","🐧","🐦"],a:"🐒"},
+    {q:"N",word:"Nest",speech:"N. Nest",options:["🪹","🦉","🦇","🦅"],a:"🪹"},
+    {q:"O",word:"Owl",speech:"O. Owl",options:["🐝","🐛","🦋","🦉"],a:"🦉"},
+    {q:"P",word:"Penguin",speech:"P. Penguin",options:["🐧","🐢","🐊","🐍"],a:"🐧"},
+    {q:"Q",word:"Queen Bee",speech:"Q. Queen Bee",options:["🐳","🦈","🐙","🐝"],a:"🐝"},
+    {q:"R",word:"Rabbit",speech:"R. Rabbit",options:["🦌","🐮","🐷","🐰"],a:"🐰"},
+    {q:"S",word:"Sheep",speech:"S. Sheep",options:["🐑","🐫","🐘","🦒"],a:"🐑"},
+    {q:"T",word:"Tiger",speech:"T. Tiger",options:["🦓","🐆","🐯","🦁"],a:"🐯"},
+    {q:"U",word:"Unicorn",speech:"U. Unicorn",options:["🦄","🦅","🦉","🦇"],a:"🦄"},
+    {q:"V",word:"Vulture",speech:"V. Vulture",options:["🦅","🦜","🕊️","🦤"],a:"🦅"},
+    {q:"W",word:"Whale",speech:"W. Whale",options:["🦈","🐳","🐟","🐙"],a:"🐳"},
+    {q:"X",word:"Xylophone",speech:"X. Xylophone",options:["🪘","🎸","🎹","🎺"],a:"🪘"},
+    {q:"Y",word:"Yak",speech:"Y. Yak",options:["🐂","🐄","🐐","🐑"],a:"🐂"},
+    {q:"Z",word:"Zebra",speech:"Z. Zebra",options:["🦓","🐎","🐴","🦌"],a:"🦓"}
+  ],
+  numbers: [
+    {q:"1",word:"One",speech:"One. One apple",options:["🍎","🍌🍌","🐱🐱🐱","🍕🍕🍕🍕"],a:"🍎"},
+    {q:"2",word:"Two",speech:"Two. Two bananas",options:["🍇","🍌🍌","🥚","🦊"],a:"🍌🍌"},
+    {q:"3",word:"Three",speech:"Three. Three cats",options:["🍇","🦆","🐱🐱🐱","🦁"],a:"🐱🐱🐱"},
+    {q:"4",word:"Four",speech:"Four. Four dogs",options:["🐕🐕🐕🐕","🐘","🐸","🐐"],a:"🐕🐕🐕🐕"},
+    {q:"5",word:"Five",speech:"Five. Five fish",options:["🐟🐟🐟🐟🐟","🐤","🦊","🐝"],a:"🐟🐟🐟🐟🐟"},
+    {q:"6",word:"Six",speech:"Six. Six birds",options:["🍎","🐦🐦🐦🐦🐦🐦","🍇","🍌"],a:"🐦🐦🐦🐦🐦🐦"},
+    {q:"7",word:"Seven",speech:"Seven. Seven frogs",options:["🐸🐸🐸🐸🐸🐸🐸","🦁","🐢","🐘"],a:"🐸🐸🐸🐸🐸🐸🐸"},
+    {q:"8",word:"Eight",speech:"Eight. Eight butterflies",options:["🦋🦋🦋🦋🦋🦋🦋🦋","🐝","🐛","🐞"],a:"🦋🦋🦋🦋🦋🦋🦋🦋"},
+    {q:"9",word:"Nine",speech:"Nine. Nine stars",options:["⭐","🌙","☁️","⭐⭐⭐⭐⭐⭐⭐⭐⭐"],a:"⭐⭐⭐⭐⭐⭐⭐⭐⭐"},
+    {q:"10",word:"Ten",speech:"Ten. Ten balloons",options:["🎈🎈🎈🎈🎈🎈🎈🎈🎈🎈","🚗","🧸","⚽"],a:"🎈🎈🎈🎈🎈🎈🎈🎈🎈🎈"}
+  ],
+  coloring: [
+    {q:"🦁",word:"Lion",speech:"What sound does the Lion make?",options:["Roar","Meow","Bark","Cluck"],a:"Roar",textOpts:true},
+    {q:"🐱",word:"Cat",speech:"What sound does the Cat make?",options:["Oink","Meow","Moo","Quack"],a:"Meow",textOpts:true},
+    {q:"🐕",word:"Dog",speech:"What sound does the Dog make?",options:["Neigh","Roar","Bark","Bleat"],a:"Bark",textOpts:true},
+    {q:"🐮",word:"Cow",speech:"What sound does the Cow make?",options:["Moo","Baah","Buzz","Hiss"],a:"Moo",textOpts:true},
+    {q:"🦆",word:"Duck",speech:"What sound does the Duck make?",options:["Chirp","Quack","Oink","Roar"],a:"Quack",textOpts:true},
+    {q:"🐔",word:"Chicken",speech:"What sound does the Chicken make?",options:["Cluck","Meow","Bark","Moo"],a:"Cluck",textOpts:true},
+    {q:"🐴",word:"Horse",speech:"What sound does the Horse make?",options:["Buzz","Hiss","Neigh","Roar"],a:"Neigh",textOpts:true},
+    {q:"🐑",word:"Sheep",speech:"What sound does the Sheep make?",options:["Baah","Meow","Quack","Oink"],a:"Baah",textOpts:true},
+    {q:"🐷",word:"Pig",speech:"What sound does the Pig make?",options:["Bark","Oink","Moo","Cluck"],a:"Oink",textOpts:true},
+    {q:"🐝",word:"Bee",speech:"What sound does the Bee make?",options:["Chirp","Buzz","Roar","Hiss"],a:"Buzz",textOpts:true},
+    {q:"🔴",word:"Red",speech:"What color is this?",options:["Blue","Red","Green","Yellow"],a:"Red",textOpts:true},
+    {q:"🔵",word:"Blue",speech:"What color is this?",options:["Red","Green","Blue","Black"],a:"Blue",textOpts:true},
+    {q:"🟢",word:"Green",speech:"What color is this?",options:["Yellow","White","Green","Red"],a:"Green",textOpts:true},
+    {q:"🟡",word:"Yellow",speech:"What color is this?",options:["Blue","Yellow","Pink","Orange"],a:"Yellow",textOpts:true},
+    {q:"⚫",word:"Black",speech:"What color is this?",options:["Black","White","Brown","Purple"],a:"Black",textOpts:true}
+  ],
+  arabic: [
+    {q:"أ",word:"أسد",speech:"أَلِف. أَسَد",speechLang:"ar-SA",options:["🦁","🦆","🍎","🐪"],a:"🦁"},
+    {q:"ب",word:"بطة",speech:"بَاء. بَطَّة",speechLang:"ar-SA",options:["📆","🦆","🍇","🐱"],a:"🦆"},
+    {q:"ت",word:"تفاحة",speech:"تَاء. تُفَّاحَة",speechLang:"ar-SA",options:["🍎","🍌","🥕","🥒"],a:"🍎"},
+    {q:"ث",word:"ثعلب",speech:"ثَاء. ثَعْلَب",speechLang:"ar-SA",options:["🦊","🐰","🐺","🦁"],a:"🦊"},
+    {q:"ج",word:"جمل",speech:"جِيم. جَمَل",speechLang:"ar-SA",options:["🐴","🐪","🐮","🐷"],a:"🐪"},
+    {q:"ح",word:"حصان",speech:"حَاء. حِصَان",speechLang:"ar-SA",options:["🐴","🐐","🐑","🐂"],a:"🐴"},
+    {q:"خ",word:"خروف",speech:"خَاء. خَرُوف",speechLang:"ar-SA",options:["🐑","🐺","🦊","🐻"],a:"🐑"},
+    {q:"د",word:"دب",speech:"دَال. دُبّ",speechLang:"ar-SA",options:["🐻","🦁","🐯","🐱"],a:"🐻"},
+    {q:"ذ",word:"ذئب",speech:"ذَال. ذِئْب",speechLang:"ar-SA",options:["🐺","🦊","🐕","🐱"],a:"🐺"},
+    {q:"ر",word:"رمان",speech:"رَاء. رُمَّان",speechLang:"ar-SA",options:["🍉","🍇","🍌","🍎"],a:"🍇"},
+    {q:"ز",word:"زرافة",speech:"زَاي. زَرَافَة",speechLang:"ar-SA",options:["🦒","🐘","🐪","🐎"],a:"🦒"},
+    {q:"س",word:"سمكة",speech:"سِين. سَمَكَة",speechLang:"ar-SA",options:["🐟","🦀","🐙","🐋"],a:"🐟"},
+    {q:"ش",word:"شمس",speech:"شِين. شَمْس",speechLang:"ar-SA",options:["☀️","🌙","☁️","⭐"],a:"☀️"},
+    {q:"ص",word:"صقر",speech:"صَاد. صَقْر",speechLang:"ar-SA",options:["🦅","🦉","🕊️","🦆"],a:"🦅"},
+    {q:"ض",word:"ضفدع",speech:"ضَاد. ضُفْدَع",speechLang:"ar-SA",options:["🐸","🐢","🐍","🦎"],a:"🐸"},
+    {q:"ط",word:"طائرة",speech:"طَاء. طَائِرَة",speechLang:"ar-SA",options:["🚀","🚗","✈️","🚢"],a:"✈️"},
+    {q:"ظ",word:"ظرف",speech:"ظَاء. ظَرْف",speechLang:"ar-SA",options:["✉️","📦","📜","📝"],a:"✉️"},
+    {q:"ع",word:"عنب",speech:"عَيْن. عِنَب",speechLang:"ar-SA",options:["🍇","🍒","🍓","🍉"],a:"🍇"},
+    {q:"غ",word:"غزال",speech:"غَيْن. غَزَال",speechLang:"ar-SA",options:["🦌","🐐","🐑","🐴"],a:"🦌"},
+    {q:"ف",word:"فيل",speech:"فَاء. فِيل",speechLang:"ar-SA",options:["🐘","🦒","🦏","🦛"],a:"🐘"},
+    {q:"ق",word:"قرد",speech:"قَاف. قِرْد",speechLang:"ar-SA",options:["🐒","🦍","🦧","🐱"],a:"🐒"},
+    {q:"ك",word:"كتاب",speech:"كَاف. كِتَاب",speechLang:"ar-SA",options:["📚","✏️","🎨","🎒"],a:"📚"},
+    {q:"ل",word:"ليمون",speech:"لَام. لَيْمُون",speechLang:"ar-SA",options:["🍋","🍏","🍐","🍊"],a:"🍋"},
+    {q:"م",word:"موز",speech:"مِيم. مَوْز",speechLang:"ar-SA",options:["🍌","🍍","🥭","🥝"],a:"🍌"},
+    {q:"ن",word:"نمر",speech:"نُون. نَمِر",speechLang:"ar-SA",options:["🐯","🦁","🐆","🐱"],a:"🐯"},
+    {q:"هـ",word:"هلال",speech:"هَاء. هِلَال",speechLang:"ar-SA",options:["🌙","☀️","⭐","🌍"],a:"🌙"},
+    {q:"و",word:"وردة",speech:"وَاو. وَرْدَة",speechLang:"ar-SA",options:["🌹","🌻","🌲","🌱"],a:"🌹"},
+    {q:"ي",word:"يد",speech:"يَاء. يَد",speechLang:"ar-SA",options:["👋","👀","👃","👂"],a:"👋"}
+  ],
+  math: (function(){
+    var levels=[];
+    for(var i=1;i<=25;i++){
+      var a=Math.floor(Math.random()*10)+1,b=Math.floor(Math.random()*10)+1,ans=a+b;
+      var wrong=[ans+1,ans-1,ans+2,ans-2].filter(function(x){return x>0&&x!==ans;});
+      var opts=[ans,wrong[0],wrong[1],wrong[2]].sort(function(){return Math.random()-.5;});
+      levels.push({q:a+' + '+b,word:a+' plus '+b,speech:'What is '+a+' plus '+b+'?',options:opts.map(String),a:String(ans),textOpts:true});
+    }
+    for(var i=1;i<=25;i++){
+      var a=Math.floor(Math.random()*15)+5,b=Math.floor(Math.random()*(a-1))+1,ans=a-b;
+      var wrong=[ans+1,ans-1,ans+2,ans-2].filter(function(x){return x>=0&&x!==ans;});
+      var opts=[ans,wrong[0],wrong[1],wrong[2]].sort(function(){return Math.random()-.5;});
+      levels.push({q:a+' - '+b,word:a+' minus '+b,speech:'What is '+a+' minus '+b+'?',options:opts.map(String),a:String(ans),textOpts:true});
+    }
+    return levels;
+  })()
+};
+
+// ═══ FLAG DATA ═══════════════════════════════════════
+const FLAG_DATA = [
+  {name:"Afghanistan", flag:"🇦🇫"},{name:"Albania", flag:"🇦🇱"},{name:"Algeria", flag:"🇩🇿"},
+  {name:"Andorra", flag:"🇦🇩"},{name:"Angola", flag:"🇦🇴"},{name:"Argentina", flag:"🇦🇷"},
+  {name:"Australia", flag:"🇦🇺"},{name:"Austria", flag:"🇦🇹"},{name:"Brazil", flag:"🇧🇷"},
+  {name:"Canada", flag:"🇨🇦"},{name:"China", flag:"🇨🇳"},{name:"Denmark", flag:"🇩🇰"},
+  {name:"Egypt", flag:"🇪🇬"},{name:"Finland", flag:"🇫🇮"},{name:"France", flag:"🇫🇷"},
+  {name:"Germany", flag:"🇩🇪"},{name:"Greece", flag:"🇬🇷"},{name:"India", flag:"🇮🇳"},
+  {name:"Italy", flag:"🇮🇹"},{name:"Japan", flag:"🇯🇵"},{name:"Mexico", flag:"🇲🇽"},
+  {name:"Norway", flag:"🇳🇴"},{name:"Pakistan", flag:"🇵🇰"},{name:"Portugal", flag:"🇵🇹"},
+  {name:"Russia", flag:"🇷🇺"},{name:"Saudi Arabia", flag:"🇸🇦"},{name:"Spain", flag:"🇪🇸"},
+  {name:"Sweden", flag:"🇸🇪"},{name:"Turkey", flag:"🇹🇷"},{name:"UK", flag:"🇬🇧"},
+  {name:"USA", flag:"🇺🇸"},{name:"UAE", flag:"🇦🇪"},{name:"Somalia", flag:"🇸🇴"},
+  {name:"Kenya", flag:"🇰🇪"},{name:"Nigeria", flag:"🇳🇬"},{name:"South Africa", flag:"🇿🇦"}
+];
 
 // ═══ UI HELPERS ═════════════════════════════════════
 function showToast(msg) {
@@ -783,6 +807,15 @@ function refreshHome() {
   const starEl = document.getElementById('star-count');
   if(starEl) starEl.textContent = '⭐ ' + ST.totalStars + ' stars collected';
   
+  const gameNames = ['abc','numbers','coloring','arabic','math','flags','memory','bingo','scramble','color','typing','geo','search','animal','story','phonics','multiply','vocab','music','animate'];
+  gameNames.forEach(m => {
+    const el = document.getElementById(m + '-progress');
+    if(el) {
+      if(gameData[m]) el.textContent = completed[m] + '/' + gameData[m].length + ' levels';
+      else if(m === 'flags') el.textContent = '36 flags';
+    }
+  });
+  
   document.getElementById('card-teacher').style.display = userRole === 'teacher' ? 'block' : 'none';
   document.getElementById('card-student').style.display = userRole === 'student' ? 'block' : 'none';
   document.getElementById('card-parent').style.display = userRole === 'parent' ? 'block' : 'none';
@@ -790,6 +823,8 @@ function refreshHome() {
 
 function saveToCloudNow() {
   if(!currentUser || isGuest) return;
+  
+  // Save user data
   db.ref('users/' + currentUser.uid).update({
     childName: ST.childName,
     totalStars: ST.totalStars,
@@ -802,11 +837,10 @@ function saveToCloudNow() {
     enrolledTeachers: ST.enrolledTeachers,
     examScores: ST.examScores,
     completed: completed,
-    teacherSubject: ST.teacherSubject,
-    teacherId: ST.teacherId,
-    gradeLevel: ST.gradeLevel,
     updatedAt: Date.now()
   });
+  
+  // ⭐ UPDATE LEADERBOARD - Realtime Database
   db.ref('leaderboard/' + currentUser.uid).set({
     name: ST.childName,
     stars: ST.totalStars,
@@ -923,9 +957,23 @@ function doLogin() {
   const err = document.getElementById('auth-error');
   if(!email || !pass) { err.textContent = 'Please fill all fields'; return; }
   document.getElementById('login-loading').style.display = 'block';
-  auth.signInWithEmailAndPassword(email, pass).then(() => {
-    document.getElementById('login-loading').style.display = 'none';
-  }).catch(e => { err.textContent = e.message; document.getElementById('login-loading').style.display = 'none'; });
+  err.textContent = '';
+  
+  auth.signInWithEmailAndPassword(email, pass)
+    .then(() => {
+      document.getElementById('login-loading').style.display = 'none';
+      showToast('✅ Welcome back!');
+    })
+    .catch(e => {
+      if(e.code === 'auth/invalid-credential' || e.code === 'auth/wrong-password' || e.code === 'auth/user-not-found') {
+        err.textContent = '❌ Invalid email or password. Please try again.';
+      } else if(e.code === 'auth/too-many-requests') {
+        err.textContent = '⛔ Too many failed attempts. Please wait and try again.';
+      } else {
+        err.textContent = '❌ ' + e.message;
+      }
+      document.getElementById('login-loading').style.display = 'none';
+    });
 }
 
 function doForgotPassword() {
@@ -964,9 +1012,26 @@ auth.onAuthStateChanged(user => {
         if(data.enrolledTeachers) ST.enrolledTeachers = data.enrolledTeachers;
         if(data.examScores) ST.examScores = data.examScores;
         if(data.completed) Object.assign(completed, data.completed);
-        if(data.teacherSubject) ST.teacherSubject = data.teacherSubject;
-        if(data.teacherId) ST.teacherId = data.teacherId;
       }
+      
+      // ⭐ Load leaderboard data to ensure sync
+      db.ref('leaderboard/' + user.uid).once('value').then(lbSnap => {
+        if(lbSnap.exists()) {
+          const lbData = lbSnap.val();
+          if(lbData.stars > ST.totalStars) {
+            ST.totalStars = lbData.stars;
+          }
+        } else {
+          db.ref('leaderboard/' + user.uid).set({
+            name: ST.childName,
+            stars: ST.totalStars,
+            levels: ST.levelsDone,
+            role: ST.role,
+            updatedAt: Date.now()
+          });
+        }
+      });
+      
       if(userRole === 'teacher') {
         db.ref('teacherApplications/' + user.uid).once('value').then(snap => {
           if(snap.exists()) { const data = snap.val(); ST.teacherApproved = data.status === 'approved'; saveToCloudNow(); }
@@ -985,8 +1050,1034 @@ auth.onAuthStateChanged(user => {
   }
 });
 
+// ═══════════════════════════════════════════════════════
+// ═══ FLAG QUIZ ═══════════════════════════════════════
+// ═══════════════════════════════════════════════════════
+
+function loadFlagGame() {
+  flagScore = 0;
+  const container = document.getElementById('gameContent');
+  container.innerHTML = `
+    <div class="level-lbl">Flag Quiz • 36 Flags</div>
+    <div class="question-box" style="font-size:4rem;" id="flagDisplay">🌍</div>
+    <div id="flagOptions" class="geo-options"></div>
+    <div class="game-stats">
+      <span>✅ Correct: <span id="flagCorrect">0</span></span>
+      <span>⭐ Stars: <span id="flagStars">${ST.totalStars}</span></span>
+    </div>
+    <div class="game-footer" id="flagFooter">🌍 Which country does this flag belong to?</div>
+    <button class="game-btn" onclick="loadFlagGame()">🔄 New Game</button>
+  `;
+  loadFlagQuestion();
+}
+
+function loadFlagQuestion() {
+  const flags = FLAG_DATA;
+  const randomIdx = Math.floor(Math.random() * flags.length);
+  const currentFlag = flags[randomIdx];
+  
+  let others = flags.filter((_, i) => i !== randomIdx);
+  others = others.sort(() => Math.random() - 0.5).slice(0, 3);
+  
+  let options = [currentFlag, ...others];
+  options = options.sort(() => Math.random() - 0.5);
+  
+  document.getElementById('flagDisplay').textContent = currentFlag.flag;
+  
+  const container = document.getElementById('flagOptions');
+  container.innerHTML = '';
+  options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'geo-opt';
+    btn.textContent = opt.name;
+    btn.onclick = () => {
+      document.querySelectorAll('#flagOptions .geo-opt').forEach(b => b.disabled = true);
+      
+      if(opt.name === currentFlag.name) {
+        btn.classList.add('correct');
+        flagScore++;
+        ST.totalStars += 2;
+        ST.levelsDone++;
+        completed.flags = (completed.flags || 0) + 1;
+        document.getElementById('flagCorrect').textContent = flagScore;
+        document.getElementById('flagStars').textContent = ST.totalStars;
+        document.getElementById('flagFooter').textContent = '✅ Correct! Well done! +2 stars';
+        saveToCloudNow();
+        refreshHome();
+        showToast('✅ Correct! +2 stars');
+      } else {
+        btn.classList.add('wrong');
+        document.querySelectorAll('#flagOptions .geo-opt').forEach(b => {
+          if(b.textContent === currentFlag.name) b.classList.add('correct');
+        });
+        document.getElementById('flagFooter').textContent = '❌ Wrong! The answer was: ' + currentFlag.name;
+        showToast('❌ Wrong! Answer: ' + currentFlag.name);
+      }
+      setTimeout(loadFlagQuestion, 1500);
+    };
+    container.appendChild(btn);
+  });
+  
+  document.getElementById('flagFooter').textContent = '🌍 Which country does this flag belong to?';
+}
+
+// ═══════════════════════════════════════════════════════
+// ═══ LEADERBOARD — REALTIME DATABASE ════════════════
+// ═══════════════════════════════════════════════════════
+
+function loadLeaderboard() {
+  showScreen('leaderboard-screen');
+  const list = document.getElementById('lb-list');
+  list.innerHTML = '<p style="text-align:center;color:#aaa;padding:20px;">🏆 Loading leaderboard...</p>';
+  
+  const lbRef = db.ref('leaderboard');
+  
+  if(window._lbListener) {
+    lbRef.off('value', window._lbListener);
+  }
+  
+  window._lbListener = function(snapshot) {
+    if(!snapshot.exists()) {
+      list.innerHTML = `
+        <div class="lb-empty" style="text-align:center;color:#aaa;padding:40px 20px;">
+          <span style="font-size:2rem;display:block;margin-bottom:10px;">🏆</span>
+          No players yet! Be the first to earn stars!
+        </div>
+      `;
+      return;
+    }
+    
+    const users = [];
+    snapshot.forEach(child => {
+      const data = child.val();
+      data.uid = child.key;
+      if(data.stars !== undefined && data.stars !== null && data.stars > 0) {
+        users.push(data);
+      }
+    });
+    
+    users.sort((a, b) => (b.stars || 0) - (a.stars || 0));
+    
+    if(users.length === 0) {
+      list.innerHTML = `
+        <div class="lb-empty" style="text-align:center;color:#aaa;padding:40px 20px;">
+          <span style="font-size:2rem;display:block;margin-bottom:10px;">🏆</span>
+          No players yet! Be the first to earn stars!
+        </div>
+      `;
+      return;
+    }
+    
+    const medals = ['🥇', '🥈', '🥉'];
+    const rankColors = ['gold', 'silver', 'bronze'];
+    
+    let html = '';
+    users.slice(0, 50).forEach((data, idx) => {
+      const rank = idx + 1;
+      const isMe = currentUser && data.uid === currentUser.uid;
+      const medal = rank <= 3 ? medals[rank - 1] : rank;
+      const rankColor = rank <= 3 ? rankColors[rank - 1] : '';
+      const stars = data.stars || 0;
+      const name = data.name || 'Kid';
+      const levels = data.levels || 0;
+      
+      html += `
+        <div class="lb-item ${isMe ? 'me' : ''}">
+          <div class="lb-rank ${rankColor}">${medal}</div>
+          <div style="font-size:1.8rem;">${isMe ? '🌟' : '👦'}</div>
+          <div class="lb-info">
+            <div class="lb-name">${name}${isMe ? ' ⭐ (You)' : ''}</div>
+            <div class="lb-stars">${levels} levels done</div>
+          </div>
+          <div class="lb-score">⭐${stars}</div>
+        </div>
+      `;
+    });
+    
+    list.innerHTML = html;
+  };
+  
+  lbRef.on('value', window._lbListener);
+}
+
 // ═══ GAME FUNCTIONS ═════════════════════════════════
-// [All 20 game functions - same as before, compact]
+function startGame(mode) {
+  if(mode === 'flags') { loadFlagGame(); return; }
+  if(mode === 'memory') { loadMemoryGame(); return; }
+  if(mode === 'bingo') { loadBingoGame(); return; }
+  if(mode === 'scramble') { loadScrambleGame(); return; }
+  if(mode === 'color') { loadColorGame(); return; }
+  if(mode === 'typing') { loadTypingGame(); return; }
+  if(mode === 'geo') { loadGeoGame(); return; }
+  if(mode === 'search') { loadSearchGame(); return; }
+  if(mode === 'animal') { loadAnimalGame(); return; }
+  if(mode === 'story') { loadStoryGame(); return; }
+  if(mode === 'phonics') { loadPhonicsGame(); return; }
+  if(mode === 'multiply') { loadMultiplyGame(); return; }
+  if(mode === 'vocab') { loadVocabGame(); return; }
+  if(mode === 'music') { loadMusicGame(); return; }
+  if(mode === 'animate') { loadAnimateGame(); return; }
+  
+  if(!gameData[mode]) { showToast('Game not found'); return; }
+  curMode = mode; curIdx = 0;
+  document.getElementById('game-title').textContent = mode.toUpperCase();
+  showScreen('game-screen');
+  loadGameLevel();
+}
+
+function loadGameLevel() {
+  const data = gameData[curMode];
+  if(!data || curIdx >= data.length) { showToast('🎉 All done!'); return; }
+  const q = data[curIdx];
+  const container = document.getElementById('gameContent');
+  container.innerHTML = `
+    <div class="level-lbl">Level ${curIdx+1}/${data.length}</div>
+    <div class="question-box" id="question">${q.q}</div>
+    <div class="word-label">${q.word || ''}</div>
+    <div id="quiz-options" class="options-grid"></div>
+    <div class="game-stats"><span>⭐ ${ST.totalStars}</span><span>✅ ${curIdx}/${data.length}</span></div>
+    <div class="game-footer">Tap an option to answer</div>
+  `;
+  const grid = document.getElementById('quiz-options');
+  grid.innerHTML = '';
+  q.options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn' + (q.textOpts ? ' text-opt' : '');
+    btn.textContent = opt;
+    btn.onclick = () => {
+      if(btn.disabled) return;
+      document.querySelectorAll('.opt-btn').forEach(b => b.disabled = true);
+      if(opt === q.a) {
+        btn.classList.add('correct');
+        ST.totalStars += 3; ST.levelsDone++; ST.correctAnswers++; ST.totalAnswers++;
+        completed[curMode] = (completed[curMode] || 0) + 1;
+        showToast('✅ Correct! +3 stars');
+        saveToCloudNow(); refreshHome();
+        setTimeout(() => { curIdx++; loadGameLevel(); }, 1000);
+      } else {
+        btn.classList.add('wrong');
+        ST.totalAnswers++;
+        showToast('❌ Try again!');
+        setTimeout(() => {
+          document.querySelectorAll('.opt-btn').forEach(b => b.disabled = false);
+        }, 800);
+      }
+    };
+    grid.appendChild(btn);
+  });
+}
+
+function exitGame() { showScreen('home-screen'); refreshHome(); }
+
+// ═══ MEMORY GAME ════════════════════════════════════
+function loadMemoryGame() {
+  const emojis = ['🍎','🍌','🍇','🍉','🍓','🍑','🍒','🥝'];
+  const deck = [...emojis, ...emojis];
+  const cards = deck.map((e,i) => ({id:i, emoji:e, flipped:false, matched:false}));
+  gameState.memCards = cards;
+  gameState.memFlipped = [];
+  gameState.memLocked = false;
+  const container = document.getElementById('gameContent');
+  container.innerHTML = `<div class="memory-grid" id="memGrid"></div>
+    <div class="game-stats"><span>Matches: <span id="memMatches">0</span>/8</span></div>
+    <button class="game-btn" onclick="loadMemoryGame()">New Game</button>`;
+  renderMemoryGrid();
+}
+
+function renderMemoryGrid() {
+  const grid = document.getElementById('memGrid');
+  if(!grid) return;
+  grid.innerHTML = '';
+  gameState.memCards.forEach((card, idx) => {
+    const div = document.createElement('div');
+    div.className = 'mem-card' + (card.flipped ? ' flipped' : '') + (card.matched ? ' matched' : '');
+    div.textContent = (card.flipped || card.matched) ? card.emoji : '❓';
+    div.onclick = () => {
+      if(gameState.memLocked) return;
+      if(card.flipped || card.matched) return;
+      card.flipped = true;
+      gameState.memFlipped.push(idx);
+      renderMemoryGrid();
+      if(gameState.memFlipped.length === 2) {
+        gameState.memLocked = true;
+        const [i1, i2] = gameState.memFlipped;
+        const c1 = gameState.memCards[i1], c2 = gameState.memCards[i2];
+        if(c1.emoji === c2.emoji) {
+          c1.matched = c2.matched = true;
+          gameState.memFlipped = [];
+          gameState.memLocked = false;
+          ST.totalStars += 1; saveToCloudNow(); refreshHome();
+          document.getElementById('memMatches').textContent = gameState.memCards.filter(c => c.matched).length / 2;
+          renderMemoryGrid();
+          if(gameState.memCards.every(c => c.matched)) showToast('🎉 You win!');
+        } else {
+          setTimeout(() => {
+            c1.flipped = c2.flipped = false;
+            gameState.memFlipped = [];
+            gameState.memLocked = false;
+            renderMemoryGrid();
+          }, 800);
+        }
+      }
+    };
+    grid.appendChild(div);
+  });
+}
+
+// ═══ BINGO GAME ═════════════════════════════════════
+function loadBingoGame() {
+  const nums = [];
+  while(nums.length < 16) {
+    const n = Math.floor(Math.random() * 20) + 1;
+    if(!nums.includes(n)) nums.push(n);
+  }
+  gameState.bingoGrid = nums.map((v,i) => ({value:v, marked:false, index:i}));
+  gameState.bingoAnswer = 0;
+  const container = document.getElementById('gameContent');
+  container.innerHTML = `<div class="question-box" style="font-size:1.5rem;min-height:60px;" id="bingoQ">? + ? = ?</div>
+    <div class="bingo-grid" id="bingoGrid"></div>
+    <div class="game-stats"><span>Score: <span id="bingoScore">0</span></span></div>
+    <button class="game-btn" onclick="loadBingoGame()">New Bingo</button>`;
+  renderBingoGrid();
+  genBingoQ();
+}
+
+function renderBingoGrid() {
+  const grid = document.getElementById('bingoGrid');
+  if(!grid) return;
+  grid.innerHTML = '';
+  gameState.bingoGrid.forEach(cell => {
+    const div = document.createElement('div');
+    div.className = 'bingo-cell' + (cell.marked ? ' marked' : '');
+    div.textContent = cell.value;
+    div.onclick = () => {
+      if(cell.marked) return;
+      if(cell.value === gameState.bingoAnswer) {
+        cell.marked = true;
+        const score = document.getElementById('bingoScore');
+        score.textContent = parseInt(score.textContent) + 10;
+        ST.totalStars += 1; saveToCloudNow(); refreshHome();
+        renderBingoGrid();
+        genBingoQ();
+        const grid = gameState.bingoGrid;
+        let win = false;
+        for(let r=0; r<4; r++) { if(grid[r*4].marked&&grid[r*4+1].marked&&grid[r*4+2].marked&&grid[r*4+3].marked) win=true; }
+        for(let c=0; c<4; c++) { if(grid[c].marked&&grid[c+4].marked&&grid[c+8].marked&&grid[c+12].marked) win=true; }
+        if(win) showToast('🎉 BINGO!');
+      } else {
+        div.classList.add('wrong');
+        setTimeout(() => div.classList.remove('wrong'), 500);
+      }
+    };
+    grid.appendChild(div);
+  });
+}
+
+function genBingoQ() {
+  const a = Math.floor(Math.random() * 10) + 1;
+  const b = Math.floor(Math.random() * 10) + 1;
+  gameState.bingoAnswer = a + b;
+  document.getElementById('bingoQ').textContent = a + ' + ' + b + ' = ?';
+}
+
+// ═══ SCRAMBLE GAME ═════════════════════════════════
+function loadScrambleGame() {
+  const words = ['CAT','DOG','FISH','BIRD','STAR','MOON','SUN','TREE','FLOWER','CLOUD','APPLE','HOUSE'];
+  gameState.scrambleWords = words;
+  const container = document.getElementById('gameContent');
+  container.innerHTML = `<div class="scrambled-word" id="scrambleDisplay">???</div>
+    <div class="scramble-input"><input type="text" id="scrambleInput" placeholder="Type answer..."><button onclick="checkScramble()">Guess</button></div>
+    <div class="game-stats"><span>Score: <span id="scrambleScore">0</span></span></div>
+    <button class="game-btn" onclick="loadScrambleQuestion()">Next</button>`;
+  loadScrambleQuestion();
+}
+
+function loadScrambleQuestion() {
+  const words = gameState.scrambleWords;
+  const word = words[Math.floor(Math.random() * words.length)];
+  const scrambled = word.split('').sort(() => Math.random()-.5).join('');
+  document.getElementById('scrambleDisplay').textContent = scrambled;
+  document.getElementById('scrambleInput').value = '';
+  gameState.scrambleCurrent = word;
+}
+
+function checkScramble() {
+  const guess = document.getElementById('scrambleInput').value.trim().toUpperCase();
+  if(!guess || !gameState.scrambleCurrent) return;
+  if(guess === gameState.scrambleCurrent) {
+    const score = document.getElementById('scrambleScore');
+    score.textContent = parseInt(score.textContent) + 10;
+    ST.totalStars += 2; saveToCloudNow(); refreshHome();
+    showToast('✅ Correct!');
+    setTimeout(loadScrambleQuestion, 800);
+  } else { showToast('❌ Try again!'); document.getElementById('scrambleInput').value = ''; }
+}
+
+// ═══ COLOR GAME ═════════════════════════════════════
+function loadColorGame() {
+  const colors = ['#e74c3c','#3498db','#2ecc71','#f1c40f','#9b59b6','#e67e22','#1abc9c','#e84393'];
+  const pattern = [];
+  for(let i=0; i<64; i++) pattern.push(Math.floor(Math.random() * 8));
+  gameState.colorPattern = pattern;
+  gameState.colorFilled = Array(64).fill(null);
+  gameState.colorSelected = 0;
+  const container = document.getElementById('gameContent');
+  container.innerHTML = `<div class="color-palette" id="colorPalette"></div>
+    <div class="color-grid" id="colorGrid"></div>
+    <div class="game-stats"><span>Colored: <span id="colorCount">0</span>/64</span></div>
+    <button class="game-btn" onclick="loadColorGame()">New</button>`;
+  renderColorPalette();
+  renderColorGrid();
+}
+
+function renderColorPalette() {
+  const container = document.getElementById('colorPalette');
+  if(!container) return;
+  const colors = ['#e74c3c','#3498db','#2ecc71','#f1c40f','#9b59b6','#e67e22','#1abc9c','#e84393'];
+  container.innerHTML = '';
+  colors.forEach((color, idx) => {
+    const div = document.createElement('div');
+    div.className = 'color-pick' + (idx === gameState.colorSelected ? ' active' : '');
+    div.style.background = color;
+    div.onclick = () => { gameState.colorSelected = idx; renderColorPalette(); };
+    container.appendChild(div);
+  });
+}
+
+function renderColorGrid() {
+  const container = document.getElementById('colorGrid');
+  if(!container) return;
+  const colors = ['#e74c3c','#3498db','#2ecc71','#f1c40f','#9b59b6','#e67e22','#1abc9c','#e84393'];
+  container.innerHTML = '';
+  gameState.colorPattern.forEach((num, idx) => {
+    const div = document.createElement('div');
+    div.className = 'color-cell' + (gameState.colorFilled[idx] !== null ? ' colored' : '');
+    if(gameState.colorFilled[idx] !== null) {
+      div.style.background = colors[gameState.colorFilled[idx]];
+      div.textContent = '';
+    } else {
+      div.style.background = '#f0f0f0';
+      div.textContent = num + 1;
+    }
+    div.onclick = () => {
+      if(gameState.colorFilled[idx] !== null) return;
+      if(gameState.colorSelected === num) {
+        gameState.colorFilled[idx] = num;
+        document.getElementById('colorCount').textContent = gameState.colorFilled.filter(c => c !== null).length;
+        renderColorGrid();
+        if(gameState.colorFilled.every(c => c !== null)) {
+          ST.totalStars += 10; saveToCloudNow(); refreshHome();
+          showToast('🎉 Perfect! +10 stars!');
+        }
+      }
+    };
+    container.appendChild(div);
+  });
+}
+
+// ═══ TYPING GAME ════════════════════════════════════
+function loadTypingGame() {
+  const texts = ["The quick brown fox jumps over the lazy dog","Practice makes perfect every day","Coding is fun and creative","Learn to type fast with accuracy"];
+  gameState.typingText = texts[Math.floor(Math.random() * texts.length)];
+  gameState.typingIdx = 0;
+  const container = document.getElementById('gameContent');
+  container.innerHTML = `<div class="typing-display" id="typingDisplay"></div>
+    <input class="typing-input" id="typingInput" placeholder="Type here...">
+    <div class="game-stats"><span>✅ <span id="typingCorrect">0</span></span><span>❌ <span id="typingWrong">0</span></span></div>
+    <button class="game-btn" onclick="loadTypingGame()">New</button>`;
+  updateTypingDisplay();
+  document.getElementById('typingInput').oninput = function() {
+    const expected = gameState.typingText[gameState.typingIdx];
+    const val = this.value;
+    if(!val) return;
+    if(val === expected) {
+      gameState.typingIdx++;
+      document.getElementById('typingCorrect').textContent = parseInt(document.getElementById('typingCorrect').textContent) + 1;
+      updateTypingDisplay();
+      this.value = '';
+      if(gameState.typingIdx === gameState.typingText.length) {
+        ST.totalStars += 5; saveToCloudNow(); refreshHome();
+        showToast('🎉 Complete! +5 stars!');
+        this.disabled = true;
+      }
+    } else {
+      document.getElementById('typingWrong').textContent = parseInt(document.getElementById('typingWrong').textContent) + 1;
+      this.value = '';
+    }
+  };
+}
+
+function updateTypingDisplay() {
+  const container = document.getElementById('typingDisplay');
+  if(!container) return;
+  let html = '';
+  const text = gameState.typingText;
+  for(let i=0; i<text.length; i++) {
+    if(i < gameState.typingIdx) html += `<span class="typed">${text[i]}</span>`;
+    else if(i === gameState.typingIdx) html += `<span class="current">${text[i]}</span>`;
+    else html += `<span class="remaining">${text[i]}</span>`;
+  }
+  container.innerHTML = html;
+}
+
+// ═══ GEOGRAPHY GAME ═════════════════════════════════
+function loadGeoGame() {
+  const questions = [
+    {q:"What is the capital of France?", opts:["London","Paris","Berlin","Madrid"], ans:1},
+    {q:"Which country has the most people?", opts:["USA","India","China","Brazil"], ans:2},
+    {q:"What is the largest continent?", opts:["Africa","Asia","North America","Europe"], ans:1},
+    {q:"Which ocean is the largest?", opts:["Atlantic","Pacific","Indian","Arctic"], ans:1},
+    {q:"What is the capital of Japan?", opts:["Seoul","Beijing","Bangkok","Tokyo"], ans:3},
+    {q:"What is the longest river?", opts:["Amazon","Nile","Mississippi","Yangtze"], ans:1},
+    {q:"What is the capital of Australia?", opts:["Sydney","Melbourne","Canberra","Perth"], ans:2},
+    {q:"Which desert is the largest?", opts:["Sahara","Gobi","Kalahari","Arabian"], ans:0},
+    {q:"What is the capital of Egypt?", opts:["Cairo","Alexandria","Luxor","Giza"], ans:0}
+  ];
+  gameState.geoQ = questions;
+  gameState.geoIdx = 0;
+  gameState.geoScore = 0;
+  const container = document.getElementById('gameContent');
+  container.innerHTML = `<div class="question-box" style="font-size:1.2rem;min-height:60px;" id="geoQ">Loading...</div>
+    <div class="geo-options" id="geoOptions"></div>
+    <div class="game-stats"><span>Score: <span id="geoScore">0</span></span></div>
+    <button class="game-btn" onclick="loadGeoGame()">New</button>`;
+  loadGeoQ();
+}
+
+function loadGeoQ() {
+  if(gameState.geoIdx >= gameState.geoQ.length) {
+    document.getElementById('geoQ').textContent = '🎉 Quiz Complete!';
+    document.getElementById('geoOptions').innerHTML = '';
+    return;
+  }
+  const q = gameState.geoQ[gameState.geoIdx];
+  document.getElementById('geoQ').textContent = q.q;
+  const grid = document.getElementById('geoOptions');
+  grid.innerHTML = '';
+  q.opts.forEach((opt, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'geo-opt';
+    btn.textContent = opt;
+    btn.onclick = () => {
+      document.querySelectorAll('.geo-opt').forEach(b => b.disabled = true);
+      if(idx === q.ans) {
+        btn.classList.add('correct');
+        gameState.geoScore += 10;
+        document.getElementById('geoScore').textContent = gameState.geoScore;
+        ST.totalStars += 2; saveToCloudNow(); refreshHome();
+      } else {
+        btn.classList.add('wrong');
+        document.querySelectorAll('.geo-opt')[q.ans].classList.add('correct');
+      }
+      setTimeout(() => { gameState.geoIdx++; loadGeoQ(); }, 1200);
+    };
+    grid.appendChild(btn);
+  });
+}
+
+// ═══ WORD SEARCH ════════════════════════════════════
+function loadSearchGame() {
+  const words = ['CAT','DOG','BIRD','FISH','HORSE','SNAKE'];
+  const gridSize = 8;
+  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const grid = Array(gridSize).fill(null).map(() => Array(gridSize).fill(''));
+  for(let r=0; r<gridSize; r++) for(let c=0; c<gridSize; c++) grid[r][c] = alphabet[Math.floor(Math.random() * 26)];
+  words.forEach((word, wi) => {
+    const r = Math.floor(Math.random() * gridSize);
+    const c = Math.floor(Math.random() * (gridSize - word.length));
+    for(let i=0; i<word.length; i++) grid[r][c+i] = word[i];
+  });
+  gameState.searchGrid = grid;
+  gameState.searchWords = words;
+  gameState.searchFound = [];
+  const container = document.getElementById('gameContent');
+  container.innerHTML = `<div class="wsearch-words" id="searchWords"></div>
+    <div class="wsearch-grid" id="searchGrid"></div>
+    <div class="game-stats"><span>Found: <span id="searchFound">0</span>/<span id="searchTotal">${words.length}</span></span></div>
+    <button class="game-btn" onclick="loadSearchGame()">New</button>`;
+  renderSearchGrid();
+  renderSearchWords();
+}
+
+function renderSearchGrid() {
+  const grid = document.getElementById('searchGrid');
+  if(!grid) return;
+  grid.innerHTML = '';
+  gameState.searchGrid.forEach(row => {
+    row.forEach(letter => {
+      const div = document.createElement('div');
+      div.className = 'wsearch-cell';
+      div.textContent = letter;
+      div.onclick = () => {
+        const found = gameState.searchWords.some((word, idx) => {
+          if(!gameState.searchFound.includes(idx) && word.includes(letter)) {
+            gameState.searchFound.push(idx);
+            document.getElementById('searchFound').textContent = gameState.searchFound.length;
+            ST.totalStars += 2; saveToCloudNow(); refreshHome();
+            renderSearchWords();
+            return true;
+          }
+          return false;
+        });
+        if(!found) {
+          div.style.background = '#f1c40f';
+          setTimeout(() => div.style.background = '#f0f0f0', 300);
+        }
+      };
+      grid.appendChild(div);
+    });
+  });
+}
+
+function renderSearchWords() {
+  const container = document.getElementById('searchWords');
+  if(!container) return;
+  container.innerHTML = '';
+  gameState.searchWords.forEach((word, idx) => {
+    const span = document.createElement('span');
+    span.className = 'wsearch-tag' + (gameState.searchFound.includes(idx) ? ' found' : '');
+    span.textContent = word;
+    container.appendChild(span);
+  });
+}
+
+// ═══ ANIMAL SOUNDS ══════════════════════════════════
+function loadAnimalGame() {
+  const animals = [
+    {animal:'Lion', emoji:'🦁', sound:'Roar!'},{animal:'Cat', emoji:'🐱', sound:'Meow!'},
+    {animal:'Dog', emoji:'🐕', sound:'Woof!'},{animal:'Cow', emoji:'🐄', sound:'Moo!'},
+    {animal:'Sheep', emoji:'🐑', sound:'Baa!'},{animal:'Horse', emoji:'🐴', sound:'Neigh!'},
+    {animal:'Duck', emoji:'🦆', sound:'Quack!'},{animal:'Chicken', emoji:'🐔', sound:'Cluck!'},
+    {animal:'Pig', emoji:'🐷', sound:'Oink!'},{animal:'Bee', emoji:'🐝', sound:'Buzz!'}
+  ];
+  gameState.animalData = animals;
+  const container = document.getElementById('gameContent');
+  container.innerHTML = `<button class="sound-btn" onclick="playAnimalSound()">🔊 Play Sound</button>
+    <div class="animal-display" id="animalDisplay">🔊</div>
+    <div class="geo-options" id="animalOptions"></div>
+    <div class="game-stats"><span>✅ <span id="animalCorrect">0</span></span></div>
+    <button class="game-btn" onclick="loadAnimalQuestion()">Next</button>`;
+  loadAnimalQuestion();
+}
+
+function loadAnimalQuestion() {
+  const animals = gameState.animalData;
+  const current = animals[Math.floor(Math.random() * animals.length)];
+  gameState.animalCurrent = current;
+  document.getElementById('animalDisplay').textContent = '🔊';
+  const opts = [current, ...animals.filter(a => a.animal !== current.animal).sort(() => Math.random()-.5).slice(0,3)].sort(() => Math.random()-.5);
+  const grid = document.getElementById('animalOptions');
+  grid.innerHTML = '';
+  opts.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'geo-opt';
+    btn.textContent = opt.animal;
+    btn.onclick = () => {
+      document.querySelectorAll('.geo-opt').forEach(b => b.disabled = true);
+      if(opt.animal === current.animal) {
+        btn.classList.add('correct');
+        document.getElementById('animalCorrect').textContent = parseInt(document.getElementById('animalCorrect').textContent) + 1;
+        ST.totalStars += 2; saveToCloudNow(); refreshHome();
+      } else {
+        btn.classList.add('wrong');
+        document.querySelectorAll('.geo-opt').forEach(b => { if(b.textContent === current.animal) b.classList.add('correct'); });
+      }
+      setTimeout(loadAnimalQuestion, 1500);
+    };
+    grid.appendChild(btn);
+  });
+}
+
+function playAnimalSound() {
+  if(!gameState.animalCurrent) return;
+  document.getElementById('animalDisplay').textContent = gameState.animalCurrent.emoji;
+  const msg = new SpeechSynthesisUtterance(gameState.animalCurrent.sound);
+  msg.rate = 0.7;
+  window.speechSynthesis.speak(msg);
+}
+
+// ═══ STORY BUILDER ══════════════════════════════════
+function loadStoryGame() {
+  const templates = [
+    {template:"The ___ ___ went to the ___ to find a ___", slots:['adjective','animal','place','object']},
+    {template:"Once upon a time, a ___ ___ lived in a ___", slots:['adjective','animal','place']}
+  ];
+  const bank = {
+    adjective:['brave','funny','sleepy','happy','sad','angry','lazy','smart','kind','wild'],
+    animal:['cat','dog','bird','fox','lion','bear','rabbit','horse','tiger','wolf'],
+    place:['castle','forest','mountain','village','ocean','desert','garden','jungle','cave','park'],
+    object:['stone','flower','tree','book','star','cloud','moon','sword','hat','ball']
+  };
+  gameState.storyTemplate = templates[Math.floor(Math.random() * templates.length)];
+  gameState.storyUsed = [];
+  gameState.storyBank = bank;
+  const container = document.getElementById('gameContent');
+  container.innerHTML = `<div class="story-text" id="storyText">Choose words to build your story!</div>
+    <div class="story-words" id="storyWords"></div>
+    <div class="game-stats"><span>Words: <span id="storyCount">0</span></span></div>
+    <button class="game-btn" onclick="loadStoryGame()">New</button>`;
+  renderStoryWords();
+}
+
+function renderStoryWords() {
+  const container = document.getElementById('storyWords');
+  if(!container) return;
+  const template = gameState.storyTemplate;
+  const used = gameState.storyUsed;
+  const slots = template.slots;
+  if(used.length >= slots.length) {
+    container.innerHTML = '<span style="color:#2ecc71;">✅ Story complete!</span>';
+    return;
+  }
+  const slotType = slots[used.length];
+  const words = gameState.storyBank[slotType] || [];
+  container.innerHTML = '';
+  words.forEach(word => {
+    if(used.includes(word)) return;
+    const div = document.createElement('div');
+    div.className = 'story-word';
+    div.textContent = word;
+    div.onclick = () => {
+      used.push(word);
+      document.getElementById('storyCount').textContent = used.length;
+      let story = template.template;
+      let idx = 0;
+      story = story.replace(/___/g, () => used[idx++]);
+      document.getElementById('storyText').textContent = story;
+      renderStoryWords();
+      if(used.length === slots.length) {
+        ST.totalStars += 3; saveToCloudNow(); refreshHome();
+        showToast('🎉 Story complete! +3 stars!');
+      }
+    };
+    container.appendChild(div);
+  });
+}
+
+// ═══ PHONICS ════════════════════════════════════════
+function loadPhonicsGame() {
+  const data = [
+    {letter:'A', sound:'/ā/', words:['Apple','Ant','Alligator']},{letter:'B', sound:'/b/', words:['Ball','Bear','Bird']},
+    {letter:'C', sound:'/k/', words:['Cat','Car','Cookie']},{letter:'D', sound:'/d/', words:['Dog','Duck','Doll']},
+    {letter:'E', sound:'/ē/', words:['Elephant','Egg','Eagle']},{letter:'F', sound:'/f/', words:['Fish','Fox','Flower']},
+    {letter:'G', sound:'/g/', words:['Goat','Giraffe','Guitar']},{letter:'H', sound:'/h/', words:['Horse','Hat','House']},
+    {letter:'I', sound:'/ī/', words:['Ice','Island','Insect']},{letter:'J', sound:'/j/', words:['Jump','Juice','Jet']},
+    {letter:'K', sound:'/k/', words:['Kite','King','Kangaroo']},{letter:'L', sound:'/l/', words:['Lion','Lemon','Lamp']},
+    {letter:'M', sound:'/m/', words:['Monkey','Moon','Milk']},{letter:'N', sound:'/n/', words:['Nest','Nose','Night']},
+    {letter:'O', sound:'/ō/', words:['Owl','Ocean','Orange']},{letter:'P', sound:'/p/', words:['Pig','Penguin','Pizza']},
+    {letter:'Q', sound:'/kw/', words:['Queen','Quack','Quiet']},{letter:'R', sound:'/r/', words:['Rabbit','Rainbow','Rocket']},
+    {letter:'S', sound:'/s/', words:['Sun','Star','Snake']},{letter:'T', sound:'/t/', words:['Tiger','Tree','Train']},
+    {letter:'U', sound:'/ū/', words:['Umbrella','Up','Unicorn']},{letter:'V', sound:'/v/', words:['Van','Violin','Volcano']},
+    {letter:'W', sound:'/w/', words:['Whale','Window','Water']},{letter:'X', sound:'/ks/', words:['X-ray','Xylophone','Box']},
+    {letter:'Y', sound:'/y/', words:['Yak','Yarn','Yellow']},{letter:'Z', sound:'/z/', words:['Zebra','Zoo','Zip']}
+  ];
+  gameState.phonicsData = data;
+  gameState.phonicsIdx = 0;
+  const container = document.getElementById('gameContent');
+  container.innerHTML = `<div class="phonics-display" id="phonicsDisplay" onclick="playPhonicsSound()">A</div>
+    <div class="phonics-words" id="phonicsWords"></div>
+    <div class="phonics-nav"><button onclick="changePhonics(-1)">◀</button><button onclick="playPhonicsSound()">🔊</button><button onclick="changePhonics(1)">▶</button></div>
+    <div class="game-stats"><span>Letter: <span id="phonicsIdx">1</span>/26</span></div>
+    <button class="game-btn" onclick="loadPhonicsGame()">Reset</button>`;
+  renderPhonics();
+}
+
+function renderPhonics() {
+  const data = gameState.phonicsData;
+  const idx = gameState.phonicsIdx;
+  const item = data[idx];
+  document.getElementById('phonicsDisplay').textContent = item.letter;
+  document.getElementById('phonicsIdx').textContent = idx + 1;
+  const container = document.getElementById('phonicsWords');
+  container.innerHTML = '';
+  item.words.forEach(word => {
+    const div = document.createElement('div');
+    div.className = 'phonics-word';
+    div.textContent = word;
+    container.appendChild(div);
+  });
+}
+
+function playPhonicsSound() {
+  const item = gameState.phonicsData[gameState.phonicsIdx];
+  const msg = new SpeechSynthesisUtterance(item.letter + ' says ' + item.sound + '. ' + item.words.join(', '));
+  msg.rate = 0.6;
+  window.speechSynthesis.speak(msg);
+}
+
+function changePhonics(delta) {
+  gameState.phonicsIdx = (gameState.phonicsIdx + delta + 26) % 26;
+  renderPhonics();
+}
+
+// ═══ MULTIPLICATION ═════════════════════════════════
+function loadMultiplyGame() {
+  gameState.multTable = 2;
+  gameState.multCorrect = 0;
+  const container = document.getElementById('gameContent');
+  container.innerHTML = `<div class="multiply-tables" id="multTables"></div>
+    <div class="question-box" style="font-size:2rem;min-height:60px;" id="multQ">2 × ? = ?</div>
+    <div class="multiply-options" id="multOptions"></div>
+    <div class="game-stats"><span>✅ <span id="multCorrect">0</span></span></div>
+    <button class="game-btn" onclick="loadMultiplyQuestion()">New</button>`;
+  renderMultTables();
+  loadMultiplyQuestion();
+}
+
+function renderMultTables() {
+  const container = document.getElementById('multTables');
+  container.innerHTML = '';
+  for(let i=2; i<=12; i++) {
+    const btn = document.createElement('button');
+    btn.className = 'multiply-table' + (i === gameState.multTable ? ' active' : '');
+    btn.textContent = i;
+    btn.onclick = () => { gameState.multTable = i; renderMultTables(); loadMultiplyQuestion(); };
+    container.appendChild(btn);
+  }
+}
+
+function loadMultiplyQuestion() {
+  const table = gameState.multTable;
+  const b = Math.floor(Math.random() * 12) + 1;
+  const answer = table * b;
+  document.getElementById('multQ').textContent = table + ' × ' + b + ' = ?';
+  const opts = new Set([answer]);
+  while(opts.size < 4) {
+    const offset = Math.floor(Math.random() * 10) + 1;
+    const candidate = answer + (Math.random() > 0.5 ? offset : -offset);
+    if(candidate > 0 && candidate < 200) opts.add(candidate);
+  }
+  const grid = document.getElementById('multOptions');
+  grid.innerHTML = '';
+  Array.from(opts).sort(() => Math.random()-.5).forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'multiply-opt';
+    btn.textContent = opt;
+    btn.onclick = () => {
+      document.querySelectorAll('.multiply-opt').forEach(b => b.disabled = true);
+      if(opt === answer) {
+        btn.classList.add('correct');
+        document.getElementById('multCorrect').textContent = parseInt(document.getElementById('multCorrect').textContent) + 1;
+        ST.totalStars += 2; saveToCloudNow(); refreshHome();
+      } else {
+        btn.classList.add('wrong');
+        document.querySelectorAll('.multiply-opt').forEach(b => { if(parseInt(b.textContent) === answer) b.classList.add('correct'); });
+      }
+      setTimeout(loadMultiplyQuestion, 1200);
+    };
+    grid.appendChild(btn);
+  });
+}
+
+// ═══ VOCABULARY ═════════════════════════════════════
+function loadVocabGame() {
+  const data = [
+    {word:'Brave', meaning:'Showing courage', example:'The brave knight saved the princess.'},
+    {word:'Bright', meaning:'Full of light', example:'The sun is very bright today.'},
+    {word:'Calm', meaning:'Peaceful and quiet', example:'The lake was calm and still.'},
+    {word:'Clever', meaning:'Quick to understand', example:'The clever fox solved the puzzle.'},
+    {word:'Eager', meaning:'Very excited', example:'The kids were eager to play.'},
+    {word:'Gentle', meaning:'Soft and kind', example:'She gave a gentle hug.'},
+    {word:'Honest', meaning:'Truthful', example:'He gave an honest answer.'},
+    {word:'Kind', meaning:'Caring and nice', example:'She is a kind person.'},
+    {word:'Loyal', meaning:'Faithful and devoted', example:'The dog is a loyal friend.'},
+    {word:'Patient', meaning:'Able to wait calmly', example:'You need to be patient.'},
+    {word:'Proud', meaning:'Feeling good about yourself', example:'She was proud of her work.'},
+    {word:'Wise', meaning:'Having knowledge', example:'The wise owl gave advice.'}
+  ];
+  gameState.vocabData = data;
+  const container = document.getElementById('gameContent');
+  container.innerHTML = `<div class="vocab-card" id="vocabCard"></div>
+    <div class="vocab-options" id="vocabOptions"></div>
+    <div class="game-stats"><span>Learned: <span id="vocabLearned">0</span></span></div>
+    <button class="game-btn" onclick="loadVocabQuestion()">Next</button>`;
+  loadVocabQuestion();
+}
+
+function loadVocabQuestion() {
+  const data = gameState.vocabData;
+  const word = data[Math.floor(Math.random() * data.length)];
+  gameState.vocabCurrent = word;
+  document.getElementById('vocabCard').innerHTML = `<div class="vocab-word">${word.word}</div><div class="vocab-meaning">${word.meaning}</div><div class="vocab-example">"${word.example}"</div>`;
+  const opts = [word, ...data.filter(w => w.word !== word.word).sort(() => Math.random()-.5).slice(0,3)].sort(() => Math.random()-.5);
+  const grid = document.getElementById('vocabOptions');
+  grid.innerHTML = '';
+  opts.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'vocab-opt';
+    btn.textContent = opt.word;
+    btn.onclick = () => {
+      document.querySelectorAll('.vocab-opt').forEach(b => b.disabled = true);
+      if(opt.word === word.word) {
+        btn.classList.add('correct');
+        document.getElementById('vocabLearned').textContent = parseInt(document.getElementById('vocabLearned').textContent) + 1;
+        ST.totalStars += 3; saveToCloudNow(); refreshHome();
+      } else {
+        btn.classList.add('wrong');
+        document.querySelectorAll('.vocab-opt').forEach(b => { if(b.textContent === word.word) b.classList.add('correct'); });
+      }
+      setTimeout(loadVocabQuestion, 1500);
+    };
+    grid.appendChild(btn);
+  });
+}
+
+// ═══ MUSIC MAKER ════════════════════════════════════
+function loadMusicGame() {
+  const notes = ['C4','D4','E4','F4','G4','A4','B4','C5'];
+  const freqs = {C4:261.63,D4:293.66,E4:329.63,F4:349.23,G4:392.00,A4:440.00,B4:493.88,C5:523.25};
+  const container = document.getElementById('gameContent');
+  container.innerHTML = `<div class="music-piano" id="musicPiano"></div>
+    <div class="game-stats"><span>🎵 Notes: <span id="musicNotes">0</span></span></div>
+    <button class="game-btn" onclick="clearMusic()">Clear</button>`;
+  const piano = document.getElementById('musicPiano');
+  piano.innerHTML = '';
+  notes.forEach(note => {
+    const key = document.createElement('div');
+    key.className = 'music-key';
+    key.textContent = note;
+    key.onclick = () => playNote(note);
+    piano.appendChild(key);
+  });
+  gameState.musicCtx = null;
+}
+
+function playNote(note) {
+  if(!gameState.musicCtx) gameState.musicCtx = new (window.AudioContext || window.webkitAudioContext)();
+  const freqs = {C4:261.63,D4:293.66,E4:329.63,F4:349.23,G4:392.00,A4:440.00,B4:493.88,C5:523.25};
+  const osc = gameState.musicCtx.createOscillator();
+  const gain = gameState.musicCtx.createGain();
+  osc.connect(gain);
+  gain.connect(gameState.musicCtx.destination);
+  osc.frequency.setValueAtTime(freqs[note] || 440, gameState.musicCtx.currentTime);
+  gain.gain.setValueAtTime(0.3, gameState.musicCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.01, gameState.musicCtx.currentTime + 0.5);
+  osc.start(gameState.musicCtx.currentTime);
+  osc.stop(gameState.musicCtx.currentTime + 0.5);
+  document.getElementById('musicNotes').textContent = parseInt(document.getElementById('musicNotes').textContent) + 1;
+  ST.totalStars += 1; saveToCloudNow(); refreshHome();
+}
+
+function clearMusic() { document.getElementById('musicNotes').textContent = '0'; }
+
+// ═══ ANIMATION STUDIO ════════════════════════════════
+function loadAnimateGame() {
+  const container = document.getElementById('gameContent');
+  container.innerHTML = `<canvas id="animCanvas" width="300" height="200" class="animate-canvas"></canvas>
+    <div class="animate-tools">
+      <button class="animate-tool active" onclick="setAnimTool('draw')">✏️ Draw</button>
+      <button class="animate-tool" onclick="setAnimTool('clear')">🗑️ Clear</button>
+      <button class="animate-tool" onclick="addAnimFrame()">➕ Frame</button>
+      <button class="animate-tool" onclick="playAnim()">▶️ Play</button>
+    </div>
+    <div class="animate-frames" id="animFrames"></div>
+    <div class="game-stats"><span>Frames: <span id="animFramesCount">1</span></span></div>
+    <button class="game-btn" onclick="loadAnimateGame()">Reset</button>`;
+  const canvas = document.getElementById('animCanvas');
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  gameState.animFrames = [canvas.toDataURL()];
+  gameState.animIdx = 0;
+  gameState.animTool = 'draw';
+  gameState.animDrawing = false;
+  gameState.animInterval = null;
+  renderAnimFrames();
+  
+  canvas.addEventListener('mousedown', (e) => {
+    if(gameState.animTool === 'clear') { ctx.clearRect(0,0,canvas.width,canvas.height); gameState.animFrames[gameState.animIdx] = canvas.toDataURL(); renderAnimFrames(); return; }
+    gameState.animDrawing = true;
+    const rect = canvas.getBoundingClientRect();
+    ctx.beginPath();
+    ctx.moveTo((e.clientX - rect.left) * (canvas.width/rect.width), (e.clientY - rect.top) * (canvas.height/rect.height));
+  });
+  canvas.addEventListener('mousemove', (e) => {
+    if(!gameState.animDrawing || gameState.animTool !== 'draw') return;
+    const rect = canvas.getBoundingClientRect();
+    ctx.lineTo((e.clientX - rect.left) * (canvas.width/rect.width), (e.clientY - rect.top) * (canvas.height/rect.height));
+    ctx.strokeStyle = '#333';
+    ctx.lineWidth = 3;
+    ctx.lineCap = 'round';
+    ctx.stroke();
+  });
+  canvas.addEventListener('mouseup', () => {
+    if(gameState.animDrawing) { gameState.animDrawing = false; gameState.animFrames[gameState.animIdx] = canvas.toDataURL(); renderAnimFrames(); }
+  });
+  canvas.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    const rect = canvas.getBoundingClientRect();
+    const touch = e.touches[0];
+    if(gameState.animTool === 'clear') { ctx.clearRect(0,0,canvas.width,canvas.height); gameState.animFrames[gameState.animIdx] = canvas.toDataURL(); renderAnimFrames(); return; }
+    gameState.animDrawing = true;
+    ctx.beginPath();
+    ctx.moveTo((touch.clientX - rect.left) * (canvas.width/rect.width), (touch.clientY - rect.top) * (canvas.height/rect.height));
+  });
+  canvas.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+    if(!gameState.animDrawing || gameState.animTool !== 'draw') return;
+    const rect = canvas.getBoundingClientRect();
+    const touch = e.touches[0];
+    ctx.lineTo((touch.clientX - rect.left) * (canvas.width/rect.width), (touch.clientY - rect.top) * (canvas.height/rect.height));
+    ctx.strokeStyle = '#333';
+    ctx.lineWidth = 3;
+    ctx.lineCap = 'round';
+    ctx.stroke();
+  });
+  canvas.addEventListener('touchend', (e) => {
+    e.preventDefault();
+    if(gameState.animDrawing) { gameState.animDrawing = false; gameState.animFrames[gameState.animIdx] = canvas.toDataURL(); renderAnimFrames(); }
+  });
+}
+
+function renderAnimFrames() {
+  const container = document.getElementById('animFrames');
+  if(!container) return;
+  container.innerHTML = '';
+  gameState.animFrames.forEach((_, idx) => {
+    const div = document.createElement('div');
+    div.className = 'animate-frame' + (idx === gameState.animIdx ? ' active' : '');
+    div.textContent = idx + 1;
+    div.onclick = () => {
+      gameState.animIdx = idx;
+      const canvas = document.getElementById('animCanvas');
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+      img.onload = () => { ctx.clearRect(0,0,canvas.width,canvas.height); ctx.drawImage(img,0,0); };
+      img.src = gameState.animFrames[idx];
+      renderAnimFrames();
+    };
+    container.appendChild(div);
+  });
+  document.getElementById('animFramesCount').textContent = gameState.animFrames.length;
+}
+
+function setAnimTool(tool) {
+  gameState.animTool = tool;
+  document.querySelectorAll('.animate-tool').forEach(b => b.classList.toggle('active', b.textContent.includes(tool === 'draw' ? 'Draw' : tool === 'clear' ? 'Clear' : '')));
+}
+
+function addAnimFrame() {
+  const canvas = document.getElementById('animCanvas');
+  gameState.animFrames.push(canvas.toDataURL());
+  gameState.animIdx = gameState.animFrames.length - 1;
+  renderAnimFrames();
+  ST.totalStars += 2; saveToCloudNow(); refreshHome();
+}
+
+function playAnim() {
+  if(gameState.animInterval) { clearInterval(gameState.animInterval); gameState.animInterval = null; return; }
+  const canvas = document.getElementById('animCanvas');
+  const ctx = canvas.getContext('2d');
+  let idx = 0;
+  gameState.animInterval = setInterval(() => {
+    const img = new Image();
+    img.onload = () => { ctx.clearRect(0,0,canvas.width,canvas.height); ctx.drawImage(img,0,0); };
+    img.src = gameState.animFrames[idx];
+    idx = (idx + 1) % gameState.animFrames.length;
+    gameState.animIdx = idx;
+    renderAnimFrames();
+  }, 300);
+}
 
 // ═══ TEACHER DASHBOARD ═══════════════════════════════
 function renderTeacherDash() {
@@ -996,7 +2087,6 @@ function renderTeacherDash() {
 
 function loadTeacherData() {
   if(!currentUser) return;
-  // Check teacher application status
   db.ref('teacherApplications/' + currentUser.uid).once('value').then(snap => {
     const statusEl = document.getElementById('teacher-app-status');
     if(snap.exists()) {
@@ -1027,7 +2117,6 @@ function loadTeacherData() {
 
 function loadTeacherStudents() {
   if(!currentUser) return;
-  // Load pending student requests
   db.ref('studentRequests').once('value').then(snap => {
     const list = document.getElementById('teacher-pending-students');
     if(snap.exists()) {
@@ -1045,7 +2134,6 @@ function loadTeacherStudents() {
       list.innerHTML = html || 'No pending requests';
     } else { list.innerHTML = 'No pending requests'; }
   });
-  // Load enrolled students
   db.ref('teacherStudents/' + currentUser.uid).once('value').then(snap => {
     const list = document.getElementById('teacher-student-list');
     if(snap.exists()) {
@@ -1066,7 +2154,6 @@ function loadTeacherStudents() {
 function approveStudent(studentId) {
   db.ref('studentRequests/' + studentId).update({ status: 'approved', approvedAt: Date.now() });
   db.ref('users/' + studentId).update({ studentApproved: true });
-  // Get student info
   db.ref('studentRequests/' + studentId).once('value').then(snap => {
     if(snap.exists()) {
       const data = snap.val();
@@ -1193,6 +2280,7 @@ function switchStudentTab(tab, el) {
   ['lessons','exams','progress'].forEach(t => {
     document.getElementById('student-' + t).style.display = t === tab ? 'block' : 'none';
   });
+  if(tab === 'progress') renderStudentDash();
 }
 
 function switchParentTab(tab, el) {
@@ -1250,8 +2338,36 @@ function renderDash() {
   document.getElementById('set-goal').value = ST.dailyGoal;
   document.getElementById('tog-sound').classList.toggle('on', ST.sound);
   document.getElementById('tog-speech').classList.toggle('on', ST.speech);
+  renderSubj();
   loadParentTeachers();
   loadParentStudents();
+}
+
+function renderSubj() {
+  const list = document.getElementById('subject-progress-list');
+  if(!list) return;
+  const subjects = [
+    {key:'abc', icon:'🔤', label:'ABC English'},
+    {key:'numbers', icon:'🔢', label:'Numbers'},
+    {key:'coloring', icon:'🎨', label:'More Fun'},
+    {key:'arabic', icon:'🌙', label:'Arabic'},
+    {key:'math', icon:'➕', label:'Math'},
+    {key:'flags', icon:'🌍', label:'Flags'}
+  ];
+  list.innerHTML = '';
+  subjects.forEach(s => {
+    const tot = gameData[s.key] ? gameData[s.key].length : 36;
+    const don = completed[s.key] || 0;
+    const pct = Math.round(don/tot*100);
+    list.innerHTML += `<div class="subject-row">
+      <div class="subject-icon">${s.icon}</div>
+      <div class="subject-info">
+        <div class="subject-name">${s.label}</div>
+        <div class="subject-meta">${don}/${tot} levels · ${pct}%</div>
+        <div class="mini-bar-wrap"><div class="mini-bar" style="width:${pct}%"></div></div>
+      </div>
+    </div>`;
+  });
 }
 
 function loadParentTeachers() {
@@ -1511,1006 +2627,12 @@ function loadStudentData() {
   }
 }
 
-// ═══ LEADERBOARD ════════════════════════════════════
-function loadLeaderboard() {
-  showScreen('leaderboard-screen');
-  const list = document.getElementById('lb-list');
-  list.innerHTML = '<p style="text-align:center;color:#aaa;padding:20px;">Loading...</p>';
-  const lbRef = db.ref('leaderboard');
-  lbRef.on('value', snap => {
-    if(!snap.exists()) {
-      list.innerHTML = '<div style="text-align:center;color:#aaa;padding:40px 20px;"><span style="font-size:2rem;display:block;margin-bottom:10px;">🏆</span>No players yet!</div>';
-      return;
-    }
-    const users = [];
-    snap.forEach(child => {
-      const data = child.val();
-      data.uid = child.key;
-      if(data.stars > 0 || data.stars === 0) users.push(data);
-    });
-    users.sort((a,b) => (b.stars||0) - (a.stars||0));
-    let html = '';
-    users.slice(0, 30).forEach((data, idx) => {
-      const rank = idx + 1;
-      const medal = rank <= 3 ? ['🥇','🥈','🥉'][rank-1] : rank;
-      const isMe = currentUser && data.uid === currentUser.uid;
-      const rankColor = rank <= 3 ? ['gold','silver','bronze'][rank-1] : '';
-      html += `<div class="lb-item ${isMe ? 'me' : ''}">
-        <div class="lb-rank ${rankColor}">${medal}</div>
-        <div style="font-size:1.8rem;">${isMe ? '🌟' : '👦'}</div>
-        <div class="lb-info"><div class="lb-name">${data.name || 'Kid'}${isMe ? ' ⭐ (You)' : ''}</div></div>
-        <div class="lb-score">⭐${data.stars || 0}</div>
-      </div>`;
-    });
-    list.innerHTML = html || '<div style="text-align:center;color:#aaa;padding:40px;"><span>👀</span>No players yet!</div>';
-  });
-}
-
-// ═══ GAME FUNCTIONS (Compact) ══════════════════════
-// Simplified game functions - all games work
-function startGame(mode) {
-  if(mode === 'abc' || mode === 'numbers' || mode === 'coloring' || mode === 'arabic' || mode === 'math') {
-    // These use gameData
-    if(!gameData[mode]) { showToast('Game not found'); return; }
-    curMode = mode; curIdx = 0;
-    document.getElementById('game-title').textContent = mode.toUpperCase();
-    showScreen('game-screen');
-    loadGameLevel();
-    return;
-  }
-  // Special games
-  const specialGames = {
-    'flags': loadFlagGame,
-    'memory': loadMemoryGame,
-    'bingo': loadBingoGame,
-    'scramble': loadScrambleGame,
-    'color': loadColorGame,
-    'typing': loadTypingGame,
-    'geo': loadGeoGame,
-    'search': loadSearchGame,
-    'animal': loadAnimalGame,
-    'story': loadStoryGame,
-    'phonics': loadPhonicsGame,
-    'multiply': loadMultiplyGame,
-    'vocab': loadVocabGame,
-    'music': loadMusicGame,
-    'animate': loadAnimateGame
-  };
-  if(specialGames[mode]) {
-    document.getElementById('game-title').textContent = mode.toUpperCase();
-    showScreen('game-screen');
-    specialGames[mode]();
-  } else {
-    showToast('Game not found');
-  }
-}
-
-// Simplified game data for ABC, Numbers, Coloring, Arabic, Math
-const gameData = {
-  abc: [
-    {q:"A",word:"Apple",options:["🍎","🍌","🐱","🐕"],a:"🍎"},
-    {q:"B",word:"Banana",options:["🚗","🍌","🥚","🦊"],a:"🍌"},
-    {q:"C",word:"Cat",options:["🍇","🦆","🐱","🦁"],a:"🐱"},
-    {q:"D",word:"Dog",options:["🐕","🐘","🐸","🐐"],a:"🐕"},
-    {q:"E",word:"Elephant",options:["🍎","🐘","🍦","🦊"],a:"🐘"},
-    {q:"F",word:"Fox",options:["🦊","🍇","👒","🦎"],a:"🦊"},
-    {q:"G",word:"Goat",options:["🍌","🍇","🐐","🍋"],a:"🐐"},
-    {q:"H",word:"Horse",options:["🐴","🦁","🐒","🐔"],a:"🐴"},
-    {q:"I",word:"Ice cream",options:["🐟","🍦","🦎","🦉"],a:"🍦"},
-    {q:"J",word:"Juice",options:["🧃","🐨","🦁","🐭"],a:"🧃"},
-    {q:"K",word:"Kangaroo",options:["🦘","🐼","🐷","🐰"],a:"🦘"},
-    {q:"L",word:"Lion",options:["🐸","🐯","🦁","🐺"],a:"🦁"},
-    {q:"M",word:"Monkey",options:["🐒","🐔","🐧","🐦"],a:"🐒"},
-    {q:"N",word:"Nest",options:["🪹","🦉","🦇","🦅"],a:"🪹"},
-    {q:"O",word:"Owl",options:["🐝","🐛","🦋","🦉"],a:"🦉"},
-    {q:"P",word:"Penguin",options:["🐧","🐢","🐊","🐍"],a:"🐧"},
-    {q:"Q",word:"Queen Bee",options:["🐳","🦈","🐙","🐝"],a:"🐝"},
-    {q:"R",word:"Rabbit",options:["🦌","🐮","🐷","🐰"],a:"🐰"},
-    {q:"S",word:"Sheep",options:["🐑","🐫","🐘","🦒"],a:"🐑"},
-    {q:"T",word:"Tiger",options:["🦓","🐆","🐯","🦁"],a:"🐯"},
-    {q:"U",word:"Unicorn",options:["🦄","🦅","🦉","🦇"],a:"🦄"},
-    {q:"V",word:"Vulture",options:["🦅","🦜","🕊️","🦤"],a:"🦅"},
-    {q:"W",word:"Whale",options:["🦈","🐳","🐟","🐙"],a:"🐳"},
-    {q:"X",word:"Xylophone",options:["🪘","🎸","🎹","🎺"],a:"🪘"},
-    {q:"Y",word:"Yak",options:["🐂","🐄","🐐","🐑"],a:"🐂"},
-    {q:"Z",word:"Zebra",options:["🦓","🐎","🐴","🦌"],a:"🦓"}
-  ],
-  numbers: [
-    {q:"1",options:["🍎","🍌🍌","🐱🐱🐱","🍕🍕🍕🍕"],a:"🍎"},
-    {q:"2",options:["🍇","🍌🍌","🥚","🦊"],a:"🍌🍌"},
-    {q:"3",options:["🍇","🦆","🐱🐱🐱","🦁"],a:"🐱🐱🐱"},
-    {q:"4",options:["🐕🐕🐕🐕","🐘","🐸","🐐"],a:"🐕🐕🐕🐕"},
-    {q:"5",options:["🐟🐟🐟🐟🐟","🐤","🦊","🐝"],a:"🐟🐟🐟🐟🐟"},
-    {q:"6",options:["🍎","🐦🐦🐦🐦🐦🐦","🍇","🍌"],a:"🐦🐦🐦🐦🐦🐦"},
-    {q:"7",options:["🐸🐸🐸🐸🐸🐸🐸","🦁","🐢","🐘"],a:"🐸🐸🐸🐸🐸🐸🐸"},
-    {q:"8",options:["🦋🦋🦋🦋🦋🦋🦋🦋","🐝","🐛","🐞"],a:"🦋🦋🦋🦋🦋🦋🦋🦋"},
-    {q:"9",options:["⭐","🌙","☁️","⭐⭐⭐⭐⭐⭐⭐⭐⭐"],a:"⭐⭐⭐⭐⭐⭐⭐⭐⭐"},
-    {q:"10",options:["🎈🎈🎈🎈🎈🎈🎈🎈🎈🎈","🚗","🧸","⚽"],a:"🎈🎈🎈🎈🎈🎈🎈🎈🎈🎈"}
-  ],
-  coloring: [
-    {q:"🦁",options:["Roar","Meow","Bark","Cluck"],a:"Roar",textOpts:true},
-    {q:"🐱",options:["Oink","Meow","Moo","Quack"],a:"Meow",textOpts:true},
-    {q:"🐕",options:["Neigh","Roar","Bark","Bleat"],a:"Bark",textOpts:true},
-    {q:"🐮",options:["Moo","Baah","Buzz","Hiss"],a:"Moo",textOpts:true},
-    {q:"🦆",options:["Chirp","Quack","Oink","Roar"],a:"Quack",textOpts:true}
-  ],
-  arabic: [
-    {q:"أ",options:["🦁","🦆","🍎","🐪"],a:"🦁"},
-    {q:"ب",options:["📆","🦆","🍇","🐱"],a:"🦆"},
-    {q:"ت",options:["🍎","🍌","🥕","🥒"],a:"🍎"},
-    {q:"ث",options:["🦊","🐰","🐺","🦁"],a:"🦊"},
-    {q:"ج",options:["🐴","🐪","🐮","🐷"],a:"🐪"}
-  ],
-  math: [
-    {q:"1 + 1",options:["1","2","3","4"],a:"2",textOpts:true},
-    {q:"2 + 2",options:["2","3","4","5"],a:"4",textOpts:true},
-    {q:"3 + 1",options:["2","3","4","5"],a:"4",textOpts:true},
-    {q:"5 - 2",options:["2","3","4","5"],a:"3",textOpts:true},
-    {q:"4 + 1",options:["4","5","6","7"],a:"5",textOpts:true}
-  ]
-};
-
-function loadGameLevel() {
-  const data = gameData[curMode];
-  if(!data || curIdx >= data.length) { showToast('🎉 All done!'); return; }
-  const q = data[curIdx];
-  const container = document.getElementById('gameContent');
-  container.innerHTML = `
-    <div class="level-lbl">Level ${curIdx+1}/${data.length}</div>
-    <div class="question-box" id="question">${q.q}</div>
-    <div id="quiz-options" class="options-grid"></div>
-    <div class="game-stats"><span>⭐ ${ST.totalStars}</span><span>✅ ${curIdx}/${data.length}</span></div>
-  `;
-  const grid = document.getElementById('quiz-options');
-  grid.innerHTML = '';
-  q.options.forEach(opt => {
-    const btn = document.createElement('button');
-    btn.className = 'opt-btn' + (q.textOpts ? ' text-opt' : '');
-    btn.textContent = opt;
-    btn.onclick = () => {
-      if(btn.disabled) return;
-      document.querySelectorAll('.opt-btn').forEach(b => b.disabled = true);
-      if(opt === q.a) {
-        btn.classList.add('correct');
-        ST.totalStars += 3; ST.levelsDone++; 
-        completed[curMode] = (completed[curMode] || 0) + 1;
-        showToast('✅ Correct! +3 stars');
-        saveToCloudNow(); refreshHome();
-        setTimeout(() => { curIdx++; loadGameLevel(); }, 1000);
-      } else {
-        btn.classList.add('wrong');
-        showToast('❌ Try again!');
-        setTimeout(() => {
-          document.querySelectorAll('.opt-btn').forEach(b => b.disabled = false);
-        }, 800);
-      }
-    };
-    grid.appendChild(btn);
-  });
-}
-
-function exitGame() { showScreen('home-screen'); refreshHome(); }
-
-// ═══ SPECIAL GAMES (Compact versions) ══════════════
-function loadFlagGame() {
-  const flags = ['🇦🇫','🇦🇱','🇩🇿','🇦🇩','🇦🇴','🇦🇷','🇦🇺','🇦🇹','🇧🇷','🇨🇦','🇨🇳','🇩🇰','🇪🇬','🇫🇷','🇩🇪','🇬🇷','🇮🇳','🇮🇹','🇯🇵','🇲🇽','🇳🇴','🇵🇰','🇵🇹','🇷🇺','🇸🇦','🇪🇸','🇸🇪','🇹🇷','🇬🇧','🇺🇸'];
-  const names = ['Afghanistan','Albania','Algeria','Andorra','Angola','Argentina','Australia','Austria','Brazil','Canada','China','Denmark','Egypt','France','Germany','Greece','India','Italy','Japan','Mexico','Norway','Pakistan','Portugal','Russia','Saudi Arabia','Spain','Sweden','Turkey','UK','USA'];
-  let idx = Math.floor(Math.random() * flags.length);
-  const container = document.getElementById('gameContent');
-  container.innerHTML = `
-    <div class="question-box" style="font-size:4rem;">${flags[idx]}</div>
-    <div id="flagOpts" class="geo-options"></div>
-    <div class="game-stats"><span>✅ Correct: <span id="flagScore">0</span></span></div>
-    <button class="game-btn" onclick="loadFlagGame()">Next</button>
-  `;
-  const opts = [names[idx], ...names.filter((_,i) => i !== idx).sort(() => Math.random()-.5).slice(0,3)].sort(() => Math.random()-.5);
-  const grid = document.getElementById('flagOpts');
-  grid.innerHTML = '';
-  opts.forEach(name => {
-    const btn = document.createElement('button');
-    btn.className = 'geo-opt';
-    btn.textContent = name;
-    btn.onclick = () => {
-      document.querySelectorAll('.geo-opt').forEach(b => b.disabled = true);
-      if(name === names[idx]) {
-        btn.classList.add('correct');
-        const sc = document.getElementById('flagScore');
-        sc.textContent = parseInt(sc.textContent) + 1;
-        ST.totalStars += 2; saveToCloudNow(); refreshHome();
-      } else {
-        btn.classList.add('wrong');
-        document.querySelectorAll('.geo-opt').forEach(b => { if(b.textContent === names[idx]) b.classList.add('correct'); });
-      }
-      setTimeout(loadFlagGame, 1500);
-    };
-    grid.appendChild(btn);
-  });
-}
-
-// Memory Game
-function loadMemoryGame() {
-  const emojis = ['🍎','🍌','🍇','🍉','🍓','🍑','🍒','🥝'];
-  const deck = [...emojis, ...emojis];
-  const cards = deck.map((e,i) => ({id:i, emoji:e, flipped:false, matched:false}));
-  gameState.memCards = cards;
-  gameState.memFlipped = [];
-  gameState.memLocked = false;
-  const container = document.getElementById('gameContent');
-  container.innerHTML = `<div class="memory-grid" id="memGrid"></div>
-    <div class="game-stats"><span>Matches: <span id="memMatches">0</span>/8</span></div>
-    <button class="game-btn" onclick="loadMemoryGame()">New Game</button>`;
-  renderMemoryGrid();
-}
-
-function renderMemoryGrid() {
-  const grid = document.getElementById('memGrid');
-  if(!grid) return;
-  grid.innerHTML = '';
-  gameState.memCards.forEach((card, idx) => {
-    const div = document.createElement('div');
-    div.className = 'mem-card' + (card.flipped ? ' flipped' : '') + (card.matched ? ' matched' : '');
-    div.textContent = (card.flipped || card.matched) ? card.emoji : '❓';
-    div.onclick = () => {
-      if(gameState.memLocked) return;
-      if(card.flipped || card.matched) return;
-      card.flipped = true;
-      gameState.memFlipped.push(idx);
-      renderMemoryGrid();
-      if(gameState.memFlipped.length === 2) {
-        gameState.memLocked = true;
-        const [i1, i2] = gameState.memFlipped;
-        const c1 = gameState.memCards[i1], c2 = gameState.memCards[i2];
-        if(c1.emoji === c2.emoji) {
-          c1.matched = c2.matched = true;
-          gameState.memFlipped = [];
-          gameState.memLocked = false;
-          ST.totalStars += 1; saveToCloudNow(); refreshHome();
-          document.getElementById('memMatches').textContent = gameState.memCards.filter(c => c.matched).length / 2;
-          renderMemoryGrid();
-          if(gameState.memCards.every(c => c.matched)) showToast('🎉 You win!');
-        } else {
-          setTimeout(() => {
-            c1.flipped = c2.flipped = false;
-            gameState.memFlipped = [];
-            gameState.memLocked = false;
-            renderMemoryGrid();
-          }, 800);
-        }
-      }
-    };
-    grid.appendChild(div);
-  });
-}
-
-// Bingo Game
-function loadBingoGame() {
-  const nums = [];
-  while(nums.length < 16) {
-    const n = Math.floor(Math.random() * 20) + 1;
-    if(!nums.includes(n)) nums.push(n);
-  }
-  gameState.bingoGrid = nums.map((v,i) => ({value:v, marked:false, index:i}));
-  gameState.bingoAnswer = 0;
-  const container = document.getElementById('gameContent');
-  container.innerHTML = `<div class="question-box" style="font-size:1.5rem;min-height:60px;" id="bingoQ">? + ? = ?</div>
-    <div class="bingo-grid" id="bingoGrid"></div>
-    <div class="game-stats"><span>Score: <span id="bingoScore">0</span></span></div>
-    <button class="game-btn" onclick="loadBingoGame()">New Bingo</button>`;
-  renderBingoGrid();
-  genBingoQ();
-}
-
-function renderBingoGrid() {
-  const grid = document.getElementById('bingoGrid');
-  if(!grid) return;
-  grid.innerHTML = '';
-  gameState.bingoGrid.forEach(cell => {
-    const div = document.createElement('div');
-    div.className = 'bingo-cell' + (cell.marked ? ' marked' : '');
-    div.textContent = cell.value;
-    div.onclick = () => {
-      if(cell.marked) return;
-      if(cell.value === gameState.bingoAnswer) {
-        cell.marked = true;
-        const score = document.getElementById('bingoScore');
-        score.textContent = parseInt(score.textContent) + 10;
-        ST.totalStars += 1; saveToCloudNow(); refreshHome();
-        renderBingoGrid();
-        genBingoQ();
-        const grid = gameState.bingoGrid;
-        let win = false;
-        for(let r=0; r<4; r++) { if(grid[r*4].marked&&grid[r*4+1].marked&&grid[r*4+2].marked&&grid[r*4+3].marked) win=true; }
-        for(let c=0; c<4; c++) { if(grid[c].marked&&grid[c+4].marked&&grid[c+8].marked&&grid[c+12].marked) win=true; }
-        if(win) showToast('🎉 BINGO!');
-      } else {
-        div.classList.add('wrong');
-        setTimeout(() => div.classList.remove('wrong'), 500);
-      }
-    };
-    grid.appendChild(div);
-  });
-}
-
-function genBingoQ() {
-  const a = Math.floor(Math.random() * 10) + 1;
-  const b = Math.floor(Math.random() * 10) + 1;
-  gameState.bingoAnswer = a + b;
-  document.getElementById('bingoQ').textContent = a + ' + ' + b + ' = ?';
-}
-
-// Scramble Game
-function loadScrambleGame() {
-  const words = ['CAT','DOG','FISH','BIRD','STAR','MOON','SUN','TREE','FLOWER','CLOUD','APPLE','HOUSE'];
-  gameState.scrambleWords = words;
-  const container = document.getElementById('gameContent');
-  container.innerHTML = `<div class="scrambled-word" id="scrambleDisplay">???</div>
-    <div class="scramble-input"><input type="text" id="scrambleInput" placeholder="Type answer..."><button onclick="checkScramble()">Guess</button></div>
-    <div class="game-stats"><span>Score: <span id="scrambleScore">0</span></span></div>
-    <button class="game-btn" onclick="loadScrambleQuestion()">Next</button>`;
-  loadScrambleQuestion();
-}
-
-function loadScrambleQuestion() {
-  const words = gameState.scrambleWords;
-  const word = words[Math.floor(Math.random() * words.length)];
-  const scrambled = word.split('').sort(() => Math.random()-.5).join('');
-  document.getElementById('scrambleDisplay').textContent = scrambled;
-  document.getElementById('scrambleInput').value = '';
-  gameState.scrambleCurrent = word;
-}
-
-function checkScramble() {
-  const guess = document.getElementById('scrambleInput').value.trim().toUpperCase();
-  if(!guess || !gameState.scrambleCurrent) return;
-  if(guess === gameState.scrambleCurrent) {
-    const score = document.getElementById('scrambleScore');
-    score.textContent = parseInt(score.textContent) + 10;
-    ST.totalStars += 2; saveToCloudNow(); refreshHome();
-    showToast('✅ Correct!');
-    setTimeout(loadScrambleQuestion, 800);
-  } else { showToast('❌ Try again!'); document.getElementById('scrambleInput').value = ''; }
-}
-
-// Color Game
-function loadColorGame() {
-  const colors = ['#e74c3c','#3498db','#2ecc71','#f1c40f','#9b59b6','#e67e22','#1abc9c','#e84393'];
-  const pattern = [];
-  for(let i=0; i<64; i++) pattern.push(Math.floor(Math.random() * 8));
-  gameState.colorPattern = pattern;
-  gameState.colorFilled = Array(64).fill(null);
-  gameState.colorSelected = 0;
-  const container = document.getElementById('gameContent');
-  container.innerHTML = `<div class="color-palette" id="colorPalette"></div>
-    <div class="color-grid" id="colorGrid"></div>
-    <div class="game-stats"><span>Colored: <span id="colorCount">0</span>/64</span></div>
-    <button class="game-btn" onclick="loadColorGame()">New</button>`;
-  renderColorPalette();
-  renderColorGrid();
-}
-
-function renderColorPalette() {
-  const container = document.getElementById('colorPalette');
-  if(!container) return;
-  const colors = ['#e74c3c','#3498db','#2ecc71','#f1c40f','#9b59b6','#e67e22','#1abc9c','#e84393'];
-  container.innerHTML = '';
-  colors.forEach((color, idx) => {
-    const div = document.createElement('div');
-    div.className = 'color-pick' + (idx === gameState.colorSelected ? ' active' : '');
-    div.style.background = color;
-    div.onclick = () => { gameState.colorSelected = idx; renderColorPalette(); };
-    container.appendChild(div);
-  });
-}
-
-function renderColorGrid() {
-  const container = document.getElementById('colorGrid');
-  if(!container) return;
-  const colors = ['#e74c3c','#3498db','#2ecc71','#f1c40f','#9b59b6','#e67e22','#1abc9c','#e84393'];
-  container.innerHTML = '';
-  gameState.colorPattern.forEach((num, idx) => {
-    const div = document.createElement('div');
-    div.className = 'color-cell' + (gameState.colorFilled[idx] !== null ? ' colored' : '');
-    if(gameState.colorFilled[idx] !== null) {
-      div.style.background = colors[gameState.colorFilled[idx]];
-      div.textContent = '';
-    } else {
-      div.style.background = '#f0f0f0';
-      div.textContent = num + 1;
-    }
-    div.onclick = () => {
-      if(gameState.colorFilled[idx] !== null) return;
-      if(gameState.colorSelected === num) {
-        gameState.colorFilled[idx] = num;
-        document.getElementById('colorCount').textContent = gameState.colorFilled.filter(c => c !== null).length;
-        renderColorGrid();
-        if(gameState.colorFilled.every(c => c !== null)) {
-          ST.totalStars += 10; saveToCloudNow(); refreshHome();
-          showToast('🎉 Perfect! +10 stars!');
-        }
-      }
-    };
-    container.appendChild(div);
-  });
-}
-
-// Typing Game
-function loadTypingGame() {
-  const texts = ["The quick brown fox jumps over the lazy dog","Practice makes perfect every day","Coding is fun and creative","Learn to type fast"];
-  gameState.typingText = texts[Math.floor(Math.random() * texts.length)];
-  gameState.typingIdx = 0;
-  const container = document.getElementById('gameContent');
-  container.innerHTML = `<div class="typing-display" id="typingDisplay"></div>
-    <input class="typing-input" id="typingInput" placeholder="Type here...">
-    <div class="game-stats"><span>✅ <span id="typingCorrect">0</span></span><span>❌ <span id="typingWrong">0</span></span></div>
-    <button class="game-btn" onclick="loadTypingGame()">New</button>`;
-  updateTypingDisplay();
-  document.getElementById('typingInput').oninput = function() {
-    const expected = gameState.typingText[gameState.typingIdx];
-    const val = this.value;
-    if(!val) return;
-    if(val === expected) {
-      gameState.typingIdx++;
-      document.getElementById('typingCorrect').textContent = parseInt(document.getElementById('typingCorrect').textContent) + 1;
-      updateTypingDisplay();
-      this.value = '';
-      if(gameState.typingIdx === gameState.typingText.length) {
-        ST.totalStars += 5; saveToCloudNow(); refreshHome();
-        showToast('🎉 Complete! +5 stars!');
-        this.disabled = true;
-      }
-    } else {
-      document.getElementById('typingWrong').textContent = parseInt(document.getElementById('typingWrong').textContent) + 1;
-      this.value = '';
-    }
-  };
-}
-
-function updateTypingDisplay() {
-  const container = document.getElementById('typingDisplay');
-  if(!container) return;
-  let html = '';
-  const text = gameState.typingText;
-  for(let i=0; i<text.length; i++) {
-    if(i < gameState.typingIdx) html += `<span class="typed">${text[i]}</span>`;
-    else if(i === gameState.typingIdx) html += `<span class="current">${text[i]}</span>`;
-    else html += `<span class="remaining">${text[i]}</span>`;
-  }
-  container.innerHTML = html;
-}
-
-// Geography Quiz
-function loadGeoGame() {
-  const qs = [
-    {q:"Capital of France?", opts:["London","Paris","Berlin","Madrid"], ans:1},
-    {q:"Largest continent?", opts:["Africa","Asia","North America","Europe"], ans:1},
-    {q:"Capital of Japan?", opts:["Seoul","Beijing","Bangkok","Tokyo"], ans:3},
-    {q:"Longest river?", opts:["Amazon","Nile","Mississippi","Yangtze"], ans:1}
-  ];
-  gameState.geoQ = qs;
-  gameState.geoIdx = 0;
-  gameState.geoScore = 0;
-  const container = document.getElementById('gameContent');
-  container.innerHTML = `<div class="question-box" style="font-size:1.2rem;min-height:60px;" id="geoQ">Loading...</div>
-    <div class="geo-options" id="geoOptions"></div>
-    <div class="game-stats"><span>Score: <span id="geoScore">0</span></span></div>
-    <button class="game-btn" onclick="loadGeoGame()">New</button>`;
-  loadGeoQ();
-}
-
-function loadGeoQ() {
-  if(gameState.geoIdx >= gameState.geoQ.length) {
-    document.getElementById('geoQ').textContent = '🎉 Complete!';
-    document.getElementById('geoOptions').innerHTML = '';
-    return;
-  }
-  const q = gameState.geoQ[gameState.geoIdx];
-  document.getElementById('geoQ').textContent = q.q;
-  const grid = document.getElementById('geoOptions');
-  grid.innerHTML = '';
-  q.opts.forEach((opt, idx) => {
-    const btn = document.createElement('button');
-    btn.className = 'geo-opt';
-    btn.textContent = opt;
-    btn.onclick = () => {
-      document.querySelectorAll('.geo-opt').forEach(b => b.disabled = true);
-      if(idx === q.ans) {
-        btn.classList.add('correct');
-        gameState.geoScore += 10;
-        document.getElementById('geoScore').textContent = gameState.geoScore;
-        ST.totalStars += 2; saveToCloudNow(); refreshHome();
-      } else {
-        btn.classList.add('wrong');
-        document.querySelectorAll('.geo-opt')[q.ans].classList.add('correct');
-      }
-      setTimeout(() => { gameState.geoIdx++; loadGeoQ(); }, 1200);
-    };
-    grid.appendChild(btn);
-  });
-}
-
-// Word Search
-function loadSearchGame() {
-  const words = ['CAT','DOG','BIRD','FISH'];
-  const gridSize = 6;
-  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  const grid = Array(gridSize).fill(null).map(() => Array(gridSize).fill(''));
-  for(let r=0; r<gridSize; r++) for(let c=0; c<gridSize; c++) grid[r][c] = alphabet[Math.floor(Math.random() * 26)];
-  words.forEach((word, wi) => {
-    const r = Math.floor(Math.random() * gridSize);
-    const c = Math.floor(Math.random() * (gridSize - word.length));
-    for(let i=0; i<word.length; i++) grid[r][c+i] = word[i];
-  });
-  gameState.searchGrid = grid;
-  gameState.searchWords = words;
-  gameState.searchFound = [];
-  const container = document.getElementById('gameContent');
-  container.innerHTML = `<div class="wsearch-words" id="searchWords"></div>
-    <div class="wsearch-grid" id="searchGrid"></div>
-    <div class="game-stats"><span>Found: <span id="searchFound">0</span>/<span id="searchTotal">${words.length}</span></span></div>
-    <button class="game-btn" onclick="loadSearchGame()">New</button>`;
-  renderSearchGrid();
-  renderSearchWords();
-}
-
-function renderSearchGrid() {
-  const grid = document.getElementById('searchGrid');
-  if(!grid) return;
-  grid.innerHTML = '';
-  gameState.searchGrid.forEach(row => {
-    row.forEach(letter => {
-      const div = document.createElement('div');
-      div.className = 'wsearch-cell';
-      div.textContent = letter;
-      div.onclick = () => {
-        const found = gameState.searchWords.some((word, idx) => {
-          if(!gameState.searchFound.includes(idx) && word.includes(letter)) {
-            gameState.searchFound.push(idx);
-            document.getElementById('searchFound').textContent = gameState.searchFound.length;
-            ST.totalStars += 2; saveToCloudNow(); refreshHome();
-            renderSearchWords();
-            return true;
-          }
-          return false;
-        });
-        if(!found) {
-          div.style.background = '#f1c40f';
-          setTimeout(() => div.style.background = '#f0f0f0', 300);
-        }
-      };
-      grid.appendChild(div);
-    });
-  });
-}
-
-function renderSearchWords() {
-  const container = document.getElementById('searchWords');
-  if(!container) return;
-  container.innerHTML = '';
-  gameState.searchWords.forEach((word, idx) => {
-    const span = document.createElement('span');
-    span.className = 'wsearch-tag' + (gameState.searchFound.includes(idx) ? ' found' : '');
-    span.textContent = word;
-    container.appendChild(span);
-  });
-}
-
-// Animal Sounds
-function loadAnimalGame() {
-  const animals = [
-    {animal:'Lion', emoji:'🦁'},{animal:'Cat', emoji:'🐱'},{animal:'Dog', emoji:'🐕'},
-    {animal:'Cow', emoji:'🐄'},{animal:'Sheep', emoji:'🐑'},{animal:'Horse', emoji:'🐴'},
-    {animal:'Duck', emoji:'🦆'},{animal:'Chicken', emoji:'🐔'},{animal:'Pig', emoji:'🐷'}
-  ];
-  gameState.animalData = animals;
-  const container = document.getElementById('gameContent');
-  container.innerHTML = `<button class="sound-btn" onclick="playAnimalSound()">🔊 Play Sound</button>
-    <div class="animal-display" id="animalDisplay">🔊</div>
-    <div class="geo-options" id="animalOptions"></div>
-    <div class="game-stats"><span>✅ <span id="animalCorrect">0</span></span></div>
-    <button class="game-btn" onclick="loadAnimalQuestion()">Next</button>`;
-  loadAnimalQuestion();
-}
-
-function loadAnimalQuestion() {
-  const animals = gameState.animalData;
-  const current = animals[Math.floor(Math.random() * animals.length)];
-  gameState.animalCurrent = current;
-  document.getElementById('animalDisplay').textContent = '🔊';
-  const opts = [current, ...animals.filter(a => a.animal !== current.animal).sort(() => Math.random()-.5).slice(0,3)].sort(() => Math.random()-.5);
-  const grid = document.getElementById('animalOptions');
-  grid.innerHTML = '';
-  opts.forEach(opt => {
-    const btn = document.createElement('button');
-    btn.className = 'geo-opt';
-    btn.textContent = opt.animal;
-    btn.onclick = () => {
-      document.querySelectorAll('.geo-opt').forEach(b => b.disabled = true);
-      if(opt.animal === current.animal) {
-        btn.classList.add('correct');
-        document.getElementById('animalCorrect').textContent = parseInt(document.getElementById('animalCorrect').textContent) + 1;
-        ST.totalStars += 2; saveToCloudNow(); refreshHome();
-      } else {
-        btn.classList.add('wrong');
-        document.querySelectorAll('.geo-opt').forEach(b => { if(b.textContent === current.animal) b.classList.add('correct'); });
-      }
-      setTimeout(loadAnimalQuestion, 1500);
-    };
-    grid.appendChild(btn);
-  });
-}
-
-function playAnimalSound() {
-  if(!gameState.animalCurrent) return;
-  document.getElementById('animalDisplay').textContent = gameState.animalCurrent.emoji;
-  const msg = new SpeechSynthesisUtterance(gameState.animalCurrent.animal + '!');
-  msg.rate = 0.7;
-  window.speechSynthesis.speak(msg);
-}
-
-// Story Builder
-function loadStoryGame() {
-  const templates = [
-    {template:"The ___ ___ went to the ___", slots:['adjective','animal','place']},
-    {template:"Once upon a time, a ___ ___ lived in a ___", slots:['adjective','animal','place']}
-  ];
-  const bank = {
-    adjective:['brave','funny','sleepy','happy','sad','angry','lazy','smart'],
-    animal:['cat','dog','bird','fox','lion','bear','rabbit','horse'],
-    place:['castle','forest','mountain','village','ocean','desert','garden','jungle']
-  };
-  gameState.storyTemplate = templates[Math.floor(Math.random() * templates.length)];
-  gameState.storyUsed = [];
-  gameState.storyBank = bank;
-  const container = document.getElementById('gameContent');
-  container.innerHTML = `<div class="story-text" id="storyText">Choose words!</div>
-    <div class="story-words" id="storyWords"></div>
-    <div class="game-stats"><span>Words: <span id="storyCount">0</span></span></div>
-    <button class="game-btn" onclick="loadStoryGame()">New</button>`;
-  renderStoryWords();
-}
-
-function renderStoryWords() {
-  const container = document.getElementById('storyWords');
-  if(!container) return;
-  const template = gameState.storyTemplate;
-  const used = gameState.storyUsed;
-  const slots = template.slots;
-  if(used.length >= slots.length) {
-    container.innerHTML = '<span style="color:#2ecc71;">✅ Story complete!</span>';
-    return;
-  }
-  const slotType = slots[used.length];
-  const words = gameState.storyBank[slotType] || [];
-  container.innerHTML = '';
-  words.forEach(word => {
-    if(used.includes(word)) return;
-    const div = document.createElement('div');
-    div.className = 'story-word';
-    div.textContent = word;
-    div.onclick = () => {
-      used.push(word);
-      document.getElementById('storyCount').textContent = used.length;
-      let story = template.template;
-      let idx = 0;
-      story = story.replace(/___/g, () => used[idx++]);
-      document.getElementById('storyText').textContent = story;
-      renderStoryWords();
-      if(used.length === slots.length) {
-        ST.totalStars += 3; saveToCloudNow(); refreshHome();
-        showToast('🎉 Story complete! +3 stars!');
-      }
-    };
-    container.appendChild(div);
-  });
-}
-
-// Phonics
-function loadPhonicsGame() {
-  const data = [
-    {letter:'A', words:['Apple','Ant']},{letter:'B', words:['Ball','Bear']},
-    {letter:'C', words:['Cat','Car']},{letter:'D', words:['Dog','Duck']},
-    {letter:'E', words:['Elephant','Egg']}
-  ];
-  gameState.phonicsData = data;
-  gameState.phonicsIdx = 0;
-  const container = document.getElementById('gameContent');
-  container.innerHTML = `<div class="phonics-display" id="phonicsDisplay" onclick="playPhonicsSound()">A</div>
-    <div class="phonics-words" id="phonicsWords"></div>
-    <div class="phonics-nav"><button onclick="changePhonics(-1)">◀</button><button onclick="playPhonicsSound()">🔊</button><button onclick="changePhonics(1)">▶</button></div>
-    <div class="game-stats"><span>Letter: <span id="phonicsIdx">1</span>/5</span></div>
-    <button class="game-btn" onclick="loadPhonicsGame()">Reset</button>`;
-  renderPhonics();
-}
-
-function renderPhonics() {
-  const data = gameState.phonicsData;
-  const idx = gameState.phonicsIdx;
-  const item = data[idx];
-  document.getElementById('phonicsDisplay').textContent = item.letter;
-  document.getElementById('phonicsIdx').textContent = idx + 1;
-  const container = document.getElementById('phonicsWords');
-  container.innerHTML = '';
-  item.words.forEach(word => {
-    const div = document.createElement('div');
-    div.className = 'phonics-word';
-    div.textContent = word;
-    container.appendChild(div);
-  });
-}
-
-function playPhonicsSound() {
-  const item = gameState.phonicsData[gameState.phonicsIdx];
-  const msg = new SpeechSynthesisUtterance(item.letter + '. ' + item.words.join(', '));
-  msg.rate = 0.6;
-  window.speechSynthesis.speak(msg);
-}
-
-function changePhonics(delta) {
-  gameState.phonicsIdx = (gameState.phonicsIdx + delta + gameState.phonicsData.length) % gameState.phonicsData.length;
-  renderPhonics();
-}
-
-// Multiplication
-function loadMultiplyGame() {
-  gameState.multTable = 2;
-  const container = document.getElementById('gameContent');
-  container.innerHTML = `<div class="multiply-tables" id="multTables"></div>
-    <div class="question-box" style="font-size:2rem;min-height:60px;" id="multQ">2 × ? = ?</div>
-    <div class="multiply-options" id="multOptions"></div>
-    <div class="game-stats"><span>✅ <span id="multCorrect">0</span></span></div>
-    <button class="game-btn" onclick="loadMultiplyQuestion()">New</button>`;
-  renderMultTables();
-  loadMultiplyQuestion();
-}
-
-function renderMultTables() {
-  const container = document.getElementById('multTables');
-  container.innerHTML = '';
-  for(let i=2; i<=5; i++) {
-    const btn = document.createElement('button');
-    btn.className = 'multiply-table' + (i === gameState.multTable ? ' active' : '');
-    btn.textContent = i;
-    btn.onclick = () => { gameState.multTable = i; renderMultTables(); loadMultiplyQuestion(); };
-    container.appendChild(btn);
-  }
-}
-
-function loadMultiplyQuestion() {
-  const table = gameState.multTable;
-  const b = Math.floor(Math.random() * 5) + 1;
-  const answer = table * b;
-  document.getElementById('multQ').textContent = table + ' × ' + b + ' = ?';
-  const opts = new Set([answer]);
-  while(opts.size < 4) {
-    const offset = Math.floor(Math.random() * 5) + 1;
-    const candidate = answer + (Math.random() > 0.5 ? offset : -offset);
-    if(candidate > 0 && candidate < 50) opts.add(candidate);
-  }
-  const grid = document.getElementById('multOptions');
-  grid.innerHTML = '';
-  Array.from(opts).sort(() => Math.random()-.5).forEach(opt => {
-    const btn = document.createElement('button');
-    btn.className = 'multiply-opt';
-    btn.textContent = opt;
-    btn.onclick = () => {
-      document.querySelectorAll('.multiply-opt').forEach(b => b.disabled = true);
-      if(opt === answer) {
-        btn.classList.add('correct');
-        document.getElementById('multCorrect').textContent = parseInt(document.getElementById('multCorrect').textContent) + 1;
-        ST.totalStars += 2; saveToCloudNow(); refreshHome();
-      } else {
-        btn.classList.add('wrong');
-        document.querySelectorAll('.multiply-opt').forEach(b => { if(parseInt(b.textContent) === answer) b.classList.add('correct'); });
-      }
-      setTimeout(loadMultiplyQuestion, 1200);
-    };
-    grid.appendChild(btn);
-  });
-}
-
-// Vocabulary
-function loadVocabGame() {
-  const data = [
-    {word:'Brave', meaning:'Showing courage'},{word:'Bright', meaning:'Full of light'},
-    {word:'Calm', meaning:'Peaceful'},{word:'Clever', meaning:'Quick to understand'},
-    {word:'Kind', meaning:'Caring'},{word:'Wise', meaning:'Having knowledge'}
-  ];
-  gameState.vocabData = data;
-  const container = document.getElementById('gameContent');
-  container.innerHTML = `<div class="vocab-card" id="vocabCard"></div>
-    <div class="vocab-options" id="vocabOptions"></div>
-    <div class="game-stats"><span>Learned: <span id="vocabLearned">0</span></span></div>
-    <button class="game-btn" onclick="loadVocabQuestion()">Next</button>`;
-  loadVocabQuestion();
-}
-
-function loadVocabQuestion() {
-  const data = gameState.vocabData;
-  const word = data[Math.floor(Math.random() * data.length)];
-  gameState.vocabCurrent = word;
-  document.getElementById('vocabCard').innerHTML = `<div class="vocab-word">${word.word}</div><div class="vocab-meaning">${word.meaning}</div>`;
-  const opts = [word, ...data.filter(w => w.word !== word.word).sort(() => Math.random()-.5).slice(0,3)].sort(() => Math.random()-.5);
-  const grid = document.getElementById('vocabOptions');
-  grid.innerHTML = '';
-  opts.forEach(opt => {
-    const btn = document.createElement('button');
-    btn.className = 'vocab-opt';
-    btn.textContent = opt.word;
-    btn.onclick = () => {
-      document.querySelectorAll('.vocab-opt').forEach(b => b.disabled = true);
-      if(opt.word === word.word) {
-        btn.classList.add('correct');
-        document.getElementById('vocabLearned').textContent = parseInt(document.getElementById('vocabLearned').textContent) + 1;
-        ST.totalStars += 3; saveToCloudNow(); refreshHome();
-      } else {
-        btn.classList.add('wrong');
-        document.querySelectorAll('.vocab-opt').forEach(b => { if(b.textContent === word.word) b.classList.add('correct'); });
-      }
-      setTimeout(loadVocabQuestion, 1500);
-    };
-    grid.appendChild(btn);
-  });
-}
-
-// Music Maker
-function loadMusicGame() {
-  const notes = ['C4','D4','E4','F4','G4','A4','B4','C5'];
-  const container = document.getElementById('gameContent');
-  container.innerHTML = `<div class="music-piano" id="musicPiano"></div>
-    <div class="game-stats"><span>🎵 Notes: <span id="musicNotes">0</span></span></div>
-    <button class="game-btn" onclick="clearMusic()">Clear</button>`;
-  const piano = document.getElementById('musicPiano');
-  piano.innerHTML = '';
-  notes.forEach(note => {
-    const key = document.createElement('div');
-    key.className = 'music-key';
-    key.textContent = note;
-    key.onclick = () => {
-      if(!gameState.musicCtx) gameState.musicCtx = new (window.AudioContext || window.webkitAudioContext)();
-      const freqs = {C4:261.63,D4:293.66,E4:329.63,F4:349.23,G4:392.00,A4:440.00,B4:493.88,C5:523.25};
-      const osc = gameState.musicCtx.createOscillator();
-      const gain = gameState.musicCtx.createGain();
-      osc.connect(gain);
-      gain.connect(gameState.musicCtx.destination);
-      osc.frequency.setValueAtTime(freqs[note] || 440, gameState.musicCtx.currentTime);
-      gain.gain.setValueAtTime(0.3, gameState.musicCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.01, gameState.musicCtx.currentTime + 0.5);
-      osc.start(gameState.musicCtx.currentTime);
-      osc.stop(gameState.musicCtx.currentTime + 0.5);
-      document.getElementById('musicNotes').textContent = parseInt(document.getElementById('musicNotes').textContent) + 1;
-      ST.totalStars += 1; saveToCloudNow(); refreshHome();
-    };
-    piano.appendChild(key);
-  });
-  gameState.musicCtx = null;
-}
-
-function clearMusic() { document.getElementById('musicNotes').textContent = '0'; }
-
-// Animation Studio
-function loadAnimateGame() {
-  const container = document.getElementById('gameContent');
-  container.innerHTML = `<canvas id="animCanvas" width="300" height="200" class="animate-canvas"></canvas>
-    <div class="animate-tools">
-      <button class="animate-tool active" onclick="setAnimTool('draw')">✏️ Draw</button>
-      <button class="animate-tool" onclick="setAnimTool('clear')">🗑️ Clear</button>
-      <button class="animate-tool" onclick="addAnimFrame()">➕ Frame</button>
-      <button class="animate-tool" onclick="playAnim()">▶️ Play</button>
-    </div>
-    <div class="animate-frames" id="animFrames"></div>
-    <div class="game-stats"><span>Frames: <span id="animFramesCount">1</span></span></div>
-    <button class="game-btn" onclick="loadAnimateGame()">Reset</button>`;
-  const canvas = document.getElementById('animCanvas');
-  const ctx = canvas.getContext('2d');
-  ctx.fillStyle = '#fff';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  gameState.animFrames = [canvas.toDataURL()];
-  gameState.animIdx = 0;
-  gameState.animTool = 'draw';
-  gameState.animDrawing = false;
-  gameState.animInterval = null;
-  renderAnimFrames();
-  
-  canvas.addEventListener('mousedown', (e) => {
-    if(gameState.animTool === 'clear') { ctx.clearRect(0,0,canvas.width,canvas.height); gameState.animFrames[gameState.animIdx] = canvas.toDataURL(); renderAnimFrames(); return; }
-    gameState.animDrawing = true;
-    const rect = canvas.getBoundingClientRect();
-    ctx.beginPath();
-    ctx.moveTo((e.clientX - rect.left) * (canvas.width/rect.width), (e.clientY - rect.top) * (canvas.height/rect.height));
-  });
-  canvas.addEventListener('mousemove', (e) => {
-    if(!gameState.animDrawing || gameState.animTool !== 'draw') return;
-    const rect = canvas.getBoundingClientRect();
-    ctx.lineTo((e.clientX - rect.left) * (canvas.width/rect.width), (e.clientY - rect.top) * (canvas.height/rect.height));
-    ctx.strokeStyle = '#333';
-    ctx.lineWidth = 3;
-    ctx.lineCap = 'round';
-    ctx.stroke();
-  });
-  canvas.addEventListener('mouseup', () => {
-    if(gameState.animDrawing) { gameState.animDrawing = false; gameState.animFrames[gameState.animIdx] = canvas.toDataURL(); renderAnimFrames(); }
-  });
-  canvas.addEventListener('touchstart', (e) => {
-    e.preventDefault();
-    const rect = canvas.getBoundingClientRect();
-    const touch = e.touches[0];
-    if(gameState.animTool === 'clear') { ctx.clearRect(0,0,canvas.width,canvas.height); gameState.animFrames[gameState.animIdx] = canvas.toDataURL(); renderAnimFrames(); return; }
-    gameState.animDrawing = true;
-    ctx.beginPath();
-    ctx.moveTo((touch.clientX - rect.left) * (canvas.width/rect.width), (touch.clientY - rect.top) * (canvas.height/rect.height));
-  });
-  canvas.addEventListener('touchmove', (e) => {
-    e.preventDefault();
-    if(!gameState.animDrawing || gameState.animTool !== 'draw') return;
-    const rect = canvas.getBoundingClientRect();
-    const touch = e.touches[0];
-    ctx.lineTo((touch.clientX - rect.left) * (canvas.width/rect.width), (touch.clientY - rect.top) * (canvas.height/rect.height));
-    ctx.strokeStyle = '#333';
-    ctx.lineWidth = 3;
-    ctx.lineCap = 'round';
-    ctx.stroke();
-  });
-  canvas.addEventListener('touchend', (e) => {
-    e.preventDefault();
-    if(gameState.animDrawing) { gameState.animDrawing = false; gameState.animFrames[gameState.animIdx] = canvas.toDataURL(); renderAnimFrames(); }
-  });
-}
-
-function renderAnimFrames() {
-  const container = document.getElementById('animFrames');
-  if(!container) return;
-  container.innerHTML = '';
-  gameState.animFrames.forEach((_, idx) => {
-    const div = document.createElement('div');
-    div.className = 'animate-frame' + (idx === gameState.animIdx ? ' active' : '');
-    div.textContent = idx + 1;
-    div.onclick = () => {
-      gameState.animIdx = idx;
-      const canvas = document.getElementById('animCanvas');
-      const ctx = canvas.getContext('2d');
-      const img = new Image();
-      img.onload = () => { ctx.clearRect(0,0,canvas.width,canvas.height); ctx.drawImage(img,0,0); };
-      img.src = gameState.animFrames[idx];
-      renderAnimFrames();
-    };
-    container.appendChild(div);
-  });
-  document.getElementById('animFramesCount').textContent = gameState.animFrames.length;
-}
-
-function setAnimTool(tool) {
-  gameState.animTool = tool;
-  document.querySelectorAll('.animate-tool').forEach(b => b.classList.toggle('active', b.textContent.includes(tool === 'draw' ? 'Draw' : tool === 'clear' ? 'Clear' : '')));
-}
-
-function addAnimFrame() {
-  const canvas = document.getElementById('animCanvas');
-  gameState.animFrames.push(canvas.toDataURL());
-  gameState.animIdx = gameState.animFrames.length - 1;
-  renderAnimFrames();
-  ST.totalStars += 2; saveToCloudNow(); refreshHome();
-}
-
-function playAnim() {
-  if(gameState.animInterval) { clearInterval(gameState.animInterval); gameState.animInterval = null; return; }
-  const canvas = document.getElementById('animCanvas');
-  const ctx = canvas.getContext('2d');
-  let idx = 0;
-  gameState.animInterval = setInterval(() => {
-    const img = new Image();
-    img.onload = () => { ctx.clearRect(0,0,canvas.width,canvas.height); ctx.drawImage(img,0,0); };
-    img.src = gameState.animFrames[idx];
-    idx = (idx + 1) % gameState.animFrames.length;
-    gameState.animIdx = idx;
-    renderAnimFrames();
-  }, 300);
-}
-
 // ═══ INIT ═══════════════════════════════════════════
 document.getElementById('boot-loading').style.display = 'none';
-console.log('⭐ KidLearn Pro with Teacher Rules & Firebase Integration!');
-console.log('📜 Teacher Rules: Registration, Content, Students, Exams, Conduct');
-console.log('🔥 Firebase Rules included for Realtime Database security');
+console.log('⭐ KidLearn Pro - Full Version with 20+ Games!');
+console.log('✅ Flag Quiz: 36 flags with working answers');
+console.log('✅ Leaderboard: Realtime Database with live updates');
+console.log('✅ All 20 games: ABC, Numbers, Coloring, Arabic, Math, Flags, Memory, Bingo, Scramble, Color, Typing, Geo, Search, Animal, Story, Phonics, Multiply, Vocab, Music, Animate');
 </script>
 </body>
         </html>
