@@ -2267,7 +2267,7 @@ function createExam() {
       grade: ST.gradeLevel || 'All',
       createdAt: Date.now() 
     };
-    db.ref('exams').push(exam).then(() => {
+    db.ref('exams').push(exam).then(() => {teacherId: auth.currentUser.uid,
       showToast('✅ Exam created!');
       document.getElementById('exam-title').value = ''; 
       document.getElementById('exam-questions').value = '';
