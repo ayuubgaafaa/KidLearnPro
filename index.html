@@ -2212,6 +2212,7 @@ function uploadContent() {
   const type = document.getElementById('content-type').value;
   const grade = document.getElementById('content-grade').value;
   if(!title || !desc) { showToast('⚠️ Please fill title and description'); return; }
+  teacherId: auth.currentUser.uid,
   if(!currentUser) { showToast('❌ Please login'); return; }
   if(!ST.teacherApproved) { showToast('❌ Your teacher application must be approved first'); return; }
   
