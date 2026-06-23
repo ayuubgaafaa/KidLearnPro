@@ -299,13 +299,6 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
           <div class="input-group"><label>👶 Student Name</label><input type="text" id="reg-student-name" placeholder="Your full name" maxlength="20"></div>
           <div class="input-group"><label>📅 Age</label><input type="number" id="reg-student-age" placeholder="e.g. 8" min="4" max="18"></div>
           <div class="input-group"><label>📧 Parent's Email</label><input type="email" id="reg-student-parent-email" placeholder="parent@email.com"></div>
-          <div class="input-group">
-<label>Teacher Code</label>
-<input
-type="text"
-id="teacher-code"
-placeholder="KLP12345">
-</div>
           <div class="input-group"><label>🔑 Password</label><input type="password" id="reg-student-pass" placeholder="Min 6 characters"></div>
         </div>
       </div>
@@ -886,12 +879,6 @@ function doRegister() {
   const success = document.getElementById('register-success');
   err.textContent = '';
   success.textContent = '';
-  const teacherCode =
-"KLP" + Math.floor(10000 + Math.random() * 90000);
-  const teacherCode =
-document.getElementById(
-"teacher-code"
-).value;
   
   if(selectedRole === 'parent') {
     const email = document.getElementById('reg-parent-email').value.trim();
@@ -2212,7 +2199,6 @@ function uploadContent() {
   const type = document.getElementById('content-type').value;
   const grade = document.getElementById('content-grade').value;
   if(!title || !desc) { showToast('⚠️ Please fill title and description'); return; }
-  teacherId: auth.currentUser.uid,
   if(!currentUser) { showToast('❌ Please login'); return; }
   if(!ST.teacherApproved) { showToast('❌ Your teacher application must be approved first'); return; }
   
@@ -2267,7 +2253,7 @@ function createExam() {
       grade: ST.gradeLevel || 'All',
       createdAt: Date.now() 
     };
-    db.ref('exams').push(exam).then(() => {teacherId: auth.currentUser.uid,
+    db.ref('exams').push(exam).then(() => {
       showToast('✅ Exam created!');
       document.getElementById('exam-title').value = ''; 
       document.getElementById('exam-questions').value = '';
@@ -2600,18 +2586,7 @@ function renderStudentDash() {
   loadStudentData();
 }
 
-function loadStudentData() const uid =
-auth.currentUser.uid;
-
-db.ref("users/" + uid)
-.once("value")
-.then(snapshot=>{
-
-const student =
-snapshot.val();
-
-const teacherCode =
-student.teacherCode; {
+function loadStudentData() {
   db.ref('content').once('value').then(snap => {
     const list = document.getElementById('student-lesson-list');
     if(snap.exists()) {
@@ -2660,4 +2635,4 @@ console.log('✅ Leaderboard: Realtime Database with live updates');
 console.log('✅ All 20 games: ABC, Numbers, Coloring, Arabic, Math, Flags, Memory, Bingo, Scramble, Color, Typing, Geo, Search, Animal, Story, Phonics, Multiply, Vocab, Music, Animate');
 </script>
 </body>
-        </html>
+  </html>
