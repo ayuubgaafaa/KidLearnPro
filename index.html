@@ -879,6 +879,8 @@ function doRegister() {
   const success = document.getElementById('register-success');
   err.textContent = '';
   success.textContent = '';
+  const teacherCode =
+"KLP" + Math.floor(10000 + Math.random() * 90000);
   
   if(selectedRole === 'parent') {
     const email = document.getElementById('reg-parent-email').value.trim();
