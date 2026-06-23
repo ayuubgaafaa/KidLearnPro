@@ -237,7 +237,35 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
 .music-inst{padding:8px 16px;border:none;border-radius:10px;font-weight:700;background:#f0f0f0;cursor:pointer;transition:all .3s;color:#333;}
 .music-inst.active{background:#6c72e6;color:white;}
 .typing-input{width:100%;padding:12px;border:2px solid #ddd;border-radius:12px;font-size:1rem;text-align:center;outline:none;max-width:350px;display:block;margin:10px auto;}
-@media (max-width:400px){.cards-grid{grid-template-columns:1fr 1fr;gap:8px;}.card{padding:12px 8px;}.card-icon{width:44px;height:44px;font-size:1.1rem;}.auth-wrap{padding:20px 16px;}.role-selector{grid-template-columns:1fr 1fr 1fr;gap:4px;}.role-opt{padding:8px 4px;}.role-opt .icon{font-size:22px;}}
+
+/* New Material Management Styles */
+.materials-grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:12px;}
+.material-section{background:#f8f7ff;border-radius:16px;padding:16px;}
+.material-section h3{font-size:.9rem;font-weight:700;color:#4a3487;margin-bottom:10px;border-bottom:2px solid #e0d8f0;padding-bottom:8px;}
+.material-item{background:white;border-radius:12px;padding:12px;margin-bottom:10px;display:flex;gap:12px;flex-wrap:wrap;border:1px solid #eee;}
+.material-thumb{width:80px;height:60px;background:#e8e6ff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0;}
+.material-info{flex:1;min-width:150px;}
+.material-info h4{font-size:.85rem;font-weight:700;color:#333;}
+.material-info p{font-size:.78rem;color:#666;margin:4px 0;}
+.material-actions{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;}
+.material-actions button,.material-actions a{padding:4px 12px;border:none;border-radius:8px;font-size:.7rem;font-weight:600;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block;}
+.material-actions button:first-child{background:#3498db;color:white;}
+.material-actions button:first-child:hover{background:#2980b9;}
+.material-actions button:nth-child(2){background:#e74c3c;color:white;}
+.material-actions button:nth-child(2):hover{background:#c0392b;}
+.material-actions a{background:#2ecc71;color:white;}
+.material-actions a:hover{background:#27ae60;}
+.material-actions button:last-child{background:#f39c12;color:white;}
+.material-actions button:last-child:hover{background:#d68910;}
+.edit-modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:1000;}
+.edit-modal-content{background:white;border-radius:20px;padding:24px;max-width:400px;width:90%;max-height:80vh;overflow-y:auto;}
+.edit-modal-content h3{color:#4a3487;margin-bottom:16px;}
+.edit-modal-actions{display:flex;gap:10px;margin-top:16px;}
+.edit-modal-actions button{flex:1;padding:10px;border:none;border-radius:10px;font-weight:700;cursor:pointer;}
+.edit-modal-actions .save-edit{background:#2ecc71;color:white;}
+.edit-modal-actions .cancel-edit{background:#e74c3c;color:white;}
+
+@media (max-width:400px){.cards-grid{grid-template-columns:1fr 1fr;gap:8px;}.card{padding:12px 8px;}.card-icon{width:44px;height:44px;font-size:1.1rem;}.auth-wrap{padding:20px 16px;}.role-selector{grid-template-columns:1fr 1fr 1fr;gap:4px;}.role-opt{padding:8px 4px;}.role-opt .icon{font-size:22px;}.material-thumb{width:60px;height:50px;font-size:1.5rem;}}
 </style>
 </head>
 <body>
@@ -298,8 +326,10 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
         <div id="reg-student-fields" style="display:none;">
           <div class="input-group"><label>👶 Student Name</label><input type="text" id="reg-student-name" placeholder="Your full name" maxlength="20"></div>
           <div class="input-group"><label>📅 Age</label><input type="number" id="reg-student-age" placeholder="e.g. 8" min="4" max="18"></div>
+          <div class="input-group"><label>🔑 Teacher Code</label><input type="text" id="reg-student-teacher-code" placeholder="Enter teacher code (e.g. KLP48291)" maxlength="8"></div>
           <div class="input-group"><label>📧 Parent's Email</label><input type="email" id="reg-student-parent-email" placeholder="parent@email.com"></div>
           <div class="input-group"><label>🔑 Password</label><input type="password" id="reg-student-pass" placeholder="Min 6 characters"></div>
+          <div id="teacher-code-status" style="font-size:.8rem;margin-top:4px;color:#888;"></div>
         </div>
       </div>
       <button class="auth-btn" onclick="doRegister()">🚀 Create Account</button>
@@ -371,6 +401,7 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
       <button class="tab-btn active" onclick="switchTeacherTab('applications',this)">Applications</button>
       <button class="tab-btn" onclick="switchTeacherTab('students',this)">Students</button>
       <button class="tab-btn" onclick="switchTeacherTab('content',this)">Upload</button>
+      <button class="tab-btn" onclick="switchTeacherTab('materials',this)">📚 Materials</button>
       <button class="tab-btn" onclick="switchTeacherTab('exams',this)">Exams</button>
       <button class="tab-btn" onclick="switchTeacherTab('rules',this)">Rules</button>
     </div>
@@ -389,9 +420,18 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
       <div class="input-group"><label>📚 Title</label><input type="text" id="content-title" placeholder="e.g. Lesson 1"></div>
       <div class="input-group"><label>📝 Description</label><textarea id="content-desc" placeholder="Describe the content..."></textarea></div>
       <div class="input-group"><label>📂 Type</label>
-        <select id="content-type"><option value="lesson">Lesson</option><option value="exercise">Exercise</option><option value="video">Video</option><option value="audio">Audio</option></select>
+        <select id="content-type">
+          <option value="lesson">Lesson</option>
+          <option value="exercise">Exercise</option>
+          <option value="video">Video</option>
+          <option value="audio">Audio</option>
+          <option value="pdf">PDF</option>
+          <option value="notes">Notes</option>
+          <option value="homework">Homework</option>
+          <option value="assignment">Assignment</option>
+        </select>
       </div>
-      <div class="input-group"><label>🔗 Content URL</label><input type="text" id="content-url" placeholder="YouTube link, audio URL, etc."></div>
+      <div class="input-group"><label>🔗 Content URL</label><input type="text" id="content-url" placeholder="YouTube link, audio URL, PDF link, etc."></div>
       <div class="input-group"><label>🎯 Grade Level</label>
         <select id="content-grade">
           <option value="preschool">Preschool</option>
@@ -406,6 +446,10 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
       <div id="content-upload-status" style="color:#888;font-size:.8rem;margin-top:6px;text-align:center;"></div>
       <div class="section-head" style="margin-top:16px;">📚 Your Uploaded Content</div>
       <div id="teacher-content-list">No content uploaded yet</div>
+    </div>
+    <div id="teacher-materials" style="display:none;">
+      <div class="section-head">📚 Learning Materials</div>
+      <div id="teacher-materials-list"></div>
     </div>
     <div id="teacher-exams" style="display:none;">
       <div class="section-head">📝 Create Exam</div>
@@ -594,6 +638,30 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
 
 <!-- TOAST -->
 <div id="toast"></div>
+
+<!-- Edit Modal -->
+<div id="edit-modal" class="edit-modal">
+  <div class="edit-modal-content">
+    <h3>✏️ Edit Material</h3>
+    <div class="input-group"><label>📚 Title</label><input type="text" id="edit-title"></div>
+    <div class="input-group"><label>📝 Description</label><textarea id="edit-description"></textarea></div>
+    <div class="input-group"><label>🔗 URL</label><input type="text" id="edit-url"></div>
+    <div class="input-group"><label>🎯 Grade Level</label>
+      <select id="edit-grade">
+        <option value="preschool">Preschool</option>
+        <option value="kindergarten">Kindergarten</option>
+        <option value="grade1">Grade 1</option>
+        <option value="grade2">Grade 2</option>
+        <option value="grade3">Grade 3</option>
+        <option value="grade4">Grade 4</option>
+      </select>
+    </div>
+    <div class="edit-modal-actions">
+      <button class="save-edit" onclick="saveEditMaterial()">💾 Save</button>
+      <button class="cancel-edit" onclick="closeEditModal()">❌ Cancel</button>
+    </div>
+  </div>
+</div>
 </div>
 
 <!-- FIREBASE SDK -->
@@ -646,6 +714,9 @@ let ST = {
   role: 'parent',
   teacherApproved: false,
   studentApproved: false,
+  teacherId: null,
+  teacherCode: null,
+  teacherName: null,
   enrolledTeachers: [],
   examScores: []
 };
@@ -824,7 +895,6 @@ function refreshHome() {
 function saveToCloudNow() {
   if(!currentUser || isGuest) return;
   
-  // Save user data
   db.ref('users/' + currentUser.uid).update({
     childName: ST.childName,
     totalStars: ST.totalStars,
@@ -834,13 +904,14 @@ function saveToCloudNow() {
     role: ST.role,
     teacherApproved: ST.teacherApproved,
     studentApproved: ST.studentApproved,
+    teacherId: ST.teacherId,
+    teacherCode: ST.teacherCode,
     enrolledTeachers: ST.enrolledTeachers,
     examScores: ST.examScores,
     completed: completed,
     updatedAt: Date.now()
   });
   
-  // ⭐ UPDATE LEADERBOARD - Realtime Database
   db.ref('leaderboard/' + currentUser.uid).set({
     name: ST.childName,
     stars: ST.totalStars,
@@ -908,46 +979,114 @@ function doRegister() {
     if(!name || !email || !pass || !teacherId || !cv) { err.textContent = 'Please fill all fields'; return; }
     if(pass.length < 6) { err.textContent = 'Password must be at least 6 characters'; return; }
     document.getElementById('register-loading').style.display = 'block';
+    
+    // Generate unique Teacher Code
+    const generateTeacherCode = () => {
+      const prefix = 'KLP';
+      const random = Math.floor(10000 + Math.random() * 90000);
+      return prefix + random;
+    };
+    const teacherCode = generateTeacherCode();
+    
     auth.createUserWithEmailAndPassword(email, pass).then(userCred => {
       userRole = 'teacher'; ST.role = 'teacher'; 
       ST.teacherName = name; ST.teacherId = teacherId; 
       ST.teacherCv = cv; ST.teacherSubject = subject;
       ST.teacherApproved = false;
+      ST.teacherCode = teacherCode;
       saveToCloudNow();
+      
+      // Save to teachers collection with teacher code
+      db.ref('teachers/' + userCred.user.uid).set({ 
+        name, 
+        email, 
+        teacherId, 
+        teacherCode: teacherCode,
+        subject, 
+        experience: cv,
+        approved: false, 
+        createdAt: Date.now() 
+      });
+      
       db.ref('teacherApplications/' + userCred.user.uid).set({ 
-        name, email, teacherId, cv, subject, 
+        name, email, teacherId, teacherCode: teacherCode, cv, subject, 
         status: 'pending', createdAt: Date.now() 
       });
-      success.textContent = '📝 Teacher application submitted! Waiting for approval.';
+      
+      success.textContent = '📝 Teacher application submitted! Your Teacher Code: ' + teacherCode;
       document.getElementById('register-loading').style.display = 'none';
-      showToast('📝 Application submitted!');
+      showToast('📝 Teacher Code: ' + teacherCode);
       setTimeout(() => { showScreen('home-screen'); refreshHome(); }, 1500);
     }).catch(e => { err.textContent = e.message; document.getElementById('register-loading').style.display = 'none'; });
   }
   else if(selectedRole === 'student') {
     const name = document.getElementById('reg-student-name').value.trim();
     const age = parseInt(document.getElementById('reg-student-age').value);
+    const teacherCode = document.getElementById('reg-student-teacher-code').value.trim().toUpperCase();
     const parentEmail = document.getElementById('reg-student-parent-email').value.trim();
     const pass = document.getElementById('reg-student-pass').value;
-    if(!name || !age || !parentEmail || !pass) { err.textContent = 'Please fill all fields'; return; }
+    if(!name || !age || !teacherCode || !parentEmail || !pass) { err.textContent = 'Please fill all fields'; return; }
     if(pass.length < 6) { err.textContent = 'Password must be at least 6 characters'; return; }
     if(age < 4 || age > 18) { err.textContent = 'Please enter valid age (4-18)'; return; }
+    if(!teacherCode.startsWith('KLP') || teacherCode.length !== 8) { err.textContent = 'Invalid teacher code format (e.g. KLP48291)'; return; }
+    
     document.getElementById('register-loading').style.display = 'block';
-    const studentEmail = name.toLowerCase().replace(/\s/g, '') + '@kidlearn.student';
-    auth.createUserWithEmailAndPassword(studentEmail, pass).then(userCred => {
-      userRole = 'student'; ST.role = 'student'; 
-      ST.studentName = name; ST.studentAge = age; 
-      ST.parentEmail = parentEmail; ST.studentApproved = false;
-      saveToCloudNow();
-      db.ref('studentRequests/' + userCred.user.uid).set({ 
-        name, age, parentEmail, studentId: userCred.user.uid, 
-        status: 'pending', createdAt: Date.now() 
+    
+    // Validate teacher code
+    db.ref('teachers').orderByChild('teacherCode').equalTo(teacherCode).once('value').then(snap => {
+      if(!snap.exists()) {
+        err.textContent = '❌ Invalid teacher code. Please check and try again.';
+        document.getElementById('register-loading').style.display = 'none';
+        return;
+      }
+      
+      let teacherId = null;
+      let teacherName = '';
+      snap.forEach(child => {
+        teacherId = child.key;
+        teacherName = child.val().name || 'Teacher';
       });
-      success.textContent = '📧 Request sent to parent for approval!';
-      document.getElementById('register-loading').style.display = 'none';
-      showToast('📧 Request sent to parent!');
-      setTimeout(() => { showScreen('home-screen'); refreshHome(); }, 1500);
-    }).catch(e => { err.textContent = e.message; document.getElementById('register-loading').style.display = 'none'; });
+      
+      const studentEmail = name.toLowerCase().replace(/\s/g, '') + '@kidlearn.student';
+      auth.createUserWithEmailAndPassword(studentEmail, pass).then(userCred => {
+        userRole = 'student'; ST.role = 'student'; 
+        ST.studentName = name; ST.studentAge = age; 
+        ST.parentEmail = parentEmail; 
+        ST.studentApproved = false;
+        ST.teacherId = teacherId;
+        ST.teacherCode = teacherCode;
+        ST.teacherName = teacherName;
+        saveToCloudNow();
+        
+        // Save student data
+        db.ref('students/' + userCred.user.uid).set({ 
+          name, 
+          age, 
+          parentEmail, 
+          teacherId: teacherId,
+          teacherCode: teacherCode,
+          approved: false, 
+          createdAt: Date.now() 
+        });
+        
+        db.ref('studentRequests/' + userCred.user.uid).set({ 
+          name, age, parentEmail, teacherId: teacherId, teacherCode: teacherCode,
+          status: 'pending', createdAt: Date.now() 
+        });
+        
+        // Link student to teacher
+        db.ref('teacherStudents/' + teacherId + '/' + userCred.user.uid).set({
+          name: name,
+          email: parentEmail,
+          enrolledAt: Date.now()
+        });
+        
+        success.textContent = '📧 Request sent to parent for approval! Connected to teacher: ' + teacherName;
+        document.getElementById('register-loading').style.display = 'none';
+        showToast('📧 Connected to ' + teacherName);
+        setTimeout(() => { showScreen('home-screen'); refreshHome(); }, 1500);
+      }).catch(e => { err.textContent = e.message; document.getElementById('register-loading').style.display = 'none'; });
+    }).catch(e => { err.textContent = 'Error validating teacher code: ' + e.message; document.getElementById('register-loading').style.display = 'none'; });
   }
 }
 
@@ -1009,12 +1148,13 @@ auth.onAuthStateChanged(user => {
         if(data.role) { userRole = data.role; ST.role = data.role; }
         if(data.teacherApproved !== undefined) ST.teacherApproved = data.teacherApproved;
         if(data.studentApproved !== undefined) ST.studentApproved = data.studentApproved;
+        if(data.teacherId) ST.teacherId = data.teacherId;
+        if(data.teacherCode) ST.teacherCode = data.teacherCode;
         if(data.enrolledTeachers) ST.enrolledTeachers = data.enrolledTeachers;
         if(data.examScores) ST.examScores = data.examScores;
         if(data.completed) Object.assign(completed, data.completed);
       }
       
-      // ⭐ Load leaderboard data to ensure sync
       db.ref('leaderboard/' + user.uid).once('value').then(lbSnap => {
         if(lbSnap.exists()) {
           const lbData = lbSnap.val();
@@ -1039,7 +1179,11 @@ auth.onAuthStateChanged(user => {
       }
       if(userRole === 'student') {
         db.ref('studentRequests/' + user.uid).once('value').then(snap => {
-          if(snap.exists()) { const data = snap.val(); ST.studentApproved = data.status === 'approved'; saveToCloudNow(); }
+          if(snap.exists()) { const data = snap.val(); ST.studentApproved = data.status === 'approved'; 
+            if(data.teacherId) ST.teacherId = data.teacherId;
+            if(data.teacherCode) ST.teacherCode = data.teacherCode;
+            saveToCloudNow(); 
+          }
         });
       }
       showScreen('home-screen'); refreshHome();
@@ -2098,6 +2242,7 @@ function loadTeacherData() {
           <h4>${data.name}</h4>
           <p>📧 ${data.email}</p>
           <p>🆔 ${data.teacherId}</p>
+          <p>🔑 Teacher Code: <strong>${data.teacherCode || 'N/A'}</strong></p>
           <p>📚 Subject: ${data.subject || 'All Subjects'}</p>
           <p>📝 ${data.cv}</p>
           <span class="status-badge ${statusClass}">${statusText}</span>
@@ -2108,6 +2253,7 @@ function loadTeacherData() {
         loadTeacherStudents();
         loadTeacherContent();
         loadTeacherExams();
+        renderTeacherMaterials();
       }
     } else {
       statusEl.innerHTML = '📝 No application found. Please register as a teacher.';
@@ -2162,6 +2308,7 @@ function approveStudent(studentId) {
         email: data.parentEmail || 'No email',
         enrolledAt: Date.now() 
       });
+      db.ref('students/' + studentId).update({ approved: true });
     }
   });
   showToast('✅ Student approved!'); loadTeacherStudents();
@@ -2174,23 +2321,296 @@ function rejectStudent(studentId) {
 
 function loadTeacherContent() {
   if(!currentUser) return;
-  db.ref('content').orderByChild('teacherId').equalTo(currentUser.uid).once('value').then(snap => {
-    const list = document.getElementById('teacher-content-list');
-    if(snap.exists()) {
-      let html = '';
-      snap.forEach(child => {
-        const data = child.val();
-        html += `<div class="content-item">
-          <h4>${data.title}</h4>
-          <p>${data.desc}</p>
-          <div class="meta">${data.type} • Grade: ${data.grade || 'All'} • ${new Date(data.createdAt).toLocaleDateString()}</div>
-          ${data.url ? `<div class="meta">🔗 <a href="${data.url}" target="_blank">View</a></div>` : ''}
-        </div>`;
-      });
-      list.innerHTML = html;
-    } else { list.innerHTML = 'No content uploaded yet'; }
+  const teacherId = currentUser.uid;
+  
+  // Load all content from all collections
+  const contentCollections = ['content', 'lessons', 'videos', 'audios', 'exercises'];
+  let allContent = [];
+  let completed = 0;
+  
+  contentCollections.forEach(collection => {
+    db.ref(collection).orderByChild('teacherId').equalTo(teacherId).once('value').then(snap => {
+      completed++;
+      if(snap.exists()) {
+        snap.forEach(child => {
+          const data = child.val();
+          data.key = child.key;
+          data.collection = collection;
+          allContent.push(data);
+        });
+      }
+      if(completed === contentCollections.length) {
+        const list = document.getElementById('teacher-content-list');
+        if(allContent.length === 0) {
+          list.innerHTML = 'No content uploaded yet';
+          return;
+        }
+        let html = '';
+        allContent.forEach(data => {
+          const typeIcon = data.contentType === 'video' ? '🎬' : 
+                           data.contentType === 'audio' ? '🎵' :
+                           data.contentType === 'pdf' ? '📄' :
+                           data.contentType === 'notes' ? '📝' :
+                           data.contentType === 'assignment' ? '📋' :
+                           data.contentType === 'homework' ? '📚' :
+                           data.contentType === 'exercise' ? '💪' : '📂';
+          html += `<div class="content-item">
+            <h4>${typeIcon} ${data.title}</h4>
+            <p>${data.description || ''}</p>
+            <div class="meta">${data.contentType || data.type || 'Content'} • Grade: ${data.gradeLevel || data.grade || 'All'} • ${new Date(data.createdAt).toLocaleDateString()}</div>
+            ${data.fileUrl || data.url ? `<div class="meta">🔗 <a href="${data.fileUrl || data.url}" target="_blank">View</a></div>` : ''}
+            <div class="material-actions">
+              <button onclick="editMaterial('${data.collection}','${data.key}')">✏️ Edit</button>
+              <button onclick="deleteMaterial('${data.collection}','${data.key}')">🗑️ Delete</button>
+            </div>
+          </div>`;
+        });
+        list.innerHTML = html;
+      }
+    });
   });
 }
+
+// ═══ ENHANCED TEACHER DASHBOARD - LEARNING MATERIALS ═══════════════════
+
+function renderTeacherMaterials() {
+  if(!currentUser) return;
+  const teacherId = currentUser.uid;
+  const materialsContainer = document.getElementById('teacher-materials-list');
+  
+  let html = `
+    <div class="materials-grid">
+      <div class="material-section">
+        <h3>📹 Video Lessons</h3>
+        <div id="teacher-videos-list">Loading...</div>
+      </div>
+      <div class="material-section">
+        <h3>🎵 Audio Lessons</h3>
+        <div id="teacher-audios-list">Loading...</div>
+      </div>
+      <div class="material-section">
+        <h3>📄 PDFs & Notes</h3>
+        <div id="teacher-pdfs-list">Loading...</div>
+      </div>
+      <div class="material-section">
+        <h3>📝 Assignments & Homework</h3>
+        <div id="teacher-assignments-list">Loading...</div>
+      </div>
+    </div>
+  `;
+  
+  if(materialsContainer) {
+    materialsContainer.innerHTML = html;
+  }
+  
+  // Load videos
+  db.ref('videos').orderByChild('teacherId').equalTo(teacherId).once('value').then(snap => {
+    const list = document.getElementById('teacher-videos-list');
+    if(list) {
+      if(snap.exists()) {
+        let html = '';
+        snap.forEach(child => {
+          const data = child.val();
+          const key = child.key;
+          const thumb = data.thumbnail || data.fileUrl || '';
+          html += `
+            <div class="material-item">
+              <div class="material-thumb">
+                ${thumb ? `<img src="${thumb}" alt="${data.title}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">` : '🎬'}
+              </div>
+              <div class="material-info">
+                <h4>${data.title}</h4>
+                <p>${data.description || ''}</p>
+                <div class="meta">Grade: ${data.gradeLevel || 'All'} • ${new Date(data.createdAt).toLocaleDateString()}</div>
+                ${data.fileUrl ? `<div style="margin:4px 0;"><a href="${data.fileUrl}" target="_blank" style="color:#3498db;">▶ Watch Video</a></div>` : ''}
+                <div class="material-actions">
+                  <button onclick="editMaterial('videos','${key}')">✏️ Edit</button>
+                  <button onclick="deleteMaterial('videos','${key}')">🗑️ Delete</button>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+        list.innerHTML = html || 'No videos uploaded yet';
+      } else {
+        list.innerHTML = 'No videos uploaded yet';
+      }
+    }
+  });
+  
+  // Load audios
+  db.ref('audios').orderByChild('teacherId').equalTo(teacherId).once('value').then(snap => {
+    const list = document.getElementById('teacher-audios-list');
+    if(list) {
+      if(snap.exists()) {
+        let html = '';
+        snap.forEach(child => {
+          const data = child.val();
+          const key = child.key;
+          html += `
+            <div class="material-item">
+              <div class="material-thumb">🎵</div>
+              <div class="material-info">
+                <h4>${data.title}</h4>
+                <p>${data.description || ''}</p>
+                <div class="meta">Grade: ${data.gradeLevel || 'All'} • ${new Date(data.createdAt).toLocaleDateString()}</div>
+                ${data.fileUrl ? `<audio controls style="width:100%;margin-top:8px;max-width:200px;"><source src="${data.fileUrl}" type="audio/mpeg"></audio>` : ''}
+                <div class="material-actions">
+                  <button onclick="editMaterial('audios','${key}')">✏️ Edit</button>
+                  <button onclick="deleteMaterial('audios','${key}')">🗑️ Delete</button>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+        list.innerHTML = html || 'No audio uploaded yet';
+      } else {
+        list.innerHTML = 'No audio uploaded yet';
+      }
+    }
+  });
+  
+  // Load PDFs and Notes (stored in lessons)
+  db.ref('lessons').orderByChild('teacherId').equalTo(teacherId).once('value').then(snap => {
+    const list = document.getElementById('teacher-pdfs-list');
+    if(list) {
+      if(snap.exists()) {
+        let html = '';
+        snap.forEach(child => {
+          const data = child.val();
+          const key = child.key;
+          if(data.contentType === 'pdf' || data.contentType === 'notes') {
+            html += `
+              <div class="material-item">
+                <div class="material-thumb">${data.contentType === 'pdf' ? '📄' : '📝'}</div>
+                <div class="material-info">
+                  <h4>${data.contentType === 'pdf' ? '📄' : '📝'} ${data.title}</h4>
+                  <p>${data.description || ''}</p>
+                  <div class="meta">Grade: ${data.gradeLevel || 'All'} • ${new Date(data.createdAt).toLocaleDateString()}</div>
+                  ${data.fileUrl ? `<div style="margin:4px 0;"><a href="${data.fileUrl}" target="_blank" style="color:#2ecc71;">📖 View PDF</a></div>` : ''}
+                  <div class="material-actions">
+                    <button onclick="editMaterial('lessons','${key}')">✏️ Edit</button>
+                    <button onclick="deleteMaterial('lessons','${key}')">🗑️ Delete</button>
+                  </div>
+                </div>
+              </div>
+            `;
+          }
+        });
+        list.innerHTML = html || 'No PDFs or notes uploaded yet';
+      } else {
+        list.innerHTML = 'No PDFs or notes uploaded yet';
+      }
+    }
+  });
+  
+  // Load assignments and homework
+  db.ref('lessons').orderByChild('teacherId').equalTo(teacherId).once('value').then(snap => {
+    const list = document.getElementById('teacher-assignments-list');
+    if(list) {
+      if(snap.exists()) {
+        let html = '';
+        snap.forEach(child => {
+          const data = child.val();
+          const key = child.key;
+          if(data.contentType === 'assignment' || data.contentType === 'homework') {
+            html += `
+              <div class="material-item">
+                <div class="material-thumb">${data.contentType === 'assignment' ? '📋' : '📚'}</div>
+                <div class="material-info">
+                  <h4>${data.contentType === 'assignment' ? '📋' : '📚'} ${data.title}</h4>
+                  <p>${data.description || ''}</p>
+                  <div class="meta">Grade: ${data.gradeLevel || 'All'} • ${new Date(data.createdAt).toLocaleDateString()}</div>
+                  ${data.fileUrl ? `<div style="margin:4px 0;"><a href="${data.fileUrl}" target="_blank" style="color:#f39c12;">📎 View</a></div>` : ''}
+                  <div class="material-actions">
+                    <button onclick="editMaterial('lessons','${key}')">✏️ Edit</button>
+                    <button onclick="deleteMaterial('lessons','${key}')">🗑️ Delete</button>
+                    <button onclick="viewSubmissions('${key}')">📊 Submissions</button>
+                  </div>
+                </div>
+              </div>
+            `;
+          }
+        });
+        list.innerHTML = html || 'No assignments or homework created yet';
+      } else {
+        list.innerHTML = 'No assignments or homework created yet';
+      }
+    }
+  });
+}
+
+// ═══ MATERIAL MANAGEMENT FUNCTIONS ════════════════════════════════════
+
+let editContext = { collection: '', key: '' };
+
+function editMaterial(collection, key) {
+  editContext.collection = collection;
+  editContext.key = key;
+  
+  db.ref(collection + '/' + key).once('value').then(snap => {
+    if(snap.exists()) {
+      const data = snap.val();
+      document.getElementById('edit-title').value = data.title || '';
+      document.getElementById('edit-description').value = data.description || data.desc || '';
+      document.getElementById('edit-url').value = data.fileUrl || data.url || '';
+      document.getElementById('edit-grade').value = data.gradeLevel || data.grade || 'preschool';
+      document.getElementById('edit-modal').style.display = 'flex';
+    } else {
+      showToast('❌ Material not found');
+    }
+  });
+}
+
+function saveEditMaterial() {
+  const title = document.getElementById('edit-title').value.trim();
+  const description = document.getElementById('edit-description').value.trim();
+  const url = document.getElementById('edit-url').value.trim();
+  const grade = document.getElementById('edit-grade').value;
+  
+  if(!title) { showToast('⚠️ Title is required'); return; }
+  
+  const updates = {
+    title: title,
+    description: description,
+    fileUrl: url,
+    gradeLevel: grade,
+    updatedAt: Date.now()
+  };
+  
+  db.ref(editContext.collection + '/' + editContext.key).update(updates).then(() => {
+    showToast('✅ Material updated!');
+    closeEditModal();
+    renderTeacherMaterials();
+    loadTeacherContent();
+  }).catch(err => {
+    showToast('❌ Update failed: ' + err.message);
+  });
+}
+
+function closeEditModal() {
+  document.getElementById('edit-modal').style.display = 'none';
+  editContext = { collection: '', key: '' };
+}
+
+function deleteMaterial(collection, key) {
+  if(!confirm('Are you sure you want to delete this material? This action cannot be undone.')) return;
+  
+  db.ref(collection + '/' + key).remove().then(() => {
+    showToast('✅ Material deleted');
+    renderTeacherMaterials();
+    loadTeacherContent();
+    loadTeacherExams();
+  }).catch(err => {
+    showToast('❌ Delete failed: ' + err.message);
+  });
+}
+
+function viewSubmissions(assignmentId) {
+  showToast('📊 Submissions feature coming soon!');
+}
+
+// ═══ UPLOAD CONTENT ════════════════════════════════════
 
 function uploadContent() {
   const title = document.getElementById('content-title').value.trim();
@@ -2202,20 +2622,51 @@ function uploadContent() {
   if(!currentUser) { showToast('❌ Please login'); return; }
   if(!ST.teacherApproved) { showToast('❌ Your teacher application must be approved first'); return; }
   
-  const content = { 
-    title, desc, url, type, grade,
-    teacherId: currentUser.uid, 
-    teacherName: ST.teacherName || 'Teacher', 
+  const contentData = { 
+    title: title,
+    description: desc, 
+    fileUrl: url,
+    contentType: type,
+    gradeLevel: grade,
+    teacherId: currentUser.uid,
+    teacherCode: ST.teacherCode || '',
     createdAt: Date.now() 
   };
-  db.ref('content').push(content).then(() => {
+  
+  let ref;
+  switch(type) {
+    case 'video':
+      ref = db.ref('videos');
+      break;
+    case 'audio':
+      ref = db.ref('audios');
+      break;
+    case 'pdf':
+    case 'notes':
+    case 'homework':
+    case 'assignment':
+      ref = db.ref('lessons');
+      break;
+    case 'exercise':
+      ref = db.ref('exercises');
+      break;
+    default:
+      ref = db.ref('content');
+  }
+  
+  ref.push(contentData).then(() => {
     showToast('✅ Content uploaded!');
     document.getElementById('content-title').value = ''; 
     document.getElementById('content-desc').value = ''; 
     document.getElementById('content-url').value = '';
     loadTeacherContent();
+    renderTeacherMaterials();
+  }).catch(err => {
+    showToast('❌ Upload failed: ' + err.message);
   });
 }
+
+// ═══ EXAMS ════════════════════════════════════════════
 
 function loadTeacherExams() {
   if(!currentUser) return;
@@ -2225,12 +2676,16 @@ function loadTeacherExams() {
       let html = '';
       snap.forEach(child => { 
         const data = child.val(); 
+        const key = child.key;
         html += `<div class="exam-item">
-          <h4>${data.title}</h4>
-          <div class="meta">${data.questions.length} questions • Grade: ${data.grade || 'All'}</div>
+          <h4>📝 ${data.title}</h4>
+          <div class="meta">${data.questions ? data.questions.length : 0} questions • Grade: ${data.gradeLevel || 'All'}</div>
+          <div class="material-actions">
+            <button onclick="deleteMaterial('exams','${key}')">🗑️ Delete</button>
+          </div>
         </div>`; 
       });
-      list.innerHTML = html;
+      list.innerHTML = html || 'No exams created yet';
     } else { list.innerHTML = 'No exams created yet'; }
   });
 }
@@ -2238,6 +2693,7 @@ function loadTeacherExams() {
 function createExam() {
   const title = document.getElementById('exam-title').value.trim();
   const questionsText = document.getElementById('exam-questions').value.trim();
+  const grade = document.getElementById('content-grade') ? document.getElementById('content-grade').value : 'preschool';
   if(!title) { showToast('⚠️ Please enter exam title'); return; }
   if(!questionsText) { showToast('⚠️ Please enter questions'); return; }
   if(!ST.teacherApproved) { showToast('❌ Your teacher application must be approved first'); return; }
@@ -2246,30 +2702,40 @@ function createExam() {
     const questions = JSON.parse(questionsText);
     if(!Array.isArray(questions) || questions.length === 0) { showToast('⚠️ Invalid questions format'); return; }
     if(!currentUser) { showToast('❌ Please login'); return; }
+    
     const exam = { 
-      title, questions, 
-      teacherId: currentUser.uid, 
-      teacherName: ST.teacherName || 'Teacher', 
-      grade: ST.gradeLevel || 'All',
+      title: title,
+      questions: questions,
+      teacherId: currentUser.uid,
+      teacherCode: ST.teacherCode || '',
+      teacherName: ST.teacherName || 'Teacher',
+      gradeLevel: grade,
       createdAt: Date.now() 
     };
+    
     db.ref('exams').push(exam).then(() => {
-      showToast('✅ Exam created!');
+      showToast('✅ Exam created successfully!');
       document.getElementById('exam-title').value = ''; 
       document.getElementById('exam-questions').value = '';
       loadTeacherExams();
+      renderTeacherMaterials();
+    }).catch(err => {
+      showToast('❌ Failed to create exam: ' + err.message);
     });
-  } catch(e) { showToast('⚠️ Invalid JSON: ' + e.message); }
+  } catch(e) { 
+    showToast('⚠️ Invalid JSON format: ' + e.message); 
+  }
 }
 
 // ═══ TAB SWITCHERS ══════════════════════════════════
 function switchTeacherTab(tab, el) {
   document.querySelectorAll('#teacher-dash .tab-btn').forEach(b => b.classList.remove('active'));
   el.classList.add('active');
-  ['applications','students','content','exams','rules'].forEach(t => {
+  ['applications','students','content','materials','exams','rules'].forEach(t => {
     document.getElementById('teacher-' + t).style.display = t === tab ? 'block' : 'none';
   });
   if(tab === 'content') loadTeacherContent();
+  if(tab === 'materials') renderTeacherMaterials();
   if(tab === 'exams') loadTeacherExams();
   if(tab === 'students') loadTeacherStudents();
 }
@@ -2383,6 +2849,7 @@ function loadParentTeachers() {
             <h4>${data.name}</h4>
             <p>📧 ${data.email}</p>
             <p>🆔 ${data.teacherId}</p>
+            <p>🔑 Teacher Code: <strong>${data.teacherCode || 'N/A'}</strong></p>
             <p>📚 Subject: ${data.subject || 'All Subjects'}</p>
             <p style="font-size:.8rem;color:#666;">${data.cv}</p>
             <button class="approve-btn" onclick="approveTeacher('${child.key}')">✅ Approve</button>
@@ -2404,6 +2871,7 @@ function loadParentTeachers() {
 function approveTeacher(teacherId) {
   db.ref('teacherApplications/' + teacherId).update({ status: 'approved' });
   db.ref('users/' + teacherId).update({ teacherApproved: true });
+  db.ref('teachers/' + teacherId).update({ approved: true });
   db.ref('teacherApplications/' + teacherId).once('value').then(snap => {
     if(snap.exists()) { 
       const data = snap.val(); 
@@ -2432,6 +2900,7 @@ function loadParentStudents() {
           html += `<div class="teacher-application">
             <h4>${data.name}</h4>
             <p>Age: ${data.age}</p>
+            <p>Teacher: ${data.teacherCode || 'N/A'}</p>
             <button class="approve-btn" onclick="approveStudentReq('${child.key}')">✅ Approve</button>
             <button class="reject-btn" onclick="rejectStudentReq('${child.key}')">❌ Reject</button>
           </div>`;
@@ -2458,6 +2927,7 @@ function loadParentStudents() {
 function approveStudentReq(studentId) {
   db.ref('studentRequests/' + studentId).update({ status: 'approved' });
   db.ref('users/' + studentId).update({ studentApproved: true });
+  db.ref('students/' + studentId).update({ approved: true });
   showToast('✅ Student approved!'); loadParentStudents();
 }
 
@@ -2468,21 +2938,49 @@ function rejectStudentReq(studentId) {
 
 // ═══ CONTENT LIBRARY ═════════════════════════════════
 function renderContent() {
-  db.ref('content').once('value').then(snap => {
-    const list = document.getElementById('content-list');
-    if(snap.exists()) {
-      let html = '';
-      snap.forEach(child => {
-        const data = child.val();
-        html += `<div class="content-item">
-          <h4>${data.title}</h4>
-          <p>${data.desc}</p>
-          <div class="meta">📂 ${data.type} • 👨‍🏫 ${data.teacherName || 'Teacher'} • Grade: ${data.grade || 'All'} • ${new Date(data.createdAt).toLocaleDateString()}</div>
-          ${data.url ? `<div class="meta">🔗 <a href="${data.url}" target="_blank">View Media</a></div>` : ''}
-        </div>`;
-      });
-      list.innerHTML = html;
-    } else { list.innerHTML = '📭 No content available yet'; }
+  const contentCollections = ['content', 'lessons', 'videos', 'audios', 'exercises', 'exams'];
+  let allContent = [];
+  let completed = 0;
+  
+  contentCollections.forEach(collection => {
+    db.ref(collection).once('value').then(snap => {
+      completed++;
+      if(snap.exists()) {
+        snap.forEach(child => {
+          const data = child.val();
+          data.key = child.key;
+          data.collection = collection;
+          allContent.push(data);
+        });
+      }
+      if(completed === contentCollections.length) {
+        const list = document.getElementById('content-list');
+        if(allContent.length === 0) {
+          list.innerHTML = '📭 No content available yet';
+          return;
+        }
+        // Sort by date
+        allContent.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+        let html = '';
+        allContent.slice(0, 30).forEach(data => {
+          const typeIcon = data.contentType === 'video' ? '🎬' : 
+                           data.contentType === 'audio' ? '🎵' :
+                           data.contentType === 'pdf' ? '📄' :
+                           data.contentType === 'notes' ? '📝' :
+                           data.contentType === 'assignment' ? '📋' :
+                           data.contentType === 'homework' ? '📚' :
+                           data.contentType === 'exercise' ? '💪' : 
+                           data.collection === 'exams' ? '📝' : '📂';
+          html += `<div class="content-item">
+            <h4>${typeIcon} ${data.title}</h4>
+            <p>${data.description || ''}</p>
+            <div class="meta">${data.contentType || data.type || data.collection || 'Content'} • Grade: ${data.gradeLevel || data.grade || 'All'} • ${new Date(data.createdAt).toLocaleDateString()}</div>
+            ${data.fileUrl || data.url ? `<div class="meta">🔗 <a href="${data.fileUrl || data.url}" target="_blank">View</a></div>` : ''}
+          </div>`;
+        });
+        list.innerHTML = html;
+      }
+    });
   });
 }
 
@@ -2495,12 +2993,12 @@ function renderExams() {
       snap.forEach(child => {
         const data = child.val();
         html += `<div class="exam-item" onclick="takeExam('${child.key}')">
-          <h4>${data.title}</h4>
-          <div class="meta">${data.questions.length} questions • 👨‍🏫 ${data.teacherName || 'Teacher'}</div>
+          <h4>📝 ${data.title}</h4>
+          <div class="meta">${data.questions ? data.questions.length : 0} questions • 👨‍🏫 ${data.teacherName || 'Teacher'}</div>
           <button class="game-btn" style="margin:8px 0 0;padding:8px;">📝 Start Exam</button>
         </div>`;
       });
-      list.innerHTML = html;
+      list.innerHTML = html || '📝 No exams available';
     } else { list.innerHTML = '📝 No exams available'; }
   });
 }
@@ -2558,20 +3056,25 @@ function finishExam() {
       examId: currentExam.id, 
       title: currentExam.title, 
       score: examScore, 
-      maxScore: currentExam.questions.length * 10, 
+      maxScore: currentExam.questions.length * 10,
+      percentage: Math.round((examScore / (currentExam.questions.length * 10)) * 100),
       date: Date.now() 
     };
-    db.ref('users/' + currentUser.uid + '/examScores').push(scoreData);
+    db.ref('examResults/' + currentUser.uid + '/' + currentExam.id).set(scoreData);
+    if(!ST.examScores) ST.examScores = [];
+    ST.examScores.push(scoreData);
     ST.totalStars += Math.floor(examScore / 10);
     saveToCloudNow();
   }
   const container = document.getElementById('exam-content');
+  const pct = Math.round((examScore / (currentExam.questions.length * 10)) * 100);
   container.innerHTML = `
     <div style="text-align:center;padding:30px;">
-      <div style="font-size:48px;">${examScore >= 80 ? '🎉' : examScore >= 50 ? '😊' : '📚'}</div>
+      <div style="font-size:48px;">${pct >= 80 ? '🎉' : pct >= 50 ? '😊' : '📚'}</div>
       <h2 style="color:#4a3487;">Exam Complete!</h2>
       <p style="font-size:1.5rem;font-weight:800;color:#4a3487;">${examScore} / ${currentExam.questions.length * 10}</p>
-      <p style="color:#888;">${examScore >= 80 ? 'Excellent work!' : examScore >= 50 ? 'Good effort!' : 'Keep practicing!'}</p>
+      <p style="font-size:1.2rem;font-weight:600;color:#888;">${pct}%</p>
+      <p style="color:#888;">${pct >= 80 ? '🌟 Excellent work!' : pct >= 50 ? '💪 Good effort!' : '📖 Keep practicing!'}</p>
       <button class="game-btn" onclick="exitExam()">📊 Back to Exams</button>
     </div>
   `;
@@ -2583,56 +3086,125 @@ function exitExam() { currentExam = null; showScreen('exam-screen'); renderExams
 function renderStudentDash() {
   if(userRole !== 'student') { showToast('❌ Student access only'); return; }
   if(!ST.studentApproved) { showToast('⏳ Waiting for parent approval'); return; }
+  if(!ST.teacherId) { 
+    document.getElementById('student-lesson-list').innerHTML = '⚠️ No teacher assigned. Please contact your teacher.';
+    return; 
+  }
   loadStudentData();
 }
 
 function loadStudentData() {
-  db.ref('content').once('value').then(snap => {
-    const list = document.getElementById('student-lesson-list');
-    if(snap.exists()) {
-      let html = '';
-      snap.forEach(child => {
-        const data = child.val();
-        html += `<div class="content-item">
-          <h4>${data.title}</h4>
-          <p>${data.desc}</p>
-          <div class="meta">📂 ${data.type} • Grade: ${data.grade || 'All'} • ${new Date(data.createdAt).toLocaleDateString()}</div>
-          ${data.url ? `<div class="meta">🔗 <a href="${data.url}" target="_blank">View</a></div>` : ''}
-        </div>`;
-      });
-      list.innerHTML = html || 'No lessons available';
-    } else { list.innerHTML = '📭 No lessons available yet'; }
+  const teacherId = ST.teacherId;
+  if(!teacherId) {
+    document.getElementById('student-lesson-list').innerHTML = '⚠️ No teacher assigned. Please contact your teacher.';
+    return;
+  }
+  
+  // Load all content from teacher
+  const contentCollections = ['lessons', 'videos', 'audios', 'exercises', 'exams'];
+  let allContent = [];
+  let completed = 0;
+  
+  contentCollections.forEach(collection => {
+    db.ref(collection).orderByChild('teacherId').equalTo(teacherId).once('value').then(snap => {
+      completed++;
+      if(snap.exists()) {
+        snap.forEach(child => {
+          const data = child.val();
+          data.key = child.key;
+          data.collection = collection;
+          allContent.push(data);
+        });
+      }
+      if(completed === contentCollections.length) {
+        // Sort by type for display
+        const lessons = allContent.filter(d => d.collection === 'lessons' && d.contentType !== 'assignment' && d.contentType !== 'homework');
+        const videos = allContent.filter(d => d.collection === 'videos');
+        const audios = allContent.filter(d => d.collection === 'audios');
+        const exercises = allContent.filter(d => d.collection === 'exercises');
+        const exams = allContent.filter(d => d.collection === 'exams');
+        
+        const list = document.getElementById('student-lesson-list');
+        let html = '';
+        
+        // Videos
+        videos.forEach(data => {
+          html += `<div class="content-item" style="border-left:4px solid #e74c3c;">
+            <h4>🎬 ${data.title}</h4>
+            <p>${data.description || ''}</p>
+            <div class="meta">Video • Grade: ${data.gradeLevel || 'All'} • ${new Date(data.createdAt).toLocaleDateString()}</div>
+            ${data.fileUrl ? `<div class="meta">🔗 <a href="${data.fileUrl}" target="_blank">▶ Watch Video</a></div>` : ''}
+          </div>`;
+        });
+        
+        // Audios
+        audios.forEach(data => {
+          html += `<div class="content-item" style="border-left:4px solid #3498db;">
+            <h4>🎵 ${data.title}</h4>
+            <p>${data.description || ''}</p>
+            <div class="meta">Audio • Grade: ${data.gradeLevel || 'All'} • ${new Date(data.createdAt).toLocaleDateString()}</div>
+            ${data.fileUrl ? `<audio controls style="width:100%;margin-top:8px;max-width:200px;"><source src="${data.fileUrl}" type="audio/mpeg"></audio>` : ''}
+          </div>`;
+        });
+        
+        // Lessons (PDFs, Notes)
+        lessons.forEach(data => {
+          const icon = data.contentType === 'pdf' ? '📄' : data.contentType === 'notes' ? '📝' : '📚';
+          html += `<div class="content-item" style="border-left:4px solid #2ecc71;">
+            <h4>${icon} ${data.title}</h4>
+            <p>${data.description || ''}</p>
+            <div class="meta">${data.contentType || 'Lesson'} • Grade: ${data.gradeLevel || 'All'} • ${new Date(data.createdAt).toLocaleDateString()}</div>
+            ${data.fileUrl ? `<div class="meta">🔗 <a href="${data.fileUrl}" target="_blank">📖 View</a></div>` : ''}
+          </div>`;
+        });
+        
+        // Exercises
+        exercises.forEach(data => {
+          html += `<div class="content-item" style="border-left:4px solid #9b59b6;">
+            <h4>💪 ${data.title}</h4>
+            <p>${data.description || ''}</p>
+            <div class="meta">Exercise • Grade: ${data.gradeLevel || 'All'} • ${new Date(data.createdAt).toLocaleDateString()}</div>
+            ${data.fileUrl ? `<div class="meta">🔗 <a href="${data.fileUrl}" target="_blank">Start Exercise</a></div>` : ''}
+          </div>`;
+        });
+        
+        list.innerHTML = html || '📭 No lessons available from your teacher';
+        
+        // Load exams separately for the exams tab
+        const examList = document.getElementById('student-exam-list');
+        if(exams.length > 0) {
+          let examHtml = '';
+          exams.forEach(data => {
+            examHtml += `<div class="exam-item" onclick="takeExam('${data.key}')">
+              <h4>📝 ${data.title}</h4>
+              <div class="meta">${data.questions ? data.questions.length : 0} questions • Grade: ${data.gradeLevel || 'All'}</div>
+              <button class="game-btn" style="margin:8px 0 0;padding:8px;">📝 Start Exam</button>
+            </div>`;
+          });
+          examList.innerHTML = examHtml;
+        } else {
+          examList.innerHTML = '📝 No exams available from your teacher';
+        }
+      }
+    });
   });
-  db.ref('exams').once('value').then(snap => {
-    const list = document.getElementById('student-exam-list');
-    if(snap.exists()) {
-      let html = '';
-      snap.forEach(child => {
-        const data = child.val();
-        html += `<div class="exam-item" onclick="takeExam('${child.key}')">
-          <h4>${data.title}</h4>
-          <div class="meta">${data.questions.length} questions</div>
-          <button class="game-btn" style="margin:8px 0 0;padding:8px;">📝 Start</button>
-        </div>`;
-      });
-      list.innerHTML = html;
-    } else { list.innerHTML = '📝 No exams available'; }
-  });
+  
   document.getElementById('s-stars').textContent = ST.totalStars;
   document.getElementById('s-levels').textContent = ST.levelsDone;
   if(ST.examScores) {
     document.getElementById('s-exams').textContent = ST.examScores.length;
-    const avg = ST.examScores.length > 0 ? Math.round(ST.examScores.reduce((a,b) => a + (b.score || 0), 0) / ST.examScores.length) : 0;
+    const avg = ST.examScores.length > 0 ? Math.round(ST.examScores.reduce((a,b) => a + (b.percentage || b.score || 0), 0) / ST.examScores.length) : 0;
     document.getElementById('s-avg').textContent = avg + '%';
   }
 }
 
 // ═══ INIT ═══════════════════════════════════════════
 document.getElementById('boot-loading').style.display = 'none';
-console.log('⭐ KidLearn Pro - Full Version with 20+ Games!');
-console.log('✅ Flag Quiz: 36 flags with working answers');
-console.log('✅ Leaderboard: Realtime Database with live updates');
-console.log('✅ All 20 games: ABC, Numbers, Coloring, Arabic, Math, Flags, Memory, Bingo, Scramble, Color, Typing, Geo, Search, Animal, Story, Phonics, Multiply, Vocab, Music, Animate');
+console.log('⭐ KidLearn Pro - Enhanced with Teacher-Student Management System!');
+console.log('✅ Teacher Code generation: KLP*****');
+console.log('✅ Student-Teacher linking via Teacher Code');
+console.log('✅ Learning Materials Management');
+console.log('✅ All 20 games preserved!');
 </script>
 </body>
   </html>
