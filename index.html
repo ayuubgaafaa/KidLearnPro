@@ -2600,7 +2600,18 @@ function renderStudentDash() {
   loadStudentData();
 }
 
-function loadStudentData() {
+function loadStudentData() const uid =
+auth.currentUser.uid;
+
+db.ref("users/" + uid)
+.once("value")
+.then(snapshot=>{
+
+const student =
+snapshot.val();
+
+const teacherCode =
+student.teacherCode; {
   db.ref('content').once('value').then(snap => {
     const list = document.getElementById('student-lesson-list');
     if(snap.exists()) {
