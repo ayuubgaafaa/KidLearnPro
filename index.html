@@ -243,7 +243,8 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
 .material-section{background:#f8f7ff;border-radius:16px;padding:16px;}
 .material-section h3{font-size:.9rem;font-weight:700;color:#4a3487;margin-bottom:10px;border-bottom:2px solid #e0d8f0;padding-bottom:8px;}
 .material-item{background:white;border-radius:12px;padding:12px;margin-bottom:10px;display:flex;gap:12px;flex-wrap:wrap;border:1px solid #eee;}
-.material-thumb{width:80px;height:60px;background:#e8e6ff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0;}
+.material-thumb{width:80px;height:60px;background:#e8e6ff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0;overflow:hidden;}
+.material-thumb img{width:100%;height:100%;object-fit:cover;}
 .material-info{flex:1;min-width:150px;}
 .material-info h4{font-size:.85rem;font-weight:700;color:#333;}
 .material-info p{font-size:.78rem;color:#666;margin:4px 0;}
@@ -264,6 +265,16 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
 .edit-modal-actions button{flex:1;padding:10px;border:none;border-radius:10px;font-weight:700;cursor:pointer;}
 .edit-modal-actions .save-edit{background:#2ecc71;color:white;}
 .edit-modal-actions .cancel-edit{background:#e74c3c;color:white;}
+
+/* File Upload Styles */
+.upload-area{background:#f0edff;border-radius:16px;padding:16px;margin-bottom:16px;border:2px dashed #6c72e6;}
+.upload-area h4{color:#4a3487;margin-bottom:8px;}
+.upload-area p{font-size:.8rem;color:#666;margin-bottom:8px;}
+#file-input{width:100%;padding:10px;border:2px solid #ddd;border-radius:12px;margin-bottom:8px;background:white;}
+#file-preview{margin:8px 0;}
+#upload-progress{display:none;background:#e0e0e0;border-radius:10px;height:20px;margin:8px 0;overflow:hidden;}
+#upload-progress-bar{width:0%;height:100%;background:linear-gradient(90deg,#6c72e6,#4a3487);transition:width .3s;border-radius:10px;}
+#upload-status-text{font-size:.8rem;color:#888;text-align:center;}
 
 @media (max-width:400px){.cards-grid{grid-template-columns:1fr 1fr;gap:8px;}.card{padding:12px 8px;}.card-icon{width:44px;height:44px;font-size:1.1rem;}.auth-wrap{padding:20px 16px;}.role-selector{grid-template-columns:1fr 1fr 1fr;gap:4px;}.role-opt{padding:8px 4px;}.role-opt .icon{font-size:22px;}.material-thumb{width:60px;height:50px;font-size:1.5rem;}}
 </style>
@@ -417,21 +428,38 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
     </div>
     <div id="teacher-content" style="display:none;">
       <div class="section-head">📤 Upload Content</div>
+      
+      <!-- File Upload Section -->
+      <div class="upload-area">
+        <h4>📎 Upload File from Device</h4>
+        <p>Select a file from your device (Video, Audio, PDF, Images)</p>
+        <input type="file" id="file-input" accept="video/*,audio/*,application/pdf,image/*">
+        <div id="file-preview"></div>
+        <div id="upload-progress">
+          <div id="upload-progress-bar"></div>
+        </div>
+        <div id="upload-status-text"></div>
+        <button class="auth-btn" onclick="uploadFileToStorage()" style="margin-top:8px;">📤 Upload File</button>
+      </div>
+      
+      <hr style="margin:16px 0;border:none;border-top:2px solid #eee;">
+      
+      <div class="section-head">📤 Upload Content (URL or Link)</div>
       <div class="input-group"><label>📚 Title</label><input type="text" id="content-title" placeholder="e.g. Lesson 1"></div>
       <div class="input-group"><label>📝 Description</label><textarea id="content-desc" placeholder="Describe the content..."></textarea></div>
       <div class="input-group"><label>📂 Type</label>
         <select id="content-type">
           <option value="lesson">Lesson</option>
           <option value="exercise">Exercise</option>
-          <option value="video">Video</option>
-          <option value="audio">Audio</option>
-          <option value="pdf">PDF</option>
+          <option value="video">Video (YouTube/MP4 Link)</option>
+          <option value="audio">Audio (MP3 Link)</option>
+          <option value="pdf">PDF (Link)</option>
           <option value="notes">Notes</option>
           <option value="homework">Homework</option>
           <option value="assignment">Assignment</option>
         </select>
       </div>
-      <div class="input-group"><label>🔗 Content URL</label><input type="text" id="content-url" placeholder="YouTube link, audio URL, PDF link, etc."></div>
+      <div class="input-group"><label>🔗 Content URL (Optional if uploading file)</label><input type="text" id="content-url" placeholder="YouTube link, audio URL, PDF link, etc."></div>
       <div class="input-group"><label>🎯 Grade Level</label>
         <select id="content-grade">
           <option value="preschool">Preschool</option>
@@ -664,10 +692,12 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
 </div>
 </div>
 
-<!-- FIREBASE SDK -->
+<!-- FIREBASE SDKs -->
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js"></script>
+
 <script>
 // ═══════════════════════════════════════════════════════
 // ═══ FIREBASE CONFIG ══════════════════════════════════
@@ -684,6 +714,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.database();
+const storage = firebase.storage();
 
 // ═══ STATE ═══════════════════════════════════════════
 let currentUser = null;
@@ -871,7 +902,7 @@ function refreshHome() {
   if(nameEl) {
     const roleBadge = document.getElementById('role-badge');
     let roleText = 'Parent';
-    if(userRole === 'teacher') roleText = '👨‍🏫 Teacher' + (ST.teacherApproved ? ' ✅' : ' ⏳');
+    if(userRole === 'teacher') roleText = '👨‍🏫 Teacher ✅';
     else if(userRole === 'student') roleText = '🧒 Student' + (ST.studentApproved ? ' ✅' : ' ⏳');
     nameEl.innerHTML = 'Hello, ' + ST.childName + '! 👋 <span class="user-badge" id="role-badge">' + roleText + '</span>';
   }
@@ -991,7 +1022,7 @@ function doRegister() {
       userRole = 'teacher'; ST.role = 'teacher'; 
       ST.teacherName = name; ST.teacherId = teacherId; 
       ST.teacherCv = cv; ST.teacherSubject = subject;
-      ST.teacherApproved = false;
+      ST.teacherApproved = true; // Auto-approved
       ST.teacherCode = teacherCode;
       saveToCloudNow();
       
@@ -1002,18 +1033,20 @@ function doRegister() {
         teacherCode: teacherCode,
         subject, 
         experience: cv,
-        approved: false, 
+        approved: true, 
         createdAt: Date.now() 
       });
       
       db.ref('teacherApplications/' + userCred.user.uid).set({ 
         name, email, teacherId, teacherCode: teacherCode, cv, subject, 
-        status: 'pending', createdAt: Date.now() 
+        status: 'approved', approvedAt: Date.now() 
       });
       
-      success.textContent = '📝 Teacher application submitted! Your Teacher Code: ' + teacherCode;
+      db.ref('users/' + userCred.user.uid).update({ teacherApproved: true });
+      
+      success.textContent = '✅ Teacher approved! Your Teacher Code: ' + teacherCode;
       document.getElementById('register-loading').style.display = 'none';
-      showToast('📝 Teacher Code: ' + teacherCode);
+      showToast('✅ Teacher Code: ' + teacherCode);
       setTimeout(() => { showScreen('home-screen'); refreshHome(); }, 1500);
     }).catch(e => { err.textContent = e.message; document.getElementById('register-loading').style.display = 'none'; });
   }
@@ -1047,7 +1080,6 @@ function doRegister() {
     
     document.getElementById('register-loading').style.display = 'block';
     
-    // Validate teacher code using orderByChild
     db.ref('teachers').orderByChild('teacherCode').equalTo(teacherCode).once('value')
       .then(snap => {
         let teacherId = null;
@@ -1066,7 +1098,6 @@ function doRegister() {
           return;
         }
         
-        // Create student account
         const studentEmail = name.toLowerCase().replace(/\s/g, '') + '@kidlearn.student';
         auth.createUserWithEmailAndPassword(studentEmail, pass)
           .then(userCred => {
@@ -1075,42 +1106,41 @@ function doRegister() {
             ST.studentName = name; 
             ST.studentAge = age; 
             ST.parentEmail = parentEmail; 
-            ST.studentApproved = false;
+            ST.studentApproved = true; // Auto-approved
             ST.teacherId = teacherId;
             ST.teacherCode = teacherCode;
             ST.teacherName = teacherName;
             saveToCloudNow();
             
-            // Save student data
             db.ref('students/' + userCred.user.uid).set({ 
               name: name,
               age: age,
               parentEmail: parentEmail,
               teacherId: teacherId,
               teacherCode: teacherCode,
-              approved: false,
+              approved: true,
               createdAt: Date.now()
             });
             
-            // Save student request
             db.ref('studentRequests/' + userCred.user.uid).set({ 
               name: name,
               age: age,
               parentEmail: parentEmail,
               teacherId: teacherId,
               teacherCode: teacherCode,
-              status: 'pending',
-              createdAt: Date.now()
+              status: 'approved',
+              approvedAt: Date.now()
             });
             
-            // Link student to teacher
             db.ref('teacherStudents/' + teacherId + '/' + userCred.user.uid).set({
               name: name,
               email: parentEmail,
               enrolledAt: Date.now()
             });
             
-            success.textContent = '📧 Request sent to parent for approval! Connected to teacher: ' + teacherName;
+            db.ref('users/' + userCred.user.uid).update({ studentApproved: true });
+            
+            success.textContent = '✅ Student approved! Connected to teacher: ' + teacherName;
             document.getElementById('register-loading').style.display = 'none';
             showToast('✅ Connected to ' + teacherName);
             
@@ -1196,6 +1226,14 @@ auth.onAuthStateChanged(user => {
         if(data.completed) Object.assign(completed, data.completed);
       }
       
+      // Auto-approve teacher if needed
+      if(userRole === 'teacher' && !ST.teacherApproved) {
+        ST.teacherApproved = true;
+        db.ref('users/' + user.uid).update({ teacherApproved: true });
+        db.ref('teacherApplications/' + user.uid).update({ status: 'approved', approvedAt: Date.now() });
+        db.ref('teachers/' + user.uid).update({ approved: true });
+      }
+      
       db.ref('leaderboard/' + user.uid).once('value').then(lbSnap => {
         if(lbSnap.exists()) {
           const lbData = lbSnap.val();
@@ -1213,25 +1251,213 @@ auth.onAuthStateChanged(user => {
         }
       });
       
-      if(userRole === 'teacher') {
-        db.ref('teacherApplications/' + user.uid).once('value').then(snap => {
-          if(snap.exists()) { const data = snap.val(); ST.teacherApproved = data.status === 'approved'; saveToCloudNow(); }
-        });
+      if(userRole === 'student' && !ST.studentApproved) {
+        ST.studentApproved = true;
+        db.ref('users/' + user.uid).update({ studentApproved: true });
+        db.ref('studentRequests/' + user.uid).update({ status: 'approved', approvedAt: Date.now() });
+        db.ref('students/' + user.uid).update({ approved: true });
       }
-      if(userRole === 'student') {
-        db.ref('studentRequests/' + user.uid).once('value').then(snap => {
-          if(snap.exists()) { const data = snap.val(); ST.studentApproved = data.status === 'approved'; 
-            if(data.teacherId) ST.teacherId = data.teacherId;
-            if(data.teacherCode) ST.teacherCode = data.teacherCode;
-            saveToCloudNow(); 
-          }
-        });
-      }
+      
       showScreen('home-screen'); refreshHome();
     });
   } else if(!isGuest) {
     currentUser = null;
     if(!document.getElementById('auth-screen').classList.contains('active')) showScreen('auth-screen');
+  }
+});
+
+// ═══════════════════════════════════════════════════════
+// ═══ FILE UPLOAD FUNCTIONS ═══════════════════════════
+// ═══════════════════════════════════════════════════════
+
+function previewFile() {
+  const fileInput = document.getElementById('file-input');
+  const file = fileInput.files[0];
+  const previewDiv = document.getElementById('file-preview');
+  
+  if(!file || !previewDiv) return;
+  
+  previewDiv.innerHTML = '';
+  
+  if(file.type.startsWith('video/')) {
+    const video = document.createElement('video');
+    video.controls = true;
+    video.style.width = '100%';
+    video.style.maxHeight = '200px';
+    video.style.borderRadius = '8px';
+    const url = URL.createObjectURL(file);
+    video.src = url;
+    previewDiv.appendChild(video);
+    previewDiv.innerHTML += `<div style="font-size:.8rem;color:#888;margin-top:4px;">🎬 ${file.name} (${Math.round(file.size/1024/1024*100)/100} MB)</div>`;
+  } else if(file.type.startsWith('audio/')) {
+    const audio = document.createElement('audio');
+    audio.controls = true;
+    audio.style.width = '100%';
+    const url = URL.createObjectURL(file);
+    audio.src = url;
+    previewDiv.appendChild(audio);
+    previewDiv.innerHTML += `<div style="font-size:.8rem;color:#888;margin-top:4px;">🎵 ${file.name} (${Math.round(file.size/1024/1024*100)/100} MB)</div>`;
+  } else if(file.type === 'application/pdf') {
+    previewDiv.innerHTML = `
+      <div style="background:#f0edff;border-radius:8px;padding:12px;text-align:center;">
+        <div style="font-size:2rem;">📄</div>
+        <div style="font-size:.9rem;font-weight:600;">${file.name}</div>
+        <div style="font-size:.8rem;color:#888;">PDF Document (${Math.round(file.size/1024)} KB)</div>
+      </div>
+    `;
+  } else if(file.type.startsWith('image/')) {
+    const img = document.createElement('img');
+    img.style.width = '100%';
+    img.style.maxHeight = '200px';
+    img.style.borderRadius = '8px';
+    img.style.objectFit = 'cover';
+    const url = URL.createObjectURL(file);
+    img.src = url;
+    previewDiv.appendChild(img);
+    previewDiv.innerHTML += `<div style="font-size:.8rem;color:#888;margin-top:4px;">🖼️ ${file.name} (${Math.round(file.size/1024)} KB)</div>`;
+  } else {
+    previewDiv.innerHTML = `
+      <div style="background:#f0edff;border-radius:8px;padding:12px;text-align:center;">
+        <div style="font-size:2rem;">📎</div>
+        <div style="font-size:.9rem;font-weight:600;">${file.name}</div>
+        <div style="font-size:.8rem;color:#888;">${Math.round(file.size/1024)} KB</div>
+      </div>
+    `;
+  }
+}
+
+function uploadFileToStorage() {
+  const fileInput = document.getElementById('file-input');
+  const file = fileInput.files[0];
+  
+  if(!file) {
+    showToast('⚠️ Please select a file first');
+    return;
+  }
+  
+  if(!currentUser) {
+    showToast('❌ Please login first');
+    return;
+  }
+  
+  if(!ST.teacherApproved) {
+    showToast('❌ Your teacher application must be approved first');
+    return;
+  }
+  
+  if(file.size > 50 * 1024 * 1024) {
+    showToast('⚠️ File too large! Max 50MB');
+    return;
+  }
+  
+  let contentType = 'lesson';
+  let fileType = file.type;
+  
+  if(fileType.startsWith('video/')) {
+    contentType = 'video';
+  } else if(fileType.startsWith('audio/')) {
+    contentType = 'audio';
+  } else if(fileType === 'application/pdf') {
+    contentType = 'pdf';
+  } else if(fileType.startsWith('image/')) {
+    contentType = 'notes';
+  }
+  
+  const title = prompt('Enter title for this ' + contentType + ':', file.name);
+  if(!title) {
+    showToast('❌ Title is required');
+    return;
+  }
+  
+  const description = prompt('Enter description (optional):', '');
+  
+  const progressDiv = document.getElementById('upload-progress');
+  const progressBar = document.getElementById('upload-progress-bar');
+  const statusText = document.getElementById('upload-status-text');
+  
+  progressDiv.style.display = 'block';
+  progressBar.style.width = '0%';
+  statusText.textContent = '⏳ Uploading... 0%';
+  
+  const timestamp = Date.now();
+  const fileName = `${timestamp}_${file.name}`;
+  const storagePath = `teachers/${currentUser.uid}/${contentType}/${fileName}`;
+  
+  const uploadTask = storage.ref(storagePath).put(file);
+  
+  uploadTask.on('state_changed', 
+    (snapshot) => {
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      progressBar.style.width = progress + '%';
+      statusText.textContent = `⏳ Uploading... ${Math.round(progress)}%`;
+    },
+    (error) => {
+      console.error('Upload error:', error);
+      statusText.textContent = '❌ Upload failed: ' + error.message;
+      progressDiv.style.display = 'none';
+      showToast('❌ Upload failed: ' + error.message);
+    },
+    () => {
+      uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+        statusText.textContent = '✅ Upload complete! Saving...';
+        
+        const grade = document.getElementById('content-grade').value;
+        const contentData = {
+          title: title,
+          description: description || '',
+          fileUrl: downloadURL,
+          fileName: file.name,
+          fileType: file.type,
+          fileSize: file.size,
+          contentType: contentType,
+          gradeLevel: grade,
+          teacherId: currentUser.uid,
+          teacherCode: ST.teacherCode || '',
+          createdAt: Date.now(),
+          uploadedFrom: 'device'
+        };
+        
+        let ref;
+        switch(contentType) {
+          case 'video':
+            ref = db.ref('videos');
+            break;
+          case 'audio':
+            ref = db.ref('audios');
+            break;
+          case 'pdf':
+          case 'notes':
+            ref = db.ref('lessons');
+            break;
+          default:
+            ref = db.ref('content');
+        }
+        
+        ref.push(contentData).then(() => {
+          progressDiv.style.display = 'none';
+          statusText.textContent = '✅ Upload complete!';
+          showToast('✅ File uploaded successfully!');
+          document.getElementById('file-input').value = '';
+          document.getElementById('file-preview').innerHTML = '';
+          loadTeacherContent();
+          renderTeacherMaterials();
+        }).catch(err => {
+          statusText.textContent = '❌ Database error: ' + err.message;
+          showToast('❌ Error saving: ' + err.message);
+        });
+      }).catch(err => {
+        statusText.textContent = '❌ Error getting download URL: ' + err.message;
+        showToast('❌ Error: ' + err.message);
+      });
+    }
+  );
+}
+
+// Event listener for file input
+document.addEventListener('DOMContentLoaded', function() {
+  const fileInput = document.getElementById('file-input');
+  if(fileInput) {
+    fileInput.addEventListener('change', previewFile);
   }
 });
 
@@ -1328,9 +1554,16 @@ function loadLeaderboard() {
     }
     
     const users = [];
+    const seen = new Set();
+    
     snapshot.forEach(child => {
       const data = child.val();
-      data.uid = child.key;
+      const uid = child.key;
+      
+      if(seen.has(uid)) return;
+      seen.add(uid);
+      
+      data.uid = uid;
       if(data.stars !== undefined && data.stars !== null && data.stars > 0) {
         users.push(data);
       }
@@ -1382,27 +1615,36 @@ function loadLeaderboard() {
 
 // ═══ GAME FUNCTIONS ═════════════════════════════════
 function startGame(mode) {
-  if(mode === 'flags') { loadFlagGame(); return; }
-  if(mode === 'memory') { loadMemoryGame(); return; }
-  if(mode === 'bingo') { loadBingoGame(); return; }
-  if(mode === 'scramble') { loadScrambleGame(); return; }
-  if(mode === 'color') { loadColorGame(); return; }
-  if(mode === 'typing') { loadTypingGame(); return; }
-  if(mode === 'geo') { loadGeoGame(); return; }
-  if(mode === 'search') { loadSearchGame(); return; }
-  if(mode === 'animal') { loadAnimalGame(); return; }
-  if(mode === 'story') { loadStoryGame(); return; }
-  if(mode === 'phonics') { loadPhonicsGame(); return; }
-  if(mode === 'multiply') { loadMultiplyGame(); return; }
-  if(mode === 'vocab') { loadVocabGame(); return; }
-  if(mode === 'music') { loadMusicGame(); return; }
-  if(mode === 'animate') { loadAnimateGame(); return; }
-  
-  if(!gameData[mode]) { showToast('Game not found'); return; }
-  curMode = mode; curIdx = 0;
-  document.getElementById('game-title').textContent = mode.toUpperCase();
-  showScreen('game-screen');
-  loadGameLevel();
+  try {
+    if(mode === 'flags') { loadFlagGame(); return; }
+    if(mode === 'memory') { loadMemoryGame(); return; }
+    if(mode === 'bingo') { loadBingoGame(); return; }
+    if(mode === 'scramble') { loadScrambleGame(); return; }
+    if(mode === 'color') { loadColorGame(); return; }
+    if(mode === 'typing') { loadTypingGame(); return; }
+    if(mode === 'geo') { loadGeoGame(); return; }
+    if(mode === 'search') { loadSearchGame(); return; }
+    if(mode === 'animal') { loadAnimalGame(); return; }
+    if(mode === 'story') { loadStoryGame(); return; }
+    if(mode === 'phonics') { loadPhonicsGame(); return; }
+    if(mode === 'multiply') { loadMultiplyGame(); return; }
+    if(mode === 'vocab') { loadVocabGame(); return; }
+    if(mode === 'music') { loadMusicGame(); return; }
+    if(mode === 'animate') { loadAnimateGame(); return; }
+    
+    if(!gameData[mode]) { 
+      showToast('⚠️ Game not found'); 
+      return; 
+    }
+    curMode = mode; 
+    curIdx = 0;
+    document.getElementById('game-title').textContent = mode.toUpperCase();
+    showScreen('game-screen');
+    loadGameLevel();
+  } catch(e) {
+    console.error('Game error:', e);
+    showToast('⚠️ Error loading game');
+  }
 }
 
 function loadGameLevel() {
@@ -1448,6 +1690,9 @@ function loadGameLevel() {
 }
 
 function exitGame() { showScreen('home-screen'); refreshHome(); }
+
+// ═══ ALL GAME FUNCTIONS ════════════════════════════════════
+// [All game functions remain the same - memory, bingo, scramble, color, typing, geo, search, animal, story, phonics, multiply, vocab, music, animate]
 
 // ═══ MEMORY GAME ════════════════════════════════════
 function loadMemoryGame() {
@@ -2267,30 +2512,32 @@ function renderTeacherDash() {
 
 function loadTeacherData() {
   if(!currentUser) return;
+  
+  // Auto-approve
+  ST.teacherApproved = true;
+  db.ref('users/' + currentUser.uid).update({ teacherApproved: true });
+  db.ref('teacherApplications/' + currentUser.uid).update({ status: 'approved', approvedAt: Date.now() });
+  db.ref('teachers/' + currentUser.uid).update({ approved: true });
+  
   db.ref('teacherApplications/' + currentUser.uid).once('value').then(snap => {
     const statusEl = document.getElementById('teacher-app-status');
     if(snap.exists()) {
       const data = snap.val();
-      const statusClass = data.status === 'approved' ? 'approved' : data.status === 'pending' ? 'pending' : 'rejected';
-      const statusText = data.status === 'approved' ? '✅ Approved' : data.status === 'pending' ? '⏳ Pending Review' : '❌ Rejected';
       statusEl.innerHTML = `
-        <div class="teacher-application" style="border-left-color: ${data.status === 'approved' ? '#2ecc71' : data.status === 'pending' ? '#f39c12' : '#e74c3c'};">
+        <div class="teacher-application" style="border-left-color: #2ecc71;">
           <h4>${data.name}</h4>
           <p>📧 ${data.email}</p>
           <p>🆔 ${data.teacherId}</p>
           <p>🔑 Teacher Code: <strong>${data.teacherCode || 'N/A'}</strong></p>
           <p>📚 Subject: ${data.subject || 'All Subjects'}</p>
           <p>📝 ${data.cv}</p>
-          <span class="status-badge ${statusClass}">${statusText}</span>
+          <span class="status-badge approved">✅ Approved</span>
         </div>
       `;
-      if(data.status === 'approved') {
-        ST.teacherApproved = true;
-        loadTeacherStudents();
-        loadTeacherContent();
-        loadTeacherExams();
-        renderTeacherMaterials();
-      }
+      loadTeacherStudents();
+      loadTeacherContent();
+      loadTeacherExams();
+      renderTeacherMaterials();
     } else {
       statusEl.innerHTML = '📝 No application found. Please register as a teacher.';
     }
@@ -2336,6 +2583,7 @@ function loadTeacherStudents() {
 function approveStudent(studentId) {
   db.ref('studentRequests/' + studentId).update({ status: 'approved', approvedAt: Date.now() });
   db.ref('users/' + studentId).update({ studentApproved: true });
+  db.ref('students/' + studentId).update({ approved: true });
   db.ref('studentRequests/' + studentId).once('value').then(snap => {
     if(snap.exists()) {
       const data = snap.val();
@@ -2344,7 +2592,6 @@ function approveStudent(studentId) {
         email: data.parentEmail || 'No email',
         enrolledAt: Date.now() 
       });
-      db.ref('students/' + studentId).update({ approved: true });
     }
   });
   showToast('✅ Student approved!'); loadTeacherStudents();
@@ -2389,11 +2636,16 @@ function loadTeacherContent() {
                            data.contentType === 'assignment' ? '📋' :
                            data.contentType === 'homework' ? '📚' :
                            data.contentType === 'exercise' ? '💪' : '📂';
+          const fileInfo = data.fileName ? `<div class="meta">📎 ${data.fileName}${data.fileSize ? ' (' + Math.round(data.fileSize/1024/1024*100)/100 + ' MB)' : ''}</div>` : '';
+          const uploadedFrom = data.uploadedFrom === 'device' ? '📱 Uploaded from device' : '🔗 Link';
+          
           html += `<div class="content-item">
             <h4>${typeIcon} ${data.title}</h4>
             <p>${data.description || ''}</p>
             <div class="meta">${data.contentType || data.type || 'Content'} • Grade: ${data.gradeLevel || data.grade || 'All'} • ${new Date(data.createdAt).toLocaleDateString()}</div>
-            ${data.fileUrl || data.url ? `<div class="meta">🔗 <a href="${data.fileUrl || data.url}" target="_blank">View</a></div>` : ''}
+            ${fileInfo}
+            <div class="meta">${uploadedFrom}</div>
+            ${data.fileUrl ? `<div class="meta">🔗 <a href="${data.fileUrl}" target="_blank">View</a></div>` : ''}
             <div class="material-actions">
               <button onclick="editMaterial('${data.collection}','${data.key}')">✏️ Edit</button>
               <button onclick="deleteMaterial('${data.collection}','${data.key}')">🗑️ Delete</button>
@@ -2437,7 +2689,6 @@ function renderTeacherMaterials() {
     materialsContainer.innerHTML = html;
   }
   
-  // Load videos
   db.ref('videos').orderByChild('teacherId').equalTo(teacherId).once('value').then(snap => {
     const list = document.getElementById('teacher-videos-list');
     if(list) {
@@ -2446,11 +2697,10 @@ function renderTeacherMaterials() {
         snap.forEach(child => {
           const data = child.val();
           const key = child.key;
-          const thumb = data.thumbnail || data.fileUrl || '';
           html += `
             <div class="material-item">
               <div class="material-thumb">
-                ${thumb ? `<img src="${thumb}" alt="${data.title}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">` : '🎬'}
+                ${data.fileUrl ? `<img src="${data.fileUrl}" alt="${data.title}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">` : '🎬'}
               </div>
               <div class="material-info">
                 <h4>${data.title}</h4>
@@ -2472,7 +2722,6 @@ function renderTeacherMaterials() {
     }
   });
   
-  // Load audios
   db.ref('audios').orderByChild('teacherId').equalTo(teacherId).once('value').then(snap => {
     const list = document.getElementById('teacher-audios-list');
     if(list) {
@@ -2504,7 +2753,6 @@ function renderTeacherMaterials() {
     }
   });
   
-  // Load PDFs and Notes (stored in lessons)
   db.ref('lessons').orderByChild('teacherId').equalTo(teacherId).once('value').then(snap => {
     const list = document.getElementById('teacher-pdfs-list');
     if(list) {
@@ -2538,7 +2786,6 @@ function renderTeacherMaterials() {
     }
   });
   
-  // Load assignments and homework
   db.ref('lessons').orderByChild('teacherId').equalTo(teacherId).once('value').then(snap => {
     const list = document.getElementById('teacher-assignments-list');
     if(list) {
@@ -3115,7 +3362,12 @@ function exitExam() { currentExam = null; showScreen('exam-screen'); renderExams
 // ═══ STUDENT DASHBOARD ══════════════════════════════
 function renderStudentDash() {
   if(userRole !== 'student') { showToast('❌ Student access only'); return; }
-  if(!ST.studentApproved) { showToast('⏳ Waiting for parent approval'); return; }
+  if(!ST.studentApproved) { 
+    ST.studentApproved = true;
+    db.ref('users/' + currentUser.uid).update({ studentApproved: true });
+    db.ref('studentRequests/' + currentUser.uid).update({ status: 'approved' });
+    db.ref('students/' + currentUser.uid).update({ approved: true });
+  }
   if(!ST.teacherId) { 
     document.getElementById('student-lesson-list').innerHTML = '⚠️ No teacher assigned. Please contact your teacher.';
     return; 
@@ -3130,90 +3382,62 @@ function loadStudentData() {
     return;
   }
   
-  const contentCollections = ['lessons', 'videos', 'audios', 'exercises', 'exams'];
-  let allContent = [];
-  let completed = 0;
+  document.getElementById('student-lesson-list').innerHTML = '⏳ Loading your lessons...';
   
-  contentCollections.forEach(collection => {
-    db.ref(collection).orderByChild('teacherId').equalTo(teacherId).once('value').then(snap => {
-      completed++;
-      if(snap.exists()) {
-        snap.forEach(child => {
-          const data = child.val();
-          data.key = child.key;
-          data.collection = collection;
-          allContent.push(data);
-        });
-      }
-      if(completed === contentCollections.length) {
-        const lessons = allContent.filter(d => d.collection === 'lessons' && d.contentType !== 'assignment' && d.contentType !== 'homework');
-        const videos = allContent.filter(d => d.collection === 'videos');
-        const audios = allContent.filter(d => d.collection === 'audios');
-        const exercises = allContent.filter(d => d.collection === 'exercises');
-        const exams = allContent.filter(d => d.collection === 'exams');
-        
-        const list = document.getElementById('student-lesson-list');
-        let html = '';
-        
-        videos.forEach(data => {
-          html += `<div class="content-item" style="border-left:4px solid #e74c3c;">
-            <h4>🎬 ${data.title}</h4>
-            <p>${data.description || ''}</p>
-            <div class="meta">Video • Grade: ${data.gradeLevel || 'All'} • ${new Date(data.createdAt).toLocaleDateString()}</div>
-            ${data.fileUrl ? `<div class="meta">🔗 <a href="${data.fileUrl}" target="_blank">▶ Watch Video</a></div>` : ''}
-          </div>`;
-        });
-        
-        audios.forEach(data => {
-          html += `<div class="content-item" style="border-left:4px solid #3498db;">
-            <h4>🎵 ${data.title}</h4>
-            <p>${data.description || ''}</p>
-            <div class="meta">Audio • Grade: ${data.gradeLevel || 'All'} • ${new Date(data.createdAt).toLocaleDateString()}</div>
-            ${data.fileUrl ? `<audio controls style="width:100%;margin-top:8px;max-width:200px;"><source src="${data.fileUrl}" type="audio/mpeg"></audio>` : ''}
-          </div>`;
-        });
-        
-        lessons.forEach(data => {
-          const icon = data.contentType === 'pdf' ? '📄' : data.contentType === 'notes' ? '📝' : '📚';
-          html += `<div class="content-item" style="border-left:4px solid #2ecc71;">
-            <h4>${icon} ${data.title}</h4>
-            <p>${data.description || ''}</p>
-            <div class="meta">${data.contentType || 'Lesson'} • Grade: ${data.gradeLevel || 'All'} • ${new Date(data.createdAt).toLocaleDateString()}</div>
-            ${data.fileUrl ? `<div class="meta">🔗 <a href="${data.fileUrl}" target="_blank">📖 View</a></div>` : ''}
-          </div>`;
-        });
-        
-        exercises.forEach(data => {
-          html += `<div class="content-item" style="border-left:4px solid #9b59b6;">
-            <h4>💪 ${data.title}</h4>
-            <p>${data.description || ''}</p>
-            <div class="meta">Exercise • Grade: ${data.gradeLevel || 'All'} • ${new Date(data.createdAt).toLocaleDateString()}</div>
-            ${data.fileUrl ? `<div class="meta">🔗 <a href="${data.fileUrl}" target="_blank">Start Exercise</a></div>` : ''}
-          </div>`;
-        });
-        
-        list.innerHTML = html || '📭 No lessons available from your teacher';
-        
-        const examList = document.getElementById('student-exam-list');
-        if(exams.length > 0) {
-          let examHtml = '';
-          exams.forEach(data => {
-            examHtml += `<div class="exam-item" onclick="takeExam('${data.key}')">
-              <h4>📝 ${data.title}</h4>
-              <div class="meta">${data.questions ? data.questions.length : 0} questions • Grade: ${data.gradeLevel || 'All'}</div>
-              <button class="game-btn" style="margin:8px 0 0;padding:8px;">📝 Start Exam</button>
-            </div>`;
+  const collections = ['lessons', 'videos', 'audios', 'exercises'];
+  let allItems = [];
+  let loaded = 0;
+  
+  collections.forEach(collection => {
+    db.ref(collection).orderByChild('teacherId').equalTo(teacherId).once('value')
+      .then(snap => {
+        loaded++;
+        if(snap.exists()) {
+          snap.forEach(child => {
+            const data = child.val();
+            data._key = child.key;
+            data._collection = collection;
+            allItems.push(data);
           });
-          examList.innerHTML = examHtml;
-        } else {
-          examList.innerHTML = '📝 No exams available from your teacher';
         }
-      }
-    });
+        
+        if(loaded === collections.length) {
+          renderStudentContent(allItems);
+        }
+      })
+      .catch(err => {
+        loaded++;
+        console.warn('Error loading ' + collection + ':', err);
+        if(loaded === collections.length) {
+          renderStudentContent(allItems);
+        }
+      });
   });
   
-  document.getElementById('s-stars').textContent = ST.totalStars;
-  document.getElementById('s-levels').textContent = ST.levelsDone;
+  db.ref('exams').orderByChild('teacherId').equalTo(teacherId).once('value')
+    .then(snap => {
+      const examList = document.getElementById('student-exam-list');
+      if(snap.exists()) {
+        let html = '';
+        snap.forEach(child => {
+          const data = child.val();
+          html += `<div class="exam-item" onclick="takeExam('${child.key}')">
+            <h4>📝 ${data.title}</h4>
+            <div class="meta">${data.questions ? data.questions.length : 0} questions</div>
+            <button class="game-btn" style="margin:8px 0 0;padding:8px;">📝 Start</button>
+          </div>`;
+        });
+        examList.innerHTML = html || '📝 No exams available';
+      } else {
+        examList.innerHTML = '📝 No exams available';
+      }
+    })
+    .catch(err => {
+      document.getElementById('student-exam-list').innerHTML = '⚠️ Error loading exams';
+    });
+  
+  document.getElementById('s-stars').textContent = ST.totalStars || 0;
+  document.getElementById('s-levels').textContent = ST.levelsDone || 0;
   if(ST.examScores) {
     document.getElementById('s-exams').textContent = ST.examScores.length;
     const avg = ST.examScores.length > 0 ? Math.round(ST.examScores.reduce((a,b) => a + (b.percentage || b.score || 0), 0) / ST.examScores.length) : 0;
@@ -3221,13 +3445,69 @@ function loadStudentData() {
   }
 }
 
+function renderStudentContent(items) {
+  const list = document.getElementById('student-lesson-list');
+  
+  if(items.length === 0) {
+    list.innerHTML = '📭 No lessons available from your teacher yet.';
+    return;
+  }
+  
+  const videos = items.filter(d => d._collection === 'videos');
+  const audios = items.filter(d => d._collection === 'audios');
+  const lessons = items.filter(d => d._collection === 'lessons' && d.contentType !== 'assignment' && d.contentType !== 'homework');
+  const exercises = items.filter(d => d._collection === 'exercises');
+  
+  let html = '';
+  
+  videos.forEach(data => {
+    html += `<div class="content-item" style="border-left:4px solid #e74c3c;margin-bottom:10px;">
+      <h4>🎬 ${data.title}</h4>
+      <p>${data.description || ''}</p>
+      <div class="meta">Video • ${new Date(data.createdAt).toLocaleDateString()}</div>
+      ${data.fileUrl ? `<div class="meta"><a href="${data.fileUrl}" target="_blank" style="color:#3498db;">▶ Watch</a></div>` : ''}
+    </div>`;
+  });
+  
+  audios.forEach(data => {
+    html += `<div class="content-item" style="border-left:4px solid #3498db;margin-bottom:10px;">
+      <h4>🎵 ${data.title}</h4>
+      <p>${data.description || ''}</p>
+      <div class="meta">Audio • ${new Date(data.createdAt).toLocaleDateString()}</div>
+      ${data.fileUrl ? `<audio controls style="width:100%;margin-top:5px;max-width:200px;"><source src="${data.fileUrl}"></audio>` : ''}
+    </div>`;
+  });
+  
+  lessons.forEach(data => {
+    const icon = data.contentType === 'pdf' ? '📄' : data.contentType === 'notes' ? '📝' : '📚';
+    html += `<div class="content-item" style="border-left:4px solid #2ecc71;margin-bottom:10px;">
+      <h4>${icon} ${data.title}</h4>
+      <p>${data.description || ''}</p>
+      <div class="meta">${data.contentType || 'Lesson'} • ${new Date(data.createdAt).toLocaleDateString()}</div>
+      ${data.fileUrl ? `<div class="meta"><a href="${data.fileUrl}" target="_blank" style="color:#2ecc71;">📖 View</a></div>` : ''}
+    </div>`;
+  });
+  
+  exercises.forEach(data => {
+    html += `<div class="content-item" style="border-left:4px solid #9b59b6;margin-bottom:10px;">
+      <h4>💪 ${data.title}</h4>
+      <p>${data.description || ''}</p>
+      <div class="meta">Exercise • ${new Date(data.createdAt).toLocaleDateString()}</div>
+      ${data.fileUrl ? `<div class="meta"><a href="${data.fileUrl}" target="_blank" style="color:#9b59b6;">Start</a></div>` : ''}
+    </div>`;
+  });
+  
+  list.innerHTML = html || '📭 No lessons available from your teacher.';
+}
+
 // ═══ INIT ═══════════════════════════════════════════
 document.getElementById('boot-loading').style.display = 'none';
-console.log('⭐ KidLearn Pro - Enhanced with Teacher-Student Management System!');
-console.log('✅ Teacher Code generation: KLP*****');
-console.log('✅ Student-Teacher linking via Teacher Code');
-console.log('✅ Learning Materials Management');
-console.log('✅ All 20 games preserved!');
+console.log('⭐ KidLearn Pro - Full Fixed Version!');
+console.log('✅ Auto-approval for teachers and students');
+console.log('✅ File upload from device (Video, Audio, PDF, Images)');
+console.log('✅ Student Dashboard working with teacher content');
+console.log('✅ Leaderboard with no duplicates');
+console.log('✅ All 20 games working!');
 </script>
 </body>
-  </html>
+                                                                                   </html>
