@@ -3475,6 +3475,9 @@ function renderContent() {
       }
     });
   });
+  if('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/KidLearnPro/sw.js');
+  }
 }
 
 // ═══ INIT ═══════════════════════════════════════════
