@@ -1468,7 +1468,8 @@ function continueAsGuest() {
   fastSave();
 }
 
-function doLogout() {
+sessionStorage.clear();
+auth.signOut();
   if(isGuest) { isGuest = false; showScreen('auth-screen'); return; }
   auth.signOut();
 }
