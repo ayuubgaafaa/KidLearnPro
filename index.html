@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="so">
 <head>
-  <link rel="manifest" href="/KidLearnPro/manifest.json">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KidLearn Pro — Complete App</title>
@@ -182,6 +181,78 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
 #upload-progress{display:none;background:#e0e0e0;border-radius:10px;height:20px;margin:8px 0;overflow:hidden;}
 #upload-progress-bar{width:0%;height:100%;background:linear-gradient(90deg,#6c72e6,#4a3487);transition:width .3s;border-radius:10px;}
 #upload-status-text{font-size:.8rem;color:#888;text-align:center;}
+.memory-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0;max-width:350px;margin:10px auto;}
+.mem-card{aspect-ratio:1;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:2rem;cursor:pointer;transition:all .3s;box-shadow:0 4px 15px rgba(0,0,0,.1);}
+.mem-card.flipped{background:#fff;transform:rotateY(180deg);}
+.mem-card.matched{background:#2ecc71;transform:scale(.95);cursor:default;opacity:.7;}
+.bingo-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0;max-width:350px;margin:10px auto;}
+.bingo-cell{background:#f5f5f5;border-radius:12px;padding:15px 8px;text-align:center;font-size:1.3rem;font-weight:700;cursor:pointer;transition:all .3s;border:3px solid #ddd;color:#333;}
+.bingo-cell.marked{background:#2ecc71;border-color:#27ae60;color:white;transform:scale(.95);}
+.bingo-cell.wrong{background:#e74c3c;border-color:#c0392b;color:white;animation:shake .3s;}
+@keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-10px);}75%{transform:translateX(10px);}}
+.scrambled-word{text-align:center;font-size:2.5rem;font-weight:800;color:#4a3487;letter-spacing:6px;padding:15px;background:#f5f5f5;border-radius:15px;margin:10px 0;}
+.scramble-input{display:flex;gap:10px;margin:10px 0;max-width:350px;margin:10px auto;}
+.scramble-input input{flex:1;padding:12px;border:2px solid #ddd;border-radius:12px;font-size:1rem;outline:none;}
+.scramble-input button{padding:12px 20px;border:none;border-radius:12px;background:#6c72e6;color:white;font-weight:700;cursor:pointer;}
+.color-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:3px;margin:10px 0;max-width:350px;margin:10px auto;}
+.color-cell{aspect-ratio:1;border-radius:4px;cursor:pointer;background:#f0f0f0;border:1px solid #ddd;font-size:.6rem;display:flex;align-items:center;justify-content:center;color:#999;font-weight:700;}
+.color-cell.colored{border-color:transparent;}
+.color-palette{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:8px 0;}
+.color-pick{width:30px;height:30px;border-radius:50%;border:3px solid transparent;cursor:pointer;transition:all .3s;}
+.color-pick.active{border-color:#333;transform:scale(1.15);}
+.typing-display{background:#f5f5f5;padding:20px;border-radius:15px;text-align:center;font-size:1.2rem;line-height:2rem;margin:10px 0;color:#333;max-width:350px;margin:10px auto;}
+.typing-display .typed{color:#2ecc71;}
+.typing-display .current{color:#f1c40f;text-decoration:underline;font-weight:700;}
+.typing-display .remaining{color:#999;}
+.typing-input{width:100%;padding:12px;border:2px solid #ddd;border-radius:12px;font-size:1rem;text-align:center;outline:none;max-width:350px;display:block;margin:10px auto;}
+.geo-options{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;max-width:350px;margin:10px auto;}
+.geo-opt{padding:12px;border:none;border-radius:12px;font-weight:600;background:#f0f0f0;cursor:pointer;transition:all .3s;color:#333;}
+.geo-opt.correct{background:#2ecc71;color:white;}
+.geo-opt.wrong{background:#e74c3c;color:white;}
+.wsearch-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:3px;margin:10px 0;max-width:350px;margin:10px auto;}
+.wsearch-cell{aspect-ratio:1;background:#f0f0f0;border-radius:4px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem;cursor:pointer;transition:all .2s;color:#333;}
+.wsearch-cell.found{background:#2ecc71;color:white;}
+.wsearch-cell.selected{background:#f1c40f;transform:scale(1.1);}
+.wsearch-words{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:10px 0;}
+.wsearch-tag{padding:4px 12px;border-radius:15px;background:#f0f0f0;font-size:.8rem;font-weight:600;color:#333;}
+.wsearch-tag.found{background:#2ecc71;color:white;text-decoration:line-through;}
+.animal-display{background:#f5f5f5;border-radius:15px;padding:20px;text-align:center;font-size:4rem;margin:10px 0;cursor:pointer;min-height:120px;display:flex;align-items:center;justify-content:center;}
+.sound-btn{width:100%;max-width:350px;display:block;margin:10px auto;padding:12px;border:none;border-radius:12px;background:#3498db;color:white;font-weight:700;cursor:pointer;}
+.story-text{background:#f5f5f5;padding:20px;border-radius:15px;color:#333;font-size:1rem;line-height:1.8;margin:10px 0;min-height:100px;}
+.story-words{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:10px 0;}
+.story-word{padding:8px 16px;border-radius:12px;background:#f0f0f0;cursor:pointer;font-weight:600;transition:all .3s;border:2px solid transparent;color:#333;}
+.story-word.selected{border-color:#6c72e6;background:#e8e6ff;}
+.phonics-display{text-align:center;font-size:6rem;padding:15px;background:#f5f5f5;border-radius:15px;margin:10px 0;cursor:pointer;color:#4a3487;max-width:350px;margin:10px auto;}
+.phonics-words{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:10px 0;}
+.phonics-word{padding:8px 16px;border-radius:12px;background:#f0f0f0;font-weight:600;color:#333;}
+.phonics-nav{display:flex;gap:10px;justify-content:center;margin:10px 0;}
+.phonics-nav button{padding:10px 20px;border:none;border-radius:12px;background:#6c72e6;color:white;font-weight:700;cursor:pointer;}
+.multiply-tables{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:10px 0;}
+.multiply-table{padding:6px 14px;border-radius:10px;background:#f0f0f0;cursor:pointer;font-weight:600;transition:all .3s;color:#333;border:none;}
+.multiply-table.active{background:#6c72e6;color:white;}
+.multiply-options{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin:10px 0;max-width:350px;margin:10px auto;}
+.multiply-opt{padding:12px;border:none;border-radius:12px;font-weight:700;font-size:1.2rem;background:#f0f0f0;cursor:pointer;transition:all .3s;color:#333;}
+.multiply-opt.correct{background:#2ecc71;color:white;}
+.multiply-opt.wrong{background:#e74c3c;color:white;}
+.vocab-card{background:#f5f5f5;border-radius:15px;padding:20px;text-align:center;margin:10px 0;}
+.vocab-word{font-size:2rem;font-weight:800;color:#4a3487;}
+.vocab-meaning{font-size:1.1rem;color:#555;margin:8px 0;}
+.vocab-example{font-size:.9rem;color:#888;font-style:italic;padding:10px;background:rgba(0,0,0,0.03);border-radius:10px;}
+.vocab-options{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;max-width:350px;margin:10px auto;}
+.vocab-opt{padding:12px;border:none;border-radius:12px;font-weight:600;background:#f0f0f0;cursor:pointer;transition:all .3s;color:#333;}
+.vocab-opt.correct{background:#2ecc71;color:white;}
+.vocab-opt.wrong{background:#e74c3c;color:white;}
+.music-piano{display:flex;gap:3px;justify-content:center;margin:10px 0;flex-wrap:wrap;max-width:350px;margin:10px auto;}
+.music-key{width:40px;height:140px;border-radius:8px;background:linear-gradient(180deg,#fff,#ddd);border:2px solid #999;cursor:pointer;transition:all .1s;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px;font-size:.6rem;font-weight:700;color:#666;}
+.music-key:active{transform:scale(.95);background:#f1c40f;}
+.music-key.black{width:26px;height:90px;background:linear-gradient(180deg,#333,#111);border-color:#000;color:#fff;margin:0 -13px;position:relative;z-index:2;}
+.animate-canvas{border-radius:12px;display:block;margin:0 auto;width:100%;max-width:300px;background:#fff;border:2px solid #ddd;touch-action:none;}
+.animate-tools{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:10px 0;}
+.animate-tool{padding:8px 16px;border:none;border-radius:10px;font-weight:700;background:#f0f0f0;cursor:pointer;transition:all .3s;color:#333;}
+.animate-tool.active{background:#6c72e6;color:white;}
+.animate-frames{display:flex;gap:6px;overflow-x:auto;padding:8px 0;margin:10px 0;justify-content:center;}
+.animate-frame{width:40px;height:40px;border:2px solid #ddd;border-radius:8px;background:#f5f5f5;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#999;}
+.animate-frame.active{border-color:#6c72e6;background:#e8e6ff;}
 .edit-modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:1000;}
 .edit-modal-content{background:white;border-radius:20px;padding:24px;max-width:400px;width:90%;max-height:80vh;overflow-y:auto;}
 .edit-modal-content h3{color:#4a3487;margin-bottom:16px;}
@@ -283,8 +354,8 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
   <div class="cards-grid">
     <div class="card" onclick="startGame('abc')"><div class="card-icon abc-c">abc</div><h3>ABC English</h3><p id="abc-progress">26 levels</p></div>
     <div class="card" onclick="startGame('numbers')"><div class="card-icon num-c">1 2 3</div><h3>Numbers</h3><p id="numbers-progress">10 levels</p></div>
-    <div class="card" onclick="startGame('coloring')"><div class="card-icon fun-c">🎨</div><h3>More Fun</h3><p id="coloring-progress">15 levels</p></div>
-    <div class="card" onclick="startGame('flags')"><div class="card-icon flags-c">🌍</div><h3>Flag Quiz</h3><p>36 flags</p></div>
+    <div class="card" onclick="startGame('coloring')"><div class="card-icon fun-c">🎨</div><h3>Color by Number</h3><p id="coloring-progress">64 cells</p></div>
+    <div class="card" onclick="startGame('flags')"><div class="card-icon flags-c">🌍</div><h3>Flag Quiz</h3><p>195 countries</p></div>
     <div class="card" onclick="startGame('memory')"><div class="card-icon memory-c">🧠</div><h3>Memory Match</h3><p>8 pairs</p></div>
     <div class="card" onclick="startGame('bingo')"><div class="card-icon bingo-c">🔢</div><h3>Math Bingo</h3><p>4x4 grid</p></div>
     <div class="card" onclick="startGame('scramble')"><div class="card-icon scramble-c">🔤</div><h3>Word Scramble</h3><p>12 words</p></div>
@@ -628,129 +699,301 @@ let completed = {
   music:0, animate:0
 };
 
-// ═══ GAME DATA ══════════════════════════════════════
-const gameData = {
-  abc: [
-    {q:"A",word:"Apple",speech:"A. Apple",options:["🍎","🍌","🐱","🐕"],a:"🍎"},
-    {q:"B",word:"Banana",speech:"B. Banana",options:["🚗","🍌","🥚","🦊"],a:"🍌"},
-    {q:"C",word:"Cat",speech:"C. Cat",options:["🍇","🦆","🐱","🦁"],a:"🐱"},
-    {q:"D",word:"Dog",speech:"D. Dog",options:["🐕","🐘","🐸","🐐"],a:"🐕"},
-    {q:"E",word:"Elephant",speech:"E. Elephant",options:["🍎","🐘","🍦","🦊"],a:"🐘"},
-    {q:"F",word:"Fox",speech:"F. Fox",options:["🦊","🍇","👒","🦎"],a:"🦊"},
-    {q:"G",word:"Goat",speech:"G. Goat",options:["🍌","🍇","🐐","🍋"],a:"🐐"},
-    {q:"H",word:"Horse",speech:"H. Horse",options:["🐴","🦁","🐒","🐔"],a:"🐴"},
-    {q:"I",word:"Ice cream",speech:"I. Ice cream",options:["🐟","🍦","🦎","🦉"],a:"🍦"},
-    {q:"J",word:"Juice",speech:"J. Juice",options:["🧃","🐨","🦁","🐭"],a:"🧃"},
-    {q:"K",word:"Kangaroo",speech:"K. Kangaroo",options:["🦘","🐼","🐷","🐰"],a:"🦘"},
-    {q:"L",word:"Lion",speech:"L. Lion",options:["🐸","🐯","🦁","🐺"],a:"🦁"},
-    {q:"M",word:"Monkey",speech:"M. Monkey",options:["🐒","🐔","🐧","🐦"],a:"🐒"},
-    {q:"N",word:"Nest",speech:"N. Nest",options:["🪹","🦉","🦇","🦅"],a:"🪹"},
-    {q:"O",word:"Owl",speech:"O. Owl",options:["🐝","🐛","🦋","🦉"],a:"🦉"},
-    {q:"P",word:"Penguin",speech:"P. Penguin",options:["🐧","🐢","🐊","🐍"],a:"🐧"},
-    {q:"Q",word:"Queen Bee",speech:"Q. Queen Bee",options:["🐳","🦈","🐙","🐝"],a:"🐝"},
-    {q:"R",word:"Rabbit",speech:"R. Rabbit",options:["🦌","🐮","🐷","🐰"],a:"🐰"},
-    {q:"S",word:"Sheep",speech:"S. Sheep",options:["🐑","🐫","🐘","🦒"],a:"🐑"},
-    {q:"T",word:"Tiger",speech:"T. Tiger",options:["🦓","🐆","🐯","🦁"],a:"🐯"},
-    {q:"U",word:"Unicorn",speech:"U. Unicorn",options:["🦄","🦅","🦉","🦇"],a:"🦄"},
-    {q:"V",word:"Vulture",speech:"V. Vulture",options:["🦅","🦜","🕊️","🦤"],a:"🦅"},
-    {q:"W",word:"Whale",speech:"W. Whale",options:["🦈","🐳","🐟","🐙"],a:"🐳"},
-    {q:"X",word:"Xylophone",speech:"X. Xylophone",options:["🪘","🎸","🎹","🎺"],a:"🪘"},
-    {q:"Y",word:"Yak",speech:"Y. Yak",options:["🐂","🐄","🐐","🐑"],a:"🐂"},
-    {q:"Z",word:"Zebra",speech:"Z. Zebra",options:["🦓","🐎","🐴","🦌"],a:"🦓"}
-  ],
-  numbers: [
-    {q:"1",word:"One",speech:"One. One apple",options:["🍎","🍌🍌","🐱🐱🐱","🍕🍕🍕🍕"],a:"🍎"},
-    {q:"2",word:"Two",speech:"Two. Two bananas",options:["🍇","🍌🍌","🥚","🦊"],a:"🍌🍌"},
-    {q:"3",word:"Three",speech:"Three. Three cats",options:["🍇","🦆","🐱🐱🐱","🦁"],a:"🐱🐱🐱"},
-    {q:"4",word:"Four",speech:"Four. Four dogs",options:["🐕🐕🐕🐕","🐘","🐸","🐐"],a:"🐕🐕🐕🐕"},
-    {q:"5",word:"Five",speech:"Five. Five fish",options:["🐟🐟🐟🐟🐟","🐤","🦊","🐝"],a:"🐟🐟🐟🐟🐟"},
-    {q:"6",word:"Six",speech:"Six. Six birds",options:["🍎","🐦🐦🐦🐦🐦🐦","🍇","🍌"],a:"🐦🐦🐦🐦🐦🐦"},
-    {q:"7",word:"Seven",speech:"Seven. Seven frogs",options:["🐸🐸🐸🐸🐸🐸🐸","🦁","🐢","🐘"],a:"🐸🐸🐸🐸🐸🐸🐸"},
-    {q:"8",word:"Eight",speech:"Eight. Eight butterflies",options:["🦋🦋🦋🦋🦋🦋🦋🦋","🐝","🐛","🐞"],a:"🦋🦋🦋🦋🦋🦋🦋🦋"},
-    {q:"9",word:"Nine",speech:"Nine. Nine stars",options:["⭐","🌙","☁️","⭐⭐⭐⭐⭐⭐⭐⭐⭐"],a:"⭐⭐⭐⭐⭐⭐⭐⭐⭐"},
-    {q:"10",word:"Ten",speech:"Ten. Ten balloons",options:["🎈🎈🎈🎈🎈🎈🎈🎈🎈🎈","🚗","🧸","⚽"],a:"🎈🎈🎈🎈🎈🎈🎈🎈🎈🎈"}
-  ],
-  coloring: [
-    {q:"🦁",word:"Lion",speech:"What sound does the Lion make?",options:["Roar","Meow","Bark","Cluck"],a:"Roar",textOpts:true},
-    {q:"🐱",word:"Cat",speech:"What sound does the Cat make?",options:["Oink","Meow","Moo","Quack"],a:"Meow",textOpts:true},
-    {q:"🐕",word:"Dog",speech:"What sound does the Dog make?",options:["Neigh","Roar","Bark","Bleat"],a:"Bark",textOpts:true},
-    {q:"🐮",word:"Cow",speech:"What sound does the Cow make?",options:["Moo","Baah","Buzz","Hiss"],a:"Moo",textOpts:true},
-    {q:"🦆",word:"Duck",speech:"What sound does the Duck make?",options:["Chirp","Quack","Oink","Roar"],a:"Quack",textOpts:true},
-    {q:"🐔",word:"Chicken",speech:"What sound does the Chicken make?",options:["Cluck","Meow","Bark","Moo"],a:"Cluck",textOpts:true},
-    {q:"🐴",word:"Horse",speech:"What sound does the Horse make?",options:["Buzz","Hiss","Neigh","Roar"],a:"Neigh",textOpts:true},
-    {q:"🐑",word:"Sheep",speech:"What sound does the Sheep make?",options:["Baah","Meow","Quack","Oink"],a:"Baah",textOpts:true},
-    {q:"🐷",word:"Pig",speech:"What sound does the Pig make?",options:["Bark","Oink","Moo","Cluck"],a:"Oink",textOpts:true},
-    {q:"🐝",word:"Bee",speech:"What sound does the Bee make?",options:["Chirp","Buzz","Roar","Hiss"],a:"Buzz",textOpts:true},
-    {q:"🔴",word:"Red",speech:"What color is this?",options:["Blue","Red","Green","Yellow"],a:"Red",textOpts:true},
-    {q:"🔵",word:"Blue",speech:"What color is this?",options:["Red","Green","Blue","Black"],a:"Blue",textOpts:true},
-    {q:"🟢",word:"Green",speech:"What color is this?",options:["Yellow","White","Green","Red"],a:"Green",textOpts:true},
-    {q:"🟡",word:"Yellow",speech:"What color is this?",options:["Blue","Yellow","Pink","Orange"],a:"Yellow",textOpts:true},
-    {q:"⚫",word:"Black",speech:"What color is this?",options:["Black","White","Brown","Purple"],a:"Black",textOpts:true}
-  ],
-  arabic: [
-    {q:"أ",word:"أسد",speech:"أَلِف. أَسَد",speechLang:"ar-SA",options:["🦁","🦆","🍎","🐪"],a:"🦁"},
-    {q:"ب",word:"بطة",speech:"بَاء. بَطَّة",speechLang:"ar-SA",options:["📆","🦆","🍇","🐱"],a:"🦆"},
-    {q:"ت",word:"تفاحة",speech:"تَاء. تُفَّاحَة",speechLang:"ar-SA",options:["🍎","🍌","🥕","🥒"],a:"🍎"},
-    {q:"ث",word:"ثعلب",speech:"ثَاء. ثَعْلَب",speechLang:"ar-SA",options:["🦊","🐰","🐺","🦁"],a:"🦊"},
-    {q:"ج",word:"جمل",speech:"جِيم. جَمَل",speechLang:"ar-SA",options:["🐴","🐪","🐮","🐷"],a:"🐪"},
-    {q:"ح",word:"حصان",speech:"حَاء. حِصَان",speechLang:"ar-SA",options:["🐴","🐐","🐑","🐂"],a:"🐴"},
-    {q:"خ",word:"خروف",speech:"خَاء. خَرُوف",speechLang:"ar-SA",options:["🐑","🐺","🦊","🐻"],a:"🐑"},
-    {q:"د",word:"دب",speech:"دَال. دُبّ",speechLang:"ar-SA",options:["🐻","🦁","🐯","🐱"],a:"🐻"},
-    {q:"ذ",word:"ذئب",speech:"ذَال. ذِئْب",speechLang:"ar-SA",options:["🐺","🦊","🐕","🐱"],a:"🐺"},
-    {q:"ر",word:"رمان",speech:"رَاء. رُمَّان",speechLang:"ar-SA",options:["🍉","🍇","🍌","🍎"],a:"🍇"},
-    {q:"ز",word:"زرافة",speech:"زَاي. زَرَافَة",speechLang:"ar-SA",options:["🦒","🐘","🐪","🐎"],a:"🦒"},
-    {q:"س",word:"سمكة",speech:"سِين. سَمَكَة",speechLang:"ar-SA",options:["🐟","🦀","🐙","🐋"],a:"🐟"},
-    {q:"ش",word:"شمس",speech:"شِين. شَمْس",speechLang:"ar-SA",options:["☀️","🌙","☁️","⭐"],a:"☀️"},
-    {q:"ص",word:"صقر",speech:"صَاد. صَقْر",speechLang:"ar-SA",options:["🦅","🦉","🕊️","🦆"],a:"🦅"},
-    {q:"ض",word:"ضفدع",speech:"ضَاد. ضُفْدَع",speechLang:"ar-SA",options:["🐸","🐢","🐍","🦎"],a:"🐸"},
-    {q:"ط",word:"طائرة",speech:"طَاء. طَائِرَة",speechLang:"ar-SA",options:["🚀","🚗","✈️","🚢"],a:"✈️"},
-    {q:"ظ",word:"ظرف",speech:"ظَاء. ظَرْف",speechLang:"ar-SA",options:["✉️","📦","📜","📝"],a:"✉️"},
-    {q:"ع",word:"عنب",speech:"عَيْن. عِنَب",speechLang:"ar-SA",options:["🍇","🍒","🍓","🍉"],a:"🍇"},
-    {q:"غ",word:"غزال",speech:"غَيْن. غَزَال",speechLang:"ar-SA",options:["🦌","🐐","🐑","🐴"],a:"🦌"},
-    {q:"ف",word:"فيل",speech:"فَاء. فِيل",speechLang:"ar-SA",options:["🐘","🦒","🦏","🦛"],a:"🐘"},
-    {q:"ق",word:"قرد",speech:"قَاف. قِرْد",speechLang:"ar-SA",options:["🐒","🦍","🦧","🐱"],a:"🐒"},
-    {q:"ك",word:"كتاب",speech:"كَاف. كِتَاب",speechLang:"ar-SA",options:["📚","✏️","🎨","🎒"],a:"📚"},
-    {q:"ل",word:"ليمون",speech:"لَام. لَيْمُون",speechLang:"ar-SA",options:["🍋","🍏","🍐","🍊"],a:"🍋"},
-    {q:"م",word:"موز",speech:"مِيم. مَوْز",speechLang:"ar-SA",options:["🍌","🍍","🥭","🥝"],a:"🍌"},
-    {q:"ن",word:"نمر",speech:"نُون. نَمِر",speechLang:"ar-SA",options:["🐯","🦁","🐆","🐱"],a:"🐯"},
-    {q:"هـ",word:"هلال",speech:"هَاء. هِلَال",speechLang:"ar-SA",options:["🌙","☀️","⭐","🌍"],a:"🌙"},
-    {q:"و",word:"وردة",speech:"وَاو. وَرْدَة",speechLang:"ar-SA",options:["🌹","🌻","🌲","🌱"],a:"🌹"},
-    {q:"ي",word:"يد",speech:"يَاء. يَد",speechLang:"ar-SA",options:["👋","👀","👃","👂"],a:"👋"}
-  ],
-  math: (function(){
-    var levels=[];
-    for(var i=1;i<=25;i++){
-      var a=Math.floor(Math.random()*10)+1,b=Math.floor(Math.random()*10)+1,ans=a+b;
-      var wrong=[ans+1,ans-1,ans+2,ans-2].filter(function(x){return x>0&&x!==ans;});
-      var opts=[ans,wrong[0],wrong[1],wrong[2]].sort(function(){return Math.random()-.5;});
-      levels.push({q:a+' + '+b,word:a+' plus '+b,speech:'What is '+a+' plus '+b+'?',options:opts.map(String),a:String(ans),textOpts:true});
-    }
-    for(var i=1;i<=25;i++){
-      var a=Math.floor(Math.random()*15)+5,b=Math.floor(Math.random()*(a-1))+1,ans=a-b;
-      var wrong=[ans+1,ans-1,ans+2,ans-2].filter(function(x){return x>=0&&x!==ans;});
-      var opts=[ans,wrong[0],wrong[1],wrong[2]].sort(function(){return Math.random()-.5;});
-      levels.push({q:a+' - '+b,word:a+' minus '+b,speech:'What is '+a+' minus '+b+'?',options:opts.map(String),a:String(ans),textOpts:true});
-    }
-    return levels;
-  })()
-};
+// ═══════════════════════════════════════════════════════
+// ═══ ALL 195 FLAGS DATA ══════════════════════════════
+// ═══════════════════════════════════════════════════════
 
-const FLAG_DATA = [
-  {name:"Afghanistan", flag:"🇦🇫"},{name:"Albania", flag:"🇦🇱"},{name:"Algeria", flag:"🇩🇿"},
-  {name:"Andorra", flag:"🇦🇩"},{name:"Angola", flag:"🇦🇴"},{name:"Argentina", flag:"🇦🇷"},
-  {name:"Australia", flag:"🇦🇺"},{name:"Austria", flag:"🇦🇹"},{name:"Brazil", flag:"🇧🇷"},
-  {name:"Canada", flag:"🇨🇦"},{name:"China", flag:"🇨🇳"},{name:"Denmark", flag:"🇩🇰"},
-  {name:"Egypt", flag:"🇪🇬"},{name:"Finland", flag:"🇫🇮"},{name:"France", flag:"🇫🇷"},
-  {name:"Germany", flag:"🇩🇪"},{name:"Greece", flag:"🇬🇷"},{name:"India", flag:"🇮🇳"},
-  {name:"Italy", flag:"🇮🇹"},{name:"Japan", flag:"🇯🇵"},{name:"Mexico", flag:"🇲🇽"},
-  {name:"Norway", flag:"🇳🇴"},{name:"Pakistan", flag:"🇵🇰"},{name:"Portugal", flag:"🇵🇹"},
-  {name:"Russia", flag:"🇷🇺"},{name:"Saudi Arabia", flag:"🇸🇦"},{name:"Spain", flag:"🇪🇸"},
-  {name:"Sweden", flag:"🇸🇪"},{name:"Turkey", flag:"🇹🇷"},{name:"UK", flag:"🇬🇧"},
-  {name:"USA", flag:"🇺🇸"},{name:"UAE", flag:"🇦🇪"},{name:"Somalia", flag:"🇸🇴"},
-  {name:"Kenya", flag:"🇰🇪"},{name:"Nigeria", flag:"🇳🇬"},{name:"South Africa", flag:"🇿🇦"}
+const FLAG_DATA_195 = [
+  // Africa (54)
+  {name:"Algeria", flag:"🇩🇿", capital:"Algiers", region:"Africa"},
+  {name:"Angola", flag:"🇦🇴", capital:"Luanda", region:"Africa"},
+  {name:"Benin", flag:"🇧🇯", capital:"Porto-Novo", region:"Africa"},
+  {name:"Botswana", flag:"🇧🇼", capital:"Gaborone", region:"Africa"},
+  {name:"Burkina Faso", flag:"🇧🇫", capital:"Ouagadougou", region:"Africa"},
+  {name:"Burundi", flag:"🇧🇮", capital:"Gitega", region:"Africa"},
+  {name:"Cabo Verde", flag:"🇨🇻", capital:"Praia", region:"Africa"},
+  {name:"Cameroon", flag:"🇨🇲", capital:"Yaoundé", region:"Africa"},
+  {name:"Central African Republic", flag:"🇨🇫", capital:"Bangui", region:"Africa"},
+  {name:"Chad", flag:"🇹🇩", capital:"N'Djamena", region:"Africa"},
+  {name:"Comoros", flag:"🇰🇲", capital:"Moroni", region:"Africa"},
+  {name:"Congo", flag:"🇨🇬", capital:"Brazzaville", region:"Africa"},
+  {name:"DR Congo", flag:"🇨🇩", capital:"Kinshasa", region:"Africa"},
+  {name:"Djibouti", flag:"🇩🇯", capital:"Djibouti", region:"Africa"},
+  {name:"Egypt", flag:"🇪🇬", capital:"Cairo", region:"Africa"},
+  {name:"Equatorial Guinea", flag:"🇬🇶", capital:"Malabo", region:"Africa"},
+  {name:"Eritrea", flag:"🇪🇷", capital:"Asmara", region:"Africa"},
+  {name:"Eswatini", flag:"🇸🇿", capital:"Mbabane", region:"Africa"},
+  {name:"Ethiopia", flag:"🇪🇹", capital:"Addis Ababa", region:"Africa"},
+  {name:"Gabon", flag:"🇬🇦", capital:"Libreville", region:"Africa"},
+  {name:"Gambia", flag:"🇬🇲", capital:"Banjul", region:"Africa"},
+  {name:"Ghana", flag:"🇬🇭", capital:"Accra", region:"Africa"},
+  {name:"Guinea", flag:"🇬🇳", capital:"Conakry", region:"Africa"},
+  {name:"Guinea-Bissau", flag:"🇬🇼", capital:"Bissau", region:"Africa"},
+  {name:"Ivory Coast", flag:"🇨🇮", capital:"Yamoussoukro", region:"Africa"},
+  {name:"Kenya", flag:"🇰🇪", capital:"Nairobi", region:"Africa"},
+  {name:"Lesotho", flag:"🇱🇸", capital:"Maseru", region:"Africa"},
+  {name:"Liberia", flag:"🇱🇷", capital:"Monrovia", region:"Africa"},
+  {name:"Libya", flag:"🇱🇾", capital:"Tripoli", region:"Africa"},
+  {name:"Madagascar", flag:"🇲🇬", capital:"Antananarivo", region:"Africa"},
+  {name:"Malawi", flag:"🇲🇼", capital:"Lilongwe", region:"Africa"},
+  {name:"Mali", flag:"🇲🇱", capital:"Bamako", region:"Africa"},
+  {name:"Mauritania", flag:"🇲🇷", capital:"Nouakchott", region:"Africa"},
+  {name:"Mauritius", flag:"🇲🇺", capital:"Port Louis", region:"Africa"},
+  {name:"Morocco", flag:"🇲🇦", capital:"Rabat", region:"Africa"},
+  {name:"Mozambique", flag:"🇲🇿", capital:"Maputo", region:"Africa"},
+  {name:"Namibia", flag:"🇳🇦", capital:"Windhoek", region:"Africa"},
+  {name:"Niger", flag:"🇳🇪", capital:"Niamey", region:"Africa"},
+  {name:"Nigeria", flag:"🇳🇬", capital:"Abuja", region:"Africa"},
+  {name:"Rwanda", flag:"🇷🇼", capital:"Kigali", region:"Africa"},
+  {name:"Sao Tome & Principe", flag:"🇸🇹", capital:"São Tomé", region:"Africa"},
+  {name:"Senegal", flag:"🇸🇳", capital:"Dakar", region:"Africa"},
+  {name:"Seychelles", flag:"🇸🇨", capital:"Victoria", region:"Africa"},
+  {name:"Sierra Leone", flag:"🇸🇱", capital:"Freetown", region:"Africa"},
+  {name:"Somalia", flag:"🇸🇴", capital:"Mogadishu", region:"Africa"},
+  {name:"South Africa", flag:"🇿🇦", capital:"Pretoria", region:"Africa"},
+  {name:"South Sudan", flag:"🇸🇸", capital:"Juba", region:"Africa"},
+  {name:"Sudan", flag:"🇸🇩", capital:"Khartoum", region:"Africa"},
+  {name:"Tanzania", flag:"🇹🇿", capital:"Dodoma", region:"Africa"},
+  {name:"Togo", flag:"🇹🇬", capital:"Lomé", region:"Africa"},
+  {name:"Tunisia", flag:"🇹🇳", capital:"Tunis", region:"Africa"},
+  {name:"Uganda", flag:"🇺🇬", capital:"Kampala", region:"Africa"},
+  {name:"Zambia", flag:"🇿🇲", capital:"Lusaka", region:"Africa"},
+  {name:"Zimbabwe", flag:"🇿🇼", capital:"Harare", region:"Africa"},
+  
+  // Asia (48)
+  {name:"Afghanistan", flag:"🇦🇫", capital:"Kabul", region:"Asia"},
+  {name:"Armenia", flag:"🇦🇲", capital:"Yerevan", region:"Asia"},
+  {name:"Azerbaijan", flag:"🇦🇿", capital:"Baku", region:"Asia"},
+  {name:"Bahrain", flag:"🇧🇭", capital:"Manama", region:"Asia"},
+  {name:"Bangladesh", flag:"🇧🇩", capital:"Dhaka", region:"Asia"},
+  {name:"Bhutan", flag:"🇧🇹", capital:"Thimphu", region:"Asia"},
+  {name:"Brunei", flag:"🇧🇳", capital:"Bandar Seri Begawan", region:"Asia"},
+  {name:"Cambodia", flag:"🇰🇭", capital:"Phnom Penh", region:"Asia"},
+  {name:"China", flag:"🇨🇳", capital:"Beijing", region:"Asia"},
+  {name:"Cyprus", flag:"🇨🇾", capital:"Nicosia", region:"Asia"},
+  {name:"Georgia", flag:"🇬🇪", capital:"Tbilisi", region:"Asia"},
+  {name:"India", flag:"🇮🇳", capital:"New Delhi", region:"Asia"},
+  {name:"Indonesia", flag:"🇮🇩", capital:"Jakarta", region:"Asia"},
+  {name:"Iran", flag:"🇮🇷", capital:"Tehran", region:"Asia"},
+  {name:"Iraq", flag:"🇮🇶", capital:"Baghdad", region:"Asia"},
+  {name:"Israel", flag:"🇮🇱", capital:"Jerusalem", region:"Asia"},
+  {name:"Japan", flag:"🇯🇵", capital:"Tokyo", region:"Asia"},
+  {name:"Jordan", flag:"🇯🇴", capital:"Amman", region:"Asia"},
+  {name:"Kazakhstan", flag:"🇰🇿", capital:"Astana", region:"Asia"},
+  {name:"Kuwait", flag:"🇰🇼", capital:"Kuwait City", region:"Asia"},
+  {name:"Kyrgyzstan", flag:"🇰🇬", capital:"Bishkek", region:"Asia"},
+  {name:"Laos", flag:"🇱🇦", capital:"Vientiane", region:"Asia"},
+  {name:"Lebanon", flag:"🇱🇧", capital:"Beirut", region:"Asia"},
+  {name:"Malaysia", flag:"🇲🇾", capital:"Kuala Lumpur", region:"Asia"},
+  {name:"Maldives", flag:"🇲🇻", capital:"Malé", region:"Asia"},
+  {name:"Mongolia", flag:"🇲🇳", capital:"Ulaanbaatar", region:"Asia"},
+  {name:"Myanmar", flag:"🇲🇲", capital:"Naypyidaw", region:"Asia"},
+  {name:"Nepal", flag:"🇳🇵", capital:"Kathmandu", region:"Asia"},
+  {name:"North Korea", flag:"🇰🇵", capital:"Pyongyang", region:"Asia"},
+  {name:"Oman", flag:"🇴🇲", capital:"Muscat", region:"Asia"},
+  {name:"Pakistan", flag:"🇵🇰", capital:"Islamabad", region:"Asia"},
+  {name:"Palestine", flag:"🇵🇸", capital:"Jerusalem", region:"Asia"},
+  {name:"Philippines", flag:"🇵🇭", capital:"Manila", region:"Asia"},
+  {name:"Qatar", flag:"🇶🇦", capital:"Doha", region:"Asia"},
+  {name:"Saudi Arabia", flag:"🇸🇦", capital:"Riyadh", region:"Asia"},
+  {name:"Singapore", flag:"🇸🇬", capital:"Singapore", region:"Asia"},
+  {name:"South Korea", flag:"🇰🇷", capital:"Seoul", region:"Asia"},
+  {name:"Sri Lanka", flag:"🇱🇰", capital:"Colombo", region:"Asia"},
+  {name:"Syria", flag:"🇸🇾", capital:"Damascus", region:"Asia"},
+  {name:"Tajikistan", flag:"🇹🇯", capital:"Dushanbe", region:"Asia"},
+  {name:"Thailand", flag:"🇹🇭", capital:"Bangkok", region:"Asia"},
+  {name:"Timor-Leste", flag:"🇹🇱", capital:"Dili", region:"Asia"},
+  {name:"Turkey", flag:"🇹🇷", capital:"Ankara", region:"Asia"},
+  {name:"Turkmenistan", flag:"🇹🇲", capital:"Ashgabat", region:"Asia"},
+  {name:"UAE", flag:"🇦🇪", capital:"Abu Dhabi", region:"Asia"},
+  {name:"Uzbekistan", flag:"🇺🇿", capital:"Tashkent", region:"Asia"},
+  {name:"Vietnam", flag:"🇻🇳", capital:"Hanoi", region:"Asia"},
+  {name:"Yemen", flag:"🇾🇪", capital:"Sana'a", region:"Asia"},
+  
+  // Europe (44)
+  {name:"Albania", flag:"🇦🇱", capital:"Tirana", region:"Europe"},
+  {name:"Andorra", flag:"🇦🇩", capital:"Andorra la Vella", region:"Europe"},
+  {name:"Austria", flag:"🇦🇹", capital:"Vienna", region:"Europe"},
+  {name:"Belarus", flag:"🇧🇾", capital:"Minsk", region:"Europe"},
+  {name:"Belgium", flag:"🇧🇪", capital:"Brussels", region:"Europe"},
+  {name:"Bosnia & Herzegovina", flag:"🇧🇦", capital:"Sarajevo", region:"Europe"},
+  {name:"Bulgaria", flag:"🇧🇬", capital:"Sofia", region:"Europe"},
+  {name:"Croatia", flag:"🇭🇷", capital:"Zagreb", region:"Europe"},
+  {name:"Czechia", flag:"🇨🇿", capital:"Prague", region:"Europe"},
+  {name:"Denmark", flag:"🇩🇰", capital:"Copenhagen", region:"Europe"},
+  {name:"Estonia", flag:"🇪🇪", capital:"Tallinn", region:"Europe"},
+  {name:"Finland", flag:"🇫🇮", capital:"Helsinki", region:"Europe"},
+  {name:"France", flag:"🇫🇷", capital:"Paris", region:"Europe"},
+  {name:"Germany", flag:"🇩🇪", capital:"Berlin", region:"Europe"},
+  {name:"Greece", flag:"🇬🇷", capital:"Athens", region:"Europe"},
+  {name:"Hungary", flag:"🇭🇺", capital:"Budapest", region:"Europe"},
+  {name:"Iceland", flag:"🇮🇸", capital:"Reykjavik", region:"Europe"},
+  {name:"Ireland", flag:"🇮🇪", capital:"Dublin", region:"Europe"},
+  {name:"Italy", flag:"🇮🇹", capital:"Rome", region:"Europe"},
+  {name:"Kosovo", flag:"🇽🇰", capital:"Pristina", region:"Europe"},
+  {name:"Latvia", flag:"🇱🇻", capital:"Riga", region:"Europe"},
+  {name:"Liechtenstein", flag:"🇱🇮", capital:"Vaduz", region:"Europe"},
+  {name:"Lithuania", flag:"🇱🇹", capital:"Vilnius", region:"Europe"},
+  {name:"Luxembourg", flag:"🇱🇺", capital:"Luxembourg", region:"Europe"},
+  {name:"Malta", flag:"🇲🇹", capital:"Valletta", region:"Europe"},
+  {name:"Moldova", flag:"🇲🇩", capital:"Chisinau", region:"Europe"},
+  {name:"Monaco", flag:"🇲🇨", capital:"Monaco", region:"Europe"},
+  {name:"Montenegro", flag:"🇲🇪", capital:"Podgorica", region:"Europe"},
+  {name:"Netherlands", flag:"🇳🇱", capital:"Amsterdam", region:"Europe"},
+  {name:"North Macedonia", flag:"🇲🇰", capital:"Skopje", region:"Europe"},
+  {name:"Norway", flag:"🇳🇴", capital:"Oslo", region:"Europe"},
+  {name:"Poland", flag:"🇵🇱", capital:"Warsaw", region:"Europe"},
+  {name:"Portugal", flag:"🇵🇹", capital:"Lisbon", region:"Europe"},
+  {name:"Romania", flag:"🇷🇴", capital:"Bucharest", region:"Europe"},
+  {name:"Russia", flag:"🇷🇺", capital:"Moscow", region:"Europe"},
+  {name:"San Marino", flag:"🇸🇲", capital:"San Marino", region:"Europe"},
+  {name:"Serbia", flag:"🇷🇸", capital:"Belgrade", region:"Europe"},
+  {name:"Slovakia", flag:"🇸🇰", capital:"Bratislava", region:"Europe"},
+  {name:"Slovenia", flag:"🇸🇮", capital:"Ljubljana", region:"Europe"},
+  {name:"Spain", flag:"🇪🇸", capital:"Madrid", region:"Europe"},
+  {name:"Sweden", flag:"🇸🇪", capital:"Stockholm", region:"Europe"},
+  {name:"Switzerland", flag:"🇨🇭", capital:"Bern", region:"Europe"},
+  {name:"Ukraine", flag:"🇺🇦", capital:"Kyiv", region:"Europe"},
+  {name:"UK", flag:"🇬🇧", capital:"London", region:"Europe"},
+  {name:"Vatican City", flag:"🇻🇦", capital:"Vatican City", region:"Europe"},
+  
+  // North America (23)
+  {name:"Antigua & Barbuda", flag:"🇦🇬", capital:"St. John's", region:"North America"},
+  {name:"Bahamas", flag:"🇧🇸", capital:"Nassau", region:"North America"},
+  {name:"Barbados", flag:"🇧🇧", capital:"Bridgetown", region:"North America"},
+  {name:"Belize", flag:"🇧🇿", capital:"Belmopan", region:"North America"},
+  {name:"Canada", flag:"🇨🇦", capital:"Ottawa", region:"North America"},
+  {name:"Costa Rica", flag:"🇨🇷", capital:"San José", region:"North America"},
+  {name:"Cuba", flag:"🇨🇺", capital:"Havana", region:"North America"},
+  {name:"Dominica", flag:"🇩🇲", capital:"Roseau", region:"North America"},
+  {name:"Dominican Republic", flag:"🇩🇴", capital:"Santo Domingo", region:"North America"},
+  {name:"El Salvador", flag:"🇸🇻", capital:"San Salvador", region:"North America"},
+  {name:"Grenada", flag:"🇬🇩", capital:"St. George's", region:"North America"},
+  {name:"Guatemala", flag:"🇬🇹", capital:"Guatemala City", region:"North America"},
+  {name:"Haiti", flag:"🇭🇹", capital:"Port-au-Prince", region:"North America"},
+  {name:"Honduras", flag:"🇭🇳", capital:"Tegucigalpa", region:"North America"},
+  {name:"Jamaica", flag:"🇯🇲", capital:"Kingston", region:"North America"},
+  {name:"Mexico", flag:"🇲🇽", capital:"Mexico City", region:"North America"},
+  {name:"Nicaragua", flag:"🇳🇮", capital:"Managua", region:"North America"},
+  {name:"Panama", flag:"🇵🇦", capital:"Panama City", region:"North America"},
+  {name:"St. Kitts & Nevis", flag:"🇰🇳", capital:"Basseterre", region:"North America"},
+  {name:"St. Lucia", flag:"🇱🇨", capital:"Castries", region:"North America"},
+  {name:"St. Vincent", flag:"🇻🇨", capital:"Kingstown", region:"North America"},
+  {name:"Trinidad & Tobago", flag:"🇹🇹", capital:"Port of Spain", region:"North America"},
+  {name:"USA", flag:"🇺🇸", capital:"Washington D.C.", region:"North America"},
+  
+  // South America (12)
+  {name:"Argentina", flag:"🇦🇷", capital:"Buenos Aires", region:"South America"},
+  {name:"Bolivia", flag:"🇧🇴", capital:"Sucre", region:"South America"},
+  {name:"Brazil", flag:"🇧🇷", capital:"Brasília", region:"South America"},
+  {name:"Chile", flag:"🇨🇱", capital:"Santiago", region:"South America"},
+  {name:"Colombia", flag:"🇨🇴", capital:"Bogotá", region:"South America"},
+  {name:"Ecuador", flag:"🇪🇨", capital:"Quito", region:"South America"},
+  {name:"Guyana", flag:"🇬🇾", capital:"Georgetown", region:"South America"},
+  {name:"Paraguay", flag:"🇵🇾", capital:"Asunción", region:"South America"},
+  {name:"Peru", flag:"🇵🇪", capital:"Lima", region:"South America"},
+  {name:"Suriname", flag:"🇸🇷", capital:"Paramaribo", region:"South America"},
+  {name:"Uruguay", flag:"🇺🇾", capital:"Montevideo", region:"South America"},
+  {name:"Venezuela", flag:"🇻🇪", capital:"Caracas", region:"South America"},
+  
+  // Oceania (14)
+  {name:"Australia", flag:"🇦🇺", capital:"Canberra", region:"Oceania"},
+  {name:"Fiji", flag:"🇫🇯", capital:"Suva", region:"Oceania"},
+  {name:"Kiribati", flag:"🇰🇮", capital:"Tarawa", region:"Oceania"},
+  {name:"Marshall Islands", flag:"🇲🇭", capital:"Majuro", region:"Oceania"},
+  {name:"Micronesia", flag:"🇫🇲", capital:"Palikir", region:"Oceania"},
+  {name:"Nauru", flag:"🇳🇷", capital:"Yaren", region:"Oceania"},
+  {name:"New Zealand", flag:"🇳🇿", capital:"Wellington", region:"Oceania"},
+  {name:"Palau", flag:"🇵🇼", capital:"Ngerulmud", region:"Oceania"},
+  {name:"Papua New Guinea", flag:"🇵🇬", capital:"Port Moresby", region:"Oceania"},
+  {name:"Samoa", flag:"🇼🇸", capital:"Apia", region:"Oceania"},
+  {name:"Solomon Islands", flag:"🇸🇧", capital:"Honiara", region:"Oceania"},
+  {name:"Tonga", flag:"🇹🇴", capital:"Nuku'alofa", region:"Oceania"},
+  {name:"Tuvalu", flag:"🇹🇻", capital:"Funafuti", region:"Oceania"},
+  {name:"Vanuatu", flag:"🇻🇺", capital:"Port Vila", region:"Oceania"}
 ];
 
+// ═══════════════════════════════════════════════════════
+// ═══ GAME DATA ══════════════════════════════════════
+// ═══════════════════════════════════════════════════════
+
+const abcData = [
+  {letter:"A", word:"Apple", emoji:"🍎"},
+  {letter:"B", word:"Ball", emoji:"⚽"},
+  {letter:"C", word:"Cat", emoji:"🐱"},
+  {letter:"D", word:"Dog", emoji:"🐕"},
+  {letter:"E", word:"Elephant", emoji:"🐘"},
+  {letter:"F", word:"Fish", emoji:"🐟"},
+  {letter:"G", word:"Goat", emoji:"🐐"},
+  {letter:"H", word:"Hat", emoji:"🎩"},
+  {letter:"I", word:"Ice", emoji:"🧊"},
+  {letter:"J", word:"Juice", emoji:"🧃"},
+  {letter:"K", word:"King", emoji:"👑"},
+  {letter:"L", word:"Lion", emoji:"🦁"},
+  {letter:"M", word:"Moon", emoji:"🌙"},
+  {letter:"N", word:"Nest", emoji:"🪹"},
+  {letter:"O", word:"Owl", emoji:"🦉"},
+  {letter:"P", word:"Pig", emoji:"🐷"},
+  {letter:"Q", word:"Queen", emoji:"👸"},
+  {letter:"R", word:"Rain", emoji:"🌧️"},
+  {letter:"S", word:"Sun", emoji:"☀️"},
+  {letter:"T", word:"Tree", emoji:"🌳"},
+  {letter:"U", word:"Umbrella", emoji:"☂️"},
+  {letter:"V", word:"Violin", emoji:"🎻"},
+  {letter:"W", word:"Water", emoji:"💧"},
+  {letter:"X", word:"X-ray", emoji:"🩻"},
+  {letter:"Y", word:"Yoyo", emoji:"🪀"},
+  {letter:"Z", word:"Zebra", emoji:"🦓"}
+];
+
+const numberData = [
+  {number:1, word:"One", emoji:"1️⃣"},
+  {number:2, word:"Two", emoji:"2️⃣"},
+  {number:3, word:"Three", emoji:"3️⃣"},
+  {number:4, word:"Four", emoji:"4️⃣"},
+  {number:5, word:"Five", emoji:"5️⃣"},
+  {number:6, word:"Six", emoji:"6️⃣"},
+  {number:7, word:"Seven", emoji:"7️⃣"},
+  {number:8, word:"Eight", emoji:"8️⃣"},
+  {number:9, word:"Nine", emoji:"9️⃣"},
+  {number:10, word:"Ten", emoji:"🔟"}
+];
+
+const arabicData = [
+  {letter:"أ", word:"أسد", emoji:"🦁"},
+  {letter:"ب", word:"بطة", emoji:"🦆"},
+  {letter:"ت", word:"تفاحة", emoji:"🍎"},
+  {letter:"ث", word:"ثعلب", emoji:"🦊"},
+  {letter:"ج", word:"جمل", emoji:"🐪"},
+  {letter:"ح", word:"حصان", emoji:"🐴"},
+  {letter:"خ", word:"خروف", emoji:"🐑"},
+  {letter:"د", word:"دب", emoji:"🐻"},
+  {letter:"ذ", word:"ذئب", emoji:"🐺"},
+  {letter:"ر", word:"رمان", emoji:"🍇"},
+  {letter:"ز", word:"زرافة", emoji:"🦒"},
+  {letter:"س", word:"سمكة", emoji:"🐟"},
+  {letter:"ش", word:"شمس", emoji:"☀️"},
+  {letter:"ص", word:"صقر", emoji:"🦅"},
+  {letter:"ض", word:"ضفدع", emoji:"🐸"},
+  {letter:"ط", word:"طائرة", emoji:"✈️"},
+  {letter:"ظ", word:"ظرف", emoji:"✉️"},
+  {letter:"ع", word:"عنب", emoji:"🍇"},
+  {letter:"غ", word:"غزال", emoji:"🦌"},
+  {letter:"ف", word:"فيل", emoji:"🐘"},
+  {letter:"ق", word:"قرد", emoji:"🐒"},
+  {letter:"ك", word:"كتاب", emoji:"📚"},
+  {letter:"ل", word:"ليمون", emoji:"🍋"},
+  {letter:"م", word:"موز", emoji:"🍌"},
+  {letter:"ن", word:"نمر", emoji:"🐯"},
+  {letter:"هـ", word:"هلال", emoji:"🌙"},
+  {letter:"و", word:"وردة", emoji:"🌹"},
+  {letter:"ي", word:"يد", emoji:"👋"}
+];
+
+// ═══════════════════════════════════════════════════════
 // ═══ UI HELPERS ═════════════════════════════════════
+// ═══════════════════════════════════════════════════════
+
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
@@ -782,8 +1025,23 @@ function refreshHome() {
   gameNames.forEach(m => {
     const el = document.getElementById(m + '-progress');
     if(el) {
-      if(gameData[m]) el.textContent = completed[m] + '/' + gameData[m].length + ' levels';
-      else if(m === 'flags') el.textContent = '36 flags';
+      if(m === 'flags') el.textContent = '195 countries';
+      else if(m === 'coloring') el.textContent = '64 cells';
+      else if(m === 'memory') el.textContent = '8 pairs';
+      else if(m === 'bingo') el.textContent = '4x4 grid';
+      else if(m === 'scramble') el.textContent = '12 words';
+      else if(m === 'color') el.textContent = '8 colors';
+      else if(m === 'typing') el.textContent = 'Speed & accuracy';
+      else if(m === 'geo') el.textContent = '12 questions';
+      else if(m === 'search') el.textContent = '6 words';
+      else if(m === 'animal') el.textContent = '10 animals';
+      else if(m === 'story') el.textContent = 'Create stories';
+      else if(m === 'phonics') el.textContent = '26 letters';
+      else if(m === 'multiply') el.textContent = '2-12 tables';
+      else if(m === 'vocab') el.textContent = '12 words';
+      else if(m === 'music') el.textContent = 'Play piano';
+      else if(m === 'animate') el.textContent = 'Draw & animate';
+      else if(gameData[m]) el.textContent = completed[m] + '/' + gameData[m].length + ' levels';
     }
   });
   
@@ -899,7 +1157,10 @@ function loadFromCloud() {
   }).catch(() => loadLocalData());
 }
 
+// ═══════════════════════════════════════════════════════
 // ═══ AUTH FUNCTIONS ═════════════════════════════════
+// ═══════════════════════════════════════════════════════
+
 function selectRole(role) {
   selectedRole = role;
   document.querySelectorAll('.role-opt').forEach(el => el.classList.toggle('active', el.dataset.role === role));
@@ -937,7 +1198,6 @@ function sanitizeInput(str) {
   return str.replace(/[<>{}()$@!%^&*+=|\\/]/g, '').trim();
 }
 
-// Generate unique teacher code (KLP + 5 digits)
 function generateTeacherCode() {
   const prefix = 'KLP';
   const random = Math.floor(10000 + Math.random() * 90000);
@@ -953,9 +1213,7 @@ window.doRegister = async function() {
   err.textContent = '';
   success.textContent = '';
   
-  // Check which role is selected
   if(selectedRole === 'parent') {
-    // Parent Registration
     const email = document.getElementById('reg-parent-email').value.trim();
     const pass = document.getElementById('reg-parent-pass').value;
     const childName = document.getElementById('reg-child-name').value.trim();
@@ -999,7 +1257,6 @@ window.doRegister = async function() {
     }
   }
   else if(selectedRole === 'teacher') {
-    // Teacher Registration - AUTO APPROVED
     const name = document.getElementById('reg-teacher-name').value.trim();
     const email = document.getElementById('reg-teacher-email').value.trim();
     const pass = document.getElementById('reg-teacher-pass').value;
@@ -1016,8 +1273,6 @@ window.doRegister = async function() {
     try {
       const result = await auth.createUserWithEmailAndPassword(email, pass);
       const uid = result.user.uid;
-      
-      // Generate teacher code
       const teacherCode = generateTeacherCode();
       
       ST.childName = name;
@@ -1026,7 +1281,6 @@ window.doRegister = async function() {
       ST.teacherApproved = true;
       userRole = 'teacher';
       
-      // Save to users
       await db.ref('users/' + uid).set({
         childName: name,
         accountRole: 'teacher',
@@ -1035,37 +1289,22 @@ window.doRegister = async function() {
         createdAt: Date.now()
       });
       
-      // Save to teachers
       await db.ref('teachers/' + uid).set({
-        uid: uid,
-        name: name,
-        email: email,
-        teacherId: teacherId,
-        cv: cv,
-        subject: subject,
-        teacherCode: teacherCode,
-        approved: true,
+        uid: uid, name: name, email: email,
+        teacherId: teacherId, cv: cv, subject: subject,
+        teacherCode: teacherCode, approved: true,
         createdAt: Date.now()
       });
       
-      // ✅ SAVE TO PUBLIC TEACHER CODES (for student validation)
       await db.ref('publicTeacherCodes/' + teacherCode).set({
-        uid: uid,
-        name: name,
-        email: email,
+        uid: uid, name: name, email: email,
         createdAt: Date.now()
       });
       
-      // Save application as approved
       await db.ref('teacherApplications/' + uid).set({
-        name: name,
-        email: email,
-        teacherId: teacherId,
-        cv: cv,
-        subject: subject,
-        teacherCode: teacherCode,
-        status: 'approved',
-        approvedAt: Date.now()
+        name: name, email: email, teacherId: teacherId,
+        cv: cv, subject: subject, teacherCode: teacherCode,
+        status: 'approved', approvedAt: Date.now()
       });
       
       saveToCloudNow();
@@ -1084,7 +1323,6 @@ window.doRegister = async function() {
     }
   }
   else if(selectedRole === 'student') {
-    // Student Registration - uses publicTeacherCodes for validation
     const name = document.getElementById('reg-student-name').value.trim();
     const age = parseInt(document.getElementById('reg-student-age').value);
     const teacherCode = document.getElementById('reg-student-teacher-code').value.trim().toUpperCase();
@@ -1100,7 +1338,6 @@ window.doRegister = async function() {
     setAuthLoading(true, 'register');
     
     try {
-      // ✅ CHECK PUBLIC TEACHER CODES (NOT the protected /teachers node)
       const codeSnap = await db.ref('publicTeacherCodes/' + teacherCode).once('value');
       
       if(!codeSnap.exists()) {
@@ -1114,7 +1351,6 @@ window.doRegister = async function() {
       const teacherId = teacherData.uid;
       const teacherName = teacherData.name || 'Teacher';
       
-      // Create student email
       const studentEmail = name.toLowerCase().replace(/\s/g, '') + '@kidlearn.student';
       const result = await auth.createUserWithEmailAndPassword(studentEmail, pass);
       const uid = result.user.uid;
@@ -1128,7 +1364,6 @@ window.doRegister = async function() {
       ST.studentApproved = true;
       userRole = 'student';
       
-      // Save to users
       await db.ref('users/' + uid).set({
         childName: name,
         accountRole: 'student',
@@ -1138,11 +1373,8 @@ window.doRegister = async function() {
         createdAt: Date.now()
       });
       
-      // Save to students
       await db.ref('students/' + uid).set({
-        uid: uid,
-        name: name,
-        age: age,
+        uid: uid, name: name, age: age,
         parentEmail: parentEmail,
         teacherId: teacherId,
         teacherCode: teacherCode,
@@ -1150,17 +1382,13 @@ window.doRegister = async function() {
         createdAt: Date.now()
       });
       
-      // Link to teacher
       await db.ref('teacherStudents/' + teacherId + '/' + uid).set({
-        name: name,
-        email: parentEmail,
+        name: name, email: parentEmail,
         enrolledAt: Date.now()
       });
       
-      // Save request as approved
       await db.ref('studentRequests/' + uid).set({
-        name: name,
-        age: age,
+        name: name, age: age,
         parentEmail: parentEmail,
         teacherId: teacherId,
         teacherCode: teacherCode,
@@ -1275,131 +1503,159 @@ auth.onAuthStateChanged(user => {
   }
 });
 
-// ═══ GAME FUNCTIONS ═════════════════════════════════
+// ═══════════════════════════════════════════════════════
+// ═══ GAME FUNCTIONS - START GAME ═══════════════════
+// ═══════════════════════════════════════════════════════
+
 function startGame(mode) {
   try {
-    if(mode === 'flags') { loadFlagGame(); return; }
-    if(mode === 'memory') { loadMemoryGame(); return; }
-    if(mode === 'bingo') { loadBingoGame(); return; }
-    if(mode === 'scramble') { loadScrambleGame(); return; }
-    if(mode === 'color') { loadColorGame(); return; }
-    if(mode === 'typing') { loadTypingGame(); return; }
-    if(mode === 'geo') { loadGeoGame(); return; }
-    if(mode === 'search') { loadSearchGame(); return; }
-    if(mode === 'animal') { loadAnimalGame(); return; }
-    if(mode === 'story') { loadStoryGame(); return; }
-    if(mode === 'phonics') { loadPhonicsGame(); return; }
-    if(mode === 'multiply') { loadMultiplyGame(); return; }
-    if(mode === 'vocab') { loadVocabGame(); return; }
-    if(mode === 'music') { loadMusicGame(); return; }
-    if(mode === 'animate') { loadAnimateGame(); return; }
+    if (window._gameTimeout) clearTimeout(window._gameTimeout);
     
-    if(!gameData[mode]) { 
-      showToast('⚠️ Game not found'); 
-      return; 
-    }
-    curMode = mode; 
-    curIdx = 0;
-    document.getElementById('game-title').textContent = mode.toUpperCase();
+    const titles = {
+      'abc': 'ABC English',
+      'numbers': 'Numbers',
+      'coloring': 'Color by Number',
+      'flags': 'Flag Quiz',
+      'memory': 'Memory Match',
+      'bingo': 'Math Bingo',
+      'scramble': 'Word Scramble',
+      'color': 'Color by Number',
+      'typing': 'Typing Tutor',
+      'geo': 'Geography Quiz',
+      'search': 'Word Search',
+      'animal': 'Animal Sounds',
+      'story': 'Story Builder',
+      'phonics': 'Phonics',
+      'multiply': 'Times Tables',
+      'vocab': 'Vocabulary',
+      'music': 'Music Maker',
+      'animate': 'Animation Studio',
+      'arabic': 'Arabic عربي',
+      'math': 'Math'
+    };
+    
+    document.getElementById('game-title').textContent = titles[mode] || mode.toUpperCase();
     showScreen('game-screen');
-    loadGameLevel();
+    
+    switch(mode) {
+      case 'flags': loadFlagGame(); break;
+      case 'abc': loadABCGame(); break;
+      case 'numbers': loadNumbersGame(); break;
+      case 'arabic': loadArabicGame(); break;
+      case 'memory': loadMemoryGame(); break;
+      case 'bingo': loadBingoGame(); break;
+      case 'scramble': loadScrambleGame(); break;
+      case 'color': loadColorGame(); break;
+      case 'typing': loadTypingGame(); break;
+      case 'geo': loadGeoGame(); break;
+      case 'search': loadSearchGame(); break;
+      case 'animal': loadAnimalGame(); break;
+      case 'story': loadStoryGame(); break;
+      case 'phonics': loadPhonicsGame(); break;
+      case 'multiply': loadMultiplyGame(); break;
+      case 'vocab': loadVocabGame(); break;
+      case 'music': loadMusicGame(); break;
+      case 'animate': loadAnimateGame(); break;
+      case 'math': loadMathGame(); break;
+      case 'coloring': loadColoringGame(); break;
+      default: 
+        showToast('⚠️ Game not found: ' + mode);
+        showScreen('home-screen');
+    }
   } catch(e) {
     console.error('Game error:', e);
     showToast('⚠️ Error loading game');
+    showScreen('home-screen');
   }
-}
-
-function loadGameLevel() {
-  const data = gameData[curMode];
-  if(!data || curIdx >= data.length) { showToast('🎉 All done!'); return; }
-  const q = data[curIdx];
-  const container = document.getElementById('gameContent');
-  container.innerHTML = `
-    <div class="level-lbl">Level ${curIdx+1}/${data.length}</div>
-    <div class="question-box" id="question">${q.q}</div>
-    <div class="word-label">${q.word || ''}</div>
-    <div id="quiz-options" class="options-grid"></div>
-    <div class="game-stats"><span>⭐ ${ST.totalStars}</span><span>✅ ${curIdx}/${data.length}</span></div>
-    <div class="game-footer">Tap an option to answer</div>
-  `;
-  const grid = document.getElementById('quiz-options');
-  grid.innerHTML = '';
-  q.options.forEach(opt => {
-    const btn = document.createElement('button');
-    btn.className = 'opt-btn' + (q.textOpts ? ' text-opt' : '');
-    btn.textContent = opt;
-    btn.onclick = () => {
-      if(btn.disabled) return;
-      document.querySelectorAll('.opt-btn').forEach(b => b.disabled = true);
-      if(opt === q.a) {
-        btn.classList.add('correct');
-        ST.totalStars += 3; ST.levelsDone++; ST.correctAnswers++; ST.totalAnswers++;
-        completed[curMode] = (completed[curMode] || 0) + 1;
-        showToast('✅ Correct! +3 stars');
-        saveToCloudNow(); refreshHome();
-        setTimeout(() => { curIdx++; loadGameLevel(); }, 1000);
-      } else {
-        btn.classList.add('wrong');
-        ST.totalAnswers++;
-        showToast('❌ Try again!');
-        setTimeout(() => {
-          document.querySelectorAll('.opt-btn').forEach(b => b.disabled = false);
-        }, 800);
-      }
-    };
-    grid.appendChild(btn);
-  });
 }
 
 function exitGame() { showScreen('home-screen'); refreshHome(); }
 
-// ═══ FLAG QUIZ ═══════════════════════════════════════
+// ═══════════════════════════════════════════════════════
+// ═══ FLAG QUIZ - 195 COUNTRIES ═════════════════════
+// ═══════════════════════════════════════════════════════
+
 function loadFlagGame() {
   flagScore = 0;
+  gameState.flagMode = 'country';
+  gameState.flagCorrect = 0;
+  gameState.flagTotal = 0;
+  gameState.flagWrong = 0;
+  
   const container = document.getElementById('gameContent');
   container.innerHTML = `
-    <div class="level-lbl">Flag Quiz • 36 Flags</div>
+    <div class="level-lbl">🏁 Flag Quiz • ${FLAG_DATA_195.length} Countries</div>
+    <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;justify-content:center;">
+      <button class="game-btn" style="padding:6px 12px;font-size:.7rem;margin:0;" onclick="setFlagMode('country')">🌍 Country</button>
+      <button class="game-btn" style="padding:6px 12px;font-size:.7rem;margin:0;" onclick="setFlagMode('capital')">🏛️ Capital</button>
+    </div>
     <div class="question-box" style="font-size:4rem;" id="flagDisplay">🌍</div>
+    <div id="flagQuestion" style="text-align:center;font-size:1rem;color:#888;margin-bottom:8px;">Which country is this?</div>
     <div id="flagOptions" class="geo-options"></div>
     <div class="game-stats">
       <span>✅ Correct: <span id="flagCorrect">0</span></span>
+      <span>❌ Wrong: <span id="flagWrong">0</span></span>
       <span>⭐ Stars: <span id="flagStars">${ST.totalStars}</span></span>
     </div>
-    <div class="game-footer" id="flagFooter">🌍 Which country does this flag belong to?</div>
+    <div class="game-footer" id="flagFooter">🌍 Tap the correct country</div>
     <button class="game-btn" onclick="loadFlagGame()">🔄 New Game</button>
   `;
   loadFlagQuestion();
 }
 
+function setFlagMode(mode) {
+  gameState.flagMode = mode;
+  loadFlagQuestion();
+}
+
 function loadFlagQuestion() {
-  const flags = FLAG_DATA;
+  const flags = FLAG_DATA_195;
   const randomIdx = Math.floor(Math.random() * flags.length);
-  const currentFlag = flags[randomIdx];
+  const current = flags[randomIdx];
   
   let others = flags.filter((_, i) => i !== randomIdx);
   others = others.sort(() => Math.random() - 0.5).slice(0, 3);
   
-  let options = [currentFlag, ...others];
+  let options = [current, ...others];
   options = options.sort(() => Math.random() - 0.5);
   
-  document.getElementById('flagDisplay').textContent = currentFlag.flag;
+  document.getElementById('flagDisplay').textContent = current.flag;
+  
+  const questionEl = document.getElementById('flagQuestion');
+  if (gameState.flagMode === 'country') {
+    questionEl.textContent = '🌍 Which country does this flag belong to?';
+  } else {
+    questionEl.textContent = '🏛️ What is the capital of ' + current.name + '?';
+  }
   
   const container = document.getElementById('flagOptions');
   container.innerHTML = '';
   options.forEach(opt => {
     const btn = document.createElement('button');
     btn.className = 'geo-opt';
-    btn.textContent = opt.name;
+    if (gameState.flagMode === 'country') {
+      btn.textContent = opt.name;
+    } else {
+      btn.textContent = opt.capital;
+    }
     btn.onclick = () => {
       document.querySelectorAll('#flagOptions .geo-opt').forEach(b => b.disabled = true);
       
-      if(opt.name === currentFlag.name) {
+      let isCorrect = false;
+      if (gameState.flagMode === 'country') {
+        isCorrect = opt.name === current.name;
+      } else {
+        isCorrect = opt.capital === current.capital;
+      }
+      
+      if (isCorrect) {
         btn.classList.add('correct');
-        flagScore++;
+        gameState.flagCorrect++;
+        gameState.flagTotal++;
         ST.totalStars += 2;
         ST.levelsDone++;
         completed.flags = (completed.flags || 0) + 1;
-        document.getElementById('flagCorrect').textContent = flagScore;
+        document.getElementById('flagCorrect').textContent = gameState.flagCorrect;
         document.getElementById('flagStars').textContent = ST.totalStars;
         document.getElementById('flagFooter').textContent = '✅ Correct! Well done! +2 stars';
         saveToCloudNow();
@@ -1407,166 +1663,343 @@ function loadFlagQuestion() {
         showToast('✅ Correct! +2 stars');
       } else {
         btn.classList.add('wrong');
+        gameState.flagWrong++;
+        document.getElementById('flagWrong').textContent = gameState.flagWrong;
         document.querySelectorAll('#flagOptions .geo-opt').forEach(b => {
-          if(b.textContent === currentFlag.name) b.classList.add('correct');
+          if (gameState.flagMode === 'country') {
+            if (b.textContent === current.name) b.classList.add('correct');
+          } else {
+            if (b.textContent === current.capital) b.classList.add('correct');
+          }
         });
-        document.getElementById('flagFooter').textContent = '❌ Wrong! The answer was: ' + currentFlag.name;
-        showToast('❌ Wrong! Answer: ' + currentFlag.name);
+        const answer = gameState.flagMode === 'country' ? current.name : current.capital;
+        document.getElementById('flagFooter').textContent = '❌ Wrong! The answer was: ' + answer;
+        showToast('❌ Wrong! Answer: ' + answer);
       }
       setTimeout(loadFlagQuestion, 1500);
     };
     container.appendChild(btn);
   });
   
-  document.getElementById('flagFooter').textContent = '🌍 Which country does this flag belong to?';
+  document.getElementById('flagFooter').textContent = gameState.flagMode === 'country' ? 
+    '🌍 Tap the correct country' : '🏛️ Tap the correct capital';
 }
 
-// ═══ MEMORY GAME ════════════════════════════════════
-function loadMemoryGame() {
-  const emojis = ['🍎','🍌','🍇','🍉','🍓','🍑','🍒','🥝'];
-  const deck = [...emojis, ...emojis];
-  const cards = deck.map((e,i) => ({id:i, emoji:e, flipped:false, matched:false}));
-  gameState.memCards = cards;
-  gameState.memFlipped = [];
-  gameState.memLocked = false;
+// ═══════════════════════════════════════════════════════
+// ═══ ABC ENGLISH GAME ═══════════════════════════════
+// ═══════════════════════════════════════════════════════
+
+function loadABCGame() {
+  gameState.abcIdx = 0;
+  gameState.abcCorrect = 0;
   const container = document.getElementById('gameContent');
-  container.innerHTML = `<div class="memory-grid" id="memGrid"></div>
-    <div class="game-stats"><span>Matches: <span id="memMatches">0</span>/8</span></div>
-    <button class="game-btn" onclick="loadMemoryGame()">New Game</button>`;
-  renderMemoryGrid();
+  container.innerHTML = `
+    <div class="level-lbl">🔤 ABC English • 26 Letters</div>
+    <div style="text-align:center;font-size:.85rem;color:#888;margin-bottom:10px;">Match the letter to the correct picture</div>
+    <div class="question-box" id="abcQuestion" style="font-size:4rem;">A</div>
+    <div id="abcOptions" class="options-grid"></div>
+    <div class="game-stats">
+      <span>✅ <span id="abcCorrect">0</span>/26</span>
+      <span>⭐ ${ST.totalStars}</span>
+    </div>
+    <div class="game-footer" id="abcFooter">Tap the correct picture</div>
+    <button class="game-btn" onclick="loadABCGame()">🔄 New Game</button>
+  `;
+  loadABCQuestion();
 }
 
-function renderMemoryGrid() {
-  const grid = document.getElementById('memGrid');
-  if(!grid) return;
-  grid.innerHTML = '';
-  gameState.memCards.forEach((card, idx) => {
-    const div = document.createElement('div');
-    div.className = 'mem-card' + (card.flipped ? ' flipped' : '') + (card.matched ? ' matched' : '');
-    div.textContent = (card.flipped || card.matched) ? card.emoji : '❓';
-    div.onclick = () => {
-      if(gameState.memLocked) return;
-      if(card.flipped || card.matched) return;
-      card.flipped = true;
-      gameState.memFlipped.push(idx);
-      renderMemoryGrid();
-      if(gameState.memFlipped.length === 2) {
-        gameState.memLocked = true;
-        const [i1, i2] = gameState.memFlipped;
-        const c1 = gameState.memCards[i1], c2 = gameState.memCards[i2];
-        if(c1.emoji === c2.emoji) {
-          c1.matched = c2.matched = true;
-          gameState.memFlipped = [];
-          gameState.memLocked = false;
-          ST.totalStars += 1; saveToCloudNow(); refreshHome();
-          document.getElementById('memMatches').textContent = gameState.memCards.filter(c => c.matched).length / 2;
-          renderMemoryGrid();
-          if(gameState.memCards.every(c => c.matched)) showToast('🎉 You win!');
-        } else {
-          setTimeout(() => {
-            c1.flipped = c2.flipped = false;
-            gameState.memFlipped = [];
-            gameState.memLocked = false;
-            renderMemoryGrid();
-          }, 800);
-        }
-      }
-    };
-    grid.appendChild(div);
-  });
-}
-
-// ═══ BINGO GAME ═════════════════════════════════════
-function loadBingoGame() {
-  const nums = [];
-  while(nums.length < 16) {
-    const n = Math.floor(Math.random() * 20) + 1;
-    if(!nums.includes(n)) nums.push(n);
+function loadABCQuestion() {
+  if (gameState.abcIdx >= abcData.length) {
+    document.getElementById('abcQuestion').textContent = '🎉 Complete!';
+    document.getElementById('abcOptions').innerHTML = '';
+    document.getElementById('abcFooter').textContent = 'All letters done! +10 stars!';
+    ST.totalStars += 10;
+    saveToCloudNow();
+    refreshHome();
+    return;
   }
-  gameState.bingoGrid = nums.map((v,i) => ({value:v, marked:false, index:i}));
-  gameState.bingoAnswer = 0;
-  const container = document.getElementById('gameContent');
-  container.innerHTML = `<div class="question-box" style="font-size:1.5rem;min-height:60px;" id="bingoQ">? + ? = ?</div>
-    <div class="bingo-grid" id="bingoGrid"></div>
-    <div class="game-stats"><span>Score: <span id="bingoScore">0</span></span></div>
-    <button class="game-btn" onclick="loadBingoGame()">New Bingo</button>`;
-  renderBingoGrid();
-  genBingoQ();
-}
-
-function renderBingoGrid() {
-  const grid = document.getElementById('bingoGrid');
-  if(!grid) return;
-  grid.innerHTML = '';
-  gameState.bingoGrid.forEach(cell => {
-    const div = document.createElement('div');
-    div.className = 'bingo-cell' + (cell.marked ? ' marked' : '');
-    div.textContent = cell.value;
-    div.onclick = () => {
-      if(cell.marked) return;
-      if(cell.value === gameState.bingoAnswer) {
-        cell.marked = true;
-        const score = document.getElementById('bingoScore');
-        score.textContent = parseInt(score.textContent) + 10;
-        ST.totalStars += 1; saveToCloudNow(); refreshHome();
-        renderBingoGrid();
-        genBingoQ();
-        const grid = gameState.bingoGrid;
-        let win = false;
-        for(let r=0; r<4; r++) { if(grid[r*4].marked&&grid[r*4+1].marked&&grid[r*4+2].marked&&grid[r*4+3].marked) win=true; }
-        for(let c=0; c<4; c++) { if(grid[c].marked&&grid[c+4].marked&&grid[c+8].marked&&grid[c+12].marked) win=true; }
-        if(win) showToast('🎉 BINGO!');
+  
+  const current = abcData[gameState.abcIdx];
+  const others = abcData.filter((_, i) => i !== gameState.abcIdx);
+  const shuffled = others.sort(() => Math.random() - 0.5).slice(0, 3);
+  const options = [current, ...shuffled].sort(() => Math.random() - 0.5);
+  
+  document.getElementById('abcQuestion').textContent = current.letter;
+  
+  const container = document.getElementById('abcOptions');
+  container.innerHTML = '';
+  options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.textContent = opt.emoji;
+    btn.onclick = () => {
+      document.querySelectorAll('#abcOptions .opt-btn').forEach(b => b.disabled = true);
+      if (opt.letter === current.letter) {
+        btn.classList.add('correct');
+        gameState.abcCorrect++;
+        document.getElementById('abcCorrect').textContent = gameState.abcCorrect;
+        ST.totalStars += 1;
+        document.getElementById('abcFooter').textContent = '✅ ' + current.letter + ' = ' + current.word;
+        showToast('✅ ' + current.letter + ' = ' + current.word);
+        saveToCloudNow();
+        refreshHome();
+        setTimeout(() => { gameState.abcIdx++; loadABCQuestion(); }, 1200);
       } else {
-        div.classList.add('wrong');
-        setTimeout(() => div.classList.remove('wrong'), 500);
+        btn.classList.add('wrong');
+        document.getElementById('abcFooter').textContent = '❌ Wrong! ' + current.letter + ' = ' + current.word;
+        setTimeout(() => {
+          document.querySelectorAll('#abcOptions .opt-btn').forEach(b => b.disabled = false);
+          btn.classList.remove('wrong');
+        }, 800);
       }
     };
-    grid.appendChild(div);
+    container.appendChild(btn);
   });
 }
 
-function genBingoQ() {
-  const a = Math.floor(Math.random() * 10) + 1;
-  const b = Math.floor(Math.random() * 10) + 1;
-  gameState.bingoAnswer = a + b;
-  document.getElementById('bingoQ').textContent = a + ' + ' + b + ' = ?';
-}
+// ═══════════════════════════════════════════════════════
+// ═══ NUMBERS GAME ═══════════════════════════════════
+// ═══════════════════════════════════════════════════════
 
-// ═══ SCRAMBLE GAME ═════════════════════════════════
-function loadScrambleGame() {
-  const words = ['CAT','DOG','FISH','BIRD','STAR','MOON','SUN','TREE','FLOWER','CLOUD','APPLE','HOUSE'];
-  gameState.scrambleWords = words;
+function loadNumbersGame() {
+  gameState.numIdx = 0;
+  gameState.numCorrect = 0;
   const container = document.getElementById('gameContent');
-  container.innerHTML = `<div class="scrambled-word" id="scrambleDisplay">???</div>
-    <div class="scramble-input"><input type="text" id="scrambleInput" placeholder="Type answer..."><button onclick="checkScramble()">Guess</button></div>
-    <div class="game-stats"><span>Score: <span id="scrambleScore">0</span></span></div>
-    <button class="game-btn" onclick="loadScrambleQuestion()">Next</button>`;
-  loadScrambleQuestion();
+  container.innerHTML = `
+    <div class="level-lbl">🔢 Numbers • 1 to 10</div>
+    <div style="text-align:center;font-size:.85rem;color:#888;margin-bottom:10px;">Match the number to the correct word</div>
+    <div class="question-box" id="numQuestion" style="font-size:4rem;">1️⃣</div>
+    <div id="numOptions" class="options-grid"></div>
+    <div class="game-stats">
+      <span>✅ <span id="numCorrect">0</span>/10</span>
+      <span>⭐ ${ST.totalStars}</span>
+    </div>
+    <div class="game-footer" id="numFooter">Tap the correct word</div>
+    <button class="game-btn" onclick="loadNumbersGame()">🔄 New Game</button>
+  `;
+  loadNumbersQuestion();
 }
 
-function loadScrambleQuestion() {
-  const words = gameState.scrambleWords;
-  const word = words[Math.floor(Math.random() * words.length)];
-  const scrambled = word.split('').sort(() => Math.random()-.5).join('');
-  document.getElementById('scrambleDisplay').textContent = scrambled;
-  document.getElementById('scrambleInput').value = '';
-  gameState.scrambleCurrent = word;
+function loadNumbersQuestion() {
+  if (gameState.numIdx >= numberData.length) {
+    document.getElementById('numQuestion').textContent = '🎉 Complete!';
+    document.getElementById('numOptions').innerHTML = '';
+    document.getElementById('numFooter').textContent = 'All numbers done! +10 stars!';
+    ST.totalStars += 10;
+    saveToCloudNow();
+    refreshHome();
+    return;
+  }
+  
+  const current = numberData[gameState.numIdx];
+  const others = numberData.filter((_, i) => i !== gameState.numIdx);
+  const shuffled = others.sort(() => Math.random() - 0.5).slice(0, 3);
+  const options = [current, ...shuffled].sort(() => Math.random() - 0.5);
+  
+  document.getElementById('numQuestion').textContent = current.emoji;
+  
+  const container = document.getElementById('numOptions');
+  container.innerHTML = '';
+  options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn text-opt';
+    btn.textContent = opt.word;
+    btn.onclick = () => {
+      document.querySelectorAll('#numOptions .opt-btn').forEach(b => b.disabled = true);
+      if (opt.number === current.number) {
+        btn.classList.add('correct');
+        gameState.numCorrect++;
+        document.getElementById('numCorrect').textContent = gameState.numCorrect;
+        ST.totalStars += 1;
+        document.getElementById('numFooter').textContent = '✅ ' + current.number + ' = ' + current.word;
+        showToast('✅ ' + current.number + ' = ' + current.word);
+        saveToCloudNow();
+        refreshHome();
+        setTimeout(() => { gameState.numIdx++; loadNumbersQuestion(); }, 1200);
+      } else {
+        btn.classList.add('wrong');
+        document.getElementById('numFooter').textContent = '❌ ' + current.number + ' = ' + current.word;
+        setTimeout(() => {
+          document.querySelectorAll('#numOptions .opt-btn').forEach(b => b.disabled = false);
+          btn.classList.remove('wrong');
+        }, 800);
+      }
+    };
+    container.appendChild(btn);
+  });
 }
 
-function checkScramble() {
-  const guess = document.getElementById('scrambleInput').value.trim().toUpperCase();
-  if(!guess || !gameState.scrambleCurrent) return;
-  if(guess === gameState.scrambleCurrent) {
-    const score = document.getElementById('scrambleScore');
-    score.textContent = parseInt(score.textContent) + 10;
-    ST.totalStars += 2; saveToCloudNow(); refreshHome();
-    showToast('✅ Correct!');
-    setTimeout(loadScrambleQuestion, 800);
-  } else { showToast('❌ Try again!'); document.getElementById('scrambleInput').value = ''; }
+// ═══════════════════════════════════════════════════════
+// ═══ ARABIC GAME ════════════════════════════════════
+// ═══════════════════════════════════════════════════════
+
+function loadArabicGame() {
+  gameState.arabicIdx = 0;
+  gameState.arabicCorrect = 0;
+  const container = document.getElementById('gameContent');
+  container.innerHTML = `
+    <div class="level-lbl">🌙 Arabic • 28 Letters</div>
+    <div style="text-align:center;font-size:.85rem;color:#888;margin-bottom:10px;">Match the Arabic letter to the correct picture</div>
+    <div class="question-box" id="arabicQuestion" style="font-size:4rem;font-family:'Traditional Arabic',serif;">أ</div>
+    <div id="arabicOptions" class="options-grid"></div>
+    <div class="game-stats">
+      <span>✅ <span id="arabicCorrect">0</span>/28</span>
+      <span>⭐ ${ST.totalStars}</span>
+    </div>
+    <div class="game-footer" id="arabicFooter">Tap the correct picture</div>
+    <button class="game-btn" onclick="loadArabicGame()">🔄 New Game</button>
+  `;
+  loadArabicQuestion();
 }
 
-// ═══ COLOR GAME ═════════════════════════════════════
-function loadColorGame() {
+function loadArabicQuestion() {
+  if (gameState.arabicIdx >= arabicData.length) {
+    document.getElementById('arabicQuestion').textContent = '🎉 Complete!';
+    document.getElementById('arabicOptions').innerHTML = '';
+    document.getElementById('arabicFooter').textContent = 'All Arabic letters done! +10 stars!';
+    ST.totalStars += 10;
+    saveToCloudNow();
+    refreshHome();
+    return;
+  }
+  
+  const current = arabicData[gameState.arabicIdx];
+  const others = arabicData.filter((_, i) => i !== gameState.arabicIdx);
+  const shuffled = others.sort(() => Math.random() - 0.5).slice(0, 3);
+  const options = [current, ...shuffled].sort(() => Math.random() - 0.5);
+  
+  document.getElementById('arabicQuestion').textContent = current.letter;
+  
+  const container = document.getElementById('arabicOptions');
+  container.innerHTML = '';
+  options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.textContent = opt.emoji;
+    btn.onclick = () => {
+      document.querySelectorAll('#arabicOptions .opt-btn').forEach(b => b.disabled = true);
+      if (opt.letter === current.letter) {
+        btn.classList.add('correct');
+        gameState.arabicCorrect++;
+        document.getElementById('arabicCorrect').textContent = gameState.arabicCorrect;
+        ST.totalStars += 1;
+        document.getElementById('arabicFooter').textContent = '✅ ' + current.letter + ' = ' + current.word;
+        showToast('✅ ' + current.letter + ' = ' + current.word);
+        saveToCloudNow();
+        refreshHome();
+        setTimeout(() => { gameState.arabicIdx++; loadArabicQuestion(); }, 1200);
+      } else {
+        btn.classList.add('wrong');
+        document.getElementById('arabicFooter').textContent = '❌ ' + current.letter + ' = ' + current.word;
+        setTimeout(() => {
+          document.querySelectorAll('#arabicOptions .opt-btn').forEach(b => b.disabled = false);
+          btn.classList.remove('wrong');
+        }, 800);
+      }
+    };
+    container.appendChild(btn);
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+// ═══ MATH GAME ══════════════════════════════════════
+// ═══════════════════════════════════════════════════════
+
+function loadMathGame() {
+  gameState.mathIdx = 0;
+  gameState.mathCorrect = 0;
+  const container = document.getElementById('gameContent');
+  container.innerHTML = `
+    <div class="level-lbl">➕ Math • 50 Levels</div>
+    <div style="text-align:center;font-size:.85rem;color:#888;margin-bottom:10px;">Solve the math problem</div>
+    <div class="question-box" id="mathQuestion" style="font-size:2rem;">5 + 3 = ?</div>
+    <div id="mathOptions" class="multiply-options"></div>
+    <div class="game-stats">
+      <span>✅ <span id="mathCorrect">0</span>/50</span>
+      <span>⭐ ${ST.totalStars}</span>
+    </div>
+    <div class="game-footer" id="mathFooter">Tap the correct answer</div>
+    <button class="game-btn" onclick="loadMathGame()">🔄 New Game</button>
+  `;
+  loadMathQuestion();
+}
+
+function loadMathQuestion() {
+  if (gameState.mathIdx >= 50) {
+    document.getElementById('mathQuestion').textContent = '🎉 Complete!';
+    document.getElementById('mathOptions').innerHTML = '';
+    document.getElementById('mathFooter').textContent = 'All math done! +10 stars!';
+    ST.totalStars += 10;
+    saveToCloudNow();
+    refreshHome();
+    return;
+  }
+  
+  const isAddition = Math.random() > 0.5;
+  let a, b, answer, symbol;
+  
+  if (isAddition) {
+    a = Math.floor(Math.random() * 10) + 1;
+    b = Math.floor(Math.random() * 10) + 1;
+    answer = a + b;
+    symbol = '+';
+  } else {
+    a = Math.floor(Math.random() * 15) + 5;
+    b = Math.floor(Math.random() * (a - 1)) + 1;
+    answer = a - b;
+    symbol = '-';
+  }
+  
+  const wrongs = [];
+  for (let i = 0; i < 3; i++) {
+    let w = answer + (Math.floor(Math.random() * 10) + 1) * (Math.random() > 0.5 ? 1 : -1);
+    if (w < 0) w = answer + 2;
+    if (w === answer) w = answer + 3;
+    wrongs.push(w);
+  }
+  
+  const options = [answer, ...wrongs].sort(() => Math.random() - 0.5);
+  
+  document.getElementById('mathQuestion').textContent = a + ' ' + symbol + ' ' + b + ' = ?';
+  
+  const container = document.getElementById('mathOptions');
+  container.innerHTML = '';
+  options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'multiply-opt';
+    btn.textContent = opt;
+    btn.onclick = () => {
+      document.querySelectorAll('#mathOptions .multiply-opt').forEach(b => b.disabled = true);
+      if (opt === answer) {
+        btn.classList.add('correct');
+        gameState.mathCorrect++;
+        document.getElementById('mathCorrect').textContent = gameState.mathCorrect;
+        ST.totalStars += 1;
+        document.getElementById('mathFooter').textContent = '✅ Correct! ' + a + ' ' + symbol + ' ' + b + ' = ' + answer;
+        showToast('✅ Correct!');
+        saveToCloudNow();
+        refreshHome();
+        setTimeout(() => { gameState.mathIdx++; loadMathQuestion(); }, 1200);
+      } else {
+        btn.classList.add('wrong');
+        document.getElementById('mathFooter').textContent = '❌ ' + a + ' ' + symbol + ' ' + b + ' = ' + answer;
+        document.querySelectorAll('#mathOptions .multiply-opt').forEach(b => {
+          if (parseInt(b.textContent) === answer) b.classList.add('correct');
+        });
+        setTimeout(() => {
+          document.querySelectorAll('#mathOptions .multiply-opt').forEach(b => b.disabled = false);
+        }, 1000);
+      }
+    };
+    container.appendChild(btn);
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+// ═══ COLOR BY NUMBER GAME ═══════════════════════════
+// ═══════════════════════════════════════════════════════
+
+function loadColoringGame() {
   const colors = ['#e74c3c','#3498db','#2ecc71','#f1c40f','#9b59b6','#e67e22','#1abc9c','#e84393'];
   const pattern = [];
   for(let i=0; i<64; i++) pattern.push(Math.floor(Math.random() * 8));
@@ -1574,10 +2007,15 @@ function loadColorGame() {
   gameState.colorFilled = Array(64).fill(null);
   gameState.colorSelected = 0;
   const container = document.getElementById('gameContent');
-  container.innerHTML = `<div class="color-palette" id="colorPalette"></div>
+  container.innerHTML = `
+    <div class="level-lbl">🎨 Color by Number • 64 cells</div>
+    <div style="text-align:center;font-size:.85rem;color:#888;margin-bottom:10px;">Tap the color then tap the matching number</div>
+    <div class="color-palette" id="colorPalette"></div>
     <div class="color-grid" id="colorGrid"></div>
     <div class="game-stats"><span>Colored: <span id="colorCount">0</span>/64</span></div>
-    <button class="game-btn" onclick="loadColorGame()">New</button>`;
+    <div class="game-footer" id="colorFooter">Select a color and fill the cells</div>
+    <button class="game-btn" onclick="loadColoringGame()">🔄 New</button>
+  `;
   renderColorPalette();
   renderColorGrid();
 }
@@ -1618,7 +2056,10 @@ function renderColorGrid() {
         document.getElementById('colorCount').textContent = gameState.colorFilled.filter(c => c !== null).length;
         renderColorGrid();
         if(gameState.colorFilled.every(c => c !== null)) {
-          ST.totalStars += 10; saveToCloudNow(); refreshHome();
+          ST.totalStars += 10;
+          document.getElementById('colorFooter').textContent = '🎉 Perfect! +10 stars!';
+          saveToCloudNow(); 
+          refreshHome();
           showToast('🎉 Perfect! +10 stars!');
         }
       }
@@ -1627,33 +2068,288 @@ function renderColorGrid() {
   });
 }
 
-// ═══ TYPING GAME ════════════════════════════════════
+// ═══════════════════════════════════════════════════════
+// ═══ MEMORY MATCH GAME ══════════════════════════════
+// ═══════════════════════════════════════════════════════
+
+function loadMemoryGame() {
+  const emojis = ['🍎','🍌','🍇','🍉','🍓','🍑','🍒','🥝'];
+  const deck = [...emojis, ...emojis];
+  const cards = deck.map((e,i) => ({id:i, emoji:e, flipped:false, matched:false}));
+  gameState.memCards = cards;
+  gameState.memFlipped = [];
+  gameState.memLocked = false;
+  gameState.memMatches = 0;
+  
+  const container = document.getElementById('gameContent');
+  container.innerHTML = `
+    <div class="level-lbl">🧠 Memory Match • 8 Pairs</div>
+    <div style="text-align:center;font-size:.85rem;color:#888;margin-bottom:10px;">Find all matching pairs</div>
+    <div class="memory-grid" id="memGrid"></div>
+    <div class="game-stats">
+      <span>Matches: <span id="memMatches">0</span>/8</span>
+      <span>⭐ ${ST.totalStars}</span>
+    </div>
+    <div class="game-footer" id="memFooter">Tap cards to find matching pairs</div>
+    <button class="game-btn" onclick="loadMemoryGame()">🔄 New Game</button>
+  `;
+  renderMemoryGrid();
+}
+
+function renderMemoryGrid() {
+  const grid = document.getElementById('memGrid');
+  if(!grid) return;
+  grid.innerHTML = '';
+  gameState.memCards.forEach((card, idx) => {
+    const div = document.createElement('div');
+    div.className = 'mem-card' + (card.flipped ? ' flipped' : '') + (card.matched ? ' matched' : '');
+    div.textContent = (card.flipped || card.matched) ? card.emoji : '❓';
+    div.onclick = () => {
+      if(gameState.memLocked) return;
+      if(card.flipped || card.matched) return;
+      card.flipped = true;
+      gameState.memFlipped.push(idx);
+      renderMemoryGrid();
+      if(gameState.memFlipped.length === 2) {
+        gameState.memLocked = true;
+        const [i1, i2] = gameState.memFlipped;
+        const c1 = gameState.memCards[i1], c2 = gameState.memCards[i2];
+        if(c1.emoji === c2.emoji) {
+          c1.matched = c2.matched = true;
+          gameState.memFlipped = [];
+          gameState.memLocked = false;
+          gameState.memMatches++;
+          ST.totalStars += 1;
+          document.getElementById('memMatches').textContent = gameState.memMatches;
+          document.getElementById('memFooter').textContent = '✅ Match found! +1 star';
+          saveToCloudNow(); 
+          refreshHome();
+          renderMemoryGrid();
+          if(gameState.memCards.every(c => c.matched)) {
+            document.getElementById('memFooter').textContent = '🎉 All matches found! +5 stars!';
+            ST.totalStars += 5;
+            saveToCloudNow();
+            refreshHome();
+            showToast('🎉 You win! +5 stars');
+          }
+        } else {
+          document.getElementById('memFooter').textContent = '❌ Not a match. Try again!';
+          setTimeout(() => {
+            c1.flipped = c2.flipped = false;
+            gameState.memFlipped = [];
+            gameState.memLocked = false;
+            renderMemoryGrid();
+            document.getElementById('memFooter').textContent = 'Tap cards to find matching pairs';
+          }, 800);
+        }
+      }
+    };
+    grid.appendChild(div);
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+// ═══ MATH BINGO GAME ════════════════════════════════
+// ═══════════════════════════════════════════════════════
+
+function loadBingoGame() {
+  const nums = [];
+  while(nums.length < 16) {
+    const n = Math.floor(Math.random() * 20) + 1;
+    if(!nums.includes(n)) nums.push(n);
+  }
+  gameState.bingoGrid = nums.map((v,i) => ({value:v, marked:false, index:i}));
+  gameState.bingoAnswer = 0;
+  gameState.bingoScore = 0;
+  
+  const container = document.getElementById('gameContent');
+  container.innerHTML = `
+    <div class="level-lbl">🔢 Math Bingo • 4x4 Grid</div>
+    <div style="text-align:center;font-size:.85rem;color:#888;margin-bottom:10px;">Solve the math problem and tap the answer</div>
+    <div class="question-box" style="font-size:1.5rem;min-height:60px;" id="bingoQ">? + ? = ?</div>
+    <div class="bingo-grid" id="bingoGrid"></div>
+    <div class="game-stats">
+      <span>Score: <span id="bingoScore">0</span></span>
+      <span>⭐ ${ST.totalStars}</span>
+    </div>
+    <div class="game-footer" id="bingoFooter">Solve and tap the correct number</div>
+    <button class="game-btn" onclick="loadBingoGame()">🔄 New Bingo</button>
+  `;
+  renderBingoGrid();
+  genBingoQ();
+}
+
+function renderBingoGrid() {
+  const grid = document.getElementById('bingoGrid');
+  if(!grid) return;
+  grid.innerHTML = '';
+  gameState.bingoGrid.forEach(cell => {
+    const div = document.createElement('div');
+    div.className = 'bingo-cell' + (cell.marked ? ' marked' : '');
+    div.textContent = cell.value;
+    div.onclick = () => {
+      if(cell.marked) return;
+      if(cell.value === gameState.bingoAnswer) {
+        cell.marked = true;
+        gameState.bingoScore += 10;
+        document.getElementById('bingoScore').textContent = gameState.bingoScore;
+        ST.totalStars += 1;
+        document.getElementById('bingoFooter').textContent = '✅ Correct! +10 points';
+        saveToCloudNow(); 
+        refreshHome();
+        renderBingoGrid();
+        genBingoQ();
+        const grid = gameState.bingoGrid;
+        let win = false;
+        for(let r=0; r<4; r++) { 
+          if(grid[r*4].marked&&grid[r*4+1].marked&&grid[r*4+2].marked&&grid[r*4+3].marked) win=true; 
+        }
+        for(let c=0; c<4; c++) { 
+          if(grid[c].marked&&grid[c+4].marked&&grid[c+8].marked&&grid[c+12].marked) win=true; 
+        }
+        if(win) {
+          document.getElementById('bingoFooter').textContent = '🎉 BINGO! +10 stars!';
+          ST.totalStars += 10;
+          saveToCloudNow();
+          refreshHome();
+          showToast('🎉 BINGO! +10 stars');
+        }
+      } else {
+        div.classList.add('wrong');
+        document.getElementById('bingoFooter').textContent = '❌ Wrong! Try again';
+        setTimeout(() => div.classList.remove('wrong'), 500);
+      }
+    };
+    grid.appendChild(div);
+  });
+}
+
+function genBingoQ() {
+  const a = Math.floor(Math.random() * 10) + 1;
+  const b = Math.floor(Math.random() * 10) + 1;
+  gameState.bingoAnswer = a + b;
+  document.getElementById('bingoQ').textContent = a + ' + ' + b + ' = ?';
+  document.getElementById('bingoFooter').textContent = 'Solve and tap the correct number';
+}
+
+// ═══════════════════════════════════════════════════════
+// ═══ WORD SCRAMBLE GAME ═════════════════════════════
+// ═══════════════════════════════════════════════════════
+
+function loadScrambleGame() {
+  const words = ['CAT','DOG','FISH','BIRD','STAR','MOON','SUN','TREE','FLOWER','CLOUD','APPLE','HOUSE'];
+  gameState.scrambleWords = words;
+  gameState.scrambleScore = 0;
+  
+  const container = document.getElementById('gameContent');
+  container.innerHTML = `
+    <div class="level-lbl">🔤 Word Scramble • 12 Words</div>
+    <div style="text-align:center;font-size:.85rem;color:#888;margin-bottom:10px;">Unscramble the letters to form a word</div>
+    <div class="scrambled-word" id="scrambleDisplay">???</div>
+    <div class="scramble-input">
+      <input type="text" id="scrambleInput" placeholder="Type answer...">
+      <button onclick="checkScramble()">Guess</button>
+    </div>
+    <div class="game-stats">
+      <span>Score: <span id="scrambleScore">0</span></span>
+      <span>⭐ ${ST.totalStars}</span>
+    </div>
+    <div class="game-footer" id="scrambleFooter">Unscramble the word</div>
+    <button class="game-btn" onclick="loadScrambleQuestion()">🔄 Next</button>
+  `;
+  loadScrambleQuestion();
+}
+
+function loadScrambleQuestion() {
+  const words = gameState.scrambleWords;
+  const word = words[Math.floor(Math.random() * words.length)];
+  const scrambled = word.split('').sort(() => Math.random()-.5).join('');
+  document.getElementById('scrambleDisplay').textContent = scrambled;
+  document.getElementById('scrambleInput').value = '';
+  document.getElementById('scrambleInput').focus();
+  gameState.scrambleCurrent = word;
+  document.getElementById('scrambleFooter').textContent = '🔤 Unscramble the letters';
+}
+
+function checkScramble() {
+  const guess = document.getElementById('scrambleInput').value.trim().toUpperCase();
+  if(!guess || !gameState.scrambleCurrent) {
+    document.getElementById('scrambleFooter').textContent = '⚠️ Please type a word';
+    return;
+  }
+  if(guess === gameState.scrambleCurrent) {
+    gameState.scrambleScore += 10;
+    document.getElementById('scrambleScore').textContent = gameState.scrambleScore;
+    ST.totalStars += 2;
+    document.getElementById('scrambleFooter').textContent = '✅ Correct! +10 points!';
+    showToast('✅ Correct! +2 stars');
+    saveToCloudNow(); 
+    refreshHome();
+    setTimeout(loadScrambleQuestion, 1200);
+  } else {
+    document.getElementById('scrambleFooter').textContent = '❌ Try again!';
+    document.getElementById('scrambleInput').value = '';
+    document.getElementById('scrambleInput').focus();
+    showToast('❌ Wrong! Try again');
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// ═══ TYPING TUTOR GAME ══════════════════════════════
+// ═══════════════════════════════════════════════════════
+
 function loadTypingGame() {
-  const texts = ["The quick brown fox jumps over the lazy dog","Practice makes perfect every day","Coding is fun and creative","Learn to type fast with accuracy"];
+  const texts = [
+    "The quick brown fox jumps over the lazy dog",
+    "Practice makes perfect every day",
+    "Coding is fun and creative",
+    "Learn to type fast with accuracy",
+    "A journey of a thousand miles begins with a step"
+  ];
   gameState.typingText = texts[Math.floor(Math.random() * texts.length)];
   gameState.typingIdx = 0;
+  gameState.typingCorrect = 0;
+  gameState.typingWrong = 0;
+  
   const container = document.getElementById('gameContent');
-  container.innerHTML = `<div class="typing-display" id="typingDisplay"></div>
-    <input class="typing-input" id="typingInput" placeholder="Type here...">
-    <div class="game-stats"><span>✅ <span id="typingCorrect">0</span></span><span>❌ <span id="typingWrong">0</span></span></div>
-    <button class="game-btn" onclick="loadTypingGame()">New</button>`;
+  container.innerHTML = `
+    <div class="level-lbl">⌨️ Typing Tutor</div>
+    <div style="text-align:center;font-size:.85rem;color:#888;margin-bottom:10px;">Type each letter correctly</div>
+    <div class="typing-display" id="typingDisplay"></div>
+    <input class="typing-input" id="typingInput" placeholder="Type here..." autofocus>
+    <div class="game-stats">
+      <span>✅ <span id="typingCorrect">0</span></span>
+      <span>❌ <span id="typingWrong">0</span></span>
+      <span>⭐ ${ST.totalStars}</span>
+    </div>
+    <div class="game-footer" id="typingFooter">Type the highlighted letter</div>
+    <button class="game-btn" onclick="loadTypingGame()">🔄 New</button>
+  `;
   updateTypingDisplay();
+  
   document.getElementById('typingInput').oninput = function() {
     const expected = gameState.typingText[gameState.typingIdx];
     const val = this.value;
     if(!val) return;
     if(val === expected) {
       gameState.typingIdx++;
-      document.getElementById('typingCorrect').textContent = parseInt(document.getElementById('typingCorrect').textContent) + 1;
+      gameState.typingCorrect++;
+      document.getElementById('typingCorrect').textContent = gameState.typingCorrect;
+      document.getElementById('typingFooter').textContent = '✅ Correct! Keep going!';
       updateTypingDisplay();
       this.value = '';
       if(gameState.typingIdx === gameState.typingText.length) {
-        ST.totalStars += 5; saveToCloudNow(); refreshHome();
-        showToast('🎉 Complete! +5 stars!');
+        ST.totalStars += 5;
+        document.getElementById('typingFooter').textContent = '🎉 Complete! +5 stars!';
+        showToast('🎉 Complete! +5 stars');
+        saveToCloudNow();
+        refreshHome();
         this.disabled = true;
       }
     } else {
-      document.getElementById('typingWrong').textContent = parseInt(document.getElementById('typingWrong').textContent) + 1;
+      gameState.typingWrong++;
+      document.getElementById('typingWrong').textContent = gameState.typingWrong;
+      document.getElementById('typingFooter').textContent = '❌ Wrong! Type: ' + expected;
       this.value = '';
     }
   };
@@ -1672,7 +2368,10 @@ function updateTypingDisplay() {
   container.innerHTML = html;
 }
 
-// ═══ GEOGRAPHY GAME ═════════════════════════════════
+// ═══════════════════════════════════════════════════════
+// ═══ GEOGRAPHY QUIZ GAME ════════════════════════════
+// ═══════════════════════════════════════════════════════
+
 function loadGeoGame() {
   const questions = [
     {q:"What is the capital of France?", opts:["London","Paris","Berlin","Madrid"], ans:1},
@@ -1683,16 +2382,28 @@ function loadGeoGame() {
     {q:"What is the longest river?", opts:["Amazon","Nile","Mississippi","Yangtze"], ans:1},
     {q:"What is the capital of Australia?", opts:["Sydney","Melbourne","Canberra","Perth"], ans:2},
     {q:"Which desert is the largest?", opts:["Sahara","Gobi","Kalahari","Arabian"], ans:0},
-    {q:"What is the capital of Egypt?", opts:["Cairo","Alexandria","Luxor","Giza"], ans:0}
+    {q:"What is the capital of Egypt?", opts:["Cairo","Alexandria","Luxor","Giza"], ans:0},
+    {q:"What is the smallest country?", opts:["Monaco","Vatican City","San Marino","Liechtenstein"], ans:1},
+    {q:"What is the capital of Brazil?", opts:["Rio de Janeiro","Sao Paulo","Brasilia","Salvador"], ans:2},
+    {q:"Which country has the most islands?", opts:["Indonesia","Philippines","Sweden","Japan"], ans:2}
   ];
   gameState.geoQ = questions;
   gameState.geoIdx = 0;
   gameState.geoScore = 0;
+  
   const container = document.getElementById('gameContent');
-  container.innerHTML = `<div class="question-box" style="font-size:1.2rem;min-height:60px;" id="geoQ">Loading...</div>
+  container.innerHTML = `
+    <div class="level-lbl">🌍 Geography Quiz • 12 Questions</div>
+    <div style="text-align:center;font-size:.85rem;color:#888;margin-bottom:10px;">Test your geography knowledge</div>
+    <div class="question-box" style="font-size:1.2rem;min-height:60px;" id="geoQ">Loading...</div>
     <div class="geo-options" id="geoOptions"></div>
-    <div class="game-stats"><span>Score: <span id="geoScore">0</span></span></div>
-    <button class="game-btn" onclick="loadGeoGame()">New</button>`;
+    <div class="game-stats">
+      <span>Score: <span id="geoScore">0</span></span>
+      <span>⭐ ${ST.totalStars}</span>
+    </div>
+    <div class="game-footer" id="geoFooter">Tap the correct answer</div>
+    <button class="game-btn" onclick="loadGeoGame()">🔄 New</button>
+  `;
   loadGeoQ();
 }
 
@@ -1700,10 +2411,16 @@ function loadGeoQ() {
   if(gameState.geoIdx >= gameState.geoQ.length) {
     document.getElementById('geoQ').textContent = '🎉 Quiz Complete!';
     document.getElementById('geoOptions').innerHTML = '';
+    document.getElementById('geoFooter').textContent = 'Geography quiz done! +10 stars!';
+    ST.totalStars += 10;
+    saveToCloudNow();
+    refreshHome();
+    showToast('🎉 Quiz complete! +10 stars');
     return;
   }
   const q = gameState.geoQ[gameState.geoIdx];
   document.getElementById('geoQ').textContent = q.q;
+  document.getElementById('geoFooter').textContent = 'Question ' + (gameState.geoIdx+1) + '/' + gameState.geoQ.length;
   const grid = document.getElementById('geoOptions');
   grid.innerHTML = '';
   q.opts.forEach((opt, idx) => {
@@ -1716,10 +2433,14 @@ function loadGeoQ() {
         btn.classList.add('correct');
         gameState.geoScore += 10;
         document.getElementById('geoScore').textContent = gameState.geoScore;
-        ST.totalStars += 2; saveToCloudNow(); refreshHome();
+        ST.totalStars += 2;
+        document.getElementById('geoFooter').textContent = '✅ Correct! +10 points';
+        saveToCloudNow(); 
+        refreshHome();
       } else {
         btn.classList.add('wrong');
         document.querySelectorAll('.geo-opt')[q.ans].classList.add('correct');
+        document.getElementById('geoFooter').textContent = '❌ Wrong! The answer was: ' + q.opts[q.ans];
       }
       setTimeout(() => { gameState.geoIdx++; loadGeoQ(); }, 1200);
     };
@@ -1727,26 +2448,41 @@ function loadGeoQ() {
   });
 }
 
-// ═══ WORD SEARCH ════════════════════════════════════
+// ═══════════════════════════════════════════════════════
+// ═══ WORD SEARCH GAME ═══════════════════════════════
+// ═══════════════════════════════════════════════════════
+
 function loadSearchGame() {
   const words = ['CAT','DOG','BIRD','FISH','HORSE','SNAKE'];
   const gridSize = 8;
   const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   const grid = Array(gridSize).fill(null).map(() => Array(gridSize).fill(''));
   for(let r=0; r<gridSize; r++) for(let c=0; c<gridSize; c++) grid[r][c] = alphabet[Math.floor(Math.random() * 26)];
+  
   words.forEach((word, wi) => {
     const r = Math.floor(Math.random() * gridSize);
     const c = Math.floor(Math.random() * (gridSize - word.length));
     for(let i=0; i<word.length; i++) grid[r][c+i] = word[i];
   });
+  
   gameState.searchGrid = grid;
   gameState.searchWords = words;
   gameState.searchFound = [];
+  gameState.searchTotal = words.length;
+  
   const container = document.getElementById('gameContent');
-  container.innerHTML = `<div class="wsearch-words" id="searchWords"></div>
+  container.innerHTML = `
+    <div class="level-lbl">🔍 Word Search • Find 6 Words</div>
+    <div style="text-align:center;font-size:.85rem;color:#888;margin-bottom:10px;">Tap the first letter of each word</div>
+    <div class="wsearch-words" id="searchWords"></div>
     <div class="wsearch-grid" id="searchGrid"></div>
-    <div class="game-stats"><span>Found: <span id="searchFound">0</span>/<span id="searchTotal">${words.length}</span></span></div>
-    <button class="game-btn" onclick="loadSearchGame()">New</button>`;
+    <div class="game-stats">
+      <span>Found: <span id="searchFound">0</span>/<span id="searchTotal">${words.length}</span></span>
+      <span>⭐ ${ST.totalStars}</span>
+    </div>
+    <div class="game-footer" id="searchFooter">Find all the words in the grid</div>
+    <button class="game-btn" onclick="loadSearchGame()">🔄 New</button>
+  `;
   renderSearchGrid();
   renderSearchWords();
 }
@@ -1755,25 +2491,41 @@ function renderSearchGrid() {
   const grid = document.getElementById('searchGrid');
   if(!grid) return;
   grid.innerHTML = '';
-  gameState.searchGrid.forEach(row => {
-    row.forEach(letter => {
+  gameState.searchGrid.forEach((row, ri) => {
+    row.forEach((letter, ci) => {
       const div = document.createElement('div');
       div.className = 'wsearch-cell';
       div.textContent = letter;
-      div.onclick = () => {
+      div.dataset.row = ri;
+      div.dataset.col = ci;
+      div.onclick = function() {
         const found = gameState.searchWords.some((word, idx) => {
           if(!gameState.searchFound.includes(idx) && word.includes(letter)) {
             gameState.searchFound.push(idx);
             document.getElementById('searchFound').textContent = gameState.searchFound.length;
-            ST.totalStars += 2; saveToCloudNow(); refreshHome();
+            ST.totalStars += 2;
+            document.getElementById('searchFooter').textContent = '✅ Found: ' + word + '! +2 stars';
+            showToast('✅ Found: ' + word);
+            saveToCloudNow();
+            refreshHome();
             renderSearchWords();
+            this.style.background = '#2ecc71';
+            this.style.color = 'white';
+            if(gameState.searchFound.length === gameState.searchWords.length) {
+              document.getElementById('searchFooter').textContent = '🎉 All words found! +10 stars!';
+              ST.totalStars += 10;
+              saveToCloudNow();
+              refreshHome();
+              showToast('🎉 All words found! +10 stars');
+            }
             return true;
           }
           return false;
         });
-        if(!found) {
-          div.style.background = '#f1c40f';
-          setTimeout(() => div.style.background = '#f0f0f0', 300);
+        if(!found && !this.classList.contains('found')) {
+          this.style.background = '#f1c40f';
+          document.getElementById('searchFooter').textContent = '❌ Try another letter';
+          setTimeout(() => this.style.background = '#f0f0f0', 300);
         }
       };
       grid.appendChild(div);
@@ -1793,22 +2545,40 @@ function renderSearchWords() {
   });
 }
 
-// ═══ ANIMAL SOUNDS ══════════════════════════════════
+// ═══════════════════════════════════════════════════════
+// ═══ ANIMAL SOUNDS GAME ═════════════════════════════
+// ═══════════════════════════════════════════════════════
+
 function loadAnimalGame() {
   const animals = [
-    {animal:'Lion', emoji:'🦁', sound:'Roar!'},{animal:'Cat', emoji:'🐱', sound:'Meow!'},
-    {animal:'Dog', emoji:'🐕', sound:'Woof!'},{animal:'Cow', emoji:'🐄', sound:'Moo!'},
-    {animal:'Sheep', emoji:'🐑', sound:'Baa!'},{animal:'Horse', emoji:'🐴', sound:'Neigh!'},
-    {animal:'Duck', emoji:'🦆', sound:'Quack!'},{animal:'Chicken', emoji:'🐔', sound:'Cluck!'},
-    {animal:'Pig', emoji:'🐷', sound:'Oink!'},{animal:'Bee', emoji:'🐝', sound:'Buzz!'}
+    {animal:'Lion', emoji:'🦁', sound:'Roar!'},
+    {animal:'Cat', emoji:'🐱', sound:'Meow!'},
+    {animal:'Dog', emoji:'🐕', sound:'Woof!'},
+    {animal:'Cow', emoji:'🐄', sound:'Moo!'},
+    {animal:'Sheep', emoji:'🐑', sound:'Baa!'},
+    {animal:'Horse', emoji:'🐴', sound:'Neigh!'},
+    {animal:'Duck', emoji:'🦆', sound:'Quack!'},
+    {animal:'Chicken', emoji:'🐔', sound:'Cluck!'},
+    {animal:'Pig', emoji:'🐷', sound:'Oink!'},
+    {animal:'Bee', emoji:'🐝', sound:'Buzz!'}
   ];
   gameState.animalData = animals;
+  gameState.animalCorrect = 0;
+  
   const container = document.getElementById('gameContent');
-  container.innerHTML = `<button class="sound-btn" onclick="playAnimalSound()">🔊 Play Sound</button>
+  container.innerHTML = `
+    <div class="level-lbl">🐄 Animal Sounds • 10 Animals</div>
+    <div style="text-align:center;font-size:.85rem;color:#888;margin-bottom:10px;">Listen to the sound and identify the animal</div>
+    <button class="sound-btn" onclick="playAnimalSound()">🔊 Play Sound</button>
     <div class="animal-display" id="animalDisplay">🔊</div>
     <div class="geo-options" id="animalOptions"></div>
-    <div class="game-stats"><span>✅ <span id="animalCorrect">0</span></span></div>
-    <button class="game-btn" onclick="loadAnimalQuestion()">Next</button>`;
+    <div class="game-stats">
+      <span>✅ <span id="animalCorrect">0</span>/10</span>
+      <span>⭐ ${ST.totalStars}</span>
+    </div>
+    <div class="game-footer" id="animalFooter">Listen and tap the correct animal</div>
+    <button class="game-btn" onclick="loadAnimalQuestion()">🔄 Next</button>
+  `;
   loadAnimalQuestion();
 }
 
@@ -1820,19 +2590,34 @@ function loadAnimalQuestion() {
   const opts = [current, ...animals.filter(a => a.animal !== current.animal).sort(() => Math.random()-.5).slice(0,3)].sort(() => Math.random()-.5);
   const grid = document.getElementById('animalOptions');
   grid.innerHTML = '';
+  document.getElementById('animalFooter').textContent = '🔊 Click "Play Sound" and choose the animal';
   opts.forEach(opt => {
     const btn = document.createElement('button');
     btn.className = 'geo-opt';
-    btn.textContent = opt.animal;
+    btn.textContent = opt.emoji + ' ' + opt.animal;
     btn.onclick = () => {
       document.querySelectorAll('.geo-opt').forEach(b => b.disabled = true);
       if(opt.animal === current.animal) {
         btn.classList.add('correct');
-        document.getElementById('animalCorrect').textContent = parseInt(document.getElementById('animalCorrect').textContent) + 1;
-        ST.totalStars += 2; saveToCloudNow(); refreshHome();
+        gameState.animalCorrect++;
+        document.getElementById('animalCorrect').textContent = gameState.animalCorrect;
+        ST.totalStars += 2;
+        document.getElementById('animalFooter').textContent = '✅ ' + current.animal + ' says ' + current.sound + '! +2 stars';
+        showToast('✅ Correct! ' + current.animal);
+        saveToCloudNow(); 
+        refreshHome();
+        if(gameState.animalCorrect >= 10) {
+          document.getElementById('animalFooter').textContent = '🎉 All animals done! +10 stars!';
+          ST.totalStars += 10;
+          saveToCloudNow();
+          refreshHome();
+        }
       } else {
         btn.classList.add('wrong');
-        document.querySelectorAll('.geo-opt').forEach(b => { if(b.textContent === current.animal) b.classList.add('correct'); });
+        document.querySelectorAll('.geo-opt').forEach(b => { 
+          if(b.textContent === current.emoji + ' ' + current.animal) b.classList.add('correct'); 
+        });
+        document.getElementById('animalFooter').textContent = '❌ Wrong! The animal was: ' + current.animal;
       }
       setTimeout(loadAnimalQuestion, 1500);
     };
@@ -1843,31 +2628,47 @@ function loadAnimalQuestion() {
 function playAnimalSound() {
   if(!gameState.animalCurrent) return;
   document.getElementById('animalDisplay').textContent = gameState.animalCurrent.emoji;
+  document.getElementById('animalFooter').textContent = '🔊 ' + gameState.animalCurrent.animal + ' says ' + gameState.animalCurrent.sound;
   const msg = new SpeechSynthesisUtterance(gameState.animalCurrent.sound);
   msg.rate = 0.7;
   window.speechSynthesis.speak(msg);
 }
 
-// ═══ STORY BUILDER ══════════════════════════════════
+// ═══════════════════════════════════════════════════════
+// ═══ STORY BUILDER GAME ═════════════════════════════
+// ═══════════════════════════════════════════════════════
+
 function loadStoryGame() {
   const templates = [
     {template:"The ___ ___ went to the ___ to find a ___", slots:['adjective','animal','place','object']},
-    {template:"Once upon a time, a ___ ___ lived in a ___", slots:['adjective','animal','place']}
+    {template:"Once upon a time, a ___ ___ lived in a ___", slots:['adjective','animal','place']},
+    {template:"The ___ ___ jumped over the ___", slots:['adjective','animal','object']},
+    {template:"___ and ___ went on an adventure to the ___", slots:['animal','animal','place']}
   ];
   const bank = {
-    adjective:['brave','funny','sleepy','happy','sad','angry','lazy','smart','kind','wild'],
-    animal:['cat','dog','bird','fox','lion','bear','rabbit','horse','tiger','wolf'],
-    place:['castle','forest','mountain','village','ocean','desert','garden','jungle','cave','park'],
-    object:['stone','flower','tree','book','star','cloud','moon','sword','hat','ball']
+    adjective:['brave','funny','sleepy','happy','sad','angry','lazy','smart','kind','wild','fast','slow'],
+    animal:['cat','dog','bird','fox','lion','bear','rabbit','horse','tiger','wolf','elephant','monkey'],
+    place:['castle','forest','mountain','village','ocean','desert','garden','jungle','cave','park','island'],
+    object:['stone','flower','tree','book','star','cloud','moon','sword','hat','ball','key','map']
   };
   gameState.storyTemplate = templates[Math.floor(Math.random() * templates.length)];
   gameState.storyUsed = [];
   gameState.storyBank = bank;
+  gameState.storyComplete = false;
+  
   const container = document.getElementById('gameContent');
-  container.innerHTML = `<div class="story-text" id="storyText">Choose words to build your story!</div>
+  container.innerHTML = `
+    <div class="level-lbl">📖 Story Builder</div>
+    <div style="text-align:center;font-size:.85rem;color:#888;margin-bottom:10px;">Choose words to create your story</div>
+    <div class="story-text" id="storyText">Choose words to build your story!</div>
     <div class="story-words" id="storyWords"></div>
-    <div class="game-stats"><span>Words: <span id="storyCount">0</span></span></div>
-    <button class="game-btn" onclick="loadStoryGame()">New</button>`;
+    <div class="game-stats">
+      <span>Words: <span id="storyCount">0</span></span>
+      <span>⭐ ${ST.totalStars}</span>
+    </div>
+    <div class="game-footer" id="storyFooter">Tap words to fill in the story</div>
+    <button class="game-btn" onclick="loadStoryGame()">🔄 New Story</button>
+  `;
   renderStoryWords();
 }
 
@@ -1878,12 +2679,21 @@ function renderStoryWords() {
   const used = gameState.storyUsed;
   const slots = template.slots;
   if(used.length >= slots.length) {
-    container.innerHTML = '<span style="color:#2ecc71;">✅ Story complete!</span>';
+    container.innerHTML = '<span style="color:#2ecc71;font-size:1.2rem;">✅ Story complete! 🎉</span>';
+    if(!gameState.storyComplete) {
+      gameState.storyComplete = true;
+      ST.totalStars += 5;
+      document.getElementById('storyFooter').textContent = '🎉 Story complete! +5 stars!';
+      showToast('🎉 Story complete! +5 stars');
+      saveToCloudNow();
+      refreshHome();
+    }
     return;
   }
   const slotType = slots[used.length];
   const words = gameState.storyBank[slotType] || [];
   container.innerHTML = '';
+  document.getElementById('storyFooter').textContent = 'Choose a ' + slotType + ' for the story';
   words.forEach(word => {
     if(used.includes(word)) return;
     const div = document.createElement('div');
@@ -1896,41 +2706,67 @@ function renderStoryWords() {
       let idx = 0;
       story = story.replace(/___/g, () => used[idx++]);
       document.getElementById('storyText').textContent = story;
+      document.getElementById('storyFooter').textContent = '✅ Added: ' + word;
       renderStoryWords();
-      if(used.length === slots.length) {
-        ST.totalStars += 3; saveToCloudNow(); refreshHome();
-        showToast('🎉 Story complete! +3 stars!');
-      }
     };
     container.appendChild(div);
   });
 }
 
-// ═══ PHONICS ════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
+// ═══ PHONICS GAME ═══════════════════════════════════
+// ═══════════════════════════════════════════════════════
+
 function loadPhonicsGame() {
   const data = [
-    {letter:'A', sound:'/ā/', words:['Apple','Ant','Alligator']},{letter:'B', sound:'/b/', words:['Ball','Bear','Bird']},
-    {letter:'C', sound:'/k/', words:['Cat','Car','Cookie']},{letter:'D', sound:'/d/', words:['Dog','Duck','Doll']},
-    {letter:'E', sound:'/ē/', words:['Elephant','Egg','Eagle']},{letter:'F', sound:'/f/', words:['Fish','Fox','Flower']},
-    {letter:'G', sound:'/g/', words:['Goat','Giraffe','Guitar']},{letter:'H', sound:'/h/', words:['Horse','Hat','House']},
-    {letter:'I', sound:'/ī/', words:['Ice','Island','Insect']},{letter:'J', sound:'/j/', words:['Jump','Juice','Jet']},
-    {letter:'K', sound:'/k/', words:['Kite','King','Kangaroo']},{letter:'L', sound:'/l/', words:['Lion','Lemon','Lamp']},
-    {letter:'M', sound:'/m/', words:['Monkey','Moon','Milk']},{letter:'N', sound:'/n/', words:['Nest','Nose','Night']},
-    {letter:'O', sound:'/ō/', words:['Owl','Ocean','Orange']},{letter:'P', sound:'/p/', words:['Pig','Penguin','Pizza']},
-    {letter:'Q', sound:'/kw/', words:['Queen','Quack','Quiet']},{letter:'R', sound:'/r/', words:['Rabbit','Rainbow','Rocket']},
-    {letter:'S', sound:'/s/', words:['Sun','Star','Snake']},{letter:'T', sound:'/t/', words:['Tiger','Tree','Train']},
-    {letter:'U', sound:'/ū/', words:['Umbrella','Up','Unicorn']},{letter:'V', sound:'/v/', words:['Van','Violin','Volcano']},
-    {letter:'W', sound:'/w/', words:['Whale','Window','Water']},{letter:'X', sound:'/ks/', words:['X-ray','Xylophone','Box']},
-    {letter:'Y', sound:'/y/', words:['Yak','Yarn','Yellow']},{letter:'Z', sound:'/z/', words:['Zebra','Zoo','Zip']}
+    {letter:'A', sound:'/æ/', words:['Apple','Ant','Alligator']},
+    {letter:'B', sound:'/b/', words:['Ball','Bear','Bird']},
+    {letter:'C', sound:'/k/', words:['Cat','Car','Cookie']},
+    {letter:'D', sound:'/d/', words:['Dog','Duck','Doll']},
+    {letter:'E', sound:'/ɛ/', words:['Elephant','Egg','Eagle']},
+    {letter:'F', sound:'/f/', words:['Fish','Fox','Flower']},
+    {letter:'G', sound:'/g/', words:['Goat','Giraffe','Guitar']},
+    {letter:'H', sound:'/h/', words:['Horse','Hat','House']},
+    {letter:'I', sound:'/ɪ/', words:['Ice','Island','Insect']},
+    {letter:'J', sound:'/dʒ/', words:['Jump','Juice','Jet']},
+    {letter:'K', sound:'/k/', words:['Kite','King','Kangaroo']},
+    {letter:'L', sound:'/l/', words:['Lion','Lemon','Lamp']},
+    {letter:'M', sound:'/m/', words:['Monkey','Moon','Milk']},
+    {letter:'N', sound:'/n/', words:['Nest','Nose','Night']},
+    {letter:'O', sound:'/ɒ/', words:['Owl','Ocean','Orange']},
+    {letter:'P', sound:'/p/', words:['Pig','Penguin','Pizza']},
+    {letter:'Q', sound:'/kw/', words:['Queen','Quack','Quiet']},
+    {letter:'R', sound:'/r/', words:['Rabbit','Rainbow','Rocket']},
+    {letter:'S', sound:'/s/', words:['Sun','Star','Snake']},
+    {letter:'T', sound:'/t/', words:['Tiger','Tree','Train']},
+    {letter:'U', sound:'/ʌ/', words:['Umbrella','Up','Unicorn']},
+    {letter:'V', sound:'/v/', words:['Van','Violin','Volcano']},
+    {letter:'W', sound:'/w/', words:['Whale','Window','Water']},
+    {letter:'X', sound:'/ks/', words:['X-ray','Xylophone','Box']},
+    {letter:'Y', sound:'/j/', words:['Yak','Yarn','Yellow']},
+    {letter:'Z', sound:'/z/', words:['Zebra','Zoo','Zip']}
   ];
   gameState.phonicsData = data;
   gameState.phonicsIdx = 0;
+  
   const container = document.getElementById('gameContent');
-  container.innerHTML = `<div class="phonics-display" id="phonicsDisplay" onclick="playPhonicsSound()">A</div>
+  container.innerHTML = `
+    <div class="level-lbl">🔤 Phonics • 26 Letters</div>
+    <div style="text-align:center;font-size:.85rem;color:#888;margin-bottom:10px;">Learn letter sounds</div>
+    <div class="phonics-display" id="phonicsDisplay" onclick="playPhonicsSound()">A</div>
     <div class="phonics-words" id="phonicsWords"></div>
-    <div class="phonics-nav"><button onclick="changePhonics(-1)">◀</button><button onclick="playPhonicsSound()">🔊</button><button onclick="changePhonics(1)">▶</button></div>
-    <div class="game-stats"><span>Letter: <span id="phonicsIdx">1</span>/26</span></div>
-    <button class="game-btn" onclick="loadPhonicsGame()">Reset</button>`;
+    <div class="phonics-nav">
+      <button onclick="changePhonics(-1)">◀ Previous</button>
+      <button onclick="playPhonicsSound()">🔊 Listen</button>
+      <button onclick="changePhonics(1)">Next ▶</button>
+    </div>
+    <div class="game-stats">
+      <span>Letter: <span id="phonicsIdx">1</span>/26</span>
+      <span>⭐ ${ST.totalStars}</span>
+    </div>
+    <div class="game-footer" id="phonicsFooter">Click the letter or press Listen</div>
+    <button class="game-btn" onclick="loadPhonicsGame()">🔄 Reset</button>
+  `;
   renderPhonics();
 }
 
@@ -1940,6 +2776,7 @@ function renderPhonics() {
   const item = data[idx];
   document.getElementById('phonicsDisplay').textContent = item.letter;
   document.getElementById('phonicsIdx').textContent = idx + 1;
+  document.getElementById('phonicsFooter').textContent = item.letter + ' sounds like ' + item.sound;
   const container = document.getElementById('phonicsWords');
   container.innerHTML = '';
   item.words.forEach(word => {
@@ -1952,6 +2789,7 @@ function renderPhonics() {
 
 function playPhonicsSound() {
   const item = gameState.phonicsData[gameState.phonicsIdx];
+  document.getElementById('phonicsFooter').textContent = '🔊 ' + item.letter + ' says ' + item.sound + '. ' + item.words.join(', ');
   const msg = new SpeechSynthesisUtterance(item.letter + ' says ' + item.sound + '. ' + item.words.join(', '));
   msg.rate = 0.6;
   window.speechSynthesis.speak(msg);
@@ -1962,16 +2800,28 @@ function changePhonics(delta) {
   renderPhonics();
 }
 
-// ═══ MULTIPLICATION ═════════════════════════════════
+// ═══════════════════════════════════════════════════════
+// ═══ TIMES TABLES GAME ══════════════════════════════
+// ═══════════════════════════════════════════════════════
+
 function loadMultiplyGame() {
   gameState.multTable = 2;
   gameState.multCorrect = 0;
+  
   const container = document.getElementById('gameContent');
-  container.innerHTML = `<div class="multiply-tables" id="multTables"></div>
+  container.innerHTML = `
+    <div class="level-lbl">✖️ Times Tables • 2-12</div>
+    <div style="text-align:center;font-size:.85rem;color:#888;margin-bottom:10px;">Select a table and solve</div>
+    <div class="multiply-tables" id="multTables"></div>
     <div class="question-box" style="font-size:2rem;min-height:60px;" id="multQ">2 × ? = ?</div>
     <div class="multiply-options" id="multOptions"></div>
-    <div class="game-stats"><span>✅ <span id="multCorrect">0</span></span></div>
-    <button class="game-btn" onclick="loadMultiplyQuestion()">New</button>`;
+    <div class="game-stats">
+      <span>✅ <span id="multCorrect">0</span></span>
+      <span>⭐ ${ST.totalStars}</span>
+    </div>
+    <div class="game-footer" id="multFooter">Select a table, then answer</div>
+    <button class="game-btn" onclick="loadMultiplyQuestion()">🔄 New</button>
+  `;
   renderMultTables();
   loadMultiplyQuestion();
 }
@@ -1982,8 +2832,13 @@ function renderMultTables() {
   for(let i=2; i<=12; i++) {
     const btn = document.createElement('button');
     btn.className = 'multiply-table' + (i === gameState.multTable ? ' active' : '');
-    btn.textContent = i;
-    btn.onclick = () => { gameState.multTable = i; renderMultTables(); loadMultiplyQuestion(); };
+    btn.textContent = i + '×';
+    btn.onclick = () => { 
+      gameState.multTable = i; 
+      renderMultTables(); 
+      loadMultiplyQuestion();
+      document.getElementById('multFooter').textContent = 'Table: ' + i + ' × ?';
+    };
     container.appendChild(btn);
   }
 }
@@ -1993,6 +2848,7 @@ function loadMultiplyQuestion() {
   const b = Math.floor(Math.random() * 12) + 1;
   const answer = table * b;
   document.getElementById('multQ').textContent = table + ' × ' + b + ' = ?';
+  document.getElementById('multFooter').textContent = 'Solve: ' + table + ' × ' + b;
   const opts = new Set([answer]);
   while(opts.size < 4) {
     const offset = Math.floor(Math.random() * 10) + 1;
@@ -2009,19 +2865,33 @@ function loadMultiplyQuestion() {
       document.querySelectorAll('.multiply-opt').forEach(b => b.disabled = true);
       if(opt === answer) {
         btn.classList.add('correct');
-        document.getElementById('multCorrect').textContent = parseInt(document.getElementById('multCorrect').textContent) + 1;
-        ST.totalStars += 2; saveToCloudNow(); refreshHome();
+        gameState.multCorrect++;
+        document.getElementById('multCorrect').textContent = gameState.multCorrect;
+        ST.totalStars += 2;
+        document.getElementById('multFooter').textContent = '✅ ' + table + ' × ' + b + ' = ' + answer + '! +2 stars';
+        showToast('✅ Correct! +2 stars');
+        saveToCloudNow(); 
+        refreshHome();
+        setTimeout(loadMultiplyQuestion, 1200);
       } else {
         btn.classList.add('wrong');
-        document.querySelectorAll('.multiply-opt').forEach(b => { if(parseInt(b.textContent) === answer) b.classList.add('correct'); });
+        document.querySelectorAll('.multiply-opt').forEach(b => { 
+          if(parseInt(b.textContent) === answer) b.classList.add('correct'); 
+        });
+        document.getElementById('multFooter').textContent = '❌ ' + table + ' × ' + b + ' = ' + answer;
+        setTimeout(() => {
+          document.querySelectorAll('.multiply-opt').forEach(b => b.disabled = false);
+        }, 1000);
       }
-      setTimeout(loadMultiplyQuestion, 1200);
     };
     grid.appendChild(btn);
   });
 }
 
-// ═══ VOCABULARY ═════════════════════════════════════
+// ═══════════════════════════════════════════════════════
+// ═══ VOCABULARY GAME ════════════════════════════════
+// ═══════════════════════════════════════════════════════
+
 function loadVocabGame() {
   const data = [
     {word:'Brave', meaning:'Showing courage', example:'The brave knight saved the princess.'},
@@ -2038,11 +2908,21 @@ function loadVocabGame() {
     {word:'Wise', meaning:'Having knowledge', example:'The wise owl gave advice.'}
   ];
   gameState.vocabData = data;
+  gameState.vocabLearned = 0;
+  
   const container = document.getElementById('gameContent');
-  container.innerHTML = `<div class="vocab-card" id="vocabCard"></div>
+  container.innerHTML = `
+    <div class="level-lbl">📝 Vocabulary • 12 Words</div>
+    <div style="text-align:center;font-size:.85rem;color:#888;margin-bottom:10px;">Learn new words and their meanings</div>
+    <div class="vocab-card" id="vocabCard"></div>
     <div class="vocab-options" id="vocabOptions"></div>
-    <div class="game-stats"><span>Learned: <span id="vocabLearned">0</span></span></div>
-    <button class="game-btn" onclick="loadVocabQuestion()">Next</button>`;
+    <div class="game-stats">
+      <span>Learned: <span id="vocabLearned">0</span>/12</span>
+      <span>⭐ ${ST.totalStars}</span>
+    </div>
+    <div class="game-footer" id="vocabFooter">Match the word to its meaning</div>
+    <button class="game-btn" onclick="loadVocabQuestion()">🔄 Next</button>
+  `;
   loadVocabQuestion();
 }
 
@@ -2050,23 +2930,42 @@ function loadVocabQuestion() {
   const data = gameState.vocabData;
   const word = data[Math.floor(Math.random() * data.length)];
   gameState.vocabCurrent = word;
-  document.getElementById('vocabCard').innerHTML = `<div class="vocab-word">${word.word}</div><div class="vocab-meaning">${word.meaning}</div><div class="vocab-example">"${word.example}"</div>`;
+  document.getElementById('vocabCard').innerHTML = `
+    <div class="vocab-word">${word.word}</div>
+    <div class="vocab-meaning">${word.meaning}</div>
+    <div class="vocab-example">"${word.example}"</div>
+  `;
+  document.getElementById('vocabFooter').textContent = '🔍 What does "' + word.word + '" mean?';
   const opts = [word, ...data.filter(w => w.word !== word.word).sort(() => Math.random()-.5).slice(0,3)].sort(() => Math.random()-.5);
   const grid = document.getElementById('vocabOptions');
   grid.innerHTML = '';
   opts.forEach(opt => {
     const btn = document.createElement('button');
     btn.className = 'vocab-opt';
-    btn.textContent = opt.word;
+    btn.textContent = opt.meaning;
     btn.onclick = () => {
       document.querySelectorAll('.vocab-opt').forEach(b => b.disabled = true);
       if(opt.word === word.word) {
         btn.classList.add('correct');
-        document.getElementById('vocabLearned').textContent = parseInt(document.getElementById('vocabLearned').textContent) + 1;
-        ST.totalStars += 3; saveToCloudNow(); refreshHome();
+        gameState.vocabLearned++;
+        document.getElementById('vocabLearned').textContent = gameState.vocabLearned;
+        ST.totalStars += 3;
+        document.getElementById('vocabFooter').textContent = '✅ Correct! ' + word.word + ' = ' + word.meaning + ' +3 stars';
+        showToast('✅ Learned: ' + word.word);
+        saveToCloudNow(); 
+        refreshHome();
+        if(gameState.vocabLearned >= 12) {
+          document.getElementById('vocabFooter').textContent = '🎉 All words learned! +10 stars!';
+          ST.totalStars += 10;
+          saveToCloudNow();
+          refreshHome();
+        }
       } else {
         btn.classList.add('wrong');
-        document.querySelectorAll('.vocab-opt').forEach(b => { if(b.textContent === word.word) b.classList.add('correct'); });
+        document.querySelectorAll('.vocab-opt').forEach(b => { 
+          if(b.textContent === word.meaning) b.classList.add('correct'); 
+        });
+        document.getElementById('vocabFooter').textContent = '❌ ' + word.word + ' means: ' + word.meaning;
       }
       setTimeout(loadVocabQuestion, 1500);
     };
@@ -2074,14 +2973,27 @@ function loadVocabQuestion() {
   });
 }
 
-// ═══ MUSIC MAKER ════════════════════════════════════
+// ═══════════════════════════════════════════════════════
+// ═══ MUSIC MAKER GAME ═══════════════════════════════
+// ═══════════════════════════════════════════════════════
+
 function loadMusicGame() {
   const notes = ['C4','D4','E4','F4','G4','A4','B4','C5'];
   const freqs = {C4:261.63,D4:293.66,E4:329.63,F4:349.23,G4:392.00,A4:440.00,B4:493.88,C5:523.25};
+  gameState.musicNotes = 0;
+  
   const container = document.getElementById('gameContent');
-  container.innerHTML = `<div class="music-piano" id="musicPiano"></div>
-    <div class="game-stats"><span>🎵 Notes: <span id="musicNotes">0</span></span></div>
-    <button class="game-btn" onclick="clearMusic()">Clear</button>`;
+  container.innerHTML = `
+    <div class="level-lbl">🎵 Music Maker • Play Piano</div>
+    <div style="text-align:center;font-size:.85rem;color:#888;margin-bottom:10px;">Tap the keys to make music</div>
+    <div class="music-piano" id="musicPiano"></div>
+    <div class="game-stats">
+      <span>🎵 Notes: <span id="musicNotes">0</span></span>
+      <span>⭐ ${ST.totalStars}</span>
+    </div>
+    <div class="game-footer" id="musicFooter">Tap any key to play a note</div>
+    <button class="game-btn" onclick="clearMusic()">🗑️ Clear</button>
+  `;
   const piano = document.getElementById('musicPiano');
   piano.innerHTML = '';
   notes.forEach(note => {
@@ -2092,6 +3004,7 @@ function loadMusicGame() {
     piano.appendChild(key);
   });
   gameState.musicCtx = null;
+  document.getElementById('musicFooter').textContent = '🎹 Tap the keys to play!';
 }
 
 function playNote(note) {
@@ -2106,16 +3019,30 @@ function playNote(note) {
   gain.gain.exponentialRampToValueAtTime(0.01, gameState.musicCtx.currentTime + 0.5);
   osc.start(gameState.musicCtx.currentTime);
   osc.stop(gameState.musicCtx.currentTime + 0.5);
-  document.getElementById('musicNotes').textContent = parseInt(document.getElementById('musicNotes').textContent) + 1;
-  ST.totalStars += 1; saveToCloudNow(); refreshHome();
+  gameState.musicNotes++;
+  document.getElementById('musicNotes').textContent = gameState.musicNotes;
+  document.getElementById('musicFooter').textContent = '🎵 Played: ' + note;
+  ST.totalStars += 1;
+  saveToCloudNow(); 
+  refreshHome();
 }
 
-function clearMusic() { document.getElementById('musicNotes').textContent = '0'; }
+function clearMusic() { 
+  gameState.musicNotes = 0;
+  document.getElementById('musicNotes').textContent = '0';
+  document.getElementById('musicFooter').textContent = '🗑️ Cleared! Start again';
+}
 
-// ═══ ANIMATION STUDIO ════════════════════════════════
+// ═══════════════════════════════════════════════════════
+// ═══ ANIMATION STUDIO GAME ══════════════════════════
+// ═══════════════════════════════════════════════════════
+
 function loadAnimateGame() {
   const container = document.getElementById('gameContent');
-  container.innerHTML = `<canvas id="animCanvas" width="300" height="200" class="animate-canvas"></canvas>
+  container.innerHTML = `
+    <div class="level-lbl">🎬 Animation Studio</div>
+    <div style="text-align:center;font-size:.85rem;color:#888;margin-bottom:10px;">Draw and create your animation</div>
+    <canvas id="animCanvas" width="300" height="200" class="animate-canvas"></canvas>
     <div class="animate-tools">
       <button class="animate-tool active" onclick="setAnimTool('draw')">✏️ Draw</button>
       <button class="animate-tool" onclick="setAnimTool('clear')">🗑️ Clear</button>
@@ -2123,8 +3050,13 @@ function loadAnimateGame() {
       <button class="animate-tool" onclick="playAnim()">▶️ Play</button>
     </div>
     <div class="animate-frames" id="animFrames"></div>
-    <div class="game-stats"><span>Frames: <span id="animFramesCount">1</span></span></div>
-    <button class="game-btn" onclick="loadAnimateGame()">Reset</button>`;
+    <div class="game-stats">
+      <span>Frames: <span id="animFramesCount">1</span></span>
+      <span>⭐ ${ST.totalStars}</span>
+    </div>
+    <div class="game-footer" id="animFooter">Draw a picture, add frames, then play!</div>
+    <button class="game-btn" onclick="loadAnimateGame()">🔄 Reset</button>
+  `;
   const canvas = document.getElementById('animCanvas');
   const ctx = canvas.getContext('2d');
   ctx.fillStyle = '#fff';
@@ -2135,9 +3067,18 @@ function loadAnimateGame() {
   gameState.animDrawing = false;
   gameState.animInterval = null;
   renderAnimFrames();
+  document.getElementById('animFooter').textContent = '✏️ Draw something, then add frames!';
   
   canvas.addEventListener('mousedown', (e) => {
-    if(gameState.animTool === 'clear') { ctx.clearRect(0,0,canvas.width,canvas.height); gameState.animFrames[gameState.animIdx] = canvas.toDataURL(); renderAnimFrames(); return; }
+    if(gameState.animTool === 'clear') { 
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(0,0,canvas.width,canvas.height);
+      gameState.animFrames[gameState.animIdx] = canvas.toDataURL(); 
+      renderAnimFrames(); 
+      document.getElementById('animFooter').textContent = '🗑️ Cleared! Draw something new';
+      return; 
+    }
     gameState.animDrawing = true;
     const rect = canvas.getBoundingClientRect();
     ctx.beginPath();
@@ -2153,13 +3094,26 @@ function loadAnimateGame() {
     ctx.stroke();
   });
   canvas.addEventListener('mouseup', () => {
-    if(gameState.animDrawing) { gameState.animDrawing = false; gameState.animFrames[gameState.animIdx] = canvas.toDataURL(); renderAnimFrames(); }
+    if(gameState.animDrawing) { 
+      gameState.animDrawing = false; 
+      gameState.animFrames[gameState.animIdx] = canvas.toDataURL(); 
+      renderAnimFrames();
+      document.getElementById('animFooter').textContent = '✅ Frame ' + (gameState.animIdx+1) + ' saved!';
+    }
   });
+  
   canvas.addEventListener('touchstart', (e) => {
     e.preventDefault();
     const rect = canvas.getBoundingClientRect();
     const touch = e.touches[0];
-    if(gameState.animTool === 'clear') { ctx.clearRect(0,0,canvas.width,canvas.height); gameState.animFrames[gameState.animIdx] = canvas.toDataURL(); renderAnimFrames(); return; }
+    if(gameState.animTool === 'clear') { 
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(0,0,canvas.width,canvas.height);
+      gameState.animFrames[gameState.animIdx] = canvas.toDataURL(); 
+      renderAnimFrames(); 
+      return; 
+    }
     gameState.animDrawing = true;
     ctx.beginPath();
     ctx.moveTo((touch.clientX - rect.left) * (canvas.width/rect.width), (touch.clientY - rect.top) * (canvas.height/rect.height));
@@ -2177,7 +3131,11 @@ function loadAnimateGame() {
   });
   canvas.addEventListener('touchend', (e) => {
     e.preventDefault();
-    if(gameState.animDrawing) { gameState.animDrawing = false; gameState.animFrames[gameState.animIdx] = canvas.toDataURL(); renderAnimFrames(); }
+    if(gameState.animDrawing) { 
+      gameState.animDrawing = false; 
+      gameState.animFrames[gameState.animIdx] = canvas.toDataURL(); 
+      renderAnimFrames();
+    }
   });
 }
 
@@ -2194,9 +3152,13 @@ function renderAnimFrames() {
       const canvas = document.getElementById('animCanvas');
       const ctx = canvas.getContext('2d');
       const img = new Image();
-      img.onload = () => { ctx.clearRect(0,0,canvas.width,canvas.height); ctx.drawImage(img,0,0); };
+      img.onload = () => { 
+        ctx.clearRect(0,0,canvas.width,canvas.height); 
+        ctx.drawImage(img,0,0); 
+      };
       img.src = gameState.animFrames[idx];
       renderAnimFrames();
+      document.getElementById('animFooter').textContent = '📂 Showing frame ' + (idx+1);
     };
     container.appendChild(div);
   });
@@ -2205,7 +3167,12 @@ function renderAnimFrames() {
 
 function setAnimTool(tool) {
   gameState.animTool = tool;
-  document.querySelectorAll('.animate-tool').forEach(b => b.classList.toggle('active', b.textContent.includes(tool === 'draw' ? 'Draw' : tool === 'clear' ? 'Clear' : '')));
+  document.querySelectorAll('.animate-tool').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.animate-tool').forEach(b => {
+    if(tool === 'draw' && b.textContent.includes('Draw')) b.classList.add('active');
+    if(tool === 'clear' && b.textContent.includes('Clear')) b.classList.add('active');
+  });
+  document.getElementById('animFooter').textContent = tool === 'draw' ? '✏️ Drawing mode - drag to draw' : '🗑️ Clear mode - tap to clear';
 }
 
 function addAnimFrame() {
@@ -2213,17 +3180,30 @@ function addAnimFrame() {
   gameState.animFrames.push(canvas.toDataURL());
   gameState.animIdx = gameState.animFrames.length - 1;
   renderAnimFrames();
-  ST.totalStars += 2; saveToCloudNow(); refreshHome();
+  ST.totalStars += 2;
+  document.getElementById('animFooter').textContent = '➕ New frame added! Total: ' + gameState.animFrames.length + ' frames';
+  saveToCloudNow(); 
+  refreshHome();
+  showToast('➕ Frame added! +2 stars');
 }
 
 function playAnim() {
-  if(gameState.animInterval) { clearInterval(gameState.animInterval); gameState.animInterval = null; return; }
+  if(gameState.animInterval) { 
+    clearInterval(gameState.animInterval); 
+    gameState.animInterval = null;
+    document.getElementById('animFooter').textContent = '⏹️ Stopped';
+    return; 
+  }
   const canvas = document.getElementById('animCanvas');
   const ctx = canvas.getContext('2d');
   let idx = 0;
+  document.getElementById('animFooter').textContent = '▶️ Playing animation...';
   gameState.animInterval = setInterval(() => {
     const img = new Image();
-    img.onload = () => { ctx.clearRect(0,0,canvas.width,canvas.height); ctx.drawImage(img,0,0); };
+    img.onload = () => { 
+      ctx.clearRect(0,0,canvas.width,canvas.height); 
+      ctx.drawImage(img,0,0); 
+    };
     img.src = gameState.animFrames[idx];
     idx = (idx + 1) % gameState.animFrames.length;
     gameState.animIdx = idx;
@@ -2231,90 +3211,10 @@ function playAnim() {
   }, 300);
 }
 
-// ═══ LEADERBOARD ═════════════════════════════════════
-function loadLeaderboard() {
-  showScreen('leaderboard-screen');
-  const list = document.getElementById('lb-list');
-  list.innerHTML = '<p style="text-align:center;color:#aaa;padding:20px;">🏆 Loading leaderboard...</p>';
-  
-  const lbRef = db.ref('leaderboard');
-  
-  if(window._lbListener) {
-    lbRef.off('value', window._lbListener);
-  }
-  
-  window._lbListener = function(snapshot) {
-    if(!snapshot.exists()) {
-      list.innerHTML = `
-        <div class="lb-empty" style="text-align:center;color:#aaa;padding:40px 20px;">
-          <span style="font-size:2rem;display:block;margin-bottom:10px;">🏆</span>
-          No players yet! Be the first to earn stars!
-        </div>
-      `;
-      return;
-    }
-    
-    const users = [];
-    const seen = new Set();
-    
-    snapshot.forEach(child => {
-      const data = child.val();
-      const uid = child.key;
-      
-      if(seen.has(uid)) return;
-      seen.add(uid);
-      
-      data.uid = uid;
-      if(data.stars !== undefined && data.stars !== null && data.stars > 0) {
-        users.push(data);
-      }
-    });
-    
-    users.sort((a, b) => (b.stars || 0) - (a.stars || 0));
-    
-    if(users.length === 0) {
-      list.innerHTML = `
-        <div class="lb-empty" style="text-align:center;color:#aaa;padding:40px 20px;">
-          <span style="font-size:2rem;display:block;margin-bottom:10px;">🏆</span>
-          No players yet! Be the first to earn stars!
-        </div>
-      `;
-      return;
-    }
-    
-    const medals = ['🥇', '🥈', '🥉'];
-    const rankColors = ['gold', 'silver', 'bronze'];
-    
-    let html = '';
-    users.slice(0, 50).forEach((data, idx) => {
-      const rank = idx + 1;
-      const isMe = currentUser && data.uid === currentUser.uid;
-      const medal = rank <= 3 ? medals[rank - 1] : rank;
-      const rankColor = rank <= 3 ? rankColors[rank - 1] : '';
-      const stars = data.stars || 0;
-      const name = data.name || 'Kid';
-      const levels = data.levels || 0;
-      
-      html += `
-        <div class="lb-item ${isMe ? 'me' : ''}">
-          <div class="lb-rank ${rankColor}">${medal}</div>
-          <div style="font-size:1.8rem;">${isMe ? '🌟' : '👦'}</div>
-          <div class="lb-info">
-            <div class="lb-name">${name}${isMe ? ' ⭐ (You)' : ''}</div>
-            <div class="lb-stars">${levels} levels done</div>
-          </div>
-          <div class="lb-score">⭐${stars}</div>
-        </div>
-      `;
-    });
-    
-    list.innerHTML = html;
-  };
-  
-  lbRef.on('value', window._lbListener);
-}
+// ═══════════════════════════════════════════════════════
+// ═══ TEACHER DASHBOARD ══════════════════════════════
+// ═══════════════════════════════════════════════════════
 
-// ═══ TEACHER DASHBOARD ═══════════════════════════════
 function renderTeacherDash() {
   if(userRole !== 'teacher' && ST.accountRole !== 'teacher') { 
     showToast('❌ Teacher access only'); 
@@ -3197,41 +4097,112 @@ function renderStudentContent(items) {
   
   let html = '';
   
+  // VIDEOS
   videos.forEach(data => {
+    const videoUrl = data.fileUrl || data.url || '';
+    const isYouTube = videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be');
+    const isMP4 = videoUrl.endsWith('.mp4') || videoUrl.includes('.mp4');
+    
     html += `<div class="content-item" style="border-left:4px solid #e74c3c;margin-bottom:10px;">
       <h4>🎬 ${data.title}</h4>
       <p>${data.description || ''}</p>
       <div class="meta">Video • ${new Date(data.createdAt).toLocaleDateString()}</div>
-      ${data.fileUrl ? `<div class="meta"><a href="${data.fileUrl}" target="_blank" style="color:#3498db;">▶ Watch</a></div>` : ''}
-    </div>`;
+      <div style="margin:8px 0;">`;
+    
+    if(videoUrl) {
+      if(isYouTube) {
+        const videoId = videoUrl.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
+        if(videoId && videoId[1]) {
+          html += `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;">
+            <iframe style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" 
+              src="https://www.youtube.com/embed/${videoId[1]}" 
+              allowfullscreen></iframe>
+          </div>`;
+        } else {
+          html += `<a href="${videoUrl}" target="_blank" style="display:inline-block;padding:10px 20px;background:#3498db;color:white;border-radius:8px;text-decoration:none;">▶ Watch Video</a>`;
+        }
+      } else if(isMP4) {
+        html += `<video controls style="width:100%;max-height:250px;border-radius:8px;background:#000;">
+          <source src="${videoUrl}" type="video/mp4">
+          Your browser does not support video.
+        </video>`;
+      } else {
+        html += `<a href="${videoUrl}" target="_blank" style="display:inline-block;padding:10px 20px;background:#3498db;color:white;border-radius:8px;text-decoration:none;">▶ Watch Video</a>`;
+      }
+    } else {
+      html += `<div style="color:#888;font-size:.8rem;">No video link provided</div>`;
+    }
+    
+    html += `</div></div>`;
   });
   
+  // AUDIOS
   audios.forEach(data => {
+    const audioUrl = data.fileUrl || data.url || '';
+    
     html += `<div class="content-item" style="border-left:4px solid #3498db;margin-bottom:10px;">
       <h4>🎵 ${data.title}</h4>
       <p>${data.description || ''}</p>
       <div class="meta">Audio • ${new Date(data.createdAt).toLocaleDateString()}</div>
-      ${data.fileUrl ? `<audio controls style="width:100%;margin-top:5px;max-width:200px;"><source src="${data.fileUrl}"></audio>` : ''}
-    </div>`;
+      <div style="margin:8px 0;">`;
+    
+    if(audioUrl) {
+      html += `<audio controls style="width:100%;border-radius:8px;">
+        <source src="${audioUrl}" type="audio/mpeg">
+        <source src="${audioUrl}" type="audio/ogg">
+        <source src="${audioUrl}" type="audio/wav">
+        Your browser does not support audio.
+      </audio>`;
+    } else {
+      html += `<div style="color:#888;font-size:.8rem;">No audio link provided</div>`;
+    }
+    
+    html += `</div></div>`;
   });
   
+  // LESSONS (PDF, Notes, etc.)
   lessons.forEach(data => {
     const icon = data.contentType === 'pdf' ? '📄' : data.contentType === 'notes' ? '📝' : '📚';
+    const fileUrl = data.fileUrl || data.url || '';
+    const isPDF = fileUrl.endsWith('.pdf') || fileUrl.includes('.pdf');
+    
     html += `<div class="content-item" style="border-left:4px solid #2ecc71;margin-bottom:10px;">
       <h4>${icon} ${data.title}</h4>
       <p>${data.description || ''}</p>
       <div class="meta">${data.contentType || 'Lesson'} • ${new Date(data.createdAt).toLocaleDateString()}</div>
-      ${data.fileUrl ? `<div class="meta"><a href="${data.fileUrl}" target="_blank" style="color:#2ecc71;">📖 View</a></div>` : ''}
-    </div>`;
+      <div style="margin:8px 0;">`;
+    
+    if(fileUrl) {
+      if(isPDF) {
+        html += `<a href="${fileUrl}" target="_blank" style="display:inline-block;padding:10px 20px;background:#2ecc71;color:white;border-radius:8px;text-decoration:none;">📖 View PDF</a>
+        <br><small style="color:#888;">Click to open PDF in new tab</small>`;
+      } else {
+        html += `<a href="${fileUrl}" target="_blank" style="display:inline-block;padding:10px 20px;background:#2ecc71;color:white;border-radius:8px;text-decoration:none;">📖 View Material</a>`;
+      }
+    } else {
+      html += `<div style="color:#888;font-size:.8rem;">No file link provided</div>`;
+    }
+    
+    html += `</div></div>`;
   });
   
+  // EXERCISES
   exercises.forEach(data => {
+    const fileUrl = data.fileUrl || data.url || '';
+    
     html += `<div class="content-item" style="border-left:4px solid #9b59b6;margin-bottom:10px;">
       <h4>💪 ${data.title}</h4>
       <p>${data.description || ''}</p>
       <div class="meta">Exercise • ${new Date(data.createdAt).toLocaleDateString()}</div>
-      ${data.fileUrl ? `<div class="meta"><a href="${data.fileUrl}" target="_blank" style="color:#9b59b6;">Start</a></div>` : ''}
-    </div>`;
+      <div style="margin:8px 0;">`;
+    
+    if(fileUrl) {
+      html += `<a href="${fileUrl}" target="_blank" style="display:inline-block;padding:10px 20px;background:#9b59b6;color:white;border-radius:8px;text-decoration:none;">📝 Start Exercise</a>`;
+    } else {
+      html += `<div style="color:#888;font-size:.8rem;">No exercise link provided</div>`;
+    }
+    
+    html += `</div></div>`;
   });
   
   list.innerHTML = html || '📭 No lessons available from your teacher.';
@@ -3325,21 +4296,26 @@ function renderSubj() {
   const subjects = [
     {key:'abc', icon:'🔤', label:'ABC English'},
     {key:'numbers', icon:'🔢', label:'Numbers'},
-    {key:'coloring', icon:'🎨', label:'More Fun'},
+    {key:'coloring', icon:'🎨', label:'Color by Number'},
     {key:'arabic', icon:'🌙', label:'Arabic'},
     {key:'math', icon:'➕', label:'Math'},
     {key:'flags', icon:'🌍', label:'Flags'}
   ];
   list.innerHTML = '';
   subjects.forEach(s => {
-    const tot = gameData[s.key] ? gameData[s.key].length : 36;
-    const don = completed[s.key] || 0;
-    const pct = Math.round(don/tot*100);
+    let total = 0, done = completed[s.key] || 0;
+    if(s.key === 'flags') total = 195;
+    else if(s.key === 'coloring') total = 64;
+    else if(s.key === 'math') total = 50;
+    else if(s.key === 'abc') total = 26;
+    else if(s.key === 'numbers') total = 10;
+    else if(s.key === 'arabic') total = 28;
+    const pct = total > 0 ? Math.round(done/total*100) : 0;
     list.innerHTML += `<div class="subject-row">
       <div class="subject-icon">${s.icon}</div>
       <div class="subject-info">
         <div class="subject-name">${s.label}</div>
-        <div class="subject-meta">${don}/${tot} levels · ${pct}%</div>
+        <div class="subject-meta">${done}/${total} levels • ${pct}%</div>
         <div class="mini-bar-wrap"><div class="mini-bar" style="width:${pct}%"></div></div>
       </div>
     </div>`;
@@ -3475,17 +4451,98 @@ function renderContent() {
       }
     });
   });
-  if('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/KidLearnPro/sw.js');
+}
+
+// ═══ LEADERBOARD ═════════════════════════════════════
+function loadLeaderboard() {
+  showScreen('leaderboard-screen');
+  const list = document.getElementById('lb-list');
+  list.innerHTML = '<p style="text-align:center;color:#aaa;padding:20px;">🏆 Loading leaderboard...</p>';
+  
+  const lbRef = db.ref('leaderboard');
+  
+  if(window._lbListener) {
+    lbRef.off('value', window._lbListener);
   }
+  
+  window._lbListener = function(snapshot) {
+    if(!snapshot.exists()) {
+      list.innerHTML = `
+        <div class="lb-empty" style="text-align:center;color:#aaa;padding:40px 20px;">
+          <span style="font-size:2rem;display:block;margin-bottom:10px;">🏆</span>
+          No players yet! Be the first to earn stars!
+        </div>
+      `;
+      return;
+    }
+    
+    const users = [];
+    const seen = new Set();
+    
+    snapshot.forEach(child => {
+      const data = child.val();
+      const uid = child.key;
+      
+      if(seen.has(uid)) return;
+      seen.add(uid);
+      
+      data.uid = uid;
+      if(data.stars !== undefined && data.stars !== null && data.stars > 0) {
+        users.push(data);
+      }
+    });
+    
+    users.sort((a, b) => (b.stars || 0) - (a.stars || 0));
+    
+    if(users.length === 0) {
+      list.innerHTML = `
+        <div class="lb-empty" style="text-align:center;color:#aaa;padding:40px 20px;">
+          <span style="font-size:2rem;display:block;margin-bottom:10px;">🏆</span>
+          No players yet! Be the first to earn stars!
+        </div>
+      `;
+      return;
+    }
+    
+    const medals = ['🥇', '🥈', '🥉'];
+    const rankColors = ['gold', 'silver', 'bronze'];
+    
+    let html = '';
+    users.slice(0, 50).forEach((data, idx) => {
+      const rank = idx + 1;
+      const isMe = currentUser && data.uid === currentUser.uid;
+      const medal = rank <= 3 ? medals[rank - 1] : rank;
+      const rankColor = rank <= 3 ? rankColors[rank - 1] : '';
+      const stars = data.stars || 0;
+      const name = data.name || 'Kid';
+      const levels = data.levels || 0;
+      
+      html += `
+        <div class="lb-item ${isMe ? 'me' : ''}">
+          <div class="lb-rank ${rankColor}">${medal}</div>
+          <div style="font-size:1.8rem;">${isMe ? '🌟' : '👦'}</div>
+          <div class="lb-info">
+            <div class="lb-name">${name}${isMe ? ' ⭐ (You)' : ''}</div>
+            <div class="lb-stars">${levels} levels done</div>
+          </div>
+          <div class="lb-score">⭐${stars}</div>
+        </div>
+      `;
+    });
+    
+    list.innerHTML = html;
+  };
+  
+  lbRef.on('value', window._lbListener);
 }
 
 // ═══ INIT ═══════════════════════════════════════════
-console.log('⭐ KidLearn Pro - Fixed Teacher Code Validation!');
-console.log('✅ Teachers save codes to publicTeacherCodes');
-console.log('✅ Students validate codes from publicTeacherCodes');
-console.log('✅ No more permission_denied errors!');
-console.log('✅ All 20 games working!');
+console.log('⭐ KidLearn Pro - COMPLETE VERSION!');
+console.log('✅ 20 Games - All working!');
+console.log('✅ 195 Flags - Full quiz!');
+console.log('✅ Teacher/Student/Parent - Full system!');
+console.log('✅ File upload - Video, Audio, PDF!');
+console.log('✅ Student Dashboard - Fixed!');
 </script>
 </body>
-  </html>
+</html>
