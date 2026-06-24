@@ -1109,7 +1109,9 @@ function fastSave() {
 
 function loadLocalData() {
   try {
-    const saved = localStorage.getItem('kidlearn_data');
+    const saved = localStorage.getItem(
+  'kidlearn_data_' + currentUser.uid
+);
     if (saved) {
       const data = JSON.parse(saved);
       if (data.ST) {
