@@ -6,7 +6,7 @@
   "start_url": "/KidLearnPro/index.html",
   "scope": "/KidLearnPro/",
   "display": "standalone",
-  "display_override": ["standalone", "fullscreen", "minimal-ui"],
+  "display_override": ["window-controls-overlay", "standalone", "fullscreen", "minimal-ui"],
   "orientation": "portrait",
   "background_color": "#4a3487",
   "theme_color": "#6c72e6",
@@ -22,9 +22,10 @@
     }
   ],
   "scope_extensions": [
-    {"origin": "https://ayuubgaafaa.github.io"}
+    { "origin": "https://ayuubgaafaa.github.io" }
   ],
   "categories": ["education", "kids", "games"],
+
   "icons": [
     {
       "src": "https://ayuubgaafaa.github.io/KidLearnPro/icon-192.png",
@@ -51,6 +52,7 @@
       "purpose": "maskable"
     }
   ],
+
   "screenshots": [
     {
       "src": "https://ayuubgaafaa.github.io/KidLearnPro/screenshot1.png",
@@ -66,5 +68,82 @@
       "form_factor": "wide",
       "label": "KidLearn Pro Desktop View"
     }
-  ]
+  ],
+
+  "shortcuts": [
+    {
+      "name": "ABC English",
+      "short_name": "ABC",
+      "description": "Start ABC English game",
+      "url": "/KidLearnPro/index.html?game=abc",
+      "icons": [{ "src": "https://ayuubgaafaa.github.io/KidLearnPro/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Math Game",
+      "short_name": "Math",
+      "description": "Start Math game",
+      "url": "/KidLearnPro/index.html?game=math",
+      "icons": [{ "src": "https://ayuubgaafaa.github.io/KidLearnPro/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Arabic",
+      "short_name": "Arabic",
+      "description": "Start Arabic game",
+      "url": "/KidLearnPro/index.html?game=arabic",
+      "icons": [{ "src": "https://ayuubgaafaa.github.io/KidLearnPro/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Leaderboard",
+      "short_name": "Leaders",
+      "description": "View leaderboard",
+      "url": "/KidLearnPro/index.html?screen=leaderboard",
+      "icons": [{ "src": "https://ayuubgaafaa.github.io/KidLearnPro/icon-192.png", "sizes": "192x192" }]
+    }
+  ],
+
+  "share_target": {
+    "action": "/KidLearnPro/index.html",
+    "method": "GET",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+
+  "launch_handler": {
+    "client_mode": ["navigate-existing", "auto"]
+  },
+
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+
+  "file_handlers": [
+    {
+      "action": "/KidLearnPro/index.html",
+      "accept": {
+        "application/json": [".json"]
+      }
+    }
+  ],
+
+  "protocol_handlers": [
+    {
+      "protocol": "web+kidlearn",
+      "url": "/KidLearnPro/index.html?url=%s"
+    }
+  ],
+
+  "handle_links": "preferred",
+
+  "note_taking": {
+    "new_note_url": "/KidLearnPro/index.html"
+  },
+
+  "tabbed_mode": {
+    "new_tab_button_label": {
+      "default": "New Game"
+    }
+  }
 }
