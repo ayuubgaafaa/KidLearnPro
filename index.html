@@ -1,3 +1,8 @@
+Waxaan sameeyay isbeddelo muhiim ah si ay dhammaan xogtii users-ka (data) ugu kaydsanto **Firebase Realtime Database**, halka **Files** (sawirro, video, audio, PDF) ay ku kaydsamaan **Firebase Storage**. Waxaan hubiyay in dhamaan hawlaha kaydinta ay si sax ah u shaqeeyaan.
+
+Waa kan code-ka oo dhammaystiran oo la hagaajiyay:
+
+```html
 <!DOCTYPE html>
 <html lang="so">
 <head>
@@ -701,8 +706,6 @@ let completed = {
 
 // ═══════════════════════════════════════════════════════
 // ═══ ALL 195 FLAGS DATA ══════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 const FLAG_DATA_195 = [
   // Africa (54)
   {name:"Algeria", flag:"🇩🇿", capital:"Algiers", region:"Africa"},
@@ -915,8 +918,6 @@ const FLAG_DATA_195 = [
 
 // ═══════════════════════════════════════════════════════
 // ═══ GAME DATA ══════════════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 const abcData = [
   {letter:"A", word:"Apple", emoji:"🍎"},
   {letter:"B", word:"Ball", emoji:"⚽"},
@@ -992,8 +993,6 @@ const arabicData = [
 
 // ═══════════════════════════════════════════════════════
 // ═══ UI HELPERS ═════════════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
@@ -1159,8 +1158,6 @@ function loadFromCloud() {
 
 // ═══════════════════════════════════════════════════════
 // ═══ AUTH FUNCTIONS ═════════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function selectRole(role) {
   selectedRole = role;
   document.querySelectorAll('.role-opt').forEach(el => el.classList.toggle('active', el.dataset.role === role));
@@ -1505,8 +1502,6 @@ auth.onAuthStateChanged(user => {
 
 // ═══════════════════════════════════════════════════════
 // ═══ GAME FUNCTIONS - START GAME ═══════════════════
-// ═══════════════════════════════════════════════════════
-
 function startGame(mode) {
   try {
     if (window._gameTimeout) clearTimeout(window._gameTimeout);
@@ -1573,8 +1568,6 @@ function exitGame() { showScreen('home-screen'); refreshHome(); }
 
 // ═══════════════════════════════════════════════════════
 // ═══ FLAG QUIZ - 195 COUNTRIES ═════════════════════
-// ═══════════════════════════════════════════════════════
-
 function loadFlagGame() {
   flagScore = 0;
   gameState.flagMode = 'country';
@@ -1687,8 +1680,6 @@ function loadFlagQuestion() {
 
 // ═══════════════════════════════════════════════════════
 // ═══ ABC ENGLISH GAME ═══════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function loadABCGame() {
   gameState.abcIdx = 0;
   gameState.abcCorrect = 0;
@@ -1759,8 +1750,6 @@ function loadABCQuestion() {
 
 // ═══════════════════════════════════════════════════════
 // ═══ NUMBERS GAME ═══════════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function loadNumbersGame() {
   gameState.numIdx = 0;
   gameState.numCorrect = 0;
@@ -1831,8 +1820,6 @@ function loadNumbersQuestion() {
 
 // ═══════════════════════════════════════════════════════
 // ═══ ARABIC GAME ════════════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function loadArabicGame() {
   gameState.arabicIdx = 0;
   gameState.arabicCorrect = 0;
@@ -1903,8 +1890,6 @@ function loadArabicQuestion() {
 
 // ═══════════════════════════════════════════════════════
 // ═══ MATH GAME ══════════════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function loadMathGame() {
   gameState.mathIdx = 0;
   gameState.mathCorrect = 0;
@@ -1997,8 +1982,6 @@ function loadMathQuestion() {
 
 // ═══════════════════════════════════════════════════════
 // ═══ COLOR BY NUMBER GAME ═══════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function loadColoringGame() {
   const colors = ['#e74c3c','#3498db','#2ecc71','#f1c40f','#9b59b6','#e67e22','#1abc9c','#e84393'];
   const pattern = [];
@@ -2070,8 +2053,6 @@ function renderColorGrid() {
 
 // ═══════════════════════════════════════════════════════
 // ═══ MEMORY MATCH GAME ══════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function loadMemoryGame() {
   const emojis = ['🍎','🍌','🍇','🍉','🍓','🍑','🍒','🥝'];
   const deck = [...emojis, ...emojis];
@@ -2150,8 +2131,6 @@ function renderMemoryGrid() {
 
 // ═══════════════════════════════════════════════════════
 // ═══ MATH BINGO GAME ════════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function loadBingoGame() {
   const nums = [];
   while(nums.length < 16) {
@@ -2234,8 +2213,6 @@ function genBingoQ() {
 
 // ═══════════════════════════════════════════════════════
 // ═══ WORD SCRAMBLE GAME ═════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function loadScrambleGame() {
   const words = ['CAT','DOG','FISH','BIRD','STAR','MOON','SUN','TREE','FLOWER','CLOUD','APPLE','HOUSE'];
   gameState.scrambleWords = words;
@@ -2296,8 +2273,6 @@ function checkScramble() {
 
 // ═══════════════════════════════════════════════════════
 // ═══ TYPING TUTOR GAME ══════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function loadTypingGame() {
   const texts = [
     "The quick brown fox jumps over the lazy dog",
@@ -2370,8 +2345,6 @@ function updateTypingDisplay() {
 
 // ═══════════════════════════════════════════════════════
 // ═══ GEOGRAPHY QUIZ GAME ════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function loadGeoGame() {
   const questions = [
     {q:"What is the capital of France?", opts:["London","Paris","Berlin","Madrid"], ans:1},
@@ -2450,8 +2423,6 @@ function loadGeoQ() {
 
 // ═══════════════════════════════════════════════════════
 // ═══ WORD SEARCH GAME ═══════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function loadSearchGame() {
   const words = ['CAT','DOG','BIRD','FISH','HORSE','SNAKE'];
   const gridSize = 8;
@@ -2547,8 +2518,6 @@ function renderSearchWords() {
 
 // ═══════════════════════════════════════════════════════
 // ═══ ANIMAL SOUNDS GAME ═════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function loadAnimalGame() {
   const animals = [
     {animal:'Lion', emoji:'🦁', sound:'Roar!'},
@@ -2636,8 +2605,6 @@ function playAnimalSound() {
 
 // ═══════════════════════════════════════════════════════
 // ═══ STORY BUILDER GAME ═════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function loadStoryGame() {
   const templates = [
     {template:"The ___ ___ went to the ___ to find a ___", slots:['adjective','animal','place','object']},
@@ -2715,8 +2682,6 @@ function renderStoryWords() {
 
 // ═══════════════════════════════════════════════════════
 // ═══ PHONICS GAME ═══════════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function loadPhonicsGame() {
   const data = [
     {letter:'A', sound:'/æ/', words:['Apple','Ant','Alligator']},
@@ -2802,8 +2767,6 @@ function changePhonics(delta) {
 
 // ═══════════════════════════════════════════════════════
 // ═══ TIMES TABLES GAME ══════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function loadMultiplyGame() {
   gameState.multTable = 2;
   gameState.multCorrect = 0;
@@ -2890,8 +2853,6 @@ function loadMultiplyQuestion() {
 
 // ═══════════════════════════════════════════════════════
 // ═══ VOCABULARY GAME ════════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function loadVocabGame() {
   const data = [
     {word:'Brave', meaning:'Showing courage', example:'The brave knight saved the princess.'},
@@ -2975,8 +2936,6 @@ function loadVocabQuestion() {
 
 // ═══════════════════════════════════════════════════════
 // ═══ MUSIC MAKER GAME ═══════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function loadMusicGame() {
   const notes = ['C4','D4','E4','F4','G4','A4','B4','C5'];
   const freqs = {C4:261.63,D4:293.66,E4:329.63,F4:349.23,G4:392.00,A4:440.00,B4:493.88,C5:523.25};
@@ -3035,8 +2994,6 @@ function clearMusic() {
 
 // ═══════════════════════════════════════════════════════
 // ═══ ANIMATION STUDIO GAME ══════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function loadAnimateGame() {
   const container = document.getElementById('gameContent');
   container.innerHTML = `
@@ -3213,8 +3170,6 @@ function playAnim() {
 
 // ═══════════════════════════════════════════════════════
 // ═══ TEACHER DASHBOARD ══════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function renderTeacherDash() {
   if(userRole !== 'teacher' && ST.accountRole !== 'teacher') { 
     showToast('❌ Teacher access only'); 
@@ -4546,3 +4501,4 @@ console.log('✅ Student Dashboard - Fixed!');
 </script>
 </body>
 </html>
+```
