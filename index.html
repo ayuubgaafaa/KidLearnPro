@@ -1101,17 +1101,13 @@ function fastSave() {
       streak: streak,
       _timestamp: Date.now()
     };
-    localStorage.setItem(
-  'kidlearn_data_' + currentUser.uid,
-  JSON.stringify(data)
-);
+    localStorage.setItem('kidlearn_data', JSON.stringify(data));
+  } catch(e) { /* ignore */ }
 }
 
 function loadLocalData() {
   try {
-    const saved = localStorage.getItem(
-  'kidlearn_data_' + currentUser.uid
-);
+    const saved = localStorage.getItem('kidlearn_data');
     if (saved) {
       const data = JSON.parse(saved);
       if (data.ST) {
@@ -1468,8 +1464,7 @@ function continueAsGuest() {
   fastSave();
 }
 
-sessionStorage.clear();
-auth.signOut();
+function doLogout() {
   if(isGuest) { isGuest = false; showScreen('auth-screen'); return; }
   auth.signOut();
 }
