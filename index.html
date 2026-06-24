@@ -238,7 +238,7 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
 .music-inst.active{background:#6c72e6;color:white;}
 .typing-input{width:100%;padding:12px;border:2px solid #ddd;border-radius:12px;font-size:1rem;text-align:center;outline:none;max-width:350px;display:block;margin:10px auto;}
 
-/* New Material Management Styles */
+/* Material Management Styles */
 .materials-grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:12px;}
 .material-section{background:#f8f7ff;border-radius:16px;padding:16px;}
 .material-section h3{font-size:.9rem;font-weight:700;color:#4a3487;margin-bottom:10px;border-bottom:2px solid #e0d8f0;padding-bottom:8px;}
@@ -326,7 +326,7 @@ body{background:linear-gradient(160deg,#6c72e6 0%,#4a3487 100%);min-height:100vh
         <div id="reg-student-fields" style="display:none;">
           <div class="input-group"><label>👶 Student Name</label><input type="text" id="reg-student-name" placeholder="Your full name" maxlength="20"></div>
           <div class="input-group"><label>📅 Age</label><input type="number" id="reg-student-age" placeholder="e.g. 8" min="4" max="18"></div>
-          <div class="input-group"><label>🔑 Teacher Code</label><input type="text" id="reg-student-teacher-code" placeholder="Enter teacher code (e.g. KLP48291)" maxlength="8"></div>
+          <div class="input-group"><label>🔑 Teacher Code</label><input type="text" id="reg-student-teacher-code" placeholder="Enter teacher code (e.g. KLP48291)" maxlength="8" style="text-transform:uppercase;"></div>
           <div class="input-group"><label>📧 Parent's Email</label><input type="email" id="reg-student-parent-email" placeholder="parent@email.com"></div>
           <div class="input-group"><label>🔑 Password</label><input type="password" id="reg-student-pass" placeholder="Min 6 characters"></div>
           <div id="teacher-code-status" style="font-size:.8rem;margin-top:4px;color:#888;"></div>
@@ -980,7 +980,6 @@ function doRegister() {
     if(pass.length < 6) { err.textContent = 'Password must be at least 6 characters'; return; }
     document.getElementById('register-loading').style.display = 'block';
     
-    // Generate unique Teacher Code
     const generateTeacherCode = () => {
       const prefix = 'KLP';
       const random = Math.floor(10000 + Math.random() * 90000);
@@ -996,7 +995,6 @@ function doRegister() {
       ST.teacherCode = teacherCode;
       saveToCloudNow();
       
-      // Save to teachers collection with teacher code
       db.ref('teachers/' + userCred.user.uid).set({ 
         name, 
         email, 
@@ -1025,68 +1023,111 @@ function doRegister() {
     const teacherCode = document.getElementById('reg-student-teacher-code').value.trim().toUpperCase();
     const parentEmail = document.getElementById('reg-student-parent-email').value.trim();
     const pass = document.getElementById('reg-student-pass').value;
-    if(!name || !age || !teacherCode || !parentEmail || !pass) { err.textContent = 'Please fill all fields'; return; }
-    if(pass.length < 6) { err.textContent = 'Password must be at least 6 characters'; return; }
-    if(age < 4 || age > 18) { err.textContent = 'Please enter valid age (4-18)'; return; }
-    if(!teacherCode.startsWith('KLP') || teacherCode.length !== 8) { err.textContent = 'Invalid teacher code format (e.g. KLP48291)'; return; }
+    
+    if(!name || !age || !teacherCode || !parentEmail || !pass) { 
+      err.textContent = 'Please fill all fields'; 
+      document.getElementById('register-loading').style.display = 'none';
+      return; 
+    }
+    if(pass.length < 6) { 
+      err.textContent = 'Password must be at least 6 characters'; 
+      document.getElementById('register-loading').style.display = 'none';
+      return; 
+    }
+    if(age < 4 || age > 18) { 
+      err.textContent = 'Please enter valid age (4-18)'; 
+      document.getElementById('register-loading').style.display = 'none';
+      return; 
+    }
+    if(!teacherCode.startsWith('KLP') || teacherCode.length !== 8) { 
+      err.textContent = 'Invalid teacher code format (e.g. KLP48291)'; 
+      document.getElementById('register-loading').style.display = 'none';
+      return; 
+    }
     
     document.getElementById('register-loading').style.display = 'block';
     
-    // Validate teacher code
-    db.ref('teachers').orderByChild('teacherCode').equalTo(teacherCode).once('value').then(snap => {
-      if(!snap.exists()) {
-        err.textContent = '❌ Invalid teacher code. Please check and try again.';
-        document.getElementById('register-loading').style.display = 'none';
-        return;
-      }
-      
-      let teacherId = null;
-      let teacherName = '';
-      snap.forEach(child => {
-        teacherId = child.key;
-        teacherName = child.val().name || 'Teacher';
+    // Validate teacher code using orderByChild
+    db.ref('teachers').orderByChild('teacherCode').equalTo(teacherCode).once('value')
+      .then(snap => {
+        let teacherId = null;
+        let teacherName = '';
+        
+        if(snap.exists()) {
+          snap.forEach(child => {
+            teacherId = child.key;
+            teacherName = child.val().name || 'Teacher';
+          });
+        }
+        
+        if(!teacherId) {
+          err.textContent = '❌ Invalid teacher code. Please check and try again.';
+          document.getElementById('register-loading').style.display = 'none';
+          return;
+        }
+        
+        // Create student account
+        const studentEmail = name.toLowerCase().replace(/\s/g, '') + '@kidlearn.student';
+        auth.createUserWithEmailAndPassword(studentEmail, pass)
+          .then(userCred => {
+            userRole = 'student'; 
+            ST.role = 'student'; 
+            ST.studentName = name; 
+            ST.studentAge = age; 
+            ST.parentEmail = parentEmail; 
+            ST.studentApproved = false;
+            ST.teacherId = teacherId;
+            ST.teacherCode = teacherCode;
+            ST.teacherName = teacherName;
+            saveToCloudNow();
+            
+            // Save student data
+            db.ref('students/' + userCred.user.uid).set({ 
+              name: name,
+              age: age,
+              parentEmail: parentEmail,
+              teacherId: teacherId,
+              teacherCode: teacherCode,
+              approved: false,
+              createdAt: Date.now()
+            });
+            
+            // Save student request
+            db.ref('studentRequests/' + userCred.user.uid).set({ 
+              name: name,
+              age: age,
+              parentEmail: parentEmail,
+              teacherId: teacherId,
+              teacherCode: teacherCode,
+              status: 'pending',
+              createdAt: Date.now()
+            });
+            
+            // Link student to teacher
+            db.ref('teacherStudents/' + teacherId + '/' + userCred.user.uid).set({
+              name: name,
+              email: parentEmail,
+              enrolledAt: Date.now()
+            });
+            
+            success.textContent = '📧 Request sent to parent for approval! Connected to teacher: ' + teacherName;
+            document.getElementById('register-loading').style.display = 'none';
+            showToast('✅ Connected to ' + teacherName);
+            
+            setTimeout(() => { 
+              showScreen('home-screen'); 
+              refreshHome(); 
+            }, 1500);
+          })
+          .catch(e => { 
+            err.textContent = '❌ ' + e.message; 
+            document.getElementById('register-loading').style.display = 'none'; 
+          });
+      })
+      .catch(e => { 
+        err.textContent = '❌ Error validating teacher code: ' + e.message; 
+        document.getElementById('register-loading').style.display = 'none'; 
       });
-      
-      const studentEmail = name.toLowerCase().replace(/\s/g, '') + '@kidlearn.student';
-      auth.createUserWithEmailAndPassword(studentEmail, pass).then(userCred => {
-        userRole = 'student'; ST.role = 'student'; 
-        ST.studentName = name; ST.studentAge = age; 
-        ST.parentEmail = parentEmail; 
-        ST.studentApproved = false;
-        ST.teacherId = teacherId;
-        ST.teacherCode = teacherCode;
-        ST.teacherName = teacherName;
-        saveToCloudNow();
-        
-        // Save student data
-        db.ref('students/' + userCred.user.uid).set({ 
-          name, 
-          age, 
-          parentEmail, 
-          teacherId: teacherId,
-          teacherCode: teacherCode,
-          approved: false, 
-          createdAt: Date.now() 
-        });
-        
-        db.ref('studentRequests/' + userCred.user.uid).set({ 
-          name, age, parentEmail, teacherId: teacherId, teacherCode: teacherCode,
-          status: 'pending', createdAt: Date.now() 
-        });
-        
-        // Link student to teacher
-        db.ref('teacherStudents/' + teacherId + '/' + userCred.user.uid).set({
-          name: name,
-          email: parentEmail,
-          enrolledAt: Date.now()
-        });
-        
-        success.textContent = '📧 Request sent to parent for approval! Connected to teacher: ' + teacherName;
-        document.getElementById('register-loading').style.display = 'none';
-        showToast('📧 Connected to ' + teacherName);
-        setTimeout(() => { showScreen('home-screen'); refreshHome(); }, 1500);
-      }).catch(e => { err.textContent = e.message; document.getElementById('register-loading').style.display = 'none'; });
-    }).catch(e => { err.textContent = 'Error validating teacher code: ' + e.message; document.getElementById('register-loading').style.display = 'none'; });
   }
 }
 
@@ -1196,8 +1237,6 @@ auth.onAuthStateChanged(user => {
 
 // ═══════════════════════════════════════════════════════
 // ═══ FLAG QUIZ ═══════════════════════════════════════
-// ═══════════════════════════════════════════════════════
-
 function loadFlagGame() {
   flagScore = 0;
   const container = document.getElementById('gameContent');
@@ -1265,10 +1304,7 @@ function loadFlagQuestion() {
   document.getElementById('flagFooter').textContent = '🌍 Which country does this flag belong to?';
 }
 
-// ═══════════════════════════════════════════════════════
-// ═══ LEADERBOARD — REALTIME DATABASE ════════════════
-// ═══════════════════════════════════════════════════════
-
+// ═══ LEADERBOARD ═════════════════════════════════════
 function loadLeaderboard() {
   showScreen('leaderboard-screen');
   const list = document.getElementById('lb-list');
@@ -2323,7 +2359,6 @@ function loadTeacherContent() {
   if(!currentUser) return;
   const teacherId = currentUser.uid;
   
-  // Load all content from all collections
   const contentCollections = ['content', 'lessons', 'videos', 'audios', 'exercises'];
   let allContent = [];
   let completed = 0;
@@ -2372,7 +2407,6 @@ function loadTeacherContent() {
 }
 
 // ═══ ENHANCED TEACHER DASHBOARD - LEARNING MATERIALS ═══════════════════
-
 function renderTeacherMaterials() {
   if(!currentUser) return;
   const teacherId = currentUser.uid;
@@ -2541,7 +2575,6 @@ function renderTeacherMaterials() {
 }
 
 // ═══ MATERIAL MANAGEMENT FUNCTIONS ════════════════════════════════════
-
 let editContext = { collection: '', key: '' };
 
 function editMaterial(collection, key) {
@@ -2611,7 +2644,6 @@ function viewSubmissions(assignmentId) {
 }
 
 // ═══ UPLOAD CONTENT ════════════════════════════════════
-
 function uploadContent() {
   const title = document.getElementById('content-title').value.trim();
   const desc = document.getElementById('content-desc').value.trim();
@@ -2667,7 +2699,6 @@ function uploadContent() {
 }
 
 // ═══ EXAMS ════════════════════════════════════════════
-
 function loadTeacherExams() {
   if(!currentUser) return;
   db.ref('exams').orderByChild('teacherId').equalTo(currentUser.uid).once('value').then(snap => {
@@ -2959,7 +2990,6 @@ function renderContent() {
           list.innerHTML = '📭 No content available yet';
           return;
         }
-        // Sort by date
         allContent.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
         let html = '';
         allContent.slice(0, 30).forEach(data => {
@@ -3100,7 +3130,6 @@ function loadStudentData() {
     return;
   }
   
-  // Load all content from teacher
   const contentCollections = ['lessons', 'videos', 'audios', 'exercises', 'exams'];
   let allContent = [];
   let completed = 0;
@@ -3117,7 +3146,6 @@ function loadStudentData() {
         });
       }
       if(completed === contentCollections.length) {
-        // Sort by type for display
         const lessons = allContent.filter(d => d.collection === 'lessons' && d.contentType !== 'assignment' && d.contentType !== 'homework');
         const videos = allContent.filter(d => d.collection === 'videos');
         const audios = allContent.filter(d => d.collection === 'audios');
@@ -3127,7 +3155,6 @@ function loadStudentData() {
         const list = document.getElementById('student-lesson-list');
         let html = '';
         
-        // Videos
         videos.forEach(data => {
           html += `<div class="content-item" style="border-left:4px solid #e74c3c;">
             <h4>🎬 ${data.title}</h4>
@@ -3137,7 +3164,6 @@ function loadStudentData() {
           </div>`;
         });
         
-        // Audios
         audios.forEach(data => {
           html += `<div class="content-item" style="border-left:4px solid #3498db;">
             <h4>🎵 ${data.title}</h4>
@@ -3147,7 +3173,6 @@ function loadStudentData() {
           </div>`;
         });
         
-        // Lessons (PDFs, Notes)
         lessons.forEach(data => {
           const icon = data.contentType === 'pdf' ? '📄' : data.contentType === 'notes' ? '📝' : '📚';
           html += `<div class="content-item" style="border-left:4px solid #2ecc71;">
@@ -3158,7 +3183,6 @@ function loadStudentData() {
           </div>`;
         });
         
-        // Exercises
         exercises.forEach(data => {
           html += `<div class="content-item" style="border-left:4px solid #9b59b6;">
             <h4>💪 ${data.title}</h4>
@@ -3170,7 +3194,6 @@ function loadStudentData() {
         
         list.innerHTML = html || '📭 No lessons available from your teacher';
         
-        // Load exams separately for the exams tab
         const examList = document.getElementById('student-exam-list');
         if(exams.length > 0) {
           let examHtml = '';
