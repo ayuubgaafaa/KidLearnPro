@@ -1101,8 +1101,10 @@ function fastSave() {
       streak: streak,
       _timestamp: Date.now()
     };
-    localStorage.setItem('kidlearn_data', JSON.stringify(data));
-  } catch(e) { /* ignore */ }
+    localStorage.setItem(
+  'kidlearn_data_' + currentUser.uid,
+  JSON.stringify(data)
+);
 }
 
 function loadLocalData() {
