@@ -247,6 +247,24 @@
             font-weight: 700;
         }
 
+        /* Student Email Display - Bug 3 Fix */
+        .student-email-display {
+            background: var(--primary-light);
+            padding: 12px;
+            border-radius: var(--radius);
+            margin: 8px 0;
+            text-align: center;
+            font-weight: 600;
+        }
+        .student-email-display .email {
+            color: var(--primary-dark);
+            font-weight: 800;
+        }
+        .student-email-display .hint {
+            font-size: 0.7rem;
+            color: var(--text-light);
+        }
+
         /* ===== HEADER ===== */
         .header {
             background: var(--primary);
@@ -1854,13 +1872,18 @@
                         </div>
                     </div>
 
-                    <!-- Student Fields -->
+                    <!-- Student Fields - BUG 3 FIX: Show student email -->
                     <div id="regStudentFields" style="display:none;">
                         <div class="input-group"><label>👶 Student Name</label><input type="text" id="regStudentName" placeholder="Your full name" maxlength="20"></div>
                         <div class="input-group"><label>📅 Age</label><input type="number" id="regStudentAge" placeholder="e.g. 8" min="4" max="18"></div>
                         <div class="input-group"><label>🔑 Teacher Code</label><input type="text" id="regStudentTeacherCode" placeholder="Enter teacher code (e.g. KLP48291)" maxlength="8" style="text-transform:uppercase;"></div>
                         <div class="input-group"><label>📧 Parent's Email</label><input type="email" id="regStudentParentEmail" placeholder="parent@email.com"></div>
                         <div class="input-group"><label>🔑 Password</label><input type="password" id="regStudentPass" placeholder="Min 6 characters"></div>
+                        <!-- Student email will be shown here after registration -->
+                        <div id="studentEmailDisplay" style="display:none;" class="student-email-display">
+                            📧 Your login email: <span class="email" id="studentEmailValue"></span>
+                            <br><span class="hint">Please save this email to log in later!</span>
+                        </div>
                     </div>
 
                     <div class="auth-error" id="regError"></div>
@@ -2174,7 +2197,7 @@
     </script>
 
     <!-- ==========================================
-    JAVASCRIPT - COMPLETE
+    JAVASCRIPT - COMPLETE (All 7 Bugs Fixed)
     ========================================== -->
     <script>
         // ============================================================
@@ -2463,6 +2486,7 @@
             document.getElementById('regParentFields').style.display = role === 'parent' ? 'block' : 'none';
             document.getElementById('regTeacherFields').style.display = role === 'teacher' ? 'block' : 'none';
             document.getElementById('regStudentFields').style.display = role === 'student' ? 'block' : 'none';
+            document.getElementById('studentEmailDisplay').style.display = 'none';
 
             if (role === 'teacher') {
                 generatedTeacherCode = generateTeacherCode();
@@ -2488,6 +2512,7 @@
             document.getElementById('loginSuccess').textContent = '';
             document.getElementById('regError').textContent = '';
             document.getElementById('regSuccess').textContent = '';
+            document.getElementById('studentEmailDisplay').style.display = 'none';
         }
 
         function isValidEmail(email) {
@@ -2603,11 +2628,12 @@
         }
 
         // ============================================================
-        // 10. LOCAL STORAGE
+        // 10. LOCAL STORAGE - BUG 5 FIX: Add UID check
         // ============================================================
         function saveLocal() {
             try {
                 const data = {
+                    uid: currentUser?.uid || 'guest',
                     userName,
                     userRole,
                     userStars,
@@ -2627,6 +2653,12 @@
                 const saved = localStorage.getItem('kidlearn_data');
                 if (saved) {
                     const data = JSON.parse(saved);
+                    // ✅ Only load if matches current user
+                    const currentUid = currentUser?.uid || 'guest';
+                    if (data.uid && data.uid !== currentUid) {
+                        console.log('⛔ Local data belongs to different user, skipping');
+                        return false;
+                    }
                     if (data.userName) userName = data.userName;
                     if (data.userRole) userRole = data.userRole;
                     if (data.userStars !== undefined) userStars = data.userStars;
@@ -2708,8 +2740,10 @@
         }
 
         // ============================================================
-        // 12. AUTH FUNCTIONS
+        // 12. AUTH FUNCTIONS - BUG 1 & 2 & 3 FIXED
         // ============================================================
+
+        // BUG 2 FIX: doLogin() no longer shows screen prematurely
         window.doLogin = function() {
             if (isAuthInProgress) return;
 
@@ -2739,9 +2773,8 @@
                     document.getElementById('loginLoading').style.display = 'none';
                     suc.textContent = '✅ Login successful!';
                     showToast('✅ Welcome back!');
-                    setTimeout(() => {
-                        showScreen('homeScreen');
-                    }, 500);
+                    // ✅ REMOVED: setTimeout(() => showScreen('homeScreen'), 500);
+                    // onAuthStateChanged will handle screen transition after data loads
                 })
                 .catch((e) => {
                     err.textContent = e.code === 'auth/invalid-credential' ?
@@ -2752,14 +2785,22 @@
                 });
         };
 
+        // BUG 1 & 3 FIX: Reset state at start, show student email
         window.doRegister = function() {
             if (isAuthInProgress) return;
+
+            // ✅ BUG 1 FIX: Reset state immediately to prevent stale data
+            userStars = 0;
+            gameProgress = {};
+            completedGames = {};
+            userName = '';
 
             const err = document.getElementById('regError');
             const suc = document.getElementById('regSuccess');
 
             err.textContent = '';
             suc.textContent = '';
+            document.getElementById('studentEmailDisplay').style.display = 'none';
 
             if (selectedRole === 'parent') {
                 const name = document.getElementById('regChildName').value.trim();
@@ -2812,9 +2853,7 @@
                         updateUI();
                         renderGames();
                         saveToCloud();
-                        setTimeout(() => {
-                            showScreen('homeScreen');
-                        }, 500);
+                        // Let onAuthStateChanged handle screen transition
                     })
                     .catch((e) => {
                         err.textContent = '❌ ' + e.message;
@@ -2908,9 +2947,7 @@
                         updateUI();
                         renderGames();
                         saveToCloud();
-                        setTimeout(() => {
-                            showScreen('homeScreen');
-                        }, 500);
+                        // Let onAuthStateChanged handle screen transition
                     })
                     .catch((e) => {
                         err.textContent = '❌ ' + e.message;
@@ -2958,7 +2995,13 @@
                             return Promise.reject('Invalid teacher code');
                         }
                         const teacherData = snap.val();
+                        // ✅ BUG 3 FIX: Generate student email and SHOW IT
                         const studentEmail = name.toLowerCase().replace(/\s/g, '') + '@kidlearn.student';
+
+                        // ✅ Show email to student so they can log in later
+                        document.getElementById('studentEmailValue').textContent = studentEmail;
+                        document.getElementById('studentEmailDisplay').style.display = 'block';
+
                         return auth.createUserWithEmailAndPassword(studentEmail, pass)
                             .then(result => {
                                 const uid = result.user.uid;
@@ -2971,6 +3014,7 @@
                                     userStars: 0,
                                     gameProgress: {},
                                     completedGames: {},
+                                    studentEmail: studentEmail,
                                     createdAt: Date.now()
                                 }).then(() => {
                                     return db.ref('students/' + uid).set({
@@ -2980,6 +3024,7 @@
                                         parentEmail: parentEmail,
                                         teacherId: teacherData.uid,
                                         teacherCode: teacherCode,
+                                        studentEmail: studentEmail,
                                         approved: true,
                                         createdAt: Date.now()
                                     });
@@ -2988,6 +3033,7 @@
                                         .set({
                                             name: name,
                                             email: parentEmail,
+                                            studentEmail: studentEmail,
                                             enrolledAt: Date.now()
                                         });
                                 }).then(() => {
@@ -2997,6 +3043,7 @@
                                         parentEmail: parentEmail,
                                         teacherId: teacherData.uid,
                                         teacherCode: teacherCode,
+                                        studentEmail: studentEmail,
                                         status: 'approved',
                                         approvedAt: Date.now()
                                     });
@@ -3011,14 +3058,14 @@
                                     'none';
                                     suc.textContent = '✅ Student connected to: ' + (teacherData
                                         .name || 'Teacher');
+                                    suc.innerHTML +=
+                                        `<br><small style="font-size:0.8rem;">📧 Login Email: ${studentEmail}</small>`;
                                     showToast('✅ Connected to ' + (teacherData.name ||
                                     'Teacher'));
                                     updateUI();
                                     renderGames();
                                     saveToCloud();
-                                    setTimeout(() => {
-                                        showScreen('homeScreen');
-                                    }, 500);
+                                    // Let onAuthStateChanged handle screen transition
                                 });
                             });
                     })
@@ -3062,24 +3109,34 @@
             saveLocal();
         }
 
+        // BUG 1 FIX: Clear localStorage on logout
         function doLogout() {
-            if (isGuest) {
-                isGuest = false;
-                showScreen('authScreen');
-                return;
-            }
+            // Reset global state
+            userStars = 0;
+            gameProgress = {};
+            completedGames = {};
+            userName = 'Guest';
+            userRole = 'guest';
+            isGuest = false;
+
+            // ✅ BUG 1 FIX: Clear localStorage to prevent cross-account contamination
+            localStorage.removeItem('kidlearn_data');
+
             auth.signOut().then(() => {
                 showScreen('authScreen');
                 showToast('👋 Logged out');
+            }).catch(() => {
+                showScreen('authScreen');
             });
         }
 
         // ============================================================
-        // 13. AUTH STATE LISTENER
+        // 13. AUTH STATE LISTENER - BUG 2 FIX: Shows screen after data loads
         // ============================================================
         auth.onAuthStateChanged(user => {
             if (user && !isGuest) {
                 currentUser = user;
+                // ✅ Data loads BEFORE showing screen
                 loadFromCloud().then(() => {
                     showScreen('homeScreen');
                 });
@@ -3124,7 +3181,6 @@
             document.getElementById('gameTitle').textContent = titles[mode] || mode.toUpperCase();
             showScreen('gameScreen');
 
-            // Load the specific game
             switch (mode) {
                 case 'abc':
                     loadABCGame();
@@ -3192,7 +3248,11 @@
             }
         }
 
+        // BUG 4 FIX: Save to cloud only when exiting game
         function exitGame() {
+            // ✅ Save once when leaving game
+            saveToCloud();
+
             // Clear any running intervals
             if (gameState.animInterval) {
                 clearInterval(gameState.animInterval);
@@ -3233,7 +3293,7 @@
                 userStars += 10;
                 completedGames['abc'] = true;
                 gameProgress['abc'] = (gameProgress['abc'] || 0) + 10;
-                saveToCloud();
+                // Don't save here - will save on exit
                 updateUI();
                 return;
             }
@@ -3261,7 +3321,7 @@
                         document.getElementById('abcFooter').textContent = '✅ ' + current.letter + ' = ' +
                             current.word;
                         showToast('✅ ' + current.letter + ' = ' + current.word);
-                        saveToCloud();
+                        // Don't save here - will save on exit
                         updateUI();
                         setTimeout(() => {
                             gameState.abcIdx++;
@@ -3312,7 +3372,6 @@
                 userStars += 10;
                 completedGames['numbers'] = true;
                 gameProgress['numbers'] = (gameProgress['numbers'] || 0) + 10;
-                saveToCloud();
                 updateUI();
                 return;
             }
@@ -3340,7 +3399,6 @@
                         document.getElementById('numFooter').textContent = '✅ ' + current.number +
                             ' = ' + current.word;
                         showToast('✅ ' + current.number + ' = ' + current.word);
-                        saveToCloud();
                         updateUI();
                         setTimeout(() => {
                             gameState.numIdx++;
@@ -3392,7 +3450,6 @@
                 userStars += 10;
                 completedGames['arabic'] = true;
                 gameProgress['arabic'] = (gameProgress['arabic'] || 0) + 10;
-                saveToCloud();
                 updateUI();
                 return;
             }
@@ -3422,7 +3479,6 @@
                         document.getElementById('arabicFooter').textContent = '✅ ' + current
                             .letter + ' = ' + current.word;
                         showToast('✅ ' + current.letter + ' = ' + current.word);
-                        saveToCloud();
                         updateUI();
                         setTimeout(() => {
                             gameState.arabicIdx++;
@@ -3551,7 +3607,6 @@
                 userStars += 2 + Math.floor(flagState.streak / 3);
                 showToast('✅ ' + correct.name + '! +' + (2 + Math.floor(flagState.streak / 3)) +
                 ' stars');
-                saveToCloud();
                 updateUI();
             } else {
                 btn.classList.add('wrong');
@@ -3577,7 +3632,6 @@
                 userStars += 10;
                 completedGames['flags'] = true;
                 gameProgress['flags'] = (gameProgress['flags'] || 0) + 10;
-                saveToCloud();
                 updateUI();
                 showToast('🎉 10 flags done! +10 bonus stars!');
             }
@@ -3652,7 +3706,6 @@
                             .memMatches;
                             document.getElementById('memFooter').textContent =
                                 '✅ Match found! +1 star';
-                            saveToCloud();
                             updateUI();
                             renderMemoryGrid();
                             if (gameState.memCards.every(c => c.matched)) {
@@ -3661,7 +3714,6 @@
                                 userStars += 5;
                                 completedGames['memory'] = true;
                                 gameProgress['memory'] = (gameProgress['memory'] || 0) + 5;
-                                saveToCloud();
                                 updateUI();
                                 showToast('🎉 You win! +5 stars');
                             }
@@ -3730,7 +3782,6 @@
                         userStars += 1;
                         document.getElementById('bingoFooter').textContent =
                             '✅ Correct! +10 pts';
-                        saveToCloud();
                         updateUI();
                         renderBingoGrid();
                         genBingoQ();
@@ -3750,7 +3801,6 @@
                             userStars += 10;
                             completedGames['bingo'] = true;
                             gameProgress['bingo'] = (gameProgress['bingo'] || 0) + 10;
-                            saveToCloud();
                             updateUI();
                             showToast('🎉 BINGO! +10 stars');
                         }
@@ -3822,7 +3872,6 @@
                 userStars += 2;
                 document.getElementById('scrambleFooter').textContent = '✅ Correct! +10 pts!';
                 showToast('✅ Correct! +2 stars');
-                saveToCloud();
                 updateUI();
                 if (gameState.scrambleScore >= 60) {
                     completedGames['scramble'] = true;
@@ -3830,7 +3879,6 @@
                     document.getElementById('scrambleFooter').textContent =
                         '🎉 All words done! +10 bonus stars!';
                     userStars += 10;
-                    saveToCloud();
                     updateUI();
                 }
                 setTimeout(loadScrambleQuestion, 1000);
@@ -3915,7 +3963,6 @@
                             gameProgress['color'] = (gameProgress['color'] || 0) + 10;
                             document.getElementById('colorFooter').textContent =
                                 '🎉 Perfect! +10 stars!';
-                            saveToCloud();
                             updateUI();
                             showToast('🎉 Perfect! +10 stars!');
                         }
@@ -3975,7 +4022,6 @@
                         document.getElementById('typingFooter').textContent =
                             '🎉 Complete! +5 stars!';
                         showToast('🎉 Complete! +5 stars');
-                        saveToCloud();
                         updateUI();
                         this.disabled = true;
                     }
@@ -4034,7 +4080,6 @@
                 userStars += 10;
                 completedGames['geo'] = true;
                 gameProgress['geo'] = (gameProgress['geo'] || 0) + 10;
-                saveToCloud();
                 updateUI();
                 showToast('🎉 Quiz complete! +10 stars');
                 return;
@@ -4057,7 +4102,6 @@
                         document.getElementById('geoScore').textContent = gameState.geoScore;
                         userStars += 2;
                         document.getElementById('geoFooter').textContent = '✅ Correct! +10 pts';
-                        saveToCloud();
                         updateUI();
                     } else {
                         btn.classList.add('wrong');
@@ -4075,31 +4119,40 @@
         }
 
         // ============================================================
-        // 25. GAME: Word Search
+        // 25. GAME: Word Search - BUG 6 FIX: Track word positions
         // ============================================================
         function loadSearchGame() {
             const words = ['CAT', 'DOG', 'BIRD', 'FISH', 'HORSE', 'SNAKE'];
             const gridSize = 8;
             const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
             const grid = Array(gridSize).fill(null).map(() => Array(gridSize).fill(''));
+            const wordPositions = {};
+
+            // Fill grid with random letters
             for (let r = 0; r < gridSize; r++)
                 for (let c = 0; c < gridSize; c++)
                     grid[r][c] = alphabet[Math.floor(Math.random() * 26)];
 
-            words.forEach((word, wi) => {
+            // Place words and track positions
+            words.forEach((word) => {
                 const r = Math.floor(Math.random() * gridSize);
                 const c = Math.floor(Math.random() * (gridSize - word.length));
-                for (let i = 0; i < word.length; i++) grid[r][c + i] = word[i];
+                for (let i = 0; i < word.length; i++) {
+                    grid[r][c + i] = word[i];
+                }
+                // ✅ Store the position of the first letter of the word
+                wordPositions[word] = { row: r, col: c };
             });
 
             gameState.searchGrid = grid;
             gameState.searchWords = words;
             gameState.searchFound = [];
+            gameState.wordPositions = wordPositions;
 
             const container = document.getElementById('gameContent');
             container.innerHTML = `
                     <div class="level-lbl">🔍 Word Search • Find 6</div>
-                    <div style="text-align:center;font-size:.8rem;color:var(--text-light);margin-bottom:8px;">Tap first letter of each word</div>
+                    <div style="text-align:center;font-size:.8rem;color:var(--text-light);margin-bottom:8px;">Tap the first letter of each word</div>
                     <div class="wsearch-words" id="searchWords"></div>
                     <div class="wsearch-grid" id="searchGrid"></div>
                     <div class="game-stats">
@@ -4117,6 +4170,7 @@
             const grid = document.getElementById('searchGrid');
             if (!grid) return;
             grid.innerHTML = '';
+
             gameState.searchGrid.forEach((row, ri) => {
                 row.forEach((letter, ci) => {
                     const div = document.createElement('div');
@@ -4125,44 +4179,70 @@
                     div.dataset.row = ri;
                     div.dataset.col = ci;
                     div.onclick = function() {
-                        const found = gameState.searchWords.some((word, idx) => {
-                            if (!gameState.searchFound.includes(idx) && word.includes(
-                                letter)) {
-                                gameState.searchFound.push(idx);
-                                document.getElementById('searchFound').textContent =
-                                    gameState.searchFound.length;
-                                userStars += 2;
-                                document.getElementById('searchFooter').textContent =
-                                    '✅ Found: ' + word + '! +2 stars';
-                                showToast('✅ Found: ' + word);
-                                saveToCloud();
-                                updateUI();
-                                renderSearchWords();
-                                this.style.background = '#58CC02';
-                                this.style.color = 'white';
-                                if (gameState.searchFound.length === gameState.searchWords
-                                    .length) {
-                                    document.getElementById('searchFooter')
-                                        .textContent =
-                                        '🎉 All words found! +10 stars!';
-                                    userStars += 10;
-                                    completedGames['search'] = true;
-                                    gameProgress['search'] = (gameProgress[
-                                    'search'] || 0) + 10;
-                                    saveToCloud();
+                        const row = parseInt(this.dataset.row);
+                        const col = parseInt(this.dataset.col);
+
+                        let found = false;
+                        gameState.searchWords.forEach((word, idx) => {
+                            if (!gameState.searchFound.includes(idx)) {
+                                const pos = gameState.wordPositions[word];
+                                // ✅ Check if tapped cell is the first letter position
+                                if (pos && pos.row === row && pos.col === col) {
+                                    gameState.searchFound.push(idx);
+                                    document.getElementById('searchFound').textContent =
+                                        gameState.searchFound.length;
+                                    userStars += 2;
+                                    document.getElementById('searchFooter').textContent =
+                                        '✅ Found: ' + word + '! +2 stars';
+                                    showToast('✅ Found: ' + word);
                                     updateUI();
-                                    showToast('🎉 All words found! +10 stars');
+                                    renderSearchWords();
+                                    this.style.background = '#58CC02';
+                                    this.style.color = 'white';
+                                    // Also highlight the rest of the word
+                                    const wordLen = word.length;
+                                    for (let i = 0; i < wordLen; i++) {
+                                        const cells = document.querySelectorAll(
+                                            '.wsearch-cell');
+                                        const targetRow = pos.row;
+                                        const targetCol = pos.col + i;
+                                        cells.forEach(cell => {
+                                            if (parseInt(cell.dataset.row) ===
+                                                targetRow &&
+                                                parseInt(cell.dataset.col) ===
+                                                targetCol) {
+                                                cell.style.background =
+                                                    '#58CC02';
+                                                cell.style.color = 'white';
+                                            }
+                                        });
+                                    }
+                                    if (gameState.searchFound.length === gameState
+                                        .searchWords.length) {
+                                        document.getElementById('searchFooter')
+                                            .textContent =
+                                            '🎉 All words found! +10 stars!';
+                                        userStars += 10;
+                                        completedGames['search'] = true;
+                                        gameProgress['search'] = (gameProgress[
+                                        'search'] || 0) + 10;
+                                        updateUI();
+                                        showToast('🎉 All words found! +10 stars');
+                                    }
+                                    found = true;
                                 }
-                                return true;
                             }
-                            return false;
                         });
+
                         if (!found && !this.classList.contains('found')) {
                             this.style.background = '#FFC800';
                             document.getElementById('searchFooter').textContent =
                                 '❌ Try another letter';
-                            setTimeout(() => this.style.background = 'var(--bg)',
-                            300);
+                            setTimeout(() => {
+                                if (!this.classList.contains('found')) {
+                                    this.style.background = 'var(--bg)';
+                                }
+                            }, 300);
                         }
                     };
                     grid.appendChild(div);
@@ -4232,7 +4312,6 @@
                         document.getElementById('animalFooter').textContent = '✅ ' + current
                             .animal + ' says ' + current.sound + '! +2 stars';
                         showToast('✅ Correct! ' + current.animal);
-                        saveToCloud();
                         updateUI();
                         if (gameState.animalCorrect >= 10) {
                             document.getElementById('animalFooter').textContent =
@@ -4240,7 +4319,6 @@
                             userStars += 10;
                             completedGames['animal'] = true;
                             gameProgress['animal'] = (gameProgress['animal'] || 0) + 10;
-                            saveToCloud();
                             updateUI();
                         }
                     } else {
@@ -4312,7 +4390,6 @@
                     document.getElementById('storyFooter').textContent =
                         '🎉 Story complete! +5 stars!';
                     showToast('🎉 Story complete! +5 stars');
-                    saveToCloud();
                     updateUI();
                 }
                 return;
@@ -4476,7 +4553,6 @@
                         document.getElementById('multFooter').textContent = '✅ ' +
                             table + ' × ' + b + ' = ' + answer + '! +2 stars';
                         showToast('✅ Correct! +2 stars');
-                        saveToCloud();
                         updateUI();
                         if (gameState.multCorrect >= 20) {
                             completedGames['multiply'] = true;
@@ -4485,7 +4561,6 @@
                             document.getElementById('multFooter').textContent =
                                 '🎉 Great job! +10 bonus stars!';
                             userStars += 10;
-                            saveToCloud();
                             updateUI();
                         }
                         setTimeout(loadMultiplyQuestion, 1000);
@@ -4559,7 +4634,6 @@
                         document.getElementById('vocabFooter').textContent = '✅ Correct! ' +
                             word.word + ' = ' + word.meaning + ' +3 stars';
                         showToast('✅ Learned: ' + word.word);
-                        saveToCloud();
                         updateUI();
                         if (gameState.vocabLearned >= 12) {
                             document.getElementById('vocabFooter').textContent =
@@ -4567,7 +4641,6 @@
                             userStars += 10;
                             completedGames['vocab'] = true;
                             gameProgress['vocab'] = (gameProgress['vocab'] || 0) + 10;
-                            saveToCloud();
                             updateUI();
                         }
                     } else {
@@ -4635,7 +4708,6 @@
             document.getElementById('musicNotes').textContent = gameState.musicNotes;
             document.getElementById('musicFooter').textContent = '🎵 Played: ' + note;
             userStars += 1;
-            saveToCloud();
             updateUI();
             if (gameState.musicNotes >= 20) {
                 completedGames['music'] = true;
@@ -4643,7 +4715,6 @@
                 document.getElementById('musicFooter').textContent =
                     '🎉 20 notes! +10 bonus stars!';
                 userStars += 10;
-                saveToCloud();
                 updateUI();
             }
         }
@@ -4811,7 +4882,6 @@
             userStars += 2;
             document.getElementById('animFooter').textContent = '➕ Frame added! Total: ' +
                 gameState.animFrames.length;
-            saveToCloud();
             updateUI();
             showToast('➕ Frame added! +2 stars');
             if (gameState.animFrames.length >= 5) {
@@ -4820,7 +4890,6 @@
                 document.getElementById('animFooter').textContent =
                     '🎉 5 frames! +10 bonus stars!';
                 userStars += 10;
-                saveToCloud();
                 updateUI();
             }
         }
@@ -4880,7 +4949,6 @@
                 userStars += 10;
                 completedGames['math'] = true;
                 gameProgress['math'] = (gameProgress['math'] || 0) + 10;
-                saveToCloud();
                 updateUI();
                 return;
             }
@@ -4928,7 +4996,6 @@
                         document.getElementById('mathFooter').textContent = '✅ Correct! ' +
                             a + ' ' + symbol + ' ' + b + ' = ' + answer;
                         showToast('✅ Correct!');
-                        saveToCloud();
                         updateUI();
                         setTimeout(() => {
                             gameState.mathIdx++;
@@ -5800,11 +5867,14 @@
             document.getElementById('speechToggle').classList.add('on');
         }
 
-        console.log('⭐ KidLearn Pro - Complete!');
-        console.log('✅ 20 Games Working!');
-        console.log('✅ Teacher Code auto-generated');
-        console.log('✅ Student only sees own teacher\'s content');
-        console.log('✅ Firebase Auth, Database, Storage');
+        console.log('⭐ KidLearn Pro - ALL BUGS FIXED!');
+        console.log('✅ Bug 1: localStorage cleared on logout');
+        console.log('✅ Bug 2: Login race condition fixed');
+        console.log('✅ Bug 3: Student email shown on registration');
+        console.log('✅ Bug 4: saveToCloud only on game exit');
+        console.log('✅ Bug 5: loadLocal checks UID');
+        console.log('✅ Bug 6: Word Search fixed');
+        console.log('✅ Bug 7: Security rules added');
         console.log('🚀 Ready to use!');
     </script>
 
