@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#58CC02">
-    <title>KidLearn Pro</title>
+    <title>KidLearn Pro - Complete</title>
     <style>
         /* ==========================================
            COMPLETE CSS - ALL STYLES
@@ -30,6 +30,7 @@
             --danger: #FF4B4B;
             --blue: #1CB0F6;
             --orange: #FF9600;
+            --purple: #9b59b6;
         }
 
         [data-theme="dark"] {
@@ -247,7 +248,6 @@
             font-weight: 700;
         }
 
-        /* Student Email Display - Bug 3 Fix */
         .student-email-display {
             background: var(--primary-light);
             padding: 12px;
@@ -414,7 +414,6 @@
             gap: 4px;
         }
 
-        /* ===== GAME GRID ===== */
         .library-section {
             margin-bottom: 18px;
         }
@@ -830,7 +829,7 @@
             color: white;
         }
         .content-item .actions .download {
-            background: #9b59b6;
+            background: var(--purple);
             color: white;
         }
         .content-item .actions button:active,
@@ -1872,14 +1871,13 @@
                         </div>
                     </div>
 
-                    <!-- Student Fields - BUG 3 FIX: Show student email -->
+                    <!-- Student Fields -->
                     <div id="regStudentFields" style="display:none;">
                         <div class="input-group"><label>👶 Student Name</label><input type="text" id="regStudentName" placeholder="Your full name" maxlength="20"></div>
                         <div class="input-group"><label>📅 Age</label><input type="number" id="regStudentAge" placeholder="e.g. 8" min="4" max="18"></div>
                         <div class="input-group"><label>🔑 Teacher Code</label><input type="text" id="regStudentTeacherCode" placeholder="Enter teacher code (e.g. KLP48291)" maxlength="8" style="text-transform:uppercase;"></div>
                         <div class="input-group"><label>📧 Parent's Email</label><input type="email" id="regStudentParentEmail" placeholder="parent@email.com"></div>
                         <div class="input-group"><label>🔑 Password</label><input type="password" id="regStudentPass" placeholder="Min 6 characters"></div>
-                        <!-- Student email will be shown here after registration -->
                         <div id="studentEmailDisplay" style="display:none;" class="student-email-display">
                             📧 Your login email: <span class="email" id="studentEmailValue"></span>
                             <br><span class="hint">Please save this email to log in later!</span>
@@ -2197,7 +2195,7 @@
     </script>
 
     <!-- ==========================================
-    JAVASCRIPT - COMPLETE (All 7 Bugs Fixed)
+    JAVASCRIPT - COMPLETE WITH SOUND (ALL 20 GAMES)
     ========================================== -->
     <script>
         // ============================================================
@@ -2239,9 +2237,102 @@
         let gameState = {};
         let generatedTeacherCode = '';
         let teacherUid = '';
+        let flagState = {};
 
         // ============================================================
-        // 3. GAME DATA - 20 Games
+        // 3. SOUND FUNCTIONS - ALL 20 GAMES
+        // ============================================================
+
+        function speakText(text, rate = 0.8, pitch = 1.0, lang = 'en-US') {
+            if (!speechEnabled) return;
+            if (!('speechSynthesis' in window)) return;
+
+            window.speechSynthesis.cancel();
+
+            const msg = new SpeechSynthesisUtterance(text);
+            msg.rate = rate;
+            msg.pitch = pitch;
+            msg.lang = lang;
+
+            const voices = window.speechSynthesis.getVoices();
+            const goodVoice = voices.find(v => v.lang === lang && (v.name.includes('Google') || v.name.includes(
+            'Samantha')));
+            if (goodVoice) msg.voice = goodVoice;
+
+            window.speechSynthesis.speak(msg);
+        }
+
+        // === SOUND FUNCTIONS FOR EACH GAME ===
+        function playAbcSound(letter, word) {
+            speakText(letter + ' for ' + word, 0.7, 1.2);
+        }
+
+        function playNumberSound(number, word) {
+            speakText(number + ' is ' + word, 0.7, 1.1);
+        }
+
+        function playArabicSound(letter, word) {
+            speakText(letter + ' ' + word, 0.7, 1.1, 'ar-SA');
+        }
+
+        function playFlagSound(country) {
+            speakText('Correct! ' + country, 0.8, 1.0);
+        }
+
+        function playMemorySound() {
+            speakText('Match found!', 0.8, 1.2);
+        }
+
+        function playBingoSound() {
+            speakText('Bingo!', 0.9, 1.3);
+        }
+
+        function playScrambleSound(word) {
+            speakText('Correct! ' + word, 0.8, 1.1);
+        }
+
+        function playColorSound() {
+            speakText('Perfect!', 0.8, 1.2);
+        }
+
+        function playGeoSound(answer) {
+            speakText('Correct! ' + answer, 0.8, 1.0);
+        }
+
+        function playSearchSound(word) {
+            speakText('Found ' + word, 0.8, 1.1);
+        }
+
+        function playAnimalSound(animal, sound) {
+            speakText(sound + '! ' + animal, 0.7, 1.3);
+        }
+
+        function playStorySound() {
+            speakText('Story complete!', 0.8, 1.2);
+        }
+
+        function playPhonicsSound(letter, sound, words) {
+            speakText(letter + ' says ' + sound + '. ' + words.join(', '), 0.6, 1.1);
+        }
+
+        function playMultiplySound(table, b, answer) {
+            speakText(table + ' times ' + b + ' equals ' + answer, 0.7, 1.0);
+        }
+
+        function playVocabSound(word, meaning) {
+            speakText(word + ' means ' + meaning, 0.7, 1.0);
+        }
+
+        function playAnimateSound() {
+            speakText('Frame added!', 0.8, 1.2);
+        }
+
+        function playMathSound(a, symbol, b, answer) {
+            speakText(a + ' ' + symbol + ' ' + b + ' equals ' + answer, 0.7, 1.0);
+        }
+
+        // ============================================================
+        // 4. GAME DATA - 20 Games
         // ============================================================
         const GAMES = [
             { id: 'abc', icon: '🔤', name: 'ABC English', category: 'Language' },
@@ -2267,7 +2358,7 @@
         ];
 
         // ============================================================
-        // 4. GAME DATA - ABC, Numbers, Arabic
+        // 5. GAME DATA - ABC, Numbers, Arabic
         // ============================================================
         const abcData = [
             { letter: "A", word: "Apple", emoji: "🍎" }, { letter: "B", word: "Ball", emoji: "⚽" },
@@ -2390,7 +2481,7 @@
         };
 
         // ============================================================
-        // 5. FLAG DATA - 195 Countries
+        // 6. FLAG DATA - 195 Countries
         // ============================================================
         const FLAG_DATA_195 = [
             { name: "Afghanistan", flag: "🇦🇫" }, { name: "Albania", flag: "🇦🇱" }, { name: "Algeria", flag: "🇩🇿" },
@@ -2461,7 +2552,7 @@
         ];
 
         // ============================================================
-        // 6. UI HELPERS
+        // 7. UI HELPERS
         // ============================================================
         function showScreen(id) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -2526,7 +2617,7 @@
         }
 
         // ============================================================
-        // 7. UPDATE UI
+        // 8. UPDATE UI
         // ============================================================
         function updateUI() {
             document.getElementById('headerStars').textContent = userStars || 0;
@@ -2554,7 +2645,7 @@
         }
 
         // ============================================================
-        // 8. RENDER GAMES
+        // 9. RENDER GAMES
         // ============================================================
         function renderGames() {
             const grid = document.getElementById('gameGrid');
@@ -2599,7 +2690,7 @@
         }
 
         // ============================================================
-        // 9. SETTINGS
+        // 10. SETTINGS
         // ============================================================
         function toggleSettings() {
             document.getElementById('settingsPanel').classList.toggle('active');
@@ -2624,11 +2715,14 @@
             const toggle = document.getElementById('speechToggle');
             toggle.classList.toggle('on');
             speechEnabled = toggle.classList.contains('on');
+            if (speechEnabled) {
+                speakText('Speech is on', 0.8, 1.0);
+            }
             showToast(speechEnabled ? '🗣️ Speech on' : '🔇 Speech off');
         }
 
         // ============================================================
-        // 10. LOCAL STORAGE - BUG 5 FIX: Add UID check
+        // 11. LOCAL STORAGE
         // ============================================================
         function saveLocal() {
             try {
@@ -2653,7 +2747,6 @@
                 const saved = localStorage.getItem('kidlearn_data');
                 if (saved) {
                     const data = JSON.parse(saved);
-                    // ✅ Only load if matches current user
                     const currentUid = currentUser?.uid || 'guest';
                     if (data.uid && data.uid !== currentUid) {
                         console.log('⛔ Local data belongs to different user, skipping');
@@ -2674,7 +2767,7 @@
         }
 
         // ============================================================
-        // 11. CLOUD SAVE/LOAD
+        // 12. CLOUD SAVE/LOAD
         // ============================================================
         function saveToCloud() {
             if (!currentUser || isGuest) {
@@ -2740,10 +2833,8 @@
         }
 
         // ============================================================
-        // 12. AUTH FUNCTIONS - BUG 1 & 2 & 3 FIXED
+        // 13. AUTH FUNCTIONS
         // ============================================================
-
-        // BUG 2 FIX: doLogin() no longer shows screen prematurely
         window.doLogin = function() {
             if (isAuthInProgress) return;
 
@@ -2773,8 +2864,6 @@
                     document.getElementById('loginLoading').style.display = 'none';
                     suc.textContent = '✅ Login successful!';
                     showToast('✅ Welcome back!');
-                    // ✅ REMOVED: setTimeout(() => showScreen('homeScreen'), 500);
-                    // onAuthStateChanged will handle screen transition after data loads
                 })
                 .catch((e) => {
                     err.textContent = e.code === 'auth/invalid-credential' ?
@@ -2785,11 +2874,9 @@
                 });
         };
 
-        // BUG 1 & 3 FIX: Reset state at start, show student email
         window.doRegister = function() {
             if (isAuthInProgress) return;
 
-            // ✅ BUG 1 FIX: Reset state immediately to prevent stale data
             userStars = 0;
             gameProgress = {};
             completedGames = {};
@@ -2853,7 +2940,6 @@
                         updateUI();
                         renderGames();
                         saveToCloud();
-                        // Let onAuthStateChanged handle screen transition
                     })
                     .catch((e) => {
                         err.textContent = '❌ ' + e.message;
@@ -2947,7 +3033,6 @@
                         updateUI();
                         renderGames();
                         saveToCloud();
-                        // Let onAuthStateChanged handle screen transition
                     })
                     .catch((e) => {
                         err.textContent = '❌ ' + e.message;
@@ -2995,10 +3080,8 @@
                             return Promise.reject('Invalid teacher code');
                         }
                         const teacherData = snap.val();
-                        // ✅ BUG 3 FIX: Generate student email and SHOW IT
                         const studentEmail = name.toLowerCase().replace(/\s/g, '') + '@kidlearn.student';
 
-                        // ✅ Show email to student so they can log in later
                         document.getElementById('studentEmailValue').textContent = studentEmail;
                         document.getElementById('studentEmailDisplay').style.display = 'block';
 
@@ -3065,7 +3148,6 @@
                                     updateUI();
                                     renderGames();
                                     saveToCloud();
-                                    // Let onAuthStateChanged handle screen transition
                                 });
                             });
                     })
@@ -3109,9 +3191,7 @@
             saveLocal();
         }
 
-        // BUG 1 FIX: Clear localStorage on logout
         function doLogout() {
-            // Reset global state
             userStars = 0;
             gameProgress = {};
             completedGames = {};
@@ -3119,7 +3199,6 @@
             userRole = 'guest';
             isGuest = false;
 
-            // ✅ BUG 1 FIX: Clear localStorage to prevent cross-account contamination
             localStorage.removeItem('kidlearn_data');
 
             auth.signOut().then(() => {
@@ -3131,12 +3210,11 @@
         }
 
         // ============================================================
-        // 13. AUTH STATE LISTENER - BUG 2 FIX: Shows screen after data loads
+        // 14. AUTH STATE LISTENER
         // ============================================================
         auth.onAuthStateChanged(user => {
             if (user && !isGuest) {
                 currentUser = user;
-                // ✅ Data loads BEFORE showing screen
                 loadFromCloud().then(() => {
                     showScreen('homeScreen');
                 });
@@ -3152,7 +3230,7 @@
         });
 
         // ============================================================
-        // 14. START GAME
+        // 15. START GAME
         // ============================================================
         function startGame(mode) {
             const titles = {
@@ -3248,12 +3326,9 @@
             }
         }
 
-        // BUG 4 FIX: Save to cloud only when exiting game
         function exitGame() {
-            // ✅ Save once when leaving game
             saveToCloud();
 
-            // Clear any running intervals
             if (gameState.animInterval) {
                 clearInterval(gameState.animInterval);
                 gameState.animInterval = null;
@@ -3264,7 +3339,7 @@
         }
 
         // ============================================================
-        // 15. GAME: ABC English
+        // 16. GAME: ABC English (WITH SOUND)
         // ============================================================
         function loadABCGame() {
             gameState.abcIdx = 0;
@@ -3293,7 +3368,7 @@
                 userStars += 10;
                 completedGames['abc'] = true;
                 gameProgress['abc'] = (gameProgress['abc'] || 0) + 10;
-                // Don't save here - will save on exit
+                speakText('All letters done!', 0.8, 1.2);
                 updateUI();
                 return;
             }
@@ -3304,6 +3379,8 @@
             const options = [current, ...shuffled].sort(() => Math.random() - 0.5);
 
             document.getElementById('abcQuestion').textContent = current.letter;
+
+            speakText(current.letter + ' for ' + current.word, 0.7, 1.2);
 
             const container = document.getElementById('abcOptions');
             container.innerHTML = '';
@@ -3321,7 +3398,9 @@
                         document.getElementById('abcFooter').textContent = '✅ ' + current.letter + ' = ' +
                             current.word;
                         showToast('✅ ' + current.letter + ' = ' + current.word);
-                        // Don't save here - will save on exit
+
+                        playAbcSound(current.letter, current.word);
+
                         updateUI();
                         setTimeout(() => {
                             gameState.abcIdx++;
@@ -3343,7 +3422,7 @@
         }
 
         // ============================================================
-        // 16. GAME: Numbers
+        // 17. GAME: Numbers (WITH SOUND)
         // ============================================================
         function loadNumbersGame() {
             gameState.numIdx = 0;
@@ -3372,6 +3451,7 @@
                 userStars += 10;
                 completedGames['numbers'] = true;
                 gameProgress['numbers'] = (gameProgress['numbers'] || 0) + 10;
+                speakText('All numbers done!', 0.8, 1.2);
                 updateUI();
                 return;
             }
@@ -3382,6 +3462,8 @@
             const options = [current, ...shuffled].sort(() => Math.random() - 0.5);
 
             document.getElementById('numQuestion').textContent = current.emoji;
+
+            speakText(current.number + ' is ' + current.word, 0.7, 1.1);
 
             const container = document.getElementById('numOptions');
             container.innerHTML = '';
@@ -3399,6 +3481,9 @@
                         document.getElementById('numFooter').textContent = '✅ ' + current.number +
                             ' = ' + current.word;
                         showToast('✅ ' + current.number + ' = ' + current.word);
+
+                        playNumberSound(current.number, current.word);
+
                         updateUI();
                         setTimeout(() => {
                             gameState.numIdx++;
@@ -3420,7 +3505,7 @@
         }
 
         // ============================================================
-        // 17. GAME: Arabic
+        // 18. GAME: Arabic (WITH SOUND)
         // ============================================================
         function loadArabicGame() {
             gameState.arabicIdx = 0;
@@ -3450,6 +3535,7 @@
                 userStars += 10;
                 completedGames['arabic'] = true;
                 gameProgress['arabic'] = (gameProgress['arabic'] || 0) + 10;
+                speakText('All Arabic letters done!', 0.8, 1.2);
                 updateUI();
                 return;
             }
@@ -3460,6 +3546,8 @@
             const options = [current, ...shuffled].sort(() => Math.random() - 0.5);
 
             document.getElementById('arabicQuestion').textContent = current.letter;
+
+            speakText(current.letter + ' ' + current.word, 0.7, 1.1, 'ar-SA');
 
             const container = document.getElementById('arabicOptions');
             container.innerHTML = '';
@@ -3479,6 +3567,9 @@
                         document.getElementById('arabicFooter').textContent = '✅ ' + current
                             .letter + ' = ' + current.word;
                         showToast('✅ ' + current.letter + ' = ' + current.word);
+
+                        playArabicSound(current.letter, current.word);
+
                         updateUI();
                         setTimeout(() => {
                             gameState.arabicIdx++;
@@ -3500,7 +3591,7 @@
         }
 
         // ============================================================
-        // 18. GAME: Flag Quiz
+        // 19. GAME: Flag Quiz (WITH SOUND)
         // ============================================================
         function loadFlagGame() {
             flagState = {
@@ -3570,6 +3661,8 @@
             document.getElementById('flagFeedback').textContent = 'Tap the correct country';
             document.getElementById('flagFeedback').style.color = 'var(--text-light)';
 
+            speakText('Which country is this?', 0.8, 1.0);
+
             const container = document.getElementById('flagOptions');
             container.innerHTML = '';
             options.forEach(opt => {
@@ -3607,6 +3700,9 @@
                 userStars += 2 + Math.floor(flagState.streak / 3);
                 showToast('✅ ' + correct.name + '! +' + (2 + Math.floor(flagState.streak / 3)) +
                 ' stars');
+
+                playFlagSound(correct.name);
+
                 updateUI();
             } else {
                 btn.classList.add('wrong');
@@ -3632,6 +3728,7 @@
                 userStars += 10;
                 completedGames['flags'] = true;
                 gameProgress['flags'] = (gameProgress['flags'] || 0) + 10;
+                speakText('10 flags done!', 0.8, 1.2);
                 updateUI();
                 showToast('🎉 10 flags done! +10 bonus stars!');
             }
@@ -3646,12 +3743,13 @@
                     document.getElementById('flagFeedback').textContent = '🏆 Score: ' + flagState
                         .score + ' pts, ' + flagState.correct + ' correct!';
                     document.getElementById('flagFeedback').style.color = '#FF9600';
+                    speakText('Quiz complete!', 0.8, 1.2);
                 }
             }, 1500);
         }
 
         // ============================================================
-        // 19. GAME: Memory Match
+        // 20. GAME: Memory Match (WITH SOUND)
         // ============================================================
         function loadMemoryGame() {
             const deck = [...memoryEmojis, ...memoryEmojis];
@@ -3706,6 +3804,9 @@
                             .memMatches;
                             document.getElementById('memFooter').textContent =
                                 '✅ Match found! +1 star';
+
+                            playMemorySound();
+
                             updateUI();
                             renderMemoryGrid();
                             if (gameState.memCards.every(c => c.matched)) {
@@ -3714,6 +3815,7 @@
                                 userStars += 5;
                                 completedGames['memory'] = true;
                                 gameProgress['memory'] = (gameProgress['memory'] || 0) + 5;
+                                speakText('All matches found!', 0.8, 1.2);
                                 updateUI();
                                 showToast('🎉 You win! +5 stars');
                             }
@@ -3736,7 +3838,7 @@
         }
 
         // ============================================================
-        // 20. GAME: Math Bingo
+        // 21. GAME: Math Bingo (WITH SOUND)
         // ============================================================
         function loadBingoGame() {
             const nums = [];
@@ -3801,6 +3903,9 @@
                             userStars += 10;
                             completedGames['bingo'] = true;
                             gameProgress['bingo'] = (gameProgress['bingo'] || 0) + 10;
+
+                            playBingoSound();
+
                             updateUI();
                             showToast('🎉 BINGO! +10 stars');
                         }
@@ -3824,7 +3929,7 @@
         }
 
         // ============================================================
-        // 21. GAME: Word Scramble
+        // 22. GAME: Word Scramble (WITH SOUND)
         // ============================================================
         function loadScrambleGame() {
             gameState.scrambleWords = scrambleWords;
@@ -3872,6 +3977,9 @@
                 userStars += 2;
                 document.getElementById('scrambleFooter').textContent = '✅ Correct! +10 pts!';
                 showToast('✅ Correct! +2 stars');
+
+                playScrambleSound(gameState.scrambleCurrent);
+
                 updateUI();
                 if (gameState.scrambleScore >= 60) {
                     completedGames['scramble'] = true;
@@ -3879,6 +3987,7 @@
                     document.getElementById('scrambleFooter').textContent =
                         '🎉 All words done! +10 bonus stars!';
                     userStars += 10;
+                    speakText('All words done!', 0.8, 1.2);
                     updateUI();
                 }
                 setTimeout(loadScrambleQuestion, 1000);
@@ -3891,7 +4000,7 @@
         }
 
         // ============================================================
-        // 22. GAME: Color by Number
+        // 23. GAME: Color by Number (WITH SOUND)
         // ============================================================
         function loadColorGame() {
             const colors = ['#e74c3c', '#3498db', '#2ecc71', '#f1c40f', '#9b59b6', '#e67e22', '#1abc9c', '#e84393'];
@@ -3963,6 +4072,9 @@
                             gameProgress['color'] = (gameProgress['color'] || 0) + 10;
                             document.getElementById('colorFooter').textContent =
                                 '🎉 Perfect! +10 stars!';
+
+                            playColorSound();
+
                             updateUI();
                             showToast('🎉 Perfect! +10 stars!');
                         }
@@ -3973,7 +4085,7 @@
         }
 
         // ============================================================
-        // 23. GAME: Typing Tutor
+        // 24. GAME: Typing Tutor (WITH SOUND)
         // ============================================================
         function loadTypingGame() {
             const texts = [
@@ -4021,6 +4133,7 @@
                         gameProgress['typing'] = (gameProgress['typing'] || 0) + 5;
                         document.getElementById('typingFooter').textContent =
                             '🎉 Complete! +5 stars!';
+                        speakText('Typing complete!', 0.8, 1.2);
                         showToast('🎉 Complete! +5 stars');
                         updateUI();
                         this.disabled = true;
@@ -4049,7 +4162,7 @@
         }
 
         // ============================================================
-        // 24. GAME: Geography
+        // 25. GAME: Geography (WITH SOUND)
         // ============================================================
         function loadGeoGame() {
             gameState.geoQ = geoQuestions;
@@ -4080,6 +4193,7 @@
                 userStars += 10;
                 completedGames['geo'] = true;
                 gameProgress['geo'] = (gameProgress['geo'] || 0) + 10;
+                speakText('Geography quiz complete!', 0.8, 1.2);
                 updateUI();
                 showToast('🎉 Quiz complete! +10 stars');
                 return;
@@ -4088,6 +4202,9 @@
             document.getElementById('geoQ').textContent = q.q;
             document.getElementById('geoFooter').textContent = 'Q' + (gameState.geoIdx + 1) + '/' + gameState
                 .geoQ.length;
+
+            speakText(q.q, 0.8, 1.0);
+
             const grid = document.getElementById('geoOptions');
             grid.innerHTML = '';
             q.opts.forEach((opt, idx) => {
@@ -4102,6 +4219,9 @@
                         document.getElementById('geoScore').textContent = gameState.geoScore;
                         userStars += 2;
                         document.getElementById('geoFooter').textContent = '✅ Correct! +10 pts';
+
+                        playGeoSound(opt);
+
                         updateUI();
                     } else {
                         btn.classList.add('wrong');
@@ -4119,7 +4239,7 @@
         }
 
         // ============================================================
-        // 25. GAME: Word Search - BUG 6 FIX: Track word positions
+        // 26. GAME: Word Search (WITH SOUND)
         // ============================================================
         function loadSearchGame() {
             const words = ['CAT', 'DOG', 'BIRD', 'FISH', 'HORSE', 'SNAKE'];
@@ -4128,19 +4248,16 @@
             const grid = Array(gridSize).fill(null).map(() => Array(gridSize).fill(''));
             const wordPositions = {};
 
-            // Fill grid with random letters
             for (let r = 0; r < gridSize; r++)
                 for (let c = 0; c < gridSize; c++)
                     grid[r][c] = alphabet[Math.floor(Math.random() * 26)];
 
-            // Place words and track positions
             words.forEach((word) => {
                 const r = Math.floor(Math.random() * gridSize);
                 const c = Math.floor(Math.random() * (gridSize - word.length));
                 for (let i = 0; i < word.length; i++) {
                     grid[r][c + i] = word[i];
                 }
-                // ✅ Store the position of the first letter of the word
                 wordPositions[word] = { row: r, col: c };
             });
 
@@ -4186,7 +4303,6 @@
                         gameState.searchWords.forEach((word, idx) => {
                             if (!gameState.searchFound.includes(idx)) {
                                 const pos = gameState.wordPositions[word];
-                                // ✅ Check if tapped cell is the first letter position
                                 if (pos && pos.row === row && pos.col === col) {
                                     gameState.searchFound.push(idx);
                                     document.getElementById('searchFound').textContent =
@@ -4195,11 +4311,13 @@
                                     document.getElementById('searchFooter').textContent =
                                         '✅ Found: ' + word + '! +2 stars';
                                     showToast('✅ Found: ' + word);
+
+                                    playSearchSound(word);
+
                                     updateUI();
                                     renderSearchWords();
                                     this.style.background = '#58CC02';
                                     this.style.color = 'white';
-                                    // Also highlight the rest of the word
                                     const wordLen = word.length;
                                     for (let i = 0; i < wordLen; i++) {
                                         const cells = document.querySelectorAll(
@@ -4226,6 +4344,7 @@
                                         completedGames['search'] = true;
                                         gameProgress['search'] = (gameProgress[
                                         'search'] || 0) + 10;
+                                        speakText('All words found!', 0.8, 1.2);
                                         updateUI();
                                         showToast('🎉 All words found! +10 stars');
                                     }
@@ -4264,7 +4383,7 @@
         }
 
         // ============================================================
-        // 26. GAME: Animal Sounds
+        // 27. GAME: Animal Sounds (WITH SOUND)
         // ============================================================
         function loadAnimalGame() {
             gameState.animalData = animalData;
@@ -4312,6 +4431,9 @@
                         document.getElementById('animalFooter').textContent = '✅ ' + current
                             .animal + ' says ' + current.sound + '! +2 stars';
                         showToast('✅ Correct! ' + current.animal);
+
+                        playAnimalSound(current.animal, current.sound);
+
                         updateUI();
                         if (gameState.animalCorrect >= 10) {
                             document.getElementById('animalFooter').textContent =
@@ -4319,6 +4441,7 @@
                             userStars += 10;
                             completedGames['animal'] = true;
                             gameProgress['animal'] = (gameProgress['animal'] || 0) + 10;
+                            speakText('All animals done!', 0.8, 1.2);
                             updateUI();
                         }
                     } else {
@@ -4341,15 +4464,23 @@
             document.getElementById('animalDisplay').textContent = gameState.animalCurrent.emoji;
             document.getElementById('animalFooter').textContent = '🔊 ' + gameState.animalCurrent
                 .animal + ' says ' + gameState.animalCurrent.sound;
+
             if (speechEnabled) {
                 const msg = new SpeechSynthesisUtterance(gameState.animalCurrent.sound);
                 msg.rate = 0.7;
+                msg.pitch = 1.3;
                 window.speechSynthesis.speak(msg);
+                setTimeout(() => {
+                    const msg2 = new SpeechSynthesisUtterance(gameState.animalCurrent.animal);
+                    msg2.rate = 0.8;
+                    msg2.pitch = 1.0;
+                    window.speechSynthesis.speak(msg2);
+                }, 500);
             }
         }
 
         // ============================================================
-        // 27. GAME: Story Builder
+        // 28. GAME: Story Builder (WITH SOUND)
         // ============================================================
         function loadStoryGame() {
             gameState.storyTemplate = storyTemplates[Math.floor(Math.random() * storyTemplates.length)];
@@ -4389,6 +4520,9 @@
                     gameProgress['story'] = (gameProgress['story'] || 0) + 5;
                     document.getElementById('storyFooter').textContent =
                         '🎉 Story complete! +5 stars!';
+
+                    playStorySound();
+
                     showToast('🎉 Story complete! +5 stars');
                     updateUI();
                 }
@@ -4412,6 +4546,9 @@
                     document.getElementById('storyText').textContent = story;
                     document.getElementById('storyFooter').textContent = '✅ Added: ' +
                     word;
+
+                    speakText(word, 0.8, 1.1);
+
                     renderStoryWords();
                 };
                 container.appendChild(div);
@@ -4419,7 +4556,7 @@
         }
 
         // ============================================================
-        // 28. GAME: Phonics
+        // 29. GAME: Phonics (WITH SOUND)
         // ============================================================
         function loadPhonicsGame() {
             gameState.phonicsData = phonicsData;
@@ -4462,16 +4599,20 @@
                 div.textContent = word;
                 container.appendChild(div);
             });
+
+            playPhonicsSound(item.letter, item.sound, item.words);
         }
 
         function playPhonicsSound() {
             const item = gameState.phonicsData[gameState.phonicsIdx];
             document.getElementById('phonicsFooter').textContent = '🔊 ' + item.letter + ' says ' +
                 item.sound + '. ' + item.words.join(', ');
+
             if (speechEnabled) {
                 const msg = new SpeechSynthesisUtterance(item.letter + ' says ' + item.sound + '. ' +
                     item.words.join(', '));
                 msg.rate = 0.6;
+                msg.pitch = 1.1;
                 window.speechSynthesis.speak(msg);
             }
         }
@@ -4482,7 +4623,7 @@
         }
 
         // ============================================================
-        // 29. GAME: Times Tables
+        // 30. GAME: Times Tables (WITH SOUND)
         // ============================================================
         function loadMultiplyGame() {
             gameState.multTable = 2;
@@ -4529,6 +4670,9 @@
             const answer = table * b;
             document.getElementById('multQ').textContent = table + ' × ' + b + ' = ?';
             document.getElementById('multFooter').textContent = 'Solve: ' + table + ' × ' + b;
+
+            speakText(table + ' times ' + b + ' equals what?', 0.7, 1.0);
+
             const opts = new Set([answer]);
             while (opts.size < 4) {
                 const offset = Math.floor(Math.random() * 10) + 1;
@@ -4553,6 +4697,9 @@
                         document.getElementById('multFooter').textContent = '✅ ' +
                             table + ' × ' + b + ' = ' + answer + '! +2 stars';
                         showToast('✅ Correct! +2 stars');
+
+                        playMultiplySound(table, b, answer);
+
                         updateUI();
                         if (gameState.multCorrect >= 20) {
                             completedGames['multiply'] = true;
@@ -4561,6 +4708,7 @@
                             document.getElementById('multFooter').textContent =
                                 '🎉 Great job! +10 bonus stars!';
                             userStars += 10;
+                            speakText('Great job!', 0.8, 1.2);
                             updateUI();
                         }
                         setTimeout(loadMultiplyQuestion, 1000);
@@ -4583,7 +4731,7 @@
         }
 
         // ============================================================
-        // 30. GAME: Vocabulary
+        // 31. GAME: Vocabulary (WITH SOUND)
         // ============================================================
         function loadVocabGame() {
             gameState.vocabData = vocabData;
@@ -4615,6 +4763,9 @@
                         <div class="vocab-example">"${word.example}"</div>
                     `;
             document.getElementById('vocabFooter').textContent = '🔍 What does "' + word.word + '" mean?';
+
+            speakText(word.word + ' means ' + word.meaning, 0.7, 1.0);
+
             const opts = [word, ...data.filter(w => w.word !== word.word).sort(() => Math.random() - 0.5).slice(
                 0, 3)].sort(() => Math.random() - 0.5);
             const grid = document.getElementById('vocabOptions');
@@ -4634,6 +4785,9 @@
                         document.getElementById('vocabFooter').textContent = '✅ Correct! ' +
                             word.word + ' = ' + word.meaning + ' +3 stars';
                         showToast('✅ Learned: ' + word.word);
+
+                        playVocabSound(word.word, word.meaning);
+
                         updateUI();
                         if (gameState.vocabLearned >= 12) {
                             document.getElementById('vocabFooter').textContent =
@@ -4641,6 +4795,7 @@
                             userStars += 10;
                             completedGames['vocab'] = true;
                             gameProgress['vocab'] = (gameProgress['vocab'] || 0) + 10;
+                            speakText('All words learned!', 0.8, 1.2);
                             updateUI();
                         }
                     } else {
@@ -4659,7 +4814,7 @@
         }
 
         // ============================================================
-        // 31. GAME: Music Maker
+        // 32. GAME: Music Maker (WITH SOUND)
         // ============================================================
         function loadMusicGame() {
             const notes = ['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5'];
@@ -4708,6 +4863,11 @@
             document.getElementById('musicNotes').textContent = gameState.musicNotes;
             document.getElementById('musicFooter').textContent = '🎵 Played: ' + note;
             userStars += 1;
+
+            if (speechEnabled && gameState.musicNotes % 5 === 0) {
+                speakText('Note ' + note, 0.8, 1.0);
+            }
+
             updateUI();
             if (gameState.musicNotes >= 20) {
                 completedGames['music'] = true;
@@ -4715,6 +4875,7 @@
                 document.getElementById('musicFooter').textContent =
                     '🎉 20 notes! +10 bonus stars!';
                 userStars += 10;
+                speakText('20 notes played!', 0.8, 1.2);
                 updateUI();
             }
         }
@@ -4726,7 +4887,7 @@
         }
 
         // ============================================================
-        // 32. GAME: Animation Studio
+        // 33. GAME: Animation Studio (WITH SOUND)
         // ============================================================
         function loadAnimateGame() {
             const container = document.getElementById('gameContent');
@@ -4882,6 +5043,9 @@
             userStars += 2;
             document.getElementById('animFooter').textContent = '➕ Frame added! Total: ' +
                 gameState.animFrames.length;
+
+            playAnimateSound();
+
             updateUI();
             showToast('➕ Frame added! +2 stars');
             if (gameState.animFrames.length >= 5) {
@@ -4890,6 +5054,7 @@
                 document.getElementById('animFooter').textContent =
                     '🎉 5 frames! +10 bonus stars!';
                 userStars += 10;
+                speakText('5 frames complete!', 0.8, 1.2);
                 updateUI();
             }
         }
@@ -4919,7 +5084,7 @@
         }
 
         // ============================================================
-        // 33. GAME: Math (50 Levels)
+        // 34. GAME: Math (WITH SOUND)
         // ============================================================
         function loadMathGame() {
             gameState.mathIdx = 0;
@@ -4949,6 +5114,7 @@
                 userStars += 10;
                 completedGames['math'] = true;
                 gameProgress['math'] = (gameProgress['math'] || 0) + 10;
+                speakText('All math done!', 0.8, 1.2);
                 updateUI();
                 return;
             }
@@ -4978,6 +5144,8 @@
 
             document.getElementById('mathQuestion').textContent = a + ' ' + symbol + ' ' + b + ' = ?';
 
+            speakText(a + ' ' + symbol + ' ' + b + ' equals what?', 0.7, 1.0);
+
             const container = document.getElementById('mathOptions');
             container.innerHTML = '';
             options.forEach(opt => {
@@ -4996,6 +5164,9 @@
                         document.getElementById('mathFooter').textContent = '✅ Correct! ' +
                             a + ' ' + symbol + ' ' + b + ' = ' + answer;
                         showToast('✅ Correct!');
+
+                        playMathSound(a, symbol, b, answer);
+
                         updateUI();
                         setTimeout(() => {
                             gameState.mathIdx++;
@@ -5021,14 +5192,14 @@
         }
 
         // ============================================================
-        // 34. GAME: Coloring (Same as Color by Number)
+        // 35. GAME: Coloring (WITH SOUND)
         // ============================================================
         function loadColoringGame() {
             loadColorGame();
         }
 
         // ============================================================
-        // 35. STUDENT DASHBOARD
+        // 36. STUDENT DASHBOARD
         // ============================================================
         function renderStudentDash() {
             document.getElementById('sStars').textContent = userStars || 0;
@@ -5229,7 +5400,7 @@
         }
 
         // ============================================================
-        // 36. TEACHER DASHBOARD
+        // 37. TEACHER DASHBOARD
         // ============================================================
         function renderTeacherDash() {
             if (userRole !== 'teacher') {
@@ -5376,7 +5547,7 @@
         }
 
         // ============================================================
-        // 37. TEACHER: UPLOAD CONTENT
+        // 38. TEACHER: UPLOAD CONTENT
         // ============================================================
         function uploadContent() {
             const title = document.getElementById('contentTitle').value.trim();
@@ -5415,7 +5586,7 @@
         }
 
         // ============================================================
-        // 38. TEACHER: FILE UPLOAD
+        // 39. TEACHER: FILE UPLOAD
         // ============================================================
         function uploadFileToStorage() {
             const fileInput = document.getElementById('fileInput');
@@ -5520,7 +5691,7 @@
         });
 
         // ============================================================
-        // 39. TEACHER: EXAMS
+        // 40. TEACHER: EXAMS
         // ============================================================
         function loadTeacherExams() {
             const list = document.getElementById('teacherExamList');
@@ -5580,7 +5751,7 @@
         }
 
         // ============================================================
-        // 40. STUDENT: TAKE EXAM
+        // 41. STUDENT: TAKE EXAM
         // ============================================================
         function takeExam(examId) {
             db.ref('exams/' + examId).once('value').then(s => {
@@ -5675,7 +5846,7 @@
         }
 
         // ============================================================
-        // 41. PARENT DASHBOARD
+        // 42. PARENT DASHBOARD
         // ============================================================
         function renderDash() {
             document.getElementById('dStars').textContent = userStars || 0;
@@ -5734,7 +5905,7 @@
         }
 
         // ============================================================
-        // 42. CONTENT LIBRARY
+        // 43. CONTENT LIBRARY
         // ============================================================
         function renderContent() {
             const list = document.getElementById('contentList');
@@ -5761,7 +5932,7 @@
         }
 
         // ============================================================
-        // 43. EXAMS (Student View)
+        // 44. EXAMS (Student View)
         // ============================================================
         function renderExams() {
             const list = document.getElementById('examList');
@@ -5787,7 +5958,7 @@
         }
 
         // ============================================================
-        // 44. LEADERBOARD
+        // 45. LEADERBOARD
         // ============================================================
         function loadLeaderboard() {
             const list = document.getElementById('lbList');
@@ -5850,7 +6021,7 @@
         }
 
         // ============================================================
-        // 45. INIT
+        // 46. INIT
         // ============================================================
         loadLocal();
         updateUI();
@@ -5867,14 +6038,17 @@
             document.getElementById('speechToggle').classList.add('on');
         }
 
-        console.log('⭐ KidLearn Pro - ALL BUGS FIXED!');
-        console.log('✅ Bug 1: localStorage cleared on logout');
-        console.log('✅ Bug 2: Login race condition fixed');
-        console.log('✅ Bug 3: Student email shown on registration');
-        console.log('✅ Bug 4: saveToCloud only on game exit');
-        console.log('✅ Bug 5: loadLocal checks UID');
-        console.log('✅ Bug 6: Word Search fixed');
-        console.log('✅ Bug 7: Security rules added');
+        // Preload voices
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.getVoices();
+            window.speechSynthesis.onvoiceschanged = function() {
+                window.speechSynthesis.getVoices();
+            };
+        }
+
+        console.log('⭐ KidLearn Pro - COMPLETE WITH SOUND!');
+        console.log('✅ 20 Games with Sound!');
+        console.log('✅ All features working!');
         console.log('🚀 Ready to use!');
     </script>
 
