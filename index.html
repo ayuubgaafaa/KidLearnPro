@@ -6051,6 +6051,12 @@
         console.log('✅ All features working!');
         console.log('🚀 Ready to use!');
     </script>
-
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/KidLearnPro/sw.js')
+      .then(reg => console.log('SW registered'))
+      .catch(err => console.log('SW error', err));
+  }
+</script>
 </body>
 </html>
