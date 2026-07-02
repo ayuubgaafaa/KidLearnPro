@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="so">
 <head>
-    <link rel="manifest" href="/KidLearnPro/manifest.json">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#58CC02">
-    <title>KidLearn Pro - Complete</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>KidLearn Pro</title>
+
+    <!-- ============================================================
+    COMPLETE CSS - ALL STYLES
+    ============================================================ -->
     <style>
-        /* ==========================================
-           COMPLETE CSS - ALL STYLES
-           ========================================== */
         * {
             margin: 0;
             padding: 0;
@@ -838,6 +837,59 @@
             transform: scale(0.95);
         }
 
+        /* ===== CONTENT ITEM - CLICKABLE (NEW) ===== */
+        .content-item.clickable {
+            cursor: pointer;
+            transition: all 0.2s;
+            border-left-color: var(--blue);
+        }
+        .content-item.clickable:active {
+            transform: scale(0.98);
+        }
+        .content-item .preview-area {
+            margin-top: 10px;
+            border-radius: var(--radius);
+            overflow: hidden;
+            background: #000;
+            display: none;
+        }
+        .content-item .preview-area.show {
+            display: block;
+        }
+        .content-item .preview-area video,
+        .content-item .preview-area audio {
+            width: 100%;
+            max-height: 300px;
+            display: block;
+        }
+        .content-item .preview-area img {
+            width: 100%;
+            max-height: 300px;
+            object-fit: contain;
+            background: #fff;
+        }
+        .content-item .preview-area iframe {
+            width: 100%;
+            height: 250px;
+            border: 0;
+        }
+        .content-item .preview-area .pdf-viewer {
+            width: 100%;
+            height: 400px;
+            border: 0;
+        }
+        .content-item .preview-area .file-info {
+            padding: 10px;
+            background: var(--bg);
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+        .content-item .preview-area .file-info a {
+            color: var(--blue);
+            text-decoration: underline;
+        }
+
         /* ===== EXAM ITEM ===== */
         .exam-item {
             background: var(--bg);
@@ -1028,6 +1080,104 @@
             left: 23px;
         }
 
+        /* ===== FLAG QUIZ STYLES (NEW) ===== */
+        .flag-game-container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+        .flag-display-big {
+            font-size: 6rem;
+            text-align: center;
+            padding: 20px;
+            background: var(--bg);
+            border-radius: var(--radius);
+            margin: 10px 0;
+            min-height: 130px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .flag-progress-bar {
+            height: 6px;
+            background: #E8E8E8;
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 8px 0;
+        }
+        .flag-progress-bar .fill {
+            height: 100%;
+            background: var(--primary);
+            transition: width 0.5s;
+            width: 0%;
+        }
+        .flag-stats-row {
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-light);
+            border-top: 1px solid #f0f0f0;
+            border-bottom: 1px solid #f0f0f0;
+            margin: 6px 0;
+        }
+        .flag-stats-row .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .flag-stats-row .stat-value {
+            color: var(--text);
+            font-size: 1rem;
+        }
+        .flag-options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin: 10px 0;
+        }
+        .flag-options-grid .flag-opt {
+            padding: 14px 8px;
+            border: 2px solid #E8E8E8;
+            border-radius: var(--radius);
+            background: var(--bg);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text);
+            font-size: 0.85rem;
+            text-align: center;
+        }
+        .flag-options-grid .flag-opt:active {
+            transform: scale(0.95);
+        }
+        .flag-options-grid .flag-opt.correct {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            color: var(--primary-dark);
+        }
+        .flag-options-grid .flag-opt.wrong {
+            background: #FDE8E8;
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+        .flag-options-grid .flag-opt.disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .flag-feedback {
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 700;
+            min-height: 28px;
+            padding: 4px 0;
+        }
+        .flag-feedback.correct { color: var(--primary); }
+        .flag-feedback.wrong { color: var(--danger); }
+        .flag-feedback.info { color: var(--blue); }
+        .flag-feedback.complete { color: var(--orange); font-size: 1.1rem; }
+
         /* ===== RESPONSIVE ===== */
         @media (max-width: 400px) {
             .game-card {
@@ -1055,6 +1205,13 @@
             .header .stars {
                 padding: 3px 10px;
                 font-size: 0.7rem;
+            }
+            .flag-options-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .flag-display-big {
+                font-size: 4rem;
+                min-height: 100px;
             }
         }
 
@@ -1793,13 +1950,49 @@
         }
     </style>
 </head>
-<body>
 
+<body>
+    <div id="toast"></div>
+
+    <!-- ============================================================
+    SETTINGS PANEL
+    ============================================================ -->
+    <div class="settings-panel" id="settingsPanel">
+        <div class="panel-content">
+            <div class="panel-header">
+                <h3>⚙️ Settings</h3>
+                <button class="close-btn" onclick="toggleSettings()">✖</button>
+            </div>
+            <div class="settings-item">
+                <div class="s-info">
+                    <div class="s-title">🌙 Dark Mode</div>
+                    <div class="s-desc">Switch theme</div>
+                </div>
+                <div class="toggle" id="darkModeToggle" onclick="toggleDarkMode()"></div>
+            </div>
+            <div class="settings-item">
+                <div class="s-info">
+                    <div class="s-title">🔊 Sound</div>
+                    <div class="s-desc">Game sounds</div>
+                </div>
+                <div class="toggle" id="soundToggle" onclick="toggleSound()"></div>
+            </div>
+            <div class="settings-item">
+                <div class="s-info">
+                    <div class="s-title">🗣️ Speech</div>
+                    <div class="s-desc">Voice feedback</div>
+                </div>
+                <div class="toggle" id="speechToggle" onclick="toggleSpeech()"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    APP CONTAINER
+    ============================================================ -->
     <div class="app-container">
 
-        <!-- ==========================================
-        AUTH SCREEN
-        ========================================== -->
+        <!-- ===== AUTH SCREEN ===== -->
         <div class="screen active" id="authScreen">
             <div class="auth-screen">
                 <div class="logo">
@@ -1810,13 +2003,16 @@
 
                 <div class="role-selector">
                     <div class="role-opt active" data-role="parent" onclick="selectRole('parent')">
-                        <span class="icon">👨‍👧</span><span class="label">Parent</span>
+                        <span class="icon">👨‍👧</span>
+                        <span class="label">Parent</span>
                     </div>
                     <div class="role-opt" data-role="teacher" onclick="selectRole('teacher')">
-                        <span class="icon">👨‍🏫</span><span class="label">Teacher</span>
+                        <span class="icon">👨‍🏫</span>
+                        <span class="label">Teacher</span>
                     </div>
                     <div class="role-opt" data-role="student" onclick="selectRole('student')">
-                        <span class="icon">🧒</span><span class="label">Student</span>
+                        <span class="icon">🧒</span>
+                        <span class="label">Student</span>
                     </div>
                 </div>
 
@@ -1827,35 +2023,67 @@
 
                 <!-- LOGIN FORM -->
                 <div id="loginForm">
-                    <div class="input-group"><label>📧 Email</label><input type="email" id="loginEmail" placeholder="your@email.com"></div>
-                    <div class="input-group"><label>🔑 Password</label><input type="password" id="loginPass" placeholder="••••••••"></div>
-                    <div class="auth-error" id="loginError"></div>
-                    <div class="auth-success" id="loginSuccess"></div>
-                    <div class="auth-loading" id="loginLoading">⏳ Logging in...</div>
-                    <button class="auth-btn" onclick="doLogin()">🔐 Login</button>
-                    <div style="text-align:center;margin-top:10px;">
-                        <span style="color:var(--primary);cursor:pointer;font-size:0.75rem;font-weight:600;" onclick="doForgotPassword()">Forgot Password?</span>
+                    <div class="input-group">
+                        <label>📧 Email</label>
+                        <input type="email" id="loginEmail" placeholder="your@email.com" />
                     </div>
+                    <div class="input-group">
+                        <label>🔑 Password</label>
+                        <input type="password" id="loginPass" placeholder="••••••••" />
+                    </div>
+                    <div id="loginLoading" class="auth-loading">⏳ Logging in...</div>
+                    <button class="auth-btn" onclick="doLogin()">🔐 Login</button>
+                    <div style="text-align:right;margin-top:6px;">
+                        <span style="font-size:0.7rem;color:var(--blue);cursor:pointer;" onclick="doForgotPassword()">Forgot Password?</span>
+                    </div>
+                    <div id="loginError" class="auth-error"></div>
+                    <div id="loginSuccess" class="auth-success"></div>
                 </div>
 
                 <!-- REGISTER FORM -->
                 <div id="registerForm" style="display:none;">
-                    <!-- Parent Fields -->
                     <div id="regParentFields">
-                        <div class="input-group"><label>👶 Child's Name</label><input type="text" id="regChildName" placeholder="e.g. Ayub" maxlength="20"></div>
-                        <div class="input-group"><label>📅 Child's Age</label><input type="number" id="regChildAge" placeholder="e.g. 4" min="2" max="12"></div>
-                        <div class="input-group"><label>📧 Email</label><input type="email" id="regParentEmail" placeholder="parent@email.com"></div>
-                        <div class="input-group"><label>🔑 Password</label><input type="password" id="regParentPass" placeholder="Min 6 characters"></div>
+                        <div class="input-group">
+                            <label>👶 Child's Name</label>
+                            <input type="text" id="regChildName" placeholder="e.g. Ahmed" />
+                        </div>
+                        <div class="input-group">
+                            <label>📅 Child's Age</label>
+                            <input type="number" id="regChildAge" placeholder="e.g. 6" min="2" max="12" />
+                        </div>
+                        <div class="input-group">
+                            <label>📧 Email</label>
+                            <input type="email" id="regParentEmail" placeholder="your@email.com" />
+                        </div>
+                        <div class="input-group">
+                            <label>🔑 Password</label>
+                            <input type="password" id="regParentPass" placeholder="••••••••" />
+                        </div>
                     </div>
 
-                    <!-- Teacher Fields -->
                     <div id="regTeacherFields" style="display:none;">
-                        <div class="input-group"><label>👤 Full Name</label><input type="text" id="regTeacherName" placeholder="Your full name"></div>
-                        <div class="input-group"><label>📧 Email</label><input type="email" id="regTeacherEmail" placeholder="teacher@email.com"></div>
-                        <div class="input-group"><label>🔑 Password</label><input type="password" id="regTeacherPass" placeholder="Min 6 characters"></div>
-                        <div class="input-group"><label>🆔 Teacher ID</label><input type="text" id="regTeacherId" placeholder="Certificate number"></div>
-                        <div class="input-group"><label>📝 Experience</label><textarea id="regTeacherCv" placeholder="Describe your experience..."></textarea></div>
-                        <div class="input-group"><label>📚 Subject</label>
+                        <div class="input-group">
+                            <label>👤 Full Name</label>
+                            <input type="text" id="regTeacherName" placeholder="e.g. Mohamed Ali" />
+                        </div>
+                        <div class="input-group">
+                            <label>📧 Email</label>
+                            <input type="email" id="regTeacherEmail" placeholder="teacher@email.com" />
+                        </div>
+                        <div class="input-group">
+                            <label>🔑 Password</label>
+                            <input type="password" id="regTeacherPass" placeholder="••••••••" />
+                        </div>
+                        <div class="input-group">
+                            <label>🆔 Teacher ID</label>
+                            <input type="text" id="regTeacherId" placeholder="e.g. TCH2025" />
+                        </div>
+                        <div class="input-group">
+                            <label>📝 Experience</label>
+                            <textarea id="regTeacherCv" placeholder="e.g. 5 years teaching experience..."></textarea>
+                        </div>
+                        <div class="input-group">
+                            <label>📚 Subject</label>
                             <select id="regTeacherSubject">
                                 <option value="all">All Subjects</option>
                                 <option value="english">English</option>
@@ -1868,94 +2096,117 @@
                         <div class="teacher-code-display" id="teacherCodeDisplay">
                             <span class="label">🔑 Your Teacher Code</span>
                             <div class="code" id="teacherCodeValue">KLP00000</div>
-                            <span style="font-size:0.65rem;color:var(--text-light);">Share this code with students</span>
+                            <span class="label">Share this code with students</span>
                         </div>
                     </div>
 
-                    <!-- Student Fields -->
                     <div id="regStudentFields" style="display:none;">
-                        <div class="input-group"><label>👶 Student Name</label><input type="text" id="regStudentName" placeholder="Your full name" maxlength="20"></div>
-                        <div class="input-group"><label>📅 Age</label><input type="number" id="regStudentAge" placeholder="e.g. 8" min="4" max="18"></div>
-                        <div class="input-group"><label>🔑 Teacher Code</label><input type="text" id="regStudentTeacherCode" placeholder="Enter teacher code (e.g. KLP48291)" maxlength="8" style="text-transform:uppercase;"></div>
-                        <div class="input-group"><label>📧 Parent's Email</label><input type="email" id="regStudentParentEmail" placeholder="parent@email.com"></div>
-                        <div class="input-group"><label>🔑 Password</label><input type="password" id="regStudentPass" placeholder="Min 6 characters"></div>
-                        <div id="studentEmailDisplay" style="display:none;" class="student-email-display">
-                            📧 Your login email: <span class="email" id="studentEmailValue"></span>
-                            <br><span class="hint">Please save this email to log in later!</span>
+                        <div class="input-group">
+                            <label>👶 Student Name</label>
+                            <input type="text" id="regStudentName" placeholder="e.g. Amina" />
+                        </div>
+                        <div class="input-group">
+                            <label>📅 Age</label>
+                            <input type="number" id="regStudentAge" placeholder="e.g. 8" min="4" max="18" />
+                        </div>
+                        <div class="input-group">
+                            <label>🔑 Teacher Code</label>
+                            <input type="text" id="regStudentTeacherCode" placeholder="e.g. KLP48291" />
+                        </div>
+                        <div class="input-group">
+                            <label>📧 Parent's Email</label>
+                            <input type="email" id="regStudentParentEmail" placeholder="parent@email.com" />
+                        </div>
+                        <div class="input-group">
+                            <label>🔑 Password</label>
+                            <input type="password" id="regStudentPass" placeholder="••••••••" />
+                        </div>
+                        <div class="student-email-display" id="studentEmailDisplay" style="display:none;">
+                            <span class="hint">📧 Your login email:</span>
+                            <div class="email" id="studentEmailValue">student@kidlearn.student</div>
+                            <span class="hint">Please save this email to log in later!</span>
                         </div>
                     </div>
 
-                    <div class="auth-error" id="regError"></div>
-                    <div class="auth-success" id="regSuccess"></div>
-                    <div class="auth-loading" id="regLoading">⏳ Creating account...</div>
+                    <div id="regLoading" class="auth-loading">⏳ Creating account...</div>
                     <button class="auth-btn" onclick="doRegister()">🚀 Create Account</button>
+                    <div id="regError" class="auth-error"></div>
+                    <div id="regSuccess" class="auth-success"></div>
                 </div>
 
                 <button class="guest-btn" onclick="continueAsGuest()">👤 Continue as Guest</button>
             </div>
         </div>
 
-        <!-- ==========================================
-        HOME SCREEN
-        ========================================== -->
+        <!-- ===== HOME SCREEN ===== -->
         <div class="screen" id="homeScreen">
             <div class="header">
-                <div class="logo"><span>📚</span> Library</div>
+                <div class="logo"><span>⭐</span> KidLearn</div>
                 <div class="header-right">
-                    <div class="stars">⭐ <span id="headerStars">0</span></div>
-                    <button class="icon-btn" onclick="showToast('🔔 Notifications')">🔔<span class="badge">3</span></button>
+                    <div class="stars" id="headerStars">⭐ 0</div>
+                    <button class="icon-btn" onclick="showScreen('leaderboardScreen');loadLeaderboard();">🏆</button>
                     <button class="icon-btn" onclick="toggleSettings()">⚙️</button>
-                    <button class="icon-btn" onclick="doLogout()" style="background:rgba(255,0,0,0.25);">🚪</button>
+                    <button class="icon-btn" onclick="doLogout()">🚪</button>
                 </div>
             </div>
 
             <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="🔍 Search games..." oninput="filterGames(this.value)">
+                <input type="text" id="gameSearch" placeholder="Search games..." oninput="filterGames(this.value)" />
             </div>
 
             <div class="main-content">
                 <div class="welcome-card">
-                    <div class="avatar">👤</div>
+                    <div class="avatar" id="welcomeAvatar">👤</div>
                     <div class="info">
                         <h2 id="welcomeName">Hello, Guest! 👋</h2>
                         <p id="welcomeRole">Keep learning! 🚀</p>
                     </div>
-                    <div class="stars-badge">⭐ <span id="welcomeStars">0</span></div>
+                    <div class="stars-badge" id="welcomeStars">⭐ 0</div>
                 </div>
 
                 <div class="library-section">
                     <div class="section-header">
                         <h3>🎮 All Games</h3>
-                        <span class="see-all" onclick="showToast('📚 All games loaded!')">See All →</span>
+                        <span class="see-all" onclick="showScreen('contentScreen');renderContentLibrary();">See All →</span>
                     </div>
                     <div class="game-grid" id="gameGrid"></div>
                     <div class="no-results" id="noResults">😕 No games found</div>
                 </div>
 
                 <div class="video-section">
-    <div class="video-label"><span>▶️</span> Watch Tutorial</div>
-    <div class="video-wrapper">
-        <iframe src="https://www.youtube.com/embed/VeNp9hrqTlA" allowfullscreen></iframe>
-    </div>
+                    <div class="video-label"><span>▶️</span> Watch Tutorial</div>
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                    </div>
                 </div>
-                
+
                 <div class="dashboard-section">
                     <div class="section-header"><h3>📊 Dashboard</h3></div>
                     <div class="dash-grid">
-                        <div class="dash-card" onclick="showScreen('studentDash'); renderStudentDash();">
-                            <span class="icon">🧒</span><h4>Student</h4><p>View lessons</p>
+                        <div class="dash-card" onclick="showScreen('studentDash');renderStudentDash();">
+                            <span class="icon">🧒</span>
+                            <h4>Student</h4>
+                            <p>View lessons</p>
                         </div>
-                        <div class="dash-card" id="teacherDashCard" style="display:none;" onclick="showScreen('teacherDash'); renderTeacherDash();">
-                            <span class="icon">👨‍🏫</span><h4>Teacher</h4><p>Manage</p>
+                        <div class="dash-card" id="teacherDashCard" style="display:none;" onclick="showScreen('teacherDash');renderTeacherDash();">
+                            <span class="icon">👨‍🏫</span>
+                            <h4>Teacher</h4>
+                            <p>Manage</p>
                         </div>
-                        <div class="dash-card" onclick="showScreen('parentDash'); renderDash();">
-                            <span class="icon">👨‍👧</span><h4>Parent</h4><p>Monitor</p>
+                        <div class="dash-card" onclick="showScreen('parentDash');renderDash();">
+                            <span class="icon">👨‍👧</span>
+                            <h4>Parent</h4>
+                            <p>Monitor</p>
                         </div>
-                        <div class="dash-card" onclick="showScreen('contentScreen'); renderContent();">
-                            <span class="icon">📚</span><h4>Content</h4><p>All lessons</p>
+                        <div class="dash-card" onclick="showScreen('contentScreen');renderContentLibrary();">
+                            <span class="icon">📚</span>
+                            <h4>Content</h4>
+                            <p>All lessons</p>
                         </div>
-                        <div class="dash-card full" onclick="showScreen('examScreen'); renderExams();">
-                            <span class="icon">📝</span><h4>Exams</h4><p>Take quizzes</p>
+                        <div class="dash-card" onclick="showScreen('examScreen');renderExams();">
+                            <span class="icon">📝</span>
+                            <h4>Exams</h4>
+                            <p>Take quizzes</p>
                         </div>
                     </div>
                 </div>
@@ -1963,36 +2214,50 @@
 
             <div class="bottom-nav">
                 <button class="nav-item active" onclick="showScreen('homeScreen')">
-                    <span class="icon">🏠</span><span class="label">Home</span>
+                    <span class="icon">🏠</span>
+                    <span class="label">Home</span>
                 </button>
-                <button class="nav-item" onclick="showScreen('leaderboardScreen'); loadLeaderboard();">
-                    <span class="icon">🏆</span><span class="label">Ranks</span>
+                <button class="nav-item" onclick="showScreen('leaderboardScreen');loadLeaderboard();">
+                    <span class="icon">🏆</span>
+                    <span class="label">Ranks</span>
                 </button>
-                <button class="nav-item" onclick="showScreen('studentDash'); switchStudentTab('progress', document.querySelector('#studentDash .tab-btn:last-child'));">
-                    <span class="icon">📊</span><span class="label">Progress</span>
+                <button class="nav-item" onclick="showScreen('studentDash');renderStudentDash();">
+                    <span class="icon">📊</span>
+                    <span class="label">Progress</span>
                 </button>
-                <button class="nav-item" onclick="showScreen('parentDash'); renderDash();">
-                    <span class="icon">⚙️</span><span class="label">Parent</span>
+                <button class="nav-item" onclick="showScreen('parentDash');renderDash();">
+                    <span class="icon">⚙️</span>
+                    <span class="label">Parent</span>
                     <span class="nav-badge">1</span>
                 </button>
             </div>
         </div>
 
-        <!-- ==========================================
-        STUDENT DASHBOARD
-        ========================================== -->
+        <!-- ===== STUDENT DASHBOARD ===== -->
         <div class="screen" id="studentDash">
             <div class="dash-wrap">
-                <div class="dash-header"><h2>🧒 Student Dashboard</h2><button class="back-btn" onclick="showScreen('homeScreen')">← Home</button></div>
+                <div class="dash-header">
+                    <h2>🧒 Student Dashboard</h2>
+                    <button class="back-btn" onclick="showScreen('homeScreen')">← Home</button>
+                </div>
                 <div class="dash-tabs">
                     <button class="tab-btn active" onclick="switchStudentTab('lessons',this)">📚 Lessons</button>
                     <button class="tab-btn" onclick="switchStudentTab('materials',this)">📁 Materials</button>
                     <button class="tab-btn" onclick="switchStudentTab('exams',this)">📝 Exams</button>
-                    <button class="tab-btn" onclick="switchStudentTab('progress',this)">📊 Progress</button>
+                    <button class="tab-btn" onclick="switchStudentTab('progress',this);renderStudentDash();">📊 Progress</button>
                 </div>
-                <div id="studentLessons"><div class="section-head">📚 Your Lessons</div><div id="studentLessonList">No lessons yet</div></div>
-                <div id="studentMaterials" style="display:none;"><div class="section-head">📁 Learning Materials</div><div id="studentMaterialsList">No materials yet</div></div>
-                <div id="studentExams" style="display:none;"><div class="section-head">📝 Available Exams</div><div id="studentExamList">No exams available</div></div>
+                <div id="studentLessons" style="display:block;">
+                    <div class="section-head">📚 Your Lessons</div>
+                    <div id="studentLessonList">No lessons yet</div>
+                </div>
+                <div id="studentMaterials" style="display:none;">
+                    <div class="section-head">📁 Learning Materials</div>
+                    <div id="studentMaterialsList">No materials yet</div>
+                </div>
+                <div id="studentExams" style="display:none;">
+                    <div class="section-head">📝 Available Exams</div>
+                    <div id="studentExamList">No exams available</div>
+                </div>
                 <div id="studentProgress" style="display:none;">
                     <div class="section-head">📊 Your Progress</div>
                     <div class="stat-grid">
@@ -2005,20 +2270,21 @@
             </div>
         </div>
 
-        <!-- ==========================================
-        TEACHER DASHBOARD
-        ========================================== -->
+        <!-- ===== TEACHER DASHBOARD ===== -->
         <div class="screen" id="teacherDash">
             <div class="dash-wrap">
-                <div class="dash-header"><h2>👨‍🏫 Teacher Dashboard</h2><button class="back-btn" onclick="showScreen('homeScreen')">← Home</button></div>
+                <div class="dash-header">
+                    <h2>👨‍🏫 Teacher Dashboard</h2>
+                    <button class="back-btn" onclick="showScreen('homeScreen')">← Home</button>
+                </div>
                 <div class="dash-tabs">
                     <button class="tab-btn active" onclick="switchTeacherTab('applications',this)">📋 Apps</button>
                     <button class="tab-btn" onclick="switchTeacherTab('students',this)">👨‍🎓 Students</button>
                     <button class="tab-btn" onclick="switchTeacherTab('upload',this)">📤 Upload</button>
-                    <button class="tab-btn" onclick="switchTeacherTab('materials',this)">📁 Materials</button>
-                    <button class="tab-btn" onclick="switchTeacherTab('exams',this)">📝 Exams</button>
+                    <button class="tab-btn" onclick="switchTeacherTab('materials',this);loadTeacherMaterials();">📁 Materials</button>
+                    <button class="tab-btn" onclick="switchTeacherTab('exams',this);loadTeacherExams();">📝 Exams</button>
                 </div>
-                <div id="teacherApplications">
+                <div id="teacherApplications" style="display:block;">
                     <div class="section-head">📋 Your Teacher Code</div>
                     <div class="teacher-code-display show">
                         <span class="label">🔑 Share this code with students</span>
@@ -2036,16 +2302,24 @@
                     <div class="upload-area">
                         <h4>📎 Upload from Device</h4>
                         <p>Video, Audio, PDF, Images, Documents</p>
-                        <input type="file" id="fileInput" accept="video/*,audio/*,application/pdf,image/*,.doc,.docx,.txt">
+                        <input type="file" id="fileInput" accept="video/*,audio/*,image/*,application/pdf,.doc,.docx,.ppt,.pptx" />
                         <div id="filePreview"></div>
-                        <div id="uploadProgress"><div id="uploadProgressBar"></div></div>
-                        <div id="uploadStatusText"></div>
-                        <button class="auth-btn" onclick="uploadFileToStorage()" style="margin-top:6px;padding:10px;font-size:.8rem;">📤 Upload File</button>
+                        <div id="upload-progress">
+                            <div id="upload-progress-bar"></div>
+                        </div>
+                        <div id="upload-status-text"></div>
+                        <button class="auth-btn" style="margin-top:8px;" onclick="uploadFileToStorage()">📤 Upload File</button>
                     </div>
-                    <hr style="margin:10px 0;border:none;border-top:2px solid #f0f0f0;">
-                    <div class="input-group"><label>📚 Title</label><input type="text" id="contentTitle" placeholder="e.g. Lesson 1"></div>
-                    <div class="input-group"><label>📝 Description</label><textarea id="contentDesc" placeholder="Describe the content..."></textarea></div>
-                    <div class="input-group"><label>📂 Type</label>
+                    <div class="input-group">
+                        <label>📚 Title</label>
+                        <input type="text" id="contentTitle" placeholder="e.g. Lesson 1: Animals" />
+                    </div>
+                    <div class="input-group">
+                        <label>📝 Description</label>
+                        <textarea id="contentDesc" placeholder="Describe your content..."></textarea>
+                    </div>
+                    <div class="input-group">
+                        <label>📂 Type</label>
                         <select id="contentType">
                             <option value="lesson">Lesson</option>
                             <option value="exercise">Exercise</option>
@@ -2057,8 +2331,12 @@
                             <option value="assignment">Assignment</option>
                         </select>
                     </div>
-                    <div class="input-group"><label>🔗 Content URL (optional)</label><input type="text" id="contentUrl" placeholder="YouTube link, audio URL, PDF link..."></div>
-                    <div class="input-group"><label>🎯 Grade Level</label>
+                    <div class="input-group">
+                        <label>🔗 Content URL (optional)</label>
+                        <input type="text" id="contentUrl" placeholder="https://example.com/video" />
+                    </div>
+                    <div class="input-group">
+                        <label>🎯 Grade Level</label>
                         <select id="contentGrade">
                             <option value="preschool">Preschool</option>
                             <option value="kindergarten">Kindergarten</option>
@@ -2068,8 +2346,7 @@
                             <option value="grade4">Grade 4</option>
                         </select>
                     </div>
-                    <button class="auth-btn" onclick="uploadContent()" style="padding:10px;font-size:.8rem;">📤 Upload Content</button>
-                    <div id="contentUploadStatus" style="color:var(--text-light);font-size:.7rem;margin-top:4px;text-align:center;"></div>
+                    <button class="auth-btn" onclick="uploadContent()">📤 Upload Content</button>
                 </div>
                 <div id="teacherMaterials" style="display:none;">
                     <div class="section-head">📁 Your Materials</div>
@@ -2077,27 +2354,33 @@
                 </div>
                 <div id="teacherExams" style="display:none;">
                     <div class="section-head">📝 Create Exam</div>
-                    <div class="input-group"><label>📝 Exam Title</label><input type="text" id="examTitle" placeholder="e.g. Math Quiz 1"></div>
-                    <div class="input-group"><label>📋 Questions (JSON)</label><textarea id="examQuestions" placeholder='[{"q":"What is 2+2?","options":["2","3","4","5"],"answer":2}]'></textarea></div>
-                    <button class="auth-btn" onclick="createExam()" style="padding:10px;font-size:.8rem;">📝 Create Exam</button>
-                    <div id="examUploadStatus" style="color:var(--text-light);font-size:.7rem;margin-top:4px;text-align:center;"></div>
+                    <div class="input-group">
+                        <label>📝 Exam Title</label>
+                        <input type="text" id="examTitle" placeholder="e.g. Math Quiz 1" />
+                    </div>
+                    <div class="input-group">
+                        <label>📋 Questions (JSON)</label>
+                        <textarea id="examQuestions" placeholder='[{"q":"What is 2+2?","options":["3","4","5","6"],"answer":1}]'></textarea>
+                    </div>
+                    <button class="auth-btn" onclick="createExam()">📝 Create Exam</button>
                     <div class="section-head" style="margin-top:12px;">📋 Your Exams</div>
                     <div id="teacherExamList">No exams created yet</div>
                 </div>
             </div>
         </div>
 
-        <!-- ==========================================
-        PARENT DASHBOARD
-        ========================================== -->
+        <!-- ===== PARENT DASHBOARD ===== -->
         <div class="screen" id="parentDash">
             <div class="dash-wrap">
-                <div class="dash-header"><h2>📊 Parent Dashboard</h2><button class="back-btn" onclick="showScreen('homeScreen')">← Home</button></div>
+                <div class="dash-header">
+                    <h2>📊 Parent Dashboard</h2>
+                    <button class="back-btn" onclick="showScreen('homeScreen')">← Home</button>
+                </div>
                 <div class="dash-tabs">
                     <button class="tab-btn active" onclick="switchParentTab('overview',this)">Overview</button>
                     <button class="tab-btn" onclick="switchParentTab('settings',this)">Settings</button>
                 </div>
-                <div id="parentOverview">
+                <div id="parentOverview" style="display:block;">
                     <div class="stat-grid">
                         <div class="stat-card"><div class="val" id="dStars">0</div><div class="lbl">⭐ Stars</div></div>
                         <div class="stat-card"><div class="val" id="dLevels">0</div><div class="lbl">📚 Levels</div></div>
@@ -2109,95 +2392,84 @@
                 </div>
                 <div id="parentSettings" style="display:none;">
                     <div class="section-head">Child Profile</div>
-                    <div class="input-group"><label>👶 Child's Name</label><input type="text" id="setName" value=""></div>
-                    <button class="auth-btn" onclick="saveSettings()" style="padding:10px;font-size:.8rem;">💾 Save Settings</button>
+                    <div class="input-group">
+                        <label>👶 Child's Name</label>
+                        <input type="text" id="setName" placeholder="Enter child name" />
+                    </div>
+                    <button class="auth-btn" onclick="saveSettings()">💾 Save Settings</button>
                 </div>
             </div>
         </div>
 
-        <!-- ==========================================
-        CONTENT LIBRARY
-        ========================================== -->
+        <!-- ===== CONTENT LIBRARY ===== -->
         <div class="screen" id="contentScreen">
             <div class="dash-wrap">
-                <div class="dash-header"><h2>📚 Content Library</h2><button class="back-btn" onclick="showScreen('homeScreen')">← Home</button></div>
-                <div id="contentLibrary"><div class="section-head">All Available Content</div><div id="contentList">Loading...</div></div>
+                <div class="dash-header">
+                    <h2>📚 Content Library</h2>
+                    <button class="back-btn" onclick="showScreen('homeScreen')">← Home</button>
+                </div>
+                <div id="contentList">All Available Content</div>
             </div>
         </div>
 
-        <!-- ==========================================
-        EXAM SCREEN
-        ========================================== -->
+        <!-- ===== EXAMS SCREEN ===== -->
         <div class="screen" id="examScreen">
             <div class="dash-wrap">
-                <div class="dash-header"><h2>📝 Exams</h2><button class="back-btn" onclick="showScreen('homeScreen')">← Home</button></div>
-                <div id="examListContainer"><div class="section-head">Available Exams</div><div id="examList">Loading...</div></div>
+                <div class="dash-header">
+                    <h2>📝 Exams</h2>
+                    <button class="back-btn" onclick="showScreen('homeScreen')">← Home</button>
+                </div>
+                <div id="examList">Available Exams</div>
             </div>
         </div>
 
-        <!-- ==========================================
-        EXAM TAKE SCREEN
-        ========================================== -->
+        <!-- ===== EXAM TAKE SCREEN ===== -->
         <div class="screen" id="examTakeScreen">
             <div class="game-screen-content">
-                <div class="game-header"><h2 id="examTitleDisplay">Exam</h2><button class="back-btn" onclick="exitExam()">← Exit</button></div>
+                <div class="game-header">
+                    <h2 id="examTitleDisplay">Exam</h2>
+                    <button class="back-btn" onclick="exitExam()">← Exit</button>
+                </div>
                 <div id="examContent"></div>
             </div>
         </div>
 
-        <!-- ==========================================
-        LEADERBOARD SCREEN
-        ========================================== -->
+        <!-- ===== LEADERBOARD SCREEN ===== -->
         <div class="screen" id="leaderboardScreen">
             <div class="lb-wrap">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-                    <h2 style="font-size:1.1rem;font-weight:800;color:var(--text);">🏆 Leaderboard</h2>
+                <div class="dash-header">
+                    <h2>🏆 Leaderboard</h2>
                     <button class="back-btn" onclick="showScreen('homeScreen')">← Back</button>
                 </div>
-                <div id="lbList"><p style="text-align:center;color:var(--text-light);padding:16px;">Loading...</p></div>
+                <div id="lbList">Loading...</div>
             </div>
         </div>
 
-        <!-- ==========================================
-        GAME SCREEN
-        ========================================== -->
+        <!-- ===== GAME SCREEN ===== -->
         <div class="screen" id="gameScreen">
             <div class="game-screen-content">
-                <div class="game-header"><h2 id="gameTitle">Game</h2><button class="back-btn" onclick="exitGame()">← Back</button></div>
+                <div class="game-header">
+                    <h2 id="gameTitle">Game</h2>
+                    <button class="back-btn" onclick="exitGame()">← Back</button>
+                </div>
                 <div id="gameContent"></div>
             </div>
         </div>
 
     </div>
 
-    <!-- ===== SETTINGS PANEL ===== -->
-    <div class="settings-panel" id="settingsPanel" onclick="if(event.target===this) toggleSettings()">
-        <div class="panel-content">
-            <div class="panel-header"><h3>⚙️ Settings</h3><button class="close-btn" onclick="toggleSettings()">✖</button></div>
-            <div class="settings-item"><div class="s-info"><div class="s-title">🌙 Dark Mode</div><div class="s-desc">Switch theme</div></div><div class="toggle" id="darkModeToggle" onclick="toggleDarkMode()"></div></div>
-            <div class="settings-item"><div class="s-info"><div class="s-title">🔊 Sound</div><div class="s-desc">Game sounds</div></div><div class="toggle on" id="soundToggle" onclick="toggleSound()"></div></div>
-            <div class="settings-item"><div class="s-info"><div class="s-title">🗣️ Speech</div><div class="s-desc">Voice feedback</div></div><div class="toggle on" id="speechToggle" onclick="toggleSpeech()"></div></div>
-        </div>
-    </div>
-
-    <!-- ===== TOAST ===== -->
-    <div id="toast"></div>
-
-    <!-- ==========================================
-    FIREBASE SDKs
-    ========================================== -->
-    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js">
+    <!-- ============================================================
+    FIREBASE + COMPLETE JAVASCRIPT
+    ============================================================ -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js">
     </script>
-    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js">
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js">
     </script>
-    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js">
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js">
     </script>
-    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js">
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js">
     </script>
 
-    <!-- ==========================================
-    JAVASCRIPT - COMPLETE WITH SOUND (ALL 20 GAMES)
-    ========================================== -->
     <script>
         // ============================================================
         // 1. FIREBASE CONFIG
@@ -2257,7 +2529,7 @@
 
             const voices = window.speechSynthesis.getVoices();
             const goodVoice = voices.find(v => v.lang === lang && (v.name.includes('Google') || v.name.includes(
-            'Samantha')));
+                'Samantha')));
             if (goodVoice) msg.voice = goodVoice;
 
             window.speechSynthesis.speak(msg);
@@ -2663,9 +2935,7 @@
                         <span class="name">${game.name}</span>
                         <span class="category">${game.category}</span>
                         ${stars > 0 ? `<span class="stars-earned">⭐ ${stars}</span>` : ''}
-                        <button class="play-btn ${done ? 'completed' : ''}" onclick="startGame('${game.id}')">
-                            ${done ? '✅ Done' : '▶ Play'}
-                        </button>
+                        <button class="play-btn ${done ? 'completed' : ''}" onclick="startGame('${game.id}')">${done ? '✅ Done' : '▶ Play'}</button>
                     `;
                 grid.appendChild(div);
             });
@@ -2904,7 +3174,7 @@
                     err.textContent = 'Password must be at least 6 characters';
                     return;
                 }
-                if (!age || age < 2 || age > 12) {
+                if (isNaN(age) || age < 2 || age > 12) {
                     err.textContent = 'Please enter valid age (2-12)';
                     return;
                 }
@@ -3056,7 +3326,7 @@
                     err.textContent = 'Password must be at least 6 characters';
                     return;
                 }
-                if (age < 4 || age > 18) {
+                if (isNaN(age) || age < 4 || age > 18) {
                     err.textContent = 'Please enter valid age (4-18)';
                     return;
                 }
@@ -3139,13 +3409,13 @@
                                     completedGames = {};
                                     isAuthInProgress = false;
                                     document.getElementById('regLoading').style.display =
-                                    'none';
+                                        'none';
                                     suc.textContent = '✅ Student connected to: ' + (teacherData
                                         .name || 'Teacher');
                                     suc.innerHTML +=
-                                        `<br><small style="font-size:0.8rem;">📧 Login Email: ${studentEmail}</small>`;
+                                        `📧 Login Email: ${studentEmail}`;
                                     showToast('✅ Connected to ' + (teacherData.name ||
-                                    'Teacher'));
+                                        'Teacher'));
                                     updateUI();
                                     renderGames();
                                     saveToCloud();
@@ -3348,13 +3618,13 @@
             const container = document.getElementById('gameContent');
             container.innerHTML = `
                     <div class="level-lbl">🔤 ABC English • 26 Letters</div>
-                    <div style="text-align:center;font-size:.8rem;color:var(--text-light);margin-bottom:8px;">Match the letter to the correct picture</div>
+                    <div style="text-align:center;font-weight:700;color:var(--text-light);font-size:0.8rem;margin-bottom:6px;">Match the letter to the correct picture</div>
                     <div class="question-box" id="abcQuestion">A</div>
-                    <div id="abcOptions" class="options-grid"></div>
                     <div class="game-stats">
                         <span>✅ <span id="abcCorrect">0</span>/26</span>
                         <span>⭐ ${userStars}</span>
                     </div>
+                    <div class="options-grid" id="abcOptions"></div>
                     <div class="game-footer" id="abcFooter">Tap the correct picture</div>
                     <button class="game-btn" onclick="loadABCGame()">🔄 New Game</button>
                 `;
@@ -3413,7 +3683,7 @@
                             ' = ' + current.word;
                         setTimeout(() => {
                             document.querySelectorAll('#abcOptions .opt-btn').forEach(b => b
-                            .disabled = false);
+                                .disabled = false);
                             btn.classList.remove('wrong');
                         }, 700);
                     }
@@ -3431,13 +3701,13 @@
             const container = document.getElementById('gameContent');
             container.innerHTML = `
                     <div class="level-lbl">🔢 Numbers • 1-10</div>
-                    <div style="text-align:center;font-size:.8rem;color:var(--text-light);margin-bottom:8px;">Match number to word</div>
+                    <div style="text-align:center;font-weight:700;color:var(--text-light);font-size:0.8rem;margin-bottom:6px;">Match number to word</div>
                     <div class="question-box" id="numQuestion">1️⃣</div>
-                    <div id="numOptions" class="options-grid"></div>
                     <div class="game-stats">
                         <span>✅ <span id="numCorrect">0</span>/10</span>
                         <span>⭐ ${userStars}</span>
                     </div>
+                    <div class="options-grid" id="numOptions"></div>
                     <div class="game-footer" id="numFooter">Tap correct word</div>
                     <button class="game-btn" onclick="loadNumbersGame()">🔄 New</button>
                 `;
@@ -3496,7 +3766,7 @@
                             ' = ' + current.word;
                         setTimeout(() => {
                             document.querySelectorAll('#numOptions .opt-btn').forEach(b => b
-                            .disabled = false);
+                                .disabled = false);
                             btn.classList.remove('wrong');
                         }, 700);
                     }
@@ -3514,13 +3784,13 @@
             const container = document.getElementById('gameContent');
             container.innerHTML = `
                     <div class="level-lbl">🌙 Arabic • 28 Letters</div>
-                    <div style="text-align:center;font-size:.8rem;color:var(--text-light);margin-bottom:8px;">Match letter to picture</div>
-                    <div class="question-box" id="arabicQuestion" style="font-family:'Traditional Arabic',serif;">أ</div>
-                    <div id="arabicOptions" class="options-grid"></div>
+                    <div style="text-align:center;font-weight:700;color:var(--text-light);font-size:0.8rem;margin-bottom:6px;">Match letter to picture</div>
+                    <div class="question-box" id="arabicQuestion">أ</div>
                     <div class="game-stats">
                         <span>✅ <span id="arabicCorrect">0</span>/28</span>
                         <span>⭐ ${userStars}</span>
                     </div>
+                    <div class="options-grid" id="arabicOptions"></div>
                     <div class="game-footer" id="arabicFooter">Tap correct picture</div>
                     <button class="game-btn" onclick="loadArabicGame()">🔄 New</button>
                 `;
@@ -3532,7 +3802,7 @@
                 document.getElementById('arabicQuestion').textContent = '🎉 Complete!';
                 document.getElementById('arabicOptions').innerHTML = '';
                 document.getElementById('arabicFooter').textContent =
-                'All Arabic letters done! +10 stars!';
+                    'All Arabic letters done! +10 stars!';
                 userStars += 10;
                 completedGames['arabic'] = true;
                 gameProgress['arabic'] = (gameProgress['arabic'] || 0) + 10;
@@ -3558,12 +3828,12 @@
                 btn.textContent = opt.emoji;
                 btn.onclick = () => {
                     document.querySelectorAll('#arabicOptions .opt-btn').forEach(b => b.disabled =
-                    true);
+                        true);
                     if (opt.letter === current.letter) {
                         btn.classList.add('correct');
                         gameState.arabicCorrect++;
                         document.getElementById('arabicCorrect').textContent = gameState
-                        .arabicCorrect;
+                            .arabicCorrect;
                         userStars += 1;
                         document.getElementById('arabicFooter').textContent = '✅ ' + current
                             .letter + ' = ' + current.word;
@@ -3592,7 +3862,7 @@
         }
 
         // ============================================================
-        // 19. GAME: Flag Quiz (WITH SOUND)
+        // 19. GAME: Flag Quiz - FULL 195 Countries (NEW)
         // ============================================================
         function loadFlagGame() {
             flagState = {
@@ -3603,52 +3873,49 @@
                 correct: 0,
                 streak: 0,
                 answered: false,
-                flagsUsed: []
+                flagsUsed: [],
+                maxQuestions: 20
             };
+
             const container = document.getElementById('gameContent');
             container.innerHTML = `
-                    <div class="level-lbl">🏁 Flag Quiz • 195 Countries</div>
-                    <div style="display:flex;justify-content:space-between;align-items:center;background:var(--bg);border-radius:16px;padding:10px 14px;margin-bottom:12px;">
-                        <div style="display:flex;align-items:center;gap:6px;">
-                            <span style="font-size:1rem;">⭐</span>
-                            <span style="font-weight:700;color:var(--text);" id="flagScore">0</span>
-                            <span style="color:var(--text-light);font-size:.7rem;">pts</span>
-                        </div>
-                        <div style="display:flex;align-items:center;gap:6px;">
-                            <span style="font-size:1rem;">🔥</span>
-                            <span style="font-weight:700;color:#FF9600;" id="flagStreak">0</span>
-                        </div>
-                        <div style="display:flex;align-items:center;gap:4px;">
-                            <span style="font-size:.9rem;">✅</span>
-                            <span style="font-weight:700;color:var(--primary);" id="flagCorrect">0</span>
-                            <span style="color:var(--text-light);font-size:.7rem;">/</span>
-                            <span style="font-weight:700;color:var(--text-light);" id="flagTotal">0</span>
-                        </div>
+                <div class="flag-game-container">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                        <h2 style="font-size:1rem;font-weight:800;color:var(--text);">🏁 Flag Quiz</h2>
+                        <span style="font-size:0.75rem;color:var(--text-light);">${flagState.maxQuestions} questions</span>
                     </div>
-                    <div class="question-box" id="flagDisplay" style="font-size:4.5rem;background:var(--bg);border-radius:20px;padding:16px;min-height:120px;">🌍</div>
-                    <div style="text-align:center;font-size:1rem;font-weight:700;color:var(--text);margin:6px 0 10px;" id="flagQuestion">Which country?</div>
-                    <div id="flagOptions" class="geo-options" style="grid-template-columns:1fr 1fr;gap:8px;max-width:350px;margin:0 auto;"></div>
-                    <div id="flagFeedback" style="text-align:center;font-size:.85rem;font-weight:700;margin-top:10px;min-height:24px;color:var(--text-light);">Tap the correct country</div>
-                    <div style="margin-top:12px;background:var(--bg);border-radius:8px;height:6px;overflow:hidden;max-width:350px;margin:12px auto 0;">
-                        <div id="flagProgress" style="width:0%;height:100%;background:var(--primary);border-radius:8px;transition:width .3s;"></div>
+                    <div class="flag-progress-bar">
+                        <div class="fill" id="flagProgressFill" style="width:0%"></div>
                     </div>
-                    <button class="game-btn" onclick="loadFlagGame()" style="margin-top:12px;">🔄 New Game</button>
-                `;
+                    <div class="flag-display-big" id="flagDisplay">🌍</div>
+                    <div class="flag-stats-row">
+                        <div class="stat-item">⭐ <span class="stat-value" id="flagScore">0</span></div>
+                        <div class="stat-item">✅ <span class="stat-value" id="flagCorrect">0</span></div>
+                        <div class="stat-item">🔥 <span class="stat-value" id="flagStreak">0</span></div>
+                        <div class="stat-item">📌 <span class="stat-value" id="flagTotal">0</span></div>
+                    </div>
+                    <div id="flagFeedback" class="flag-feedback info">🌍 Waa calanka kee?</div>
+                    <div class="flag-options-grid" id="flagOptions"></div>
+                    <button class="game-btn" onclick="resetFlagGame()" style="max-width:100%;margin-top:10px;">🔄 Dib u Bilow</button>
+                </div>
+            `;
             loadFlagQuestion();
         }
 
         function loadFlagQuestion() {
             flagState.answered = false;
+            flagState.total++;
+
             let available = FLAG_DATA_195.filter((_, i) => !flagState.flagsUsed.includes(i));
-            if (available.length < 4) {
+            if (available.length === 0) {
                 flagState.flagsUsed = [];
                 available = FLAG_DATA_195;
             }
-            const randIdx = Math.floor(Math.random() * available.length);
-            const flagIndex = FLAG_DATA_195.indexOf(available[randIdx]);
-            const current = FLAG_DATA_195[flagIndex];
+
+            const randomIndex = Math.floor(Math.random() * available.length);
+            const current = available[randomIndex];
+            const flagIndex = FLAG_DATA_195.indexOf(current);
             flagState.flagsUsed.push(flagIndex);
-            if (flagState.flagsUsed.length > 50) flagState.flagsUsed.shift();
             flagState.currentFlag = current;
 
             let others = FLAG_DATA_195.filter((_, i) => i !== flagIndex);
@@ -3657,10 +3924,10 @@
             flagState.options = options;
 
             document.getElementById('flagDisplay').textContent = current.flag;
-            document.getElementById('flagQuestion').textContent =
-            '🌍 Which country does this flag belong to?';
-            document.getElementById('flagFeedback').textContent = 'Tap the correct country';
-            document.getElementById('flagFeedback').style.color = 'var(--text-light)';
+            document.getElementById('flagFeedback').textContent = '🌍 Waa calanka kee?';
+            document.getElementById('flagFeedback').className = 'flag-feedback info';
+            document.getElementById('flagTotal').textContent = flagState.total;
+            document.getElementById('flagProgressFill').style.width = Math.min((flagState.total / flagState.maxQuestions) * 100, 100) + '%';
 
             speakText('Which country is this?', 0.8, 1.0);
 
@@ -3668,7 +3935,7 @@
             container.innerHTML = '';
             options.forEach(opt => {
                 const btn = document.createElement('button');
-                btn.className = 'geo-opt';
+                btn.className = 'flag-opt';
                 btn.textContent = opt.name;
                 btn.dataset.country = opt.name;
                 btn.onclick = function() {
@@ -3678,83 +3945,100 @@
                 };
                 container.appendChild(btn);
             });
-            flagState.total++;
-            document.getElementById('flagTotal').textContent = flagState.total;
         }
 
         function checkFlagAnswer(btn, selected, correct) {
             const isCorrect = selected.name === correct.name;
-            document.querySelectorAll('#flagOptions .geo-opt').forEach(b => { b.disabled = true; });
+            const allBtns = document.querySelectorAll('#flagOptions .flag-opt');
+
+            allBtns.forEach(b => b.classList.add('disabled'));
 
             if (isCorrect) {
                 btn.classList.add('correct');
                 flagState.correct++;
                 flagState.streak++;
-                const bonus = Math.min(flagState.streak * 2, 20);
-                flagState.score += 10 + bonus;
+                const bonus = Math.min(flagState.streak, 5);
+                const points = 2 + bonus;
+                flagState.score += points;
                 document.getElementById('flagCorrect').textContent = flagState.correct;
                 document.getElementById('flagScore').textContent = flagState.score;
                 document.getElementById('flagStreak').textContent = flagState.streak;
-                document.getElementById('flagFeedback').textContent = '✅ Correct! ' + correct.name +
-                    ' (+' + (10 + bonus) + ' pts)';
-                document.getElementById('flagFeedback').style.color = '#58CC02';
-                userStars += 2 + Math.floor(flagState.streak / 3);
-                showToast('✅ ' + correct.name + '! +' + (2 + Math.floor(flagState.streak / 3)) +
-                ' stars');
+
+                const fb = document.getElementById('flagFeedback');
+                fb.textContent = `✅ Correct! ${correct.name} (+${points} pts)`;
+                fb.className = 'flag-feedback correct';
+
+                userStars += 2;
+                updateUI();
+                showToast(`✅ ${correct.name}! +2 stars`);
 
                 playFlagSound(correct.name);
 
-                updateUI();
+                if (flagState.total >= flagState.maxQuestions) {
+                    document.getElementById('flagFeedback').textContent = `🎉 Waxaad dhamaystirtay ${flagState.maxQuestions} su'aal! Waqtiga dheer!`;
+                    document.getElementById('flagFeedback').className = 'flag-feedback complete';
+                    completedGames['flags'] = true;
+                    gameProgress['flags'] = (gameProgress['flags'] || 0) + flagState.score;
+                    userStars += 10;
+                    updateUI();
+                    showToast(`🎉 ${flagState.maxQuestions} flags done! +10 bonus stars!`);
+                    speakText('Quiz complete!', 0.8, 1.2);
+                    document.getElementById('flagProgressFill').style.width = '100%';
+                    document.querySelectorAll('#flagOptions .flag-opt').forEach(b => b.style.opacity = '0.5');
+                    return;
+                }
             } else {
                 btn.classList.add('wrong');
                 flagState.streak = 0;
                 document.getElementById('flagStreak').textContent = '0';
-                document.querySelectorAll('#flagOptions .geo-opt').forEach(b => {
+
+                allBtns.forEach(b => {
                     if (b.dataset.country === correct.name) {
                         b.classList.add('correct');
                     }
                 });
-                document.getElementById('flagFeedback').textContent = '❌ Wrong! Answer: ' + correct
-                .name;
-                document.getElementById('flagFeedback').style.color = '#FF4B4B';
-                showToast('❌ Wrong! Answer: ' + correct.name);
+
+                const fb = document.getElementById('flagFeedback');
+                fb.textContent = `❌ Wrong! Answer: ${correct.name}`;
+                fb.className = 'flag-feedback wrong';
+                showToast(`❌ Wrong! Answer: ${correct.name}`);
             }
 
-            const progress = Math.min((flagState.correct / flagState.total) * 100, 100);
-            document.getElementById('flagProgress').style.width = progress + '%';
-
-            if (flagState.total >= 10) {
-                document.getElementById('flagFeedback').textContent =
-                '🎉 10 flags done! +10 bonus stars!';
-                userStars += 10;
-                completedGames['flags'] = true;
-                gameProgress['flags'] = (gameProgress['flags'] || 0) + 10;
-                speakText('10 flags done!', 0.8, 1.2);
-                updateUI();
-                showToast('🎉 10 flags done! +10 bonus stars!');
-            }
+            const progress = Math.min((flagState.total / flagState.maxQuestions) * 100, 100);
+            document.getElementById('flagProgressFill').style.width = progress + '%';
 
             setTimeout(() => {
-                if (flagState.total < 10) {
+                if (flagState.total < flagState.maxQuestions) {
                     loadFlagQuestion();
-                } else {
-                    document.getElementById('flagOptions').innerHTML = '';
-                    document.getElementById('flagDisplay').textContent = '🎉';
-                    document.getElementById('flagQuestion').textContent = 'Quiz Complete!';
-                    document.getElementById('flagFeedback').textContent = '🏆 Score: ' + flagState
-                        .score + ' pts, ' + flagState.correct + ' correct!';
-                    document.getElementById('flagFeedback').style.color = '#FF9600';
-                    speakText('Quiz complete!', 0.8, 1.2);
                 }
             }, 1500);
+        }
+
+        function resetFlagGame() {
+            flagState = {
+                currentFlag: null,
+                options: [],
+                score: 0,
+                total: 0,
+                correct: 0,
+                streak: 0,
+                answered: false,
+                flagsUsed: [],
+                maxQuestions: 20
+            };
+            loadFlagGame();
         }
 
         // ============================================================
         // 20. GAME: Memory Match (WITH SOUND)
         // ============================================================
         function loadMemoryGame() {
-            const deck = [...memoryEmojis, ...memoryEmojis];
-            const cards = deck.map((e, i) => ({ id: i, emoji: e, flipped: false, matched: false }));
+            let cards = [];
+            memoryEmojis.forEach((e, i) => {
+                cards.push({ id: i, emoji: e, flipped: false, matched: false });
+                cards.push({ id: i + 100, emoji: e, flipped: false, matched: false });
+            });
+            cards = cards.sort(() => Math.random() - 0.5);
             gameState.memCards = cards;
             gameState.memFlipped = [];
             gameState.memLocked = false;
@@ -3763,12 +4047,12 @@
             const container = document.getElementById('gameContent');
             container.innerHTML = `
                     <div class="level-lbl">🧠 Memory • 8 Pairs</div>
-                    <div style="text-align:center;font-size:.8rem;color:var(--text-light);margin-bottom:8px;">Find all matching pairs</div>
-                    <div class="memory-grid" id="memGrid"></div>
+                    <div style="text-align:center;font-weight:700;color:var(--text-light);font-size:0.8rem;margin-bottom:6px;">Find all matching pairs</div>
                     <div class="game-stats">
                         <span>Matches: <span id="memMatches">0</span>/8</span>
                         <span>⭐ ${userStars}</span>
                     </div>
+                    <div class="memory-grid" id="memGrid"></div>
                     <div class="game-footer" id="memFooter">Tap cards to find matches</div>
                     <button class="game-btn" onclick="loadMemoryGame()">🔄 New</button>
                 `;
@@ -3782,7 +4066,7 @@
             gameState.memCards.forEach((card, idx) => {
                 const div = document.createElement('div');
                 div.className = 'mem-card' + (card.flipped ? ' flipped' : '') + (card.matched ? ' matched' :
-                '');
+                    '');
                 div.textContent = (card.flipped || card.matched) ? card.emoji : '❓';
                 div.onclick = () => {
                     if (gameState.memLocked) return;
@@ -3802,7 +4086,7 @@
                             gameState.memMatches++;
                             userStars += 1;
                             document.getElementById('memMatches').textContent = gameState
-                            .memMatches;
+                                .memMatches;
                             document.getElementById('memFooter').textContent =
                                 '✅ Match found! +1 star';
 
@@ -3854,13 +4138,13 @@
             const container = document.getElementById('gameContent');
             container.innerHTML = `
                     <div class="level-lbl">🔢 Math Bingo • 4x4</div>
-                    <div style="text-align:center;font-size:.8rem;color:var(--text-light);margin-bottom:8px;">Solve and tap answer</div>
-                    <div class="question-box" style="font-size:1.3rem;min-height:50px;" id="bingoQ">? + ? = ?</div>
-                    <div class="bingo-grid" id="bingoGrid"></div>
+                    <div style="text-align:center;font-weight:700;color:var(--text-light);font-size:0.8rem;margin-bottom:6px;">Solve and tap answer</div>
+                    <div class="question-box" id="bingoQ">? + ? = ?</div>
                     <div class="game-stats">
                         <span>Score: <span id="bingoScore">0</span></span>
                         <span>⭐ ${userStars}</span>
                     </div>
+                    <div class="bingo-grid" id="bingoGrid"></div>
                     <div class="game-footer" id="bingoFooter">Solve and tap number</div>
                     <button class="game-btn" onclick="loadBingoGame()">🔄 New</button>
                 `;
@@ -3891,29 +4175,29 @@
                         const g = gameState.bingoGrid;
                         let win = false;
                         for (let r = 0; r < 4; r++) {
-                            if (g[r * 4].marked && g[r * 4 + 1].marked && g[r * 4 + 2].marked && g[
-                                r * 4 + 3].marked) win = true;
-                        }
-                        for (let c = 0; c < 4; c++) {
-                            if (g[c].marked && g[c + 4].marked && g[c + 8].marked && g[c + 12]
+                            if (g[r * 4].marked && g[r * 4 + 1].marked && g[r * 4 + 2].marked && g[r * 4 + 3]
                                 .marked) win = true;
                         }
+                        for (let c = 0; c < 4; c++) {
+                            if (g[c].marked && g[c + 4].marked && g[c + 8].marked && g[c + 12].marked) win =
+                                true;
+                        }
+                        if (g[0].marked && g[5].marked && g[10].marked && g[15].marked) win = true;
+                        if (g[3].marked && g[6].marked && g[9].marked && g[12].marked) win = true;
                         if (win) {
-                            document.getElementById('bingoFooter').textContent =
-                                '🎉 BINGO! +10 stars!';
-                            userStars += 10;
+                            document.getElementById('bingoFooter').textContent = '🎉 BINGO! +20 bonus!';
+                            userStars += 20;
                             completedGames['bingo'] = true;
-                            gameProgress['bingo'] = (gameProgress['bingo'] || 0) + 10;
+                            gameProgress['bingo'] = (gameProgress['bingo'] || 0) + 20;
 
                             playBingoSound();
 
                             updateUI();
-                            showToast('🎉 BINGO! +10 stars');
+                            showToast('🎉 BINGO! +20 stars!');
                         }
                     } else {
                         div.classList.add('wrong');
-                        document.getElementById('bingoFooter').textContent =
-                        '❌ Wrong! Try again';
+                        document.getElementById('bingoFooter').textContent = '❌ Wrong!';
                         setTimeout(() => div.classList.remove('wrong'), 400);
                     }
                 };
@@ -3939,10 +4223,10 @@
             const container = document.getElementById('gameContent');
             container.innerHTML = `
                     <div class="level-lbl">🔤 Word Scramble</div>
-                    <div style="text-align:center;font-size:.8rem;color:var(--text-light);margin-bottom:8px;">Unscramble the letters</div>
+                    <div style="text-align:center;font-weight:700;color:var(--text-light);font-size:0.8rem;margin-bottom:6px;">Unscramble the letters</div>
                     <div class="scrambled-word" id="scrambleDisplay">???</div>
                     <div class="scramble-input">
-                        <input type="text" id="scrambleInput" placeholder="Type answer...">
+                        <input type="text" id="scrambleInput" placeholder="Type word..." />
                         <button onclick="checkScramble()">Guess</button>
                     </div>
                     <div class="game-stats">
@@ -3950,7 +4234,7 @@
                         <span>⭐ ${userStars}</span>
                     </div>
                     <div class="game-footer" id="scrambleFooter">Unscramble the word</div>
-                    <button class="game-btn" onclick="loadScrambleQuestion()">🔄 Next</button>
+                    <button class="game-btn" onclick="loadScrambleGame()">🔄 Next</button>
                 `;
             loadScrambleQuestion();
         }
@@ -4006,7 +4290,9 @@
         function loadColorGame() {
             const colors = ['#e74c3c', '#3498db', '#2ecc71', '#f1c40f', '#9b59b6', '#e67e22', '#1abc9c', '#e84393'];
             const pattern = [];
-            for (let i = 0; i < 64; i++) pattern.push(Math.floor(Math.random() * 8));
+            for (let i = 0; i < 64; i++) {
+                pattern.push(Math.floor(Math.random() * 8));
+            }
             gameState.colorPattern = pattern;
             gameState.colorFilled = Array(64).fill(null);
             gameState.colorSelected = 0;
@@ -4014,13 +4300,13 @@
             const container = document.getElementById('gameContent');
             container.innerHTML = `
                     <div class="level-lbl">🎨 Color by Number • 64 cells</div>
-                    <div style="text-align:center;font-size:.8rem;color:var(--text-light);margin-bottom:8px;">Tap color then matching number</div>
+                    <div style="text-align:center;font-weight:700;color:var(--text-light);font-size:0.8rem;margin-bottom:6px;">Tap color then matching number</div>
                     <div class="color-palette" id="colorPalette"></div>
-                    <div class="color-grid" id="colorGrid"></div>
                     <div class="game-stats">
                         <span>Colored: <span id="colorCount">0</span>/64</span>
                         <span>⭐ ${userStars}</span>
                     </div>
+                    <div class="color-grid" id="colorGrid"></div>
                     <div class="game-footer" id="colorFooter">Select color and fill</div>
                     <button class="game-btn" onclick="loadColorGame()">🔄 New</button>
                 `;
@@ -4104,14 +4390,14 @@
             const container = document.getElementById('gameContent');
             container.innerHTML = `
                     <div class="level-lbl">⌨️ Typing Tutor</div>
-                    <div style="text-align:center;font-size:.8rem;color:var(--text-light);margin-bottom:8px;">Type each letter correctly</div>
+                    <div style="text-align:center;font-weight:700;color:var(--text-light);font-size:0.8rem;margin-bottom:6px;">Type each letter correctly</div>
                     <div class="typing-display" id="typingDisplay"></div>
-                    <input class="typing-input" id="typingInput" placeholder="Type here..." autofocus>
                     <div class="game-stats">
                         <span>✅ <span id="typingCorrect">0</span></span>
                         <span>❌ <span id="typingWrong">0</span></span>
                         <span>⭐ ${userStars}</span>
                     </div>
+                    <input type="text" class="typing-input" id="typingInput" placeholder="Type highlighted letter..." autofocus />
                     <div class="game-footer" id="typingFooter">Type highlighted letter</div>
                     <button class="game-btn" onclick="loadTypingGame()">🔄 New</button>
                 `;
@@ -4173,13 +4459,13 @@
             const container = document.getElementById('gameContent');
             container.innerHTML = `
                     <div class="level-lbl">🌍 Geography Quiz • 12 Q</div>
-                    <div style="text-align:center;font-size:.8rem;color:var(--text-light);margin-bottom:8px;">Test your knowledge</div>
-                    <div class="question-box" style="font-size:1.1rem;min-height:50px;" id="geoQ">Loading...</div>
-                    <div class="geo-options" id="geoOptions"></div>
+                    <div style="text-align:center;font-weight:700;color:var(--text-light);font-size:0.8rem;margin-bottom:6px;">Test your knowledge</div>
+                    <div class="question-box" id="geoQ" style="font-size:1.2rem;min-height:60px;">Loading...</div>
                     <div class="game-stats">
                         <span>Score: <span id="geoScore">0</span></span>
                         <span>⭐ ${userStars}</span>
                     </div>
+                    <div class="geo-options" id="geoOptions"></div>
                     <div class="game-footer" id="geoFooter">Tap correct answer</div>
                     <button class="game-btn" onclick="loadGeoGame()">🔄 New</button>
                 `;
@@ -4249,11 +4535,13 @@
             const grid = Array(gridSize).fill(null).map(() => Array(gridSize).fill(''));
             const wordPositions = {};
 
-            for (let r = 0; r < gridSize; r++)
-                for (let c = 0; c < gridSize; c++)
+            for (let r = 0; r < gridSize; r++) {
+                for (let c = 0; c < gridSize; c++) {
                     grid[r][c] = alphabet[Math.floor(Math.random() * 26)];
+                }
+            }
 
-            words.forEach((word) => {
+            words.forEach(word => {
                 const r = Math.floor(Math.random() * gridSize);
                 const c = Math.floor(Math.random() * (gridSize - word.length));
                 for (let i = 0; i < word.length; i++) {
@@ -4270,13 +4558,13 @@
             const container = document.getElementById('gameContent');
             container.innerHTML = `
                     <div class="level-lbl">🔍 Word Search • Find 6</div>
-                    <div style="text-align:center;font-size:.8rem;color:var(--text-light);margin-bottom:8px;">Tap the first letter of each word</div>
-                    <div class="wsearch-words" id="searchWords"></div>
-                    <div class="wsearch-grid" id="searchGrid"></div>
+                    <div style="text-align:center;font-weight:700;color:var(--text-light);font-size:0.8rem;margin-bottom:6px;">Tap the first letter of each word</div>
                     <div class="game-stats">
-                        <span>Found: <span id="searchFound">0</span>/<span id="searchTotal">${words.length}</span></span>
+                        <span>Found: <span id="searchFound">0</span>/${words.length}</span>
                         <span>⭐ ${userStars}</span>
                     </div>
+                    <div class="wsearch-grid" id="searchGrid"></div>
+                    <div class="wsearch-words" id="searchWords"></div>
                     <div class="game-footer" id="searchFooter">Find all words</div>
                     <button class="game-btn" onclick="loadSearchGame()">🔄 New</button>
                 `;
@@ -4321,20 +4609,19 @@
                                     this.style.color = 'white';
                                     const wordLen = word.length;
                                     for (let i = 0; i < wordLen; i++) {
-                                        const cells = document.querySelectorAll(
-                                            '.wsearch-cell');
                                         const targetRow = pos.row;
                                         const targetCol = pos.col + i;
-                                        cells.forEach(cell => {
-                                            if (parseInt(cell.dataset.row) ===
-                                                targetRow &&
-                                                parseInt(cell.dataset.col) ===
-                                                targetCol) {
-                                                cell.style.background =
-                                                    '#58CC02';
-                                                cell.style.color = 'white';
-                                            }
-                                        });
+                                        document.querySelectorAll('.wsearch-cell')
+                                            .forEach(cell => {
+                                                if (parseInt(cell.dataset.row) ===
+                                                    targetRow &&
+                                                    parseInt(cell.dataset.col) ===
+                                                    targetCol) {
+                                                    cell.style.background =
+                                                        '#58CC02';
+                                                    cell.style.color = 'white';
+                                                }
+                                            });
                                     }
                                     if (gameState.searchFound.length === gameState
                                         .searchWords.length) {
@@ -4344,7 +4631,7 @@
                                         userStars += 10;
                                         completedGames['search'] = true;
                                         gameProgress['search'] = (gameProgress[
-                                        'search'] || 0) + 10;
+                                            'search'] || 0) + 10;
                                         speakText('All words found!', 0.8, 1.2);
                                         updateUI();
                                         showToast('🎉 All words found! +10 stars');
@@ -4377,7 +4664,7 @@
             gameState.searchWords.forEach((word, idx) => {
                 const span = document.createElement('span');
                 span.className = 'wsearch-tag' + (gameState.searchFound.includes(idx) ? ' found' :
-                '');
+                    '');
                 span.textContent = word;
                 container.appendChild(span);
             });
@@ -4393,16 +4680,16 @@
             const container = document.getElementById('gameContent');
             container.innerHTML = `
                     <div class="level-lbl">🐄 Animal Sounds • 10</div>
-                    <div style="text-align:center;font-size:.8rem;color:var(--text-light);margin-bottom:8px;">Listen and identify</div>
+                    <div style="text-align:center;font-weight:700;color:var(--text-light);font-size:0.8rem;margin-bottom:6px;">Listen and identify</div>
                     <button class="sound-btn" onclick="playAnimalSound()">🔊 Play Sound</button>
                     <div class="animal-display" id="animalDisplay">🔊</div>
-                    <div class="geo-options" id="animalOptions"></div>
                     <div class="game-stats">
                         <span>✅ <span id="animalCorrect">0</span>/10</span>
                         <span>⭐ ${userStars}</span>
                     </div>
+                    <div class="geo-options" id="animalOptions"></div>
                     <div class="game-footer" id="animalFooter">Listen and tap</div>
-                    <button class="game-btn" onclick="loadAnimalQuestion()">🔄 Next</button>
+                    <button class="game-btn" onclick="loadAnimalGame()">🔄 Next</button>
                 `;
             loadAnimalQuestion();
         }
@@ -4452,7 +4739,7 @@
                                 b.classList.add('correct');
                         });
                         document.getElementById('animalFooter').textContent =
-                        '❌ Wrong! Animal: ' + current.animal;
+                            '❌ Wrong! Animal: ' + current.animal;
                     }
                     setTimeout(loadAnimalQuestion, 1200);
                 };
@@ -4492,13 +4779,13 @@
             const container = document.getElementById('gameContent');
             container.innerHTML = `
                     <div class="level-lbl">📖 Story Builder</div>
-                    <div style="text-align:center;font-size:.8rem;color:var(--text-light);margin-bottom:8px;">Choose words to create your story</div>
+                    <div style="text-align:center;font-weight:700;color:var(--text-light);font-size:0.8rem;margin-bottom:6px;">Choose words to create your story</div>
                     <div class="story-text" id="storyText">Choose words to build your story!</div>
-                    <div class="story-words" id="storyWords"></div>
                     <div class="game-stats">
                         <span>Words: <span id="storyCount">0</span></span>
                         <span>⭐ ${userStars}</span>
                     </div>
+                    <div class="story-words" id="storyWords"></div>
                     <div class="game-footer" id="storyFooter">Tap words to fill in</div>
                     <button class="game-btn" onclick="loadStoryGame()">🔄 New</button>
                 `;
@@ -4513,7 +4800,7 @@
             const slots = template.slots;
             if (used.length >= slots.length) {
                 container.innerHTML =
-                '<span style="color:#58CC02;font-size:1.1rem;">✅ Story complete! 🎉</span>';
+                '✅ Story complete! 🎉';
                 if (!gameState.storyComplete) {
                     gameState.storyComplete = true;
                     userStars += 5;
@@ -4566,9 +4853,8 @@
             const container = document.getElementById('gameContent');
             container.innerHTML = `
                     <div class="level-lbl">🔤 Phonics • 26 Letters</div>
-                    <div style="text-align:center;font-size:.8rem;color:var(--text-light);margin-bottom:8px;">Learn letter sounds</div>
-                    <div class="phonics-display" id="phonicsDisplay" onclick="playPhonicsSound()">A</div>
-                    <div class="phonics-words" id="phonicsWords"></div>
+                    <div style="text-align:center;font-weight:700;color:var(--text-light);font-size:0.8rem;margin-bottom:6px;">Learn letter sounds</div>
+                    <div class="phonics-display" id="phonicsDisplay">A</div>
                     <div class="phonics-nav">
                         <button onclick="changePhonics(-1)">◀</button>
                         <button onclick="playPhonicsSound()">🔊 Listen</button>
@@ -4578,6 +4864,7 @@
                         <span>Letter: <span id="phonicsIdx">1</span>/26</span>
                         <span>⭐ ${userStars}</span>
                     </div>
+                    <div class="phonics-words" id="phonicsWords"></div>
                     <div class="game-footer" id="phonicsFooter">Click letter or Listen</div>
                     <button class="game-btn" onclick="loadPhonicsGame()">🔄 Reset</button>
                 `;
@@ -4633,16 +4920,16 @@
             const container = document.getElementById('gameContent');
             container.innerHTML = `
                     <div class="level-lbl">✖️ Times Tables • 2-12</div>
-                    <div style="text-align:center;font-size:.8rem;color:var(--text-light);margin-bottom:8px;">Select table and solve</div>
+                    <div style="text-align:center;font-weight:700;color:var(--text-light);font-size:0.8rem;margin-bottom:6px;">Select table and solve</div>
                     <div class="multiply-tables" id="multTables"></div>
-                    <div class="question-box" style="font-size:1.8rem;min-height:50px;" id="multQ">2 × ? = ?</div>
-                    <div class="multiply-options" id="multOptions"></div>
+                    <div class="question-box" id="multQ" style="font-size:1.8rem;">2 × ? = ?</div>
                     <div class="game-stats">
                         <span>✅ <span id="multCorrect">0</span></span>
                         <span>⭐ ${userStars}</span>
                     </div>
+                    <div class="multiply-options" id="multOptions"></div>
                     <div class="game-footer" id="multFooter">Select table, answer</div>
-                    <button class="game-btn" onclick="loadMultiplyQuestion()">🔄 New</button>
+                    <button class="game-btn" onclick="loadMultiplyGame()">🔄 New</button>
                 `;
             renderMultTables();
             loadMultiplyQuestion();
@@ -4654,7 +4941,7 @@
             for (let i = 2; i <= 12; i++) {
                 const btn = document.createElement('button');
                 btn.className = 'multiply-table' + (i === gameState.multTable ? ' active' : '');
-                btn.textContent = i + '×';
+                btn.textContent = i;
                 btn.onclick = () => {
                     gameState.multTable = i;
                     renderMultTables();
@@ -4676,7 +4963,7 @@
 
             const opts = new Set([answer]);
             while (opts.size < 4) {
-                const offset = Math.floor(Math.random() * 10) + 1;
+                const offset = Math.floor(Math.random() * 5) + 1;
                 const candidate = answer + (Math.random() > 0.5 ? offset : -offset);
                 if (candidate > 0 && candidate < 200) opts.add(candidate);
             }
@@ -4688,7 +4975,7 @@
                 btn.textContent = opt;
                 btn.onclick = () => {
                     document.querySelectorAll('.multiply-opt').forEach(b => b.disabled =
-                    true);
+                        true);
                     if (opt === answer) {
                         btn.classList.add('correct');
                         gameState.multCorrect++;
@@ -4723,7 +5010,7 @@
                             table + ' × ' + b + ' = ' + answer;
                         setTimeout(() => {
                             document.querySelectorAll('.multiply-opt').forEach(
-                            b => b.disabled = false);
+                                b => b.disabled = false);
                         }, 800);
                     }
                 };
@@ -4741,15 +5028,15 @@
             const container = document.getElementById('gameContent');
             container.innerHTML = `
                     <div class="level-lbl">📝 Vocabulary • 12 Words</div>
-                    <div style="text-align:center;font-size:.8rem;color:var(--text-light);margin-bottom:8px;">Learn new words</div>
+                    <div style="text-align:center;font-weight:700;color:var(--text-light);font-size:0.8rem;margin-bottom:6px;">Learn new words</div>
                     <div class="vocab-card" id="vocabCard"></div>
-                    <div class="vocab-options" id="vocabOptions"></div>
                     <div class="game-stats">
                         <span>Learned: <span id="vocabLearned">0</span>/12</span>
                         <span>⭐ ${userStars}</span>
                     </div>
+                    <div class="vocab-options" id="vocabOptions"></div>
                     <div class="game-footer" id="vocabFooter">Match word to meaning</div>
-                    <button class="game-btn" onclick="loadVocabQuestion()">🔄 Next</button>
+                    <button class="game-btn" onclick="loadVocabGame()">🔄 Next</button>
                 `;
             loadVocabQuestion();
         }
@@ -4803,7 +5090,7 @@
                         btn.classList.add('wrong');
                         document.querySelectorAll('.vocab-opt').forEach(b => {
                             if (b.textContent === word.meaning) b.classList.add(
-                            'correct');
+                                'correct');
                         });
                         document.getElementById('vocabFooter').textContent = '❌ ' +
                             word.word + ' means: ' + word.meaning;
@@ -4824,7 +5111,7 @@
             const container = document.getElementById('gameContent');
             container.innerHTML = `
                     <div class="level-lbl">🎵 Music Maker</div>
-                    <div style="text-align:center;font-size:.8rem;color:var(--text-light);margin-bottom:8px;">Tap keys to make music</div>
+                    <div style="text-align:center;font-weight:700;color:var(--text-light);font-size:0.8rem;margin-bottom:6px;">Tap keys to make music</div>
                     <div class="music-piano" id="musicPiano"></div>
                     <div class="game-stats">
                         <span>🎵 Notes: <span id="musicNotes">0</span></span>
@@ -4894,19 +5181,19 @@
             const container = document.getElementById('gameContent');
             container.innerHTML = `
                     <div class="level-lbl">🎬 Animation Studio</div>
-                    <div style="text-align:center;font-size:.8rem;color:var(--text-light);margin-bottom:8px;">Draw and animate</div>
-                    <canvas id="animCanvas" width="300" height="200" class="animate-canvas"></canvas>
+                    <div style="text-align:center;font-weight:700;color:var(--text-light);font-size:0.8rem;margin-bottom:6px;">Draw and animate</div>
                     <div class="animate-tools">
                         <button class="animate-tool active" onclick="setAnimTool('draw')">✏️ Draw</button>
                         <button class="animate-tool" onclick="setAnimTool('clear')">🗑️ Clear</button>
                         <button class="animate-tool" onclick="addAnimFrame()">➕ Frame</button>
                         <button class="animate-tool" onclick="playAnim()">▶️ Play</button>
                     </div>
-                    <div class="animate-frames" id="animFrames"></div>
+                    <canvas class="animate-canvas" id="animCanvas" width="300" height="200"></canvas>
                     <div class="game-stats">
                         <span>Frames: <span id="animFramesCount">1</span></span>
                         <span>⭐ ${userStars}</span>
                     </div>
+                    <div class="animate-frames" id="animFrames"></div>
                     <div class="game-footer" id="animFooter">Draw, add frames, play!</div>
                     <button class="game-btn" onclick="loadAnimateGame()">🔄 Reset</button>
                 `;
@@ -5017,7 +5304,7 @@
                     img.src = gameState.animFrames[idx];
                     renderAnimFrames();
                     document.getElementById('animFooter').textContent = '📂 Frame ' + (idx +
-                    1);
+                        1);
                 };
                 container.appendChild(div);
             });
@@ -5094,13 +5381,13 @@
             const container = document.getElementById('gameContent');
             container.innerHTML = `
                     <div class="level-lbl">➕ Math • 50 Levels</div>
-                    <div style="text-align:center;font-size:.8rem;color:var(--text-light);margin-bottom:8px;">Solve the problem</div>
-                    <div class="question-box" style="font-size:1.8rem;" id="mathQuestion">5 + 3 = ?</div>
-                    <div id="mathOptions" class="multiply-options"></div>
+                    <div style="text-align:center;font-weight:700;color:var(--text-light);font-size:0.8rem;margin-bottom:6px;">Solve the problem</div>
+                    <div class="question-box" id="mathQuestion" style="font-size:2rem;">5 + 3 = ?</div>
                     <div class="game-stats">
                         <span>✅ <span id="mathCorrect">0</span>/50</span>
                         <span>⭐ ${userStars}</span>
                     </div>
+                    <div class="multiply-options" id="mathOptions"></div>
                     <div class="game-footer" id="mathFooter">Tap correct answer</div>
                     <button class="game-btn" onclick="loadMathGame()">🔄 New</button>
                 `;
@@ -5136,10 +5423,11 @@
 
             const wrongs = [];
             for (let i = 0; i < 3; i++) {
-                let w = answer + (Math.floor(Math.random() * 10) + 1) * (Math.random() > 0.5 ? 1 : -1);
-                if (w < 0) w = answer + 2;
-                if (w === answer) w = answer + 3;
-                wrongs.push(w);
+                let w = answer + (Math.random() > 0.5 ? 1 : -1) * (Math.floor(Math.random() * 5) + 1);
+                if (w === answer || w < 0 || w > 50 || wrongs.includes(w)) {
+                    w = answer + (Math.floor(Math.random() * 3) + 1) * (Math.random() > 0.5 ? 1 : -1);
+                }
+                if (w !== answer && w >= 0 && w <= 50) wrongs.push(w);
             }
             const options = [answer, ...wrongs].sort(() => Math.random() - 0.5);
 
@@ -5313,57 +5601,55 @@
 
             let html = '';
             items.forEach(d => {
-                const icon = d._collection === 'videos' ? '🎬' :
-                    d._collection === 'audios' ? '🎵' : '📄';
                 const url = d.fileUrl || d.url || '';
-                const isVideo = url && (url.includes('youtube') || url.includes('youtu.be') ||
-                    url.endsWith('.mp4'));
-                const isAudio = url && (url.endsWith('.mp3') || url.endsWith('.wav') || url
-                    .endsWith('.ogg'));
-                const isPDF = url && url.endsWith('.pdf');
-                const isImage = url && url.match(/\.(jpg|jpeg|png|gif|webp)$/i);
+                const uniqueId = 'preview_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
 
                 html += `
-                            <div class="content-item">
-                                <h4>${icon} ${d.title}</h4>
-                                <p>${d.description || ''}</p>
-                                <div class="meta">${d._collection} • ${new Date(d.createdAt).toLocaleDateString()}</div>
-                                <div class="actions">
-                        `;
+                    <div class="content-item clickable" onclick="toggleContentPreview('${uniqueId}')">
+                        <h4>${d.title}</h4>
+                        <p>${d.description || ''}</p>
+                        <div class="meta">${d._collection} • ${new Date(d.createdAt).toLocaleDateString()}</div>
+                        <div class="preview-area" id="${uniqueId}">
+                `;
 
                 if (url) {
-                    if (isVideo) {
-                        html += `<a href="${url}" target="_blank" class="watch">▶ Watch</a>`;
-                    } else if (isAudio) {
-                        html += `<a href="${url}" target="_blank" class="listen">🎵 Listen</a>`;
-                        html += `
-                                    <audio controls style="width:100%;margin-top:8px;border-radius:8px;">
-                                        <source src="${url}" type="audio/mpeg">
-                                        Your browser does not support audio.
-                                    </audio>
-                                `;
-                    } else if (isPDF) {
-                        html += `<a href="${url}" target="_blank" class="view">📖 View PDF</a>`;
-                    } else if (isImage) {
-                        html += `<a href="${url}" target="_blank" class="view">🖼️ View Image</a>`;
-                        html += `
-                                    <img src="${url}" style="width:100%;max-height:200px;border-radius:8px;margin-top:8px;object-fit:cover;" alt="${d.title}">
-                                `;
+                    if (url.includes('youtube') || url.includes('youtu.be')) {
+                        const videoId = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&?]+)/);
+                        if (videoId) {
+                            html += `<iframe src="https://www.youtube.com/embed/${videoId[1]}" allowfullscreen></iframe>`;
+                        } else {
+                            html += `<video controls src="${url}"></video>`;
+                        }
+                    } else if (url.endsWith('.mp4') || url.endsWith('.webm')) {
+                        html += `<video controls src="${url}"></video>`;
+                    } else if (url.endsWith('.mp3') || url.endsWith('.wav') || url.endsWith('.ogg')) {
+                        html += `<audio controls src="${url}" style="width:100%"></audio>`;
+                    } else if (url.endsWith('.pdf')) {
+                        html += `<iframe class="pdf-viewer" src="${url}"></iframe>
+                                 <div class="file-info">📄 <a href="${url}" target="_blank">Open PDF</a></div>`;
+                    } else if (url.match(/\.(jpg|jpeg|png|gif|webp|svg)$/i)) {
+                        html += `<img src="${url}" alt="${d.title}" loading="lazy">
+                                 <div class="file-info"><a href="${url}" target="_blank">🖼️ View full</a></div>`;
                     } else {
-                        html += `<a href="${url}" target="_blank" class="view">🔗 Open</a>`;
+                        html += `<div class="file-info">🔗 <a href="${url}" target="_blank">Open link</a></div>`;
                     }
-                    html += `<a href="${url}" download class="download">⬇️ Download</a>`;
                 } else {
-                    html += `<span style="color:var(--text-light);font-size:0.65rem;">No file available</span>`;
+                    html += `<div class="file-info">📝 No file attached</div>`;
                 }
 
-                html += `
-                                </div>
-                            </div>
-                        `;
+                html += `</div></div>`;
             });
 
             list.innerHTML = html;
+        }
+
+        function toggleContentPreview(id) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.classList.toggle('show');
+            if (el.classList.contains('show')) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
         }
 
         function loadStudentExams() {
@@ -5375,10 +5661,12 @@
                     let html = '';
                     s.forEach(child => {
                         const d = child.val();
+                        const key = child.key;
                         html += `
-                                    <div class="exam-item" onclick="takeExam('${child.key}')">
+                                    <div class="exam-item" onclick="takeExam('${key}')" style="cursor:pointer;border-left-color:var(--primary);">
                                         <h4>📝 ${d.title}</h4>
                                         <div class="meta">${d.questions ? d.questions.length : 0} questions</div>
+                                        <div style="font-size:0.6rem;color:var(--primary);font-weight:700;margin-top:4px;">▶ Click to take exam</div>
                                     </div>
                                 `;
                     });
@@ -5394,7 +5682,7 @@
             if (el) el.classList.add('active');
             ['lessons', 'materials', 'exams', 'progress'].forEach(t => {
                 const e = document.getElementById('student' + t.charAt(0).toUpperCase() + t.slice(
-                1));
+                    1));
                 if (e) e.style.display = t === tab ? 'block' : 'none';
             });
             if (tab === 'progress') renderStudentDash();
@@ -5414,7 +5702,7 @@
                     const d = s.val();
                     if (d.teacherCode) {
                         document.getElementById('teacherCodeDisplayDash').textContent = d
-                        .teacherCode;
+                            .teacherCode;
                     }
                 }
             });
@@ -5438,8 +5726,8 @@
                                         <div class="content-item">
                                             <h4>${d.name}</h4>
                                             <p>Age: ${d.age} • Parent: ${d.parentEmail}</p>
-                                            <div class="meta">Teacher Code: ${d.teacherCode}</div>
-                                            <button class="auth-btn" style="padding:4px 12px;font-size:0.6rem;display:inline-block;width:auto;margin:4px;" onclick="approveStudent('${child.key}')">✅ Approve</button>
+                                            <p style="font-size:0.6rem;color:var(--text-light);">Teacher Code: ${d.teacherCode}</p>
+                                            <div class="actions"><button onclick="approveStudent('${child.key}')" style="background:var(--primary);color:white;border:none;padding:4px 12px;border-radius:8px;font-weight:700;cursor:pointer;">✅ Approve</button></div>
                                         </div>
                                     `;
                         }
@@ -5520,11 +5808,9 @@
 
             let html = '';
             items.forEach(d => {
-                const icon = d._collection === 'videos' ? '🎬' :
-                    d._collection === 'audios' ? '🎵' : '📄';
                 html += `
                             <div class="content-item">
-                                <h4>${icon} ${d.title}</h4>
+                                <h4>${d.title}</h4>
                                 <p>${d.description || ''}</p>
                                 <div class="meta">${d._collection} • ${new Date(d.createdAt).toLocaleDateString()}</div>
                                 ${d.fileUrl ? `<div class="actions"><a href="${d.fileUrl}" target="_blank" class="view">🔗 View</a></div>` : ''}
@@ -5539,7 +5825,7 @@
             if (el) el.classList.add('active');
             ['applications', 'students', 'upload', 'materials', 'exams'].forEach(t => {
                 const e = document.getElementById('teacher' + t.charAt(0).toUpperCase() + t.slice(
-                1));
+                    1));
                 if (e) e.style.display = t === tab ? 'block' : 'none';
             });
             if (tab === 'materials') loadTeacherMaterials();
@@ -5675,19 +5961,19 @@
 
             if (file.type.startsWith('video/')) {
                 preview.innerHTML =
-                    `<video controls style="width:100%;max-height:150px;border-radius:8px;"><source src="${URL.createObjectURL(file)}"></video><div style="font-size:0.7rem;color:var(--text-light);">🎬 ${file.name}</div>`;
+                    `<video controls style="max-width:100%;max-height:200px;border-radius:8px;"><source src="${URL.createObjectURL(file)}"></video><p style="font-size:0.7rem;color:var(--text-light);">🎬 ${file.name}</p>`;
             } else if (file.type.startsWith('audio/')) {
                 preview.innerHTML =
-                    `<audio controls style="width:100%;"><source src="${URL.createObjectURL(file)}"></audio><div style="font-size:0.7rem;color:var(--text-light);">🎵 ${file.name}</div>`;
+                    `<audio controls style="width:100%;"><source src="${URL.createObjectURL(file)}"></audio><p style="font-size:0.7rem;color:var(--text-light);">🎵 ${file.name}</p>`;
             } else if (file.type === 'application/pdf') {
                 preview.innerHTML =
-                    `<div style="background:var(--primary-light);padding:10px;border-radius:8px;text-align:center;"><div style="font-size:2rem;">📄</div><div style="font-weight:600;">${file.name}</div></div>`;
+                    `<p style="font-size:0.8rem;font-weight:700;">📄 ${file.name}</p>`;
             } else if (file.type.startsWith('image/')) {
                 preview.innerHTML =
-                    `<img src="${URL.createObjectURL(file)}" style="width:100%;max-height:150px;border-radius:8px;object-fit:cover;"><div style="font-size:0.7rem;color:var(--text-light);">🖼️ ${file.name}</div>`;
+                    `<img src="${URL.createObjectURL(file)}" style="max-width:100%;max-height:150px;border-radius:8px;" /><p style="font-size:0.7rem;color:var(--text-light);">🖼️ ${file.name}</p>`;
             } else {
                 preview.innerHTML =
-                    `<div style="background:var(--bg);padding:10px;border-radius:8px;text-align:center;"><div style="font-size:2rem;">📎</div><div>${file.name}</div></div>`;
+                    `<p style="font-size:0.8rem;font-weight:700;">📎 ${file.name}</p>`;
             }
         });
 
@@ -5699,23 +5985,23 @@
             if (!list) return;
 
             db.ref('exams').orderByChild('teacherId').equalTo(currentUser?.uid || '').once('value').then(
-            s => {
-                if (s.exists()) {
-                    let html = '';
-                    s.forEach(child => {
-                        const d = child.val();
-                        html += `
-                                    <div class="exam-item">
-                                        <h4>📝 ${d.title}</h4>
-                                        <div class="meta">${d.questions ? d.questions.length : 0} questions</div>
-                                    </div>
-                                `;
-                    });
-                    list.innerHTML = html || 'No exams';
-                } else {
-                    list.innerHTML = 'No exams';
-                }
-            }).catch(() => { list.innerHTML = 'No exams'; });
+                s => {
+                    if (s.exists()) {
+                        let html = '';
+                        s.forEach(child => {
+                            const d = child.val();
+                            html += `
+                                        <div class="content-item">
+                                            <h4>📝 ${d.title}</h4>
+                                            <p>${d.questions ? d.questions.length : 0} questions</p>
+                                        </div>
+                                    `;
+                        });
+                        list.innerHTML = html || 'No exams';
+                    } else {
+                        list.innerHTML = 'No exams';
+                    }
+                }).catch(() => { list.innerHTML = 'No exams'; });
         }
 
         function createExam() {
@@ -5762,6 +6048,18 @@
                     examScore = 0;
                     showScreen('examTakeScreen');
                     document.getElementById('examTitleDisplay').textContent = currentExam.title;
+                    const header = document.querySelector('#examTakeScreen .game-header');
+                    if (header) {
+                        const prog = document.getElementById('examProgressDisplay') || document.createElement(
+                            'div');
+                        prog.id = 'examProgressDisplay';
+                        prog.style.cssText =
+                            'font-size:0.7rem;color:var(--text-light);margin-top:4px;';
+                        prog.textContent = `0/${currentExam.questions.length}`;
+                        if (!document.getElementById('examProgressDisplay')) {
+                            header.appendChild(prog);
+                        }
+                    }
                     loadExamQuestion();
                 }
             });
@@ -5776,10 +6074,14 @@
             const q = currentExam.questions[examIndex];
             const container = document.getElementById('examContent');
             container.innerHTML = `
-                        <div class="level-lbl">Q${examIndex+1}/${currentExam.questions.length}</div>
-                        <div class="question-box">${q.q}</div>
-                        <div id="examOptions" class="options-grid"></div>
-                        <div class="game-stats"><span>Score: ${examScore}</span></div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                            <span style="font-size:0.75rem;font-weight:700;color:var(--text-light);">Q${examIndex+1}/${currentExam.questions.length}</span>
+                            <span style="font-size:0.75rem;font-weight:700;color:var(--primary);">⭐ ${examScore} pts</span>
+                        </div>
+                        <div style="font-size:1.1rem;font-weight:700;color:var(--text);padding:10px 0;text-align:center;background:var(--bg);border-radius:var(--radius);margin-bottom:10px;">
+                            ${q.q}
+                        </div>
+                        <div id="examOptions" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"></div>
                     `;
 
             const grid = document.getElementById('examOptions');
@@ -5788,9 +6090,14 @@
                 const btn = document.createElement('button');
                 btn.className = 'opt-btn';
                 btn.textContent = opt;
+                btn.style.fontSize = '0.9rem';
+                btn.style.padding = '14px 8px';
                 btn.onclick = () => checkExamAnswer(idx);
                 grid.appendChild(btn);
             });
+
+            const prog = document.getElementById('examProgressDisplay');
+            if (prog) prog.textContent = `${examIndex+1}/${currentExam.questions.length}`;
         }
 
         function checkExamAnswer(selected) {
@@ -5819,12 +6126,13 @@
 
             const container = document.getElementById('examContent');
             container.innerHTML = `
-                        <div style="text-align:center;padding:20px;">
-                            <div style="font-size:3rem;">${pct>=80?'🎉':pct>=50?'😊':'📚'}</div>
-                            <h2 style="color:var(--text);">Exam Complete!</h2>
-                            <p style="font-size:1.5rem;font-weight:800;color:var(--primary);">${examScore} / ${currentExam.questions.length * 10}</p>
-                            <p style="font-size:1.1rem;font-weight:600;color:var(--text-light);">${pct}%</p>
-                            <button class="game-btn" onclick="exitExam()">📊 Back to Exams</button>
+                        <div style="text-align:center;padding:20px 10px;">
+                            <div style="font-size:4rem;margin-bottom:10px;">${pct>=80?'🎉':pct>=50?'😊':'📚'}</div>
+                            <h3 style="font-size:1.2rem;font-weight:800;color:var(--text);margin-bottom:6px;">Exam Complete!</h3>
+                            <div style="font-size:1.5rem;font-weight:800;color:var(--primary);">${examScore} / ${currentExam.questions.length * 10}</div>
+                            <div style="font-size:1rem;color:var(--text-light);margin:6px 0;">${pct}%</div>
+                            <div style="font-size:0.8rem;color:var(--text-light);margin:10px 0;">${pct>=80?'🎊 Excellent!':pct>=50?'💪 Good job!':'📖 Keep practicing!'}</div>
+                            <button class="game-btn" onclick="exitExam()" style="max-width:300px;margin:10px auto;">📊 Back to Exams</button>
                         </div>
                     `;
 
@@ -5838,6 +6146,9 @@
                     date: Date.now()
                 });
             }
+
+            const prog = document.getElementById('examProgressDisplay');
+            if (prog) prog.textContent = '✅ Done!';
         }
 
         function exitExam() {
@@ -5871,14 +6182,13 @@
                     const done = completedGames[s.id] ? 10 : 0;
                     const pct = done > 0 ? 100 : 0;
                     list.innerHTML += `
-                                <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-                                    <div style="font-size:1.1rem;">${s.icon}</div>
-                                    <div style="flex:1;">
-                                        <div style="font-size:0.75rem;font-weight:700;color:var(--text);">${s.name}</div>
-                                        <div style="font-size:0.6rem;color:var(--text-light);">${done}/10</div>
-                                        <div style="background:var(--bg);border-radius:4px;height:4px;margin-top:2px;overflow:hidden;">
-                                            <div style="width:${pct}%;height:100%;background:var(--primary);border-radius:4px;"></div>
-                                        </div>
+                                <div style="background:var(--bg);border-radius:var(--radius);padding:10px 12px;margin-bottom:6px;">
+                                    <div style="display:flex;justify-content:space-between;align-items:center;">
+                                        <span style="font-weight:700;font-size:0.85rem;">${s.icon} ${s.name}</span>
+                                        <span style="font-size:0.7rem;color:var(--text-light);">${done}/10</span>
+                                    </div>
+                                    <div style="height:4px;background:#E8E8E8;border-radius:2px;margin-top:4px;overflow:hidden;">
+                                        <div style="height:100%;width:${pct}%;background:var(--primary);border-radius:2px;transition:width 0.5s;"></div>
                                     </div>
                                 </div>
                             `;
@@ -5906,30 +6216,142 @@
         }
 
         // ============================================================
-        // 43. CONTENT LIBRARY
+        // 43. CONTENT LIBRARY - SPLIT VIEW
         // ============================================================
-        function renderContent() {
+        function renderContentLibrary() {
             const list = document.getElementById('contentList');
             if (!list) return;
 
-            db.ref('lessons').once('value').then(s => {
-                if (s.exists()) {
+            const teacherUid = currentUser ? currentUser.uid : '';
+            let teacherId = '';
+
+            db.ref('users/' + teacherUid).once('value')
+                .then(snap => {
+                    if (snap.exists()) {
+                        const data = snap.val();
+                        teacherId = data.teacherId || '';
+                    }
+                    return Promise.all([
+                        db.ref('lessons').once('value'),
+                        db.ref('videos').once('value'),
+                        db.ref('audios').once('value')
+                    ]);
+                })
+                .then(([lessonsSnap, videosSnap, audiosSnap]) => {
+                    const allItems = [];
+                    const teacherItems = [];
+                    const otherItems = [];
+
+                    const processSnapshot = (snap, collection) => {
+                        if (snap.exists()) {
+                            snap.forEach(child => {
+                                const d = child.val();
+                                d._collection = collection;
+                                d._key = child.key;
+                                allItems.push(d);
+                                if (d.teacherId === teacherId && teacherId) {
+                                    teacherItems.push(d);
+                                } else {
+                                    otherItems.push(d);
+                                }
+                            });
+                        }
+                    };
+
+                    processSnapshot(lessonsSnap, 'lessons');
+                    processSnapshot(videosSnap, 'videos');
+                    processSnapshot(audiosSnap, 'audios');
+
                     let html = '';
-                    s.forEach(child => {
-                        const d = child.val();
-                        html += `
-                                    <div class="content-item">
-                                        <h4>${d.title}</h4>
-                                        <p>${d.description || ''}</p>
-                                        <div class="meta">${d.contentType || 'Lesson'} • Grade: ${d.gradeLevel || 'All'}</div>
-                                    </div>
-                                `;
-                    });
-                    list.innerHTML = html || 'No content';
+
+                    if (teacherItems.length > 0) {
+                        html += `<div class="library-section">
+                            <div class="section-header">
+                                <h3>👨‍🏫 Casharada Macalinkayga</h3>
+                            </div>
+                        `;
+                        teacherItems.forEach(d => {
+                            html += renderContentItem(d);
+                        });
+                        html += `</div>`;
+                    } else {
+                        html += `<div class="library-section">
+                            <div class="section-header">
+                                <h3>👨‍🏫 Casharada Macalinkayga</h3>
+                            </div>
+                            <p style="color:var(--text-light);font-size:0.8rem;padding:8px 0;">Ma jiraan casharo loo soo diray macalinkaga</p>
+                        </div>`;
+                    }
+
+                    if (otherItems.length > 0) {
+                        html += `<div class="library-section">
+                            <div class="section-header">
+                                <h3>📚 Casharada Kale</h3>
+                            </div>
+                        `;
+                        otherItems.forEach(d => {
+                            html += renderContentItem(d);
+                        });
+                        html += `</div>`;
+                    } else {
+                        html += `<div class="library-section">
+                            <div class="section-header">
+                                <h3>📚 Casharada Kale</h3>
+                            </div>
+                            <p style="color:var(--text-light);font-size:0.8rem;padding:8px 0;">Ma jiraan casharo kale</p>
+                        </div>`;
+                    }
+
+                    list.innerHTML = html;
+                })
+                .catch(() => {
+                    list.innerHTML = 'Error loading content';
+                });
+        }
+
+        function renderContentItem(d) {
+            const url = d.fileUrl || d.url || '';
+            const uniqueId = 'lib_preview_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+
+            let previewHtml = '';
+            if (url) {
+                if (url.includes('youtube') || url.includes('youtu.be')) {
+                    const videoId = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&?]+)/);
+                    if (videoId) {
+                        previewHtml = `<iframe src="https://www.youtube.com/embed/${videoId[1]}" allowfullscreen></iframe>`;
+                    } else {
+                        previewHtml = `<video controls src="${url}"></video>`;
+                    }
+                } else if (url.endsWith('.mp4') || url.endsWith('.webm')) {
+                    previewHtml = `<video controls src="${url}"></video>`;
+                } else if (url.endsWith('.mp3') || url.endsWith('.wav') || url.endsWith('.ogg')) {
+                    previewHtml = `<audio controls src="${url}" style="width:100%"></audio>`;
+                } else if (url.endsWith('.pdf')) {
+                    previewHtml = `<iframe class="pdf-viewer" src="${url}"></iframe>
+                                   <div class="file-info">📄 <a href="${url}" target="_blank">Furatay PDF</a></div>`;
+                } else if (url.match(/\.(jpg|jpeg|png|gif|webp|svg)$/i)) {
+                    previewHtml = `<img src="${url}" alt="${d.title}" loading="lazy">
+                                   <div class="file-info"><a href="${url}" target="_blank">🖼️ Fur sawir</a></div>`;
                 } else {
-                    list.innerHTML = 'No content';
+                    previewHtml = `<div class="file-info">🔗 <a href="${url}" target="_blank">Fur link</a></div>`;
                 }
-            }).catch(() => { list.innerHTML = 'No content'; });
+            } else {
+                previewHtml = `<div class="file-info">📝 Ma jirto fayl</div>`;
+            }
+
+            const icon = d._collection === 'videos' ? '🎬' :
+                d._collection === 'audios' ? '🎵' : '📄';
+
+            return `
+                <div class="content-item clickable" onclick="toggleContentPreview('${uniqueId}')">
+                    <h4>${icon} ${d.title}</h4>
+                    <p>${d.description || ''}</p>
+                    <div class="meta">${d._collection} • ${d.gradeLevel || 'All'} • ${new Date(d.createdAt).toLocaleDateString()}</div>
+                    <div class="preview-area" id="${uniqueId}">
+                        ${previewHtml}
+                    </div>
+                </div>
+            `;
         }
 
         // ============================================================
@@ -5944,10 +6366,12 @@
                     let html = '';
                     s.forEach(child => {
                         const d = child.val();
+                        const key = child.key;
                         html += `
-                                    <div class="exam-item" onclick="takeExam('${child.key}')">
+                                    <div class="exam-item" onclick="takeExam('${key}')" style="cursor:pointer;border-left-color:var(--primary);">
                                         <h4>📝 ${d.title}</h4>
                                         <div class="meta">${d.questions ? d.questions.length : 0} questions</div>
+                                        <div style="font-size:0.6rem;color:var(--primary);font-weight:700;margin-top:4px;">▶ Click to take exam</div>
                                     </div>
                                 `;
                     });
@@ -5965,7 +6389,7 @@
             const list = document.getElementById('lbList');
             if (!list) return;
             list.innerHTML =
-                '<p style="text-align:center;color:var(--text-light);padding:16px;">🏆 Loading...</p>';
+                '🏆 Loading...';
 
             db.ref('leaderboard').orderByChild('stars').limitToLast(50).once('value').then(s => {
                 if (s.exists()) {
@@ -5984,7 +6408,7 @@
 
                     if (users.length === 0) {
                         list.innerHTML =
-                            '<p style="text-align:center;color:var(--text-light);padding:16px;">No players yet!</p>';
+                            'No players yet!';
                         return;
                     }
 
@@ -5995,34 +6419,55 @@
                     users.slice(0, 20).forEach((u, i) => {
                         const r = i + 1;
                         const isMe = currentUser && u.uid === currentUser.uid;
-                        const medal = r <= 3 ? medals[r - 1] : r;
-                        const color = r <= 3 ? colors[r - 1] : '';
-
+                        const medal = r <= 3 ? `<span class="lb-rank ${colors[i]}">${medals[i]}</span>` :
+                            `<span class="lb-rank">#${r}</span>`;
                         html += `
-                                    <div class="lb-item ${isMe?'me':''}">
-                                        <div class="lb-rank ${color}">${medal}</div>
-                                        <div style="font-size:1.2rem;">${isMe?'🌟':'👤'}</div>
-                                        <div class="lb-info">
-                                            <div class="lb-name">${u.name}${isMe?' ⭐ (You)':''}</div>
-                                            <div class="lb-stars">${u.stars} stars</div>
-                                        </div>
-                                        <div class="lb-score">⭐${u.stars}</div>
+                                    <div class="lb-item ${isMe ? 'me' : ''}">
+                                        ${medal}
+                                        <span style="flex:1;font-weight:600;">${u.name}${isMe ? ' ⭐ (You)' : ''}</span>
+                                        <span class="lb-score">⭐${u.stars}</span>
                                     </div>
                                 `;
                     });
                     list.innerHTML = html;
                 } else {
                     list.innerHTML =
-                        '<p style="text-align:center;color:var(--text-light);padding:16px;">No players yet!</p>';
+                        'No players yet!';
                 }
             }).catch(() => {
                 list.innerHTML =
-                    '<p style="text-align:center;color:var(--text-light);padding:16px;">Error loading</p>';
+                    'Error loading';
             });
         }
 
         // ============================================================
-        // 46. INIT
+        // 46. OVERRIDE: showScreen for content rendering
+        // ============================================================
+        const originalShowScreen = showScreen;
+        showScreen = function(id) {
+            originalShowScreen(id);
+            if (id === 'contentScreen') {
+                renderContentLibrary();
+            }
+            if (id === 'examScreen') {
+                renderExams();
+            }
+            if (id === 'leaderboardScreen') {
+                loadLeaderboard();
+            }
+            if (id === 'studentDash') {
+                renderStudentDash();
+            }
+            if (id === 'teacherDash') {
+                renderTeacherDash();
+            }
+            if (id === 'parentDash') {
+                renderDash();
+            }
+        };
+
+        // ============================================================
+        // 47. INIT
         // ============================================================
         loadLocal();
         updateUI();
@@ -6039,7 +6484,6 @@
             document.getElementById('speechToggle').classList.add('on');
         }
 
-        // Preload voices
         if ('speechSynthesis' in window) {
             window.speechSynthesis.getVoices();
             window.speechSynthesis.onvoiceschanged = function() {
@@ -6047,17 +6491,12 @@
             };
         }
 
-        console.log('⭐ KidLearn Pro - COMPLETE WITH SOUND!');
+        console.log('⭐ KidLearn Pro - COMPLETE!');
         console.log('✅ 20 Games with Sound!');
-        console.log('✅ All features working!');
+        console.log('✅ Flag Quiz - 195 Countries!');
+        console.log('✅ Content Library - Split View!');
+        console.log('✅ Interactive Student Content!');
         console.log('🚀 Ready to use!');
     </script>
-<script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/KidLearnPro/sw.js')
-      .then(reg => console.log('SW registered'))
-      .catch(err => console.log('SW error', err));
-  }
-</script>
 </body>
 </html>
