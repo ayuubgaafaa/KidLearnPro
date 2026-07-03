@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="so">
 <head>
+    <link rel="manifest" href="/KidLearnPro/manifest.json" />
+<meta name="theme-color" content="#6C72E6" />
+<link rel="apple-touch-icon" href="/KidLearnPro/icon-192.png" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>KidLearn Pro</title>
@@ -6536,6 +6539,7 @@
             window.speechSynthesis.onvoiceschanged = function() {
                 window.speechSynthesis.getVoices();
             };
+            
         }
 
         console.log('⭐ KidLearn Pro - COMPLETE!');
@@ -6544,6 +6548,19 @@
         console.log('✅ Content Library - Split View!');
         console.log('✅ Interactive Student Content!');
         console.log('🚀 Ready to use!');
+    </script>
+    <script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/KidLearnPro/sw.js')
+                .then(reg => {
+                    console.log('✅ Service Worker registered:', reg.scope);
+                })
+                .catch(err => {
+                    console.log('❌ Service Worker registration failed:', err);
+                });
+        });
+    }
     </script>
 </body>
 </html>
