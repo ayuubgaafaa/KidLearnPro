@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">KidLearn Pro</string>
-    <string name="default_notification_channel_id">kidlearn_channel</string>
-    <string name="default_notification_channel_name">KidLearn Notifications</string>
-    <string name="no_internet">No internet connection</string>
-    <string name="retry">Retry</string>
-</resources>
