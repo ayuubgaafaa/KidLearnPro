@@ -1,8 +1,0 @@
-[{
-  "relation": ["delegate_permission/common.handle_all_urls"],
-  "target": {
-    "namespace": "android_app",
-    "package_name": "Com.kidlearnpro.app",
-    "sha256_cert_fingerprints": ["24:92:CD:1C:A7:F0:00:B1:75:A3:C8:C1:8D:04:DB:FD:C7:8E:FD:D8:10:21:E1:92:CF:A9:D8:07:1E:8A:AD:70"]
-  }
-}]
